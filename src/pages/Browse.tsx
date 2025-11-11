@@ -151,8 +151,8 @@ const Browse = () => {
                     <span className="text-sm text-muted-foreground">
                       {request.proposalsCount} пропозицій
                     </span>
-                    <Button size="sm" className="bg-gradient-primary">
-                      Відповісти
+                    <Button size="sm" className="bg-gradient-primary" asChild>
+                      <a href="/proposal/1">Відповісти</a>
                     </Button>
                   </div>
                 </div>
