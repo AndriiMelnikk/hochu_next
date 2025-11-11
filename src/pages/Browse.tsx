@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Search, MapPin, DollarSign, Clock } from "lucide-react";
+import { Link } from "react-router-dom";
 
 // Mock data for requests
 const mockRequests = [
@@ -113,8 +114,9 @@ const Browse = () => {
           {/* Requests Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {mockRequests.map((request) => (
-              <div 
+              <Link 
                 key={request.id}
+                to={`/request/${request.id}`}
                 className="bg-card rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-border hover:border-primary overflow-hidden group"
               >
                 <div className="p-6">
@@ -151,12 +153,12 @@ const Browse = () => {
                     <span className="text-sm text-muted-foreground">
                       {request.proposalsCount} пропозицій
                     </span>
-                    <Button size="sm" className="bg-gradient-primary" asChild>
-                      <a href="/proposal/1">Відповісти</a>
+                    <Button size="sm" className="bg-gradient-primary" onClick={(e) => e.preventDefault()}>
+                      Відповісти
                     </Button>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
