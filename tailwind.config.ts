@@ -58,6 +58,7 @@ export default {
         'md': 'var(--shadow-md)',
         'lg': 'var(--shadow-lg)',
         'glow': 'var(--shadow-glow)',
+        'red': 'var(--shadow-red)',
       },
       transitionProperty: {
         'smooth': 'var(--transition-smooth)',

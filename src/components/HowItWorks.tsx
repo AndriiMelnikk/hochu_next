@@ -29,41 +29,47 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="py-20">
+    <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Як це <span className="bg-gradient-secondary bg-clip-text text-transparent">працює</span>?
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Як це <span className="text-primary">працює</span>?
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Всього 4 простих кроки до вашої мети
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+        <div className="max-w-4xl mx-auto">
           {steps.map((step, index) => (
-            <div key={index} className="relative">
+            <div key={index} className="relative mb-8 last:mb-0">
               {/* Connector line */}
               {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-16 left-full w-full h-0.5 bg-gradient-to-r from-primary to-secondary opacity-30 z-0" />
+                <div className="absolute left-6 top-20 bottom-0 w-0.5 bg-border" />
               )}
               
-              <div className="relative z-10 bg-card p-6 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-border group hover:border-primary">
-                <div className="bg-gradient-primary bg-clip-text text-transparent text-6xl font-bold mb-4 opacity-20 group-hover:opacity-30 transition-opacity">
-                  {step.number}
+              <div className="relative flex gap-6 group">
+                {/* Number circle */}
+                <div className="flex-shrink-0 w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xl font-bold shadow-red z-10 group-hover:scale-110 transition-transform">
+                  {index + 1}
                 </div>
                 
-                <div className="text-primary mb-4 group-hover:scale-110 transition-transform">
-                  <step.icon className="h-12 w-12" />
+                {/* Content */}
+                <div className="flex-1 bg-card p-6 rounded-xl border-2 border-border group-hover:border-primary transition-all duration-300">
+                  <div className="flex items-start gap-4">
+                    <div className="text-primary p-3 rounded-lg bg-primary/5 group-hover:bg-primary/10 transition-colors">
+                      <step.icon className="h-8 w-8" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold mb-2 text-card-foreground group-hover:text-primary transition-colors">
+                        {step.title}
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                
-                <h3 className="text-xl font-semibold mb-3 text-card-foreground">
-                  {step.title}
-                </h3>
-                
-                <p className="text-muted-foreground">
-                  {step.description}
-                </p>
               </div>
             </div>
           ))}
