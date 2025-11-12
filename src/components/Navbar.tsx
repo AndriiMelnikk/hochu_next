@@ -27,12 +27,16 @@ const Navbar = () => {
             <Link to="/how-it-works" className="text-foreground hover:text-primary transition-colors">
               Як це працює
             </Link>
-            <Button variant="outline" size="sm">
-              Увійти
-            </Button>
-            <Button size="sm" className="bg-gradient-primary">
-              Реєстрація
-            </Button>
+            <Link to="/login">
+              <Button variant="outline" size="sm">
+                Увійти
+              </Button>
+            </Link>
+            <Link to="/register">
+              <Button size="sm" className="bg-gradient-primary">
+                Реєстрація
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -69,12 +73,16 @@ const Navbar = () => {
               Як це працює
             </Link>
             <div className="flex flex-col space-y-2 pt-4">
-              <Button variant="outline" size="sm">
-                Увійти
-              </Button>
-              <Button size="sm" className="bg-gradient-primary">
-                Реєстрація
-              </Button>
+              <Link to="/login" onClick={() => setIsOpen(false)}>
+                <Button variant="outline" size="sm" className="w-full">
+                  Увійти
+                </Button>
+              </Link>
+              <Link to="/register" onClick={() => setIsOpen(false)}>
+                <Button size="sm" className="bg-gradient-primary w-full">
+                  Реєстрація
+                </Button>
+              </Link>
             </div>
           </div>
         )}
