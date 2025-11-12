@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -26,6 +26,11 @@ const Navbar = () => {
             </Link>
             <Link to="/how-it-works" className="text-foreground hover:text-primary transition-colors">
               Як це працює
+            </Link>
+            <Link to="/profile">
+              <Button variant="ghost" size="sm">
+                <User className="h-4 w-4" />
+              </Button>
             </Link>
             <Link to="/login">
               <Button variant="outline" size="sm">
@@ -71,6 +76,13 @@ const Navbar = () => {
               onClick={() => setIsOpen(false)}
             >
               Як це працює
+            </Link>
+            <Link 
+              to="/profile" 
+              className="block text-foreground hover:text-primary transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Профіль
             </Link>
             <div className="flex flex-col space-y-2 pt-4">
               <Link to="/login" onClick={() => setIsOpen(false)}>
