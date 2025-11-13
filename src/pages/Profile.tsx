@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import ProfileStats from "@/components/ProfileStats";
 import ProfileSettings from "@/components/ProfileSettings";
 import Chat from "@/components/Chat";
-import { User, Settings, MessageSquare, TrendingUp } from "lucide-react";
+import Reviews from "@/components/Reviews";
+import { User, Settings, MessageSquare, TrendingUp, Star } from "lucide-react";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -62,7 +63,7 @@ const Profile = () => {
 
         {/* Вкладки */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4 mb-6">
+          <TabsList className="grid w-full grid-cols-5 mb-6">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">Огляд</span>
@@ -70,6 +71,10 @@ const Profile = () => {
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
               <span className="hidden sm:inline">Аналітика</span>
+            </TabsTrigger>
+            <TabsTrigger value="reviews" className="flex items-center gap-2">
+              <Star className="h-4 w-4" />
+              <span className="hidden sm:inline">Відгуки</span>
             </TabsTrigger>
             <TabsTrigger value="messages" className="flex items-center gap-2">
               <MessageSquare className="h-4 w-4" />
@@ -140,6 +145,10 @@ const Profile = () => {
 
           <TabsContent value="analytics">
             <ProfileStats />
+          </TabsContent>
+
+          <TabsContent value="reviews">
+            <Reviews />
           </TabsContent>
 
           <TabsContent value="messages">

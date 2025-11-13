@@ -3,8 +3,10 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Search, MapPin, DollarSign, Clock } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Search, MapPin, DollarSign, Clock, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 // Mock data for requests
 const mockRequests = [
@@ -70,7 +72,38 @@ const mockRequests = [
   }
 ];
 
+const categories = [
+  "Всі категорії",
+  "Електроніка",
+  "Смартфони",
+  "Дизайн",
+  "Освіта",
+  "Будівництво",
+  "Послуги"
+];
+
 const Browse = () => {
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [budgetRange, setBudgetRange] = useState("");
+  const [location, setLocation] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const toggleCategory = (category: string) => {
+    if (category === "Всі категорії") {
+      setSelectedCategories([]);
+      return;
+    }
+    
+    if (selectedCategories.includes(category)) {
+      setSelectedCategories(selectedCategories.filter(c => c !== category));
+    } else {
+      setSelectedCategories([...selectedCategories, category]);
+    }
+  };
+
+  const removeCategory = (category: string) => {
+    setSelectedCategories(selectedCategories.filter(c => c !== category));
+  };
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -89,38 +122,118 @@ const Browse = () => {
 
           {/* Search and Filters */}
           <div className="bg-card rounded-2xl shadow-md p-6 mb-8 border border-border">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1 relative">
+            {/* Search Bar */}
+            <div className="mb-4">
+              <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
                 <Input 
                   placeholder="Пошук запитів..." 
                   className="pl-10"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <Button variant="outline">Категорії</Button>
-              <Button variant="outline">Бюджет</Button>
-              <Button variant="outline">Локація</Button>
-              <Button className="bg-gradient-primary">Застосувати</Button>
             </div>
+
+            {/* Category Tags */}
+            <div className="mb-4">
+              <p className="text-sm font-medium mb-2">Категорії:</p>
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => (
+                  <Button
+                    key={category}
+                    variant={selectedCategories.includes(category) || (category === "Всі категорії" && selectedCategories.length === 0) ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => toggleCategory(category)}
+                    className="rounded-full"
+                  >
+                    {category}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Filters Row */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Select value={budgetRange} onValueChange={setBudgetRange}>
+                <SelectTrigger className="w-full sm:w-[200px]">
+                  <DollarSign className="h-4 w-4 mr-2" />
+                  <SelectValue placeholder="Бюджет" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="any">Будь-який</SelectItem>
+                  <SelectItem value="0-5000">До 5 000 грн</SelectItem>
+                  <SelectItem value="5000-15000">5 000 - 15 000 грн</SelectItem>
+                  <SelectItem value="15000-50000">15 000 - 50 000 грн</SelectItem>
+                  <SelectItem value="50000+">Більше 50 000 грн</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={location} onValueChange={setLocation}>
+                <SelectTrigger className="w-full sm:w-[200px]">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  <SelectValue placeholder="Локація" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="any">Будь-яка</SelectItem>
+                  <SelectItem value="kyiv">Київ</SelectItem>
+                  <SelectItem value="lviv">Львів</SelectItem>
+                  <SelectItem value="odesa">Одеса</SelectItem>
+                  <SelectItem value="kharkiv">Харків</SelectItem>
+                  <SelectItem value="remote">Віддалено</SelectItem>
+                  <SelectItem value="online">Онлайн</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {(selectedCategories.length > 0 || budgetRange || location || searchQuery) && (
+                <Button 
+                  variant="ghost" 
+                  onClick={() => {
+                    setSelectedCategories([]);
+                    setBudgetRange("");
+                    setLocation("");
+                    setSearchQuery("");
+                  }}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  Скинути фільтри
+                </Button>
+              )}
+            </div>
+
+            {/* Active Filters */}
+            {selectedCategories.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-2">
+                <p className="text-sm text-muted-foreground mr-2">Активні фільтри:</p>
+                {selectedCategories.map((category) => (
+                  <Badge key={category} variant="secondary" className="gap-1">
+                    {category}
+                    <button onClick={() => removeCategory(category)}>
+                      <X className="h-3 w-3" />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Results count */}
-          <div className="mb-6">
+          {/* Results Count */}
+          <div className="mb-6 flex items-center justify-between">
             <p className="text-muted-foreground">
               Знайдено <span className="font-semibold text-foreground">{mockRequests.length}</span> активних запитів
             </p>
           </div>
 
           {/* Requests Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
             {mockRequests.map((request) => (
               <Link 
                 key={request.id}
                 to={`/request/${request.id}`}
-                className="bg-card rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-border hover:border-primary overflow-hidden group"
+                className="group"
               >
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-3">
+                <div className="bg-card rounded-2xl p-6 shadow-md border border-border hover:shadow-lg hover:shadow-blue/20 transition-all h-full flex flex-col">
+                  <div className="flex items-center justify-between mb-3">
                     <Badge variant="secondary" className="bg-accent text-accent-foreground">
                       {request.category}
                     </Badge>
@@ -130,32 +243,30 @@ const Browse = () => {
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-semibold mb-2 text-card-foreground group-hover:text-primary transition-colors">
+                  <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                     {request.title}
                   </h3>
                   
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                  <p className="text-muted-foreground mb-4 line-clamp-2 flex-1">
                     {request.description}
                   </p>
 
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center text-sm">
-                      <DollarSign className="h-4 w-4 text-primary mr-2" />
-                      <span className="text-foreground">{request.budget}</span>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center text-muted-foreground">
+                      <DollarSign className="h-4 w-4 mr-2 text-primary" />
+                      <span className="font-medium text-foreground">{request.budget}</span>
                     </div>
-                    <div className="flex items-center text-sm">
-                      <MapPin className="h-4 w-4 text-secondary mr-2" />
-                      <span className="text-muted-foreground">{request.location}</span>
+                    
+                    <div className="flex items-center text-muted-foreground">
+                      <MapPin className="h-4 w-4 mr-2 text-primary" />
+                      {request.location}
                     </div>
-                  </div>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-border">
-                    <span className="text-sm text-muted-foreground">
-                      {request.proposalsCount} пропозицій
-                    </span>
-                    <Button size="sm" className="bg-gradient-primary" onClick={(e) => e.preventDefault()}>
-                      Відповісти
-                    </Button>
+                    <div className="pt-3 border-t border-border">
+                      <span className="text-primary font-medium">
+                        {request.proposalsCount} пропозицій
+                      </span>
+                    </div>
                   </div>
                 </div>
               </Link>

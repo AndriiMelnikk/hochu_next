@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { TrendingUp, ShoppingBag, MessageSquare, Star, DollarSign, Eye } from "lucide-react";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 const ProfileStats = () => {
   const stats = {
@@ -23,16 +23,22 @@ const ProfileStats = () => {
     { month: "Черв", requests: 6, deals: 5 },
   ];
 
-  const maxRequests = Math.max(...monthlyActivity.map(m => m.requests));
+  const popularCategories = [
+    { name: "Електроніка", value: 35, color: "hsl(var(--primary))" },
+    { name: "Послуги", value: 25, color: "hsl(206 100% 54%)" },
+    { name: "Будівництво", value: 20, color: "hsl(206 100% 44%)" },
+    { name: "Дизайн", value: 12, color: "hsl(206 100% 34%)" },
+    { name: "Інше", value: 8, color: "hsl(var(--muted))" },
+  ];
 
   return (
     <div className="space-y-6">
       {/* Загальна статистика */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="border-primary/20 shadow-md hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Всього запитів</CardTitle>
-            <ShoppingBag className="h-4 w-4 text-muted-foreground" />
+            <ShoppingBag className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalRequests}</div>
@@ -42,10 +48,10 @@ const ProfileStats = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-primary/20 shadow-md hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Завершено угод</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <TrendingUp className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.completedDeals}</div>
@@ -55,10 +61,10 @@ const ProfileStats = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-primary/20 shadow-md hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Витрачено</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalSpent.toLocaleString()} ₴</div>
@@ -68,10 +74,10 @@ const ProfileStats = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-primary/20 shadow-md hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Рейтинг</CardTitle>
-            <Star className="h-4 w-4 text-muted-foreground" />
+            <Star className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.averageRating}/5.0</div>
@@ -82,7 +88,7 @@ const ProfileStats = () => {
         </Card>
       </div>
 
-      {/* Активність за місяць */}
+      {/* Графіки активності */}
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
@@ -90,100 +96,109 @@ const ProfileStats = () => {
             <CardDescription>Запити та завершені угоди</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {monthlyActivity.map((month, i) => (
-                <div key={i} className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="font-medium">{month.month}</span>
-                    <span className="text-muted-foreground">
-                      {month.requests} запитів / {month.deals} угод
-                    </span>
-                  </div>
-                  <div className="flex gap-2">
-                    <Progress 
-                      value={(month.requests / maxRequests) * 100} 
-                      className="flex-1"
-                    />
-                    <Progress 
-                      value={(month.deals / maxRequests) * 100} 
-                      className="flex-1 [&>div]:bg-primary/50"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={monthlyActivity}>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                <XAxis dataKey="month" className="text-xs" />
+                <YAxis className="text-xs" />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '1px solid hsl(var(--border))',
+                    borderRadius: '8px'
+                  }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="requests" 
+                  stroke="hsl(var(--primary))" 
+                  strokeWidth={2}
+                  name="Запити"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="deals" 
+                  stroke="hsl(206 100% 54%)" 
+                  strokeWidth={2}
+                  name="Угоди"
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Показники цього місяця</CardTitle>
-            <CardDescription>Ваша активність та залученість</CardDescription>
+            <CardTitle>Популярні категорії</CardTitle>
+            <CardDescription>Розподіл запитів по категоріях</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Eye className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium">Перегляди профілю</span>
-                </div>
-                <span className="text-2xl font-bold">{stats.viewsThisMonth}</span>
-              </div>
-              <Progress value={85} />
-              <p className="text-xs text-muted-foreground">+12% від минулого місяця</p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium">Повідомлення</span>
-                </div>
-                <span className="text-2xl font-bold">{stats.messagesThisMonth}</span>
-              </div>
-              <Progress value={70} />
-              <p className="text-xs text-muted-foreground">Середній час відповіді: 2 год</p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium">Швидкість відповіді</span>
-                </div>
-                <span className="text-2xl font-bold">{stats.responseRate}%</span>
-              </div>
-              <Progress value={stats.responseRate} />
-              <p className="text-xs text-muted-foreground">Відмінний показник!</p>
-            </div>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={popularCategories}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={80}
+                  fill="hsl(var(--primary))"
+                  dataKey="value"
+                >
+                  {popularCategories.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '1px solid hsl(var(--border))',
+                    borderRadius: '8px'
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>
 
-      {/* Категорії покупок */}
+      {/* Показники цього місяця */}
       <Card>
         <CardHeader>
-          <CardTitle>Популярні категорії</CardTitle>
-          <CardDescription>Розподіл ваших запитів за категоріями</CardDescription>
+          <CardTitle>Показники цього місяця</CardTitle>
+          <CardDescription>Ключові метрики поточного періоду</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {[
-              { name: "Електроніка", count: 12, percentage: 50 },
-              { name: "Одяг та взуття", count: 6, percentage: 25 },
-              { name: "Дім та сад", count: 4, percentage: 17 },
-              { name: "Спорт", count: 2, percentage: 8 },
-            ].map((category, i) => (
-              <div key={i} className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{category.name}</span>
-                  <span className="text-sm text-muted-foreground">
-                    {category.count} запитів ({category.percentage}%)
-                  </span>
-                </div>
-                <Progress value={category.percentage} />
+          <div className="grid gap-6 md:grid-cols-3">
+            <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
+              <div className="p-3 bg-primary/10 rounded-full">
+                <Eye className="h-6 w-6 text-primary" />
               </div>
-            ))}
+              <div>
+                <p className="text-2xl font-bold">{stats.viewsThisMonth}</p>
+                <p className="text-sm text-muted-foreground">Переглядів профілю</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
+              <div className="p-3 bg-primary/10 rounded-full">
+                <MessageSquare className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{stats.messagesThisMonth}</p>
+                <p className="text-sm text-muted-foreground">Повідомлень</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
+              <div className="p-3 bg-primary/10 rounded-full">
+                <TrendingUp className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{stats.responseRate}%</p>
+                <p className="text-sm text-muted-foreground">Відповідей на запити</p>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>

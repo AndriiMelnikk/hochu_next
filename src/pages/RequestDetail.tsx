@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import ImageLightbox from "@/components/ImageLightbox";
 import { 
   Star, 
   MapPin, 
@@ -57,6 +58,8 @@ const requestData = {
 const RequestDetail = () => {
   const [proposalText, setProposalText] = useState("");
   const [proposalPrice, setProposalPrice] = useState("");
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -393,6 +396,13 @@ const RequestDetail = () => {
           </div>
         </div>
       </main>
+
+      <ImageLightbox
+        images={requestData.images}
+        initialIndex={lightboxIndex}
+        open={lightboxOpen}
+        onOpenChange={setLightboxOpen}
+      />
 
       <Footer />
     </div>
