@@ -39,7 +39,11 @@ const requestData = {
   proposalsCount: 8,
   images: [
     "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1484788984921-03950022c9ef?w=800&h=600&fit=crop"
+    "https://images.unsplash.com/photo-1484788984921-03950022c9ef?w=800&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1593642532744-d377ab507dc8?w=800&h=600&fit=crop"
   ],
   
   // Buyer info
@@ -145,17 +149,21 @@ const RequestDetail = () => {
               {/* Images */}
               {requestData.images.length > 0 && (
                 <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-                  <h2 className="text-xl font-semibold mb-4">Фотографії</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <h2 className="text-xl font-semibold mb-4">Фотографії ({requestData.images.length})</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {requestData.images.map((image, index) => (
                       <div 
                         key={index}
-                        className="aspect-video rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer"
+                        className="aspect-video rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer group"
+                        onClick={() => {
+                          setLightboxIndex(index);
+                          setLightboxOpen(true);
+                        }}
                       >
                         <img 
                           src={image} 
                           alt={`Фото ${index + 1}`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                         />
                       </div>
                     ))}
