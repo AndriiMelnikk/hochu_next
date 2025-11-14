@@ -2,13 +2,14 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import ProfileStats from "@/components/ProfileStats";
 import ProfileSettings from "@/components/ProfileSettings";
 import Chat from "@/components/Chat";
 import Reviews from "@/components/Reviews";
-import { User, Settings, MessageSquare, TrendingUp, Star } from "lucide-react";
+import GamifiedAvatar from "@/components/GamifiedAvatar";
+import GamificationProgress from "@/components/GamificationProgress";
+import { User, Settings, MessageSquare, TrendingUp, Star, Trophy } from "lucide-react";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -18,11 +19,14 @@ const Profile = () => {
     name: "Олександр Коваленко",
     email: "oleksandr@example.com",
     avatar: "",
-    role: "buyer",
+    role: "seller" as const,
     joinDate: "Лютий 2024",
     location: "Київ, Україна",
     verified: true,
     rating: 4.8,
+    xp: 1250,
+    unlockedAchievements: ["first_sale", "fast_responder", "perfect_rating", "price_master"],
+    topAchievements: ["⚡", "🌟", "💰"],
   };
 
   return (
@@ -33,12 +37,14 @@ const Profile = () => {
         <Card className="mb-6">
           <CardContent className="pt-6">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-              <Avatar className="h-24 w-24">
-                <AvatarImage src={user.avatar} />
-                <AvatarFallback className="text-2xl bg-gradient-primary text-white">
-                  {user.name.split(" ").map(n => n[0]).join("")}
-                </AvatarFallback>
-              </Avatar>
+              <GamifiedAvatar 
+                src={user.avatar}
+                fallback={user.name.split(" ").map(n => n[0]).join("")}
+                xp={user.xp}
+                role={user.role}
+                size="xl"
+                topAchievements={user.topAchievements}
+              />
               <div className="flex-1 text-center md:text-left">
                 <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
                   <h1 className="text-3xl font-bold">{user.name}</h1>
@@ -63,10 +69,14 @@ const Profile = () => {
 
         {/* Вкладки */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-5 mb-6">
+          <TabsList className="grid w-full grid-cols-6 mb-6">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">Огляд</span>
+            </TabsTrigger>
+            <TabsTrigger value="gamification" className="flex items-center gap-2">
+              <Trophy className="h-4 w-4" />
+              <span className="hidden sm:inline">Досягнення</span>
             </TabsTrigger>
             <TabsTrigger value="analytics" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
@@ -85,6 +95,14 @@ const Profile = () => {
               <span className="hidden sm:inline">Налаштування</span>
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="gamification">
+            <GamificationProgress 
+              xp={user.xp}
+              role={user.role}
+              unlockedAchievements={user.unlockedAchievements}
+            />
+          </TabsContent>
 
           <TabsContent value="overview">
             <div className="grid gap-6 md:grid-cols-2">
