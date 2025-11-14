@@ -138,18 +138,22 @@ const Browse = () => {
             {/* Category Tags */}
             <div className="mb-4">
               <p className="text-sm font-medium mb-2">Категорії:</p>
-              <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <Button
-                    key={category}
-                    variant={selectedCategories.includes(category) || (category === "Всі категорії" && selectedCategories.length === 0) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => toggleCategory(category)}
-                    className="rounded-full"
-                  >
-                    {category}
-                  </Button>
-                ))}
+              <div className="relative">
+                <div className="overflow-x-auto pb-2 scrollbar-thin">
+                  <div className="flex gap-2 min-w-min">
+                    {categories.map((category) => (
+                      <Button
+                        key={category}
+                        variant={selectedCategories.includes(category) || (category === "Всі категорії" && selectedCategories.length === 0) ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => toggleCategory(category)}
+                        className="rounded-full whitespace-nowrap flex-shrink-0"
+                      >
+                        {category}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
