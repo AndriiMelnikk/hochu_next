@@ -19,8 +19,19 @@ import {
   Shield,
   Upload,
   Send,
-  AlertCircle
+  AlertCircle,
+  Flag
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -64,6 +75,60 @@ const RequestDetail = () => {
   const [proposalPrice, setProposalPrice] = useState("");
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [reportReason, setReportReason] = useState("");
+  const [reportDetails, setReportDetails] = useState("");
+  const [reportDialogOpen, setReportDialogOpen] = useState(false);
+  const [discussionText, setDiscussionText] = useState("");
+
+  const handleReportSubmit = () => {
+    console.log("Report submitted:", { reportReason, reportDetails });
+    setReportDialogOpen(false);
+    setReportReason("");
+    setReportDetails("");
+  };
+
+  const handleDiscussionSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Discussion message:", discussionText);
+    setDiscussionText("");
+  };
+
+  // Mock discussion data
+  const discussions = [
+    {
+      id: 1,
+      user: {
+        name: "Олена Коваленко",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Olena",
+        role: "seller"
+      },
+      message: "Чи потрібна діагностика перед ремонтом? Можу провести безкоштовно.",
+      timestamp: "2 години тому",
+      replies: [
+        {
+          id: 2,
+          user: {
+            name: "Андрій Шевченко",
+            avatar: requestData.buyer.avatar,
+            role: "buyer"
+          },
+          message: "Так, це було б чудово! Коли можете провести діагностику?",
+          timestamp: "1 годину тому"
+        }
+      ]
+    },
+    {
+      id: 3,
+      user: {
+        name: "Дмитро Петренко",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmytro",
+        role: "seller"
+      },
+      message: "Використовую лише оригінальні батареї Apple. Гарантія 12 місяців.",
+      timestamp: "3 години тому",
+      replies: []
+    }
+  ];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -94,6 +159,77 @@ const RequestDetail = () => {
                       {requestData.title}
                     </h1>
                   </div>
+                  
+                  {/* Report Button */}
+                  <Dialog open={reportDialogOpen} onOpenChange={setReportDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" size="sm" className="flex items-center gap-2">
+                        <Flag className="h-4 w-4" />
+                        Поскаржитись
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>Поскаржитись на оголошення</DialogTitle>
+                        <DialogDescription>
+                          Оберіть причину вашої скарги. Ми розглянемо її протягом 24 годин.
+                        </DialogDescription>
+                      </DialogHeader>
+                      
+                      <div className="space-y-4 py-4">
+                        <RadioGroup value={reportReason} onValueChange={setReportReason}>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="low-price" id="low-price" />
+                            <Label htmlFor="low-price" className="cursor-pointer">Підозріло низька ціна</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="scam" id="scam" />
+                            <Label htmlFor="scam" className="cursor-pointer">Підозра на шахрайство</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="inappropriate" id="inappropriate" />
+                            <Label htmlFor="inappropriate" className="cursor-pointer">Недоречний контент</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="spam" id="spam" />
+                            <Label htmlFor="spam" className="cursor-pointer">Спам або реклама</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="duplicate" id="duplicate" />
+                            <Label htmlFor="duplicate" className="cursor-pointer">Дублікат оголошення</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="other" id="other" />
+                            <Label htmlFor="other" className="cursor-pointer">Інша причина</Label>
+                          </div>
+                        </RadioGroup>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="details">Додаткові деталі (необов'язково)</Label>
+                          <Textarea
+                            id="details"
+                            placeholder="Опишіть проблему детальніше..."
+                            value={reportDetails}
+                            onChange={(e) => setReportDetails(e.target.value)}
+                            rows={4}
+                          />
+                        </div>
+                      </div>
+
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => setReportDialogOpen(false)}>
+                          Скасувати
+                        </Button>
+                        <Button 
+                          onClick={handleReportSubmit}
+                          disabled={!reportReason}
+                          className="bg-gradient-primary"
+                        >
+                          Надіслати скаргу
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </div>
 
                 <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
@@ -301,6 +437,107 @@ const RequestDetail = () => {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Public Discussion Section */}
+              <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-semibold flex items-center gap-2">
+                    <MessageSquare className="h-6 w-6 text-primary" />
+                    Публічні обговорення
+                  </h2>
+                  <Badge variant="outline" className="text-base px-3 py-1">
+                    {discussions.length} повідомлень
+                  </Badge>
+                </div>
+
+                <p className="text-sm text-muted-foreground mb-6">
+                  Задавайте питання публічно. Автор запиту та інші виконавці можуть відповісти.
+                </p>
+
+                {/* Discussion Thread */}
+                <div className="space-y-6 mb-6">
+                  {discussions.map((discussion) => (
+                    <div key={discussion.id} className="space-y-3">
+                      {/* Main Message */}
+                      <div className="flex items-start gap-3">
+                        <Avatar className="h-10 w-10">
+                          <AvatarImage src={discussion.user.avatar} />
+                          <AvatarFallback>{discussion.user.name[0]}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 bg-muted/50 rounded-lg p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold">{discussion.user.name}</span>
+                              <Badge variant={discussion.user.role === "buyer" ? "default" : "secondary"} className="text-xs">
+                                {discussion.user.role === "buyer" ? "Замовник" : "Виконавець"}
+                              </Badge>
+                            </div>
+                            <span className="text-xs text-muted-foreground">{discussion.timestamp}</span>
+                          </div>
+                          <p className="text-sm">{discussion.message}</p>
+                        </div>
+                      </div>
+
+                      {/* Replies */}
+                      {discussion.replies.map((reply) => (
+                        <div key={reply.id} className="flex items-start gap-3 ml-12">
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage src={reply.user.avatar} />
+                            <AvatarFallback>{reply.user.name[0]}</AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 bg-accent/30 rounded-lg p-3">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2">
+                                <span className="font-semibold text-sm">{reply.user.name}</span>
+                                <Badge variant={reply.user.role === "buyer" ? "default" : "secondary"} className="text-xs">
+                                  {reply.user.role === "buyer" ? "Замовник" : "Виконавець"}
+                                </Badge>
+                              </div>
+                              <span className="text-xs text-muted-foreground">{reply.timestamp}</span>
+                            </div>
+                            <p className="text-sm">{reply.message}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Add Discussion Form */}
+                <form onSubmit={handleDiscussionSubmit} className="space-y-3">
+                  <div className="bg-muted/30 rounded-lg p-4 border border-border">
+                    <div className="flex items-start gap-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=Current" />
+                        <AvatarFallback>Ви</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <Textarea
+                          placeholder="Задайте питання або залишіть коментар..."
+                          value={discussionText}
+                          onChange={(e) => setDiscussionText(e.target.value)}
+                          rows={3}
+                          className="resize-none mb-2"
+                        />
+                        <div className="flex items-center justify-between">
+                          <p className="text-xs text-muted-foreground">
+                            Це публічне повідомлення. Всі учасники зможуть його побачити.
+                          </p>
+                          <Button 
+                            type="submit" 
+                            size="sm"
+                            disabled={!discussionText.trim()}
+                            className="bg-gradient-primary"
+                          >
+                            <Send className="h-4 w-4 mr-2" />
+                            Надіслати
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
               </div>
 
               {/* Create Proposal Form */}
