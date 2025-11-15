@@ -15,11 +15,23 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("overview");
 
   // Макетні дані користувача
-  const user = {
+  const user: {
+    name: string;
+    email: string;
+    avatar: string;
+    role: "seller" | "buyer";
+    joinDate: string;
+    location: string;
+    verified: boolean;
+    rating: number;
+    xp: number;
+    unlockedAchievements: string[];
+    topAchievements: string[];
+  } = {
     name: "Олександр Коваленко",
     email: "oleksandr@example.com",
     avatar: "",
-    role: "seller" as const,
+    role: "seller",
     joinDate: "Лютий 2024",
     location: "Київ, Україна",
     verified: true,

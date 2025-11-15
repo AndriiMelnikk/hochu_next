@@ -102,9 +102,10 @@ const Support = () => {
               {categories.map((category, index) => {
                 const Icon = category.icon;
                 return (
-                  <div
+                  <Link
                     key={index}
-                    className="bg-card rounded-2xl p-6 shadow-lg border border-border hover:border-primary transition-all hover:shadow-xl cursor-pointer group"
+                    to="/blog"
+                    className="bg-card rounded-2xl p-6 shadow-lg border border-border hover:border-primary transition-all hover:shadow-xl cursor-pointer group block"
                   >
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                       <Icon className="w-6 h-6 text-primary" />
@@ -114,7 +115,7 @@ const Support = () => {
                     <p className="text-sm text-primary font-medium">
                       {category.articles} статей
                     </p>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

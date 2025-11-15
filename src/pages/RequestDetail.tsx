@@ -171,6 +171,138 @@ const RequestDetail = () => {
                 </div>
               )}
 
+              {/* Received Proposals Section (visible to request owner) */}
+              <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-semibold">Отримані пропозиції ({requestData.proposalsCount})</h2>
+                  <Badge variant="secondary" className="text-lg px-4 py-2">
+                    {requestData.proposalsCount} відгуків
+                  </Badge>
+                </div>
+
+                <div className="space-y-4">
+                  {/* Individual Proposal Cards */}
+                  {[
+                    {
+                      id: 1,
+                      seller: {
+                        name: "Олексій Шевченко",
+                        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Oleksiy",
+                        rating: 4.9,
+                        reviewsCount: 47,
+                        completedDeals: 52,
+                      },
+                      price: 2500,
+                      title: "Професійний ремонт MacBook з гарантією 6 місяців",
+                      description: "Маю 8 років досвіду ремонту техніки Apple. Використовую тільки оригінальні комплектуючі. Зроблю діагностику безкоштовно, заміню батарею, почищу від пилу та заміню термопасту. Гарантія на всі роботи 6 місяців.",
+                      deliveryTime: "2-3 дні",
+                      warranty: "6 місяців",
+                      createdAt: "10 хвилин тому",
+                    },
+                    {
+                      id: 2,
+                      seller: {
+                        name: "Марина Коваль",
+                        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maryna",
+                        rating: 4.7,
+                        reviewsCount: 31,
+                        completedDeals: 38,
+                      },
+                      price: 2800,
+                      title: "Якісний ремонт Apple техніки",
+                      description: "Сертифікований спеціаліст Apple. Можу виконати ремонт протягом дня при наявності комплектуючих. Використовую оригінальні батареї з гарантією якості.",
+                      deliveryTime: "1 день",
+                      warranty: "3 місяці",
+                      createdAt: "25 хвилин тому",
+                    },
+                    {
+                      id: 3,
+                      seller: {
+                        name: "Дмитро Петренко",
+                        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmytro",
+                        rating: 4.8,
+                        reviewsCount: 56,
+                        completedDeals: 64,
+                      },
+                      price: 2200,
+                      title: "Швидкий та надійний ремонт MacBook",
+                      description: "Маю власний сервісний центр. Виконую діагностику безкоштовно. Можу виконати роботу терміново за домовленістю. Надаю гарантію та підтримку після ремонту.",
+                      deliveryTime: "3-5 днів",
+                      warranty: "1 рік",
+                      createdAt: "1 годину тому",
+                    },
+                  ].map((proposal) => (
+                    <div 
+                      key={proposal.id}
+                      className="border border-border rounded-lg p-6 hover:border-primary transition-all hover:shadow-md"
+                    >
+                      <div className="flex items-start gap-4">
+                        {/* Seller Avatar */}
+                        <Avatar className="h-16 w-16 border-2 border-primary">
+                          <AvatarImage src={proposal.seller.avatar} />
+                          <AvatarFallback>{proposal.seller.name[0]}</AvatarFallback>
+                        </Avatar>
+
+                        <div className="flex-1">
+                          {/* Seller Info */}
+                          <div className="flex items-start justify-between mb-3">
+                            <div>
+                              <h3 className="font-semibold text-lg flex items-center gap-2">
+                                {proposal.seller.name}
+                                <Badge variant="secondary" className="text-xs">
+                                  <Star className="h-3 w-3 mr-1 fill-yellow-500 text-yellow-500" />
+                                  {proposal.seller.rating}
+                                </Badge>
+                              </h3>
+                              <p className="text-sm text-muted-foreground">
+                                {proposal.seller.completedDeals} виконаних замовлень • {proposal.seller.reviewsCount} відгуків
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-2xl font-bold text-primary">{proposal.price} грн</div>
+                              <p className="text-xs text-muted-foreground">{proposal.createdAt}</p>
+                            </div>
+                          </div>
+
+                          {/* Proposal Title */}
+                          <h4 className="font-semibold mb-2">{proposal.title}</h4>
+
+                          {/* Proposal Description */}
+                          <p className="text-sm text-muted-foreground mb-4">{proposal.description}</p>
+
+                          {/* Proposal Details */}
+                          <div className="flex flex-wrap gap-4 text-sm mb-4">
+                            <span className="flex items-center gap-1">
+                              <Clock className="h-4 w-4 text-primary" />
+                              <span className="text-muted-foreground">Виконання:</span>
+                              <span className="font-medium">{proposal.deliveryTime}</span>
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Shield className="h-4 w-4 text-primary" />
+                              <span className="text-muted-foreground">Гарантія:</span>
+                              <span className="font-medium">{proposal.warranty}</span>
+                            </span>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="flex gap-2">
+                            <Link to={`/proposal/${proposal.id}`}>
+                              <Button variant="default" size="sm">
+                                Переглянути детально
+                              </Button>
+                            </Link>
+                            <Button variant="outline" size="sm">
+                              <MessageSquare className="h-4 w-4 mr-2" />
+                              Написати
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {/* Create Proposal Form */}
               <div className="bg-gradient-primary rounded-2xl p-1 shadow-lg">
                 <div className="bg-card rounded-xl p-6">
