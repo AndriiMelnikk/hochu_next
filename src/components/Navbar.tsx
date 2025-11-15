@@ -27,6 +27,9 @@ const Navbar = () => {
             <Link to="/how-it-works" className="text-foreground hover:text-primary transition-colors">
               Як це працює
             </Link>
+            <Link to="/blog" className="text-foreground hover:text-primary transition-colors">
+              Блог
+            </Link>
             <Link to="/profile">
               <Button variant="ghost" size="sm">
                 <User className="h-4 w-4" />
@@ -76,6 +79,13 @@ const Navbar = () => {
               onClick={() => setIsOpen(false)}
             >
               Як це працює
+            </Link>
+            <Link 
+              to="/blog" 
+              className="block text-foreground hover:text-primary transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Блог
             </Link>
             <Link 
               to="/profile" 
