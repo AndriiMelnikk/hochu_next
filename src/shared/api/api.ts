@@ -2,25 +2,35 @@ import axios, { AxiosRequestConfig, AxiosError } from "axios";
 import { apiBaseUrl, LS_KEYS } from "@shared/config/envVars";
 
 const getAuthorizationHeader = () => {
+  // localStorage доступний тільки на клієнті
+  if (typeof window === "undefined") return undefined;
   const accessToken = localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
   return accessToken ? `Token ${accessToken}` : undefined;
+};
+
+const getLocale = () => {
+  if (typeof window === "undefined") return "uk";
+  return localStorage.getItem(LS_KEYS.LOCALE) || "uk";
 };
 
 export const api = axios.create({
   baseURL: apiBaseUrl,
   headers: {
-    "Accept-Language": localStorage.getItem(LS_KEYS.LOCALE) || "uk",
+    "Accept-Language": getLocale(),
     Authorization: getAuthorizationHeader(),
   },
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
-  if (token) {
-    config.headers.Authorization = `Token ${token}`;
+  // localStorage доступний тільки на клієнті
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
+    if (token) {
+      config.headers.Authorization = `Token ${token}`;
+    }
+    const locale = localStorage.getItem(LS_KEYS.LOCALE) || "uk";
+    config.headers["Accept-Language"] = locale;
   }
-  const locale = localStorage.getItem(LS_KEYS.LOCALE) || "uk";
-  config.headers["Accept-Language"] = locale;
   return config;
 });
 

@@ -1,3 +1,4 @@
+// Routes constants for Next.js navigation
 export const routes = {
   HOME: "/",
   BROWSE: "/browse",
@@ -17,4 +18,3 @@ export const routes = {
   BLOG: "/blog",
   ADMIN: "/admin",
 } as const;
-

@@ -10,17 +10,8 @@ import { Search, MapPin, DollarSign, Clock, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useRequests } from "@/entities/request";
+import { REQUEST_CATEGORIES } from "@/entities/request";
 import { routes } from "@/app/router/routes";
-
-const categories = [
-  "Всі категорії",
-  "Електроніка",
-  "Смартфони",
-  "Дизайн",
-  "Освіта",
-  "Будівництво",
-  "Послуги"
-];
 
 export default function BrowsePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -31,6 +22,7 @@ export default function BrowsePage() {
   const { data, isLoading, error } = useRequests({
     category: selectedCategories.length > 0 ? selectedCategories[0] : undefined,
     search: searchQuery || undefined,
+    location: location || undefined,
   });
 
   const toggleCategory = (category: string) => {
@@ -89,7 +81,7 @@ export default function BrowsePage() {
               <div className="relative">
                 <div className="overflow-x-auto pb-2 scrollbar-thin">
                   <div className="flex gap-2 min-w-min">
-                    {categories.map((category) => (
+                    {REQUEST_CATEGORIES.map((category) => (
                       <Button
                         key={category}
                         variant={selectedCategories.includes(category) || (category === "Всі категорії" && selectedCategories.length === 0) ? "default" : "outline"}
@@ -208,7 +200,7 @@ export default function BrowsePage() {
                       </Badge>
                       <span className="text-xs text-muted-foreground flex items-center">
                         <Clock className="h-3 w-3 mr-1" />
-                        {request.timeAgo}
+                        {new Date(request.createdAt).toLocaleDateString()}
                       </span>
                     </div>
 
@@ -223,7 +215,7 @@ export default function BrowsePage() {
                     <div className="space-y-2 text-sm">
                       <div className="flex items-center text-muted-foreground">
                         <DollarSign className="h-4 w-4 mr-2 text-primary" />
-                        <span className="font-medium text-foreground">{request.budget}</span>
+                        <span className="font-medium text-foreground">{request.budgetMin}-{request.budgetMax} грн</span>
                       </div>
                       
                       <div className="flex items-center text-muted-foreground">
@@ -244,13 +236,11 @@ export default function BrowsePage() {
           )}
 
           {/* Load More */}
-          {data && data.next && (
-            <div className="text-center mt-12">
-              <Button variant="outline" size="lg">
-                Завантажити ще
-              </Button>
-            </div>
-          )}
+          <div className="text-center mt-12">
+            <Button variant="outline" size="lg">
+              Завантажити ще
+            </Button>
+          </div>
         </div>
       </main>
 

@@ -1,62 +1,188 @@
 "use client";
 
-import Header from "@/widgets/app/Header";
-import Footer from "@/widgets/app/Footer";
+import { useState } from "react";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
-import { Mail, Phone, MapPin } from "lucide-react";
+import Header from "@/widgets/app/Header";
+import Footer from "@/widgets/app/Footer";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+  const { toast } = useToast();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Повідомлення відправлено!",
+      description: "Ми зв'яжемося з вами найближчим часом.",
+    });
+    setFormData({ name: "", email: "", subject: "", message: "" });
+  };
+
+  const contactInfo = [
+    {
+      icon: Mail,
+      title: "Email",
+      value: "support@hochu.com",
+      link: "mailto:support@hochu.com"
+    },
+    {
+      icon: Phone,
+      title: "Телефон",
+      value: "+380 (44) 123-45-67",
+      link: "tel:+380441234567"
+    },
+    {
+      icon: MapPin,
+      title: "Адреса",
+      value: "вул. Хрещатик, 1, Київ, Україна",
+      link: null
+    }
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      <main className="flex-1 pt-24 pb-12">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <h1 className="text-4xl font-bold mb-8">Контакти</h1>
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card className="p-6">
-              <h2 className="text-2xl font-semibold mb-4">Зв'яжіться з нами</h2>
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center gap-3">
-                  <Mail className="h-5 w-5 text-primary" />
-                  <span>support@hochu.com</span>
+      
+      <main className="flex-1 pt-20">
+        {/* Hero Section */}
+        <section className="py-16 px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+              Зв'яжіться з нами
+            </h1>
+            <p className="text-xl text-muted-foreground">
+              Маєте питання або пропозиції? Ми завжди раді вас вислухати!
+            </p>
+          </div>
+        </section>
+
+        {/* Contact Info Cards */}
+        <section className="py-8 px-4">
+          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+            {contactInfo.map((info, index) => {
+              const Icon = info.icon;
+              const content = (
+                <>
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                    <Icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-lg mb-2">{info.title}</h3>
+                  <p className="text-muted-foreground">{info.value}</p>
+                </>
+              );
+
+              return info.link ? (
+                <a
+                  key={index}
+                  href={info.link}
+                  className="bg-card rounded-2xl p-6 shadow-lg border border-border hover:border-primary transition-all hover:shadow-xl text-center"
+                >
+                  {content}
+                </a>
+              ) : (
+                <div
+                  key={index}
+                  className="bg-card rounded-2xl p-6 shadow-lg border border-border text-center"
+                >
+                  {content}
                 </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="h-5 w-5 text-primary" />
-                  <span>+380 (44) 123-45-67</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin className="h-5 w-5 text-primary" />
-                  <span>Київ, Україна</span>
-                </div>
-              </div>
-            </Card>
-            <Card className="p-6">
-              <h2 className="text-2xl font-semibold mb-4">Надішліть повідомлення</h2>
-              <form className="space-y-4">
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Contact Form */}
+        <section className="py-16 px-4">
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-card rounded-3xl p-8 md:p-12 shadow-lg border border-border">
+              <h2 className="text-2xl font-bold mb-6 text-center">Надіслати повідомлення</h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <Label htmlFor="name">Ім'я</Label>
-                  <Input id="name" />
+                  <label htmlFor="name" className="block text-sm font-medium mb-2">
+                    Ім'я
+                  </label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="Ваше ім'я"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
+                  />
                 </div>
+
                 <div>
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" />
+                  <label htmlFor="email" className="block text-sm font-medium mb-2">
+                    Email
+                  </label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required
+                  />
                 </div>
+
                 <div>
-                  <Label htmlFor="message">Повідомлення</Label>
-                  <Textarea id="message" rows={5} />
+                  <label htmlFor="subject" className="block text-sm font-medium mb-2">
+                    Тема
+                  </label>
+                  <Input
+                    id="subject"
+                    type="text"
+                    placeholder="Тема звернення"
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    required
+                  />
                 </div>
-                <Button type="submit" className="w-full">
-                  Відправити
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium mb-2">
+                    Повідомлення
+                  </label>
+                  <Textarea
+                    id="message"
+                    placeholder="Ваше повідомлення..."
+                    rows={6}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <Button type="submit" className="w-full" size="lg">
+                  <Send className="w-4 h-4 mr-2" />
+                  Відправити повідомлення
                 </Button>
               </form>
-            </Card>
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* Map Section */}
+        <section className="py-8 px-4 pb-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="bg-card rounded-3xl overflow-hidden shadow-lg border border-border h-96">
+              <div className="w-full h-full bg-muted flex items-center justify-center">
+                <p className="text-muted-foreground">Карта розташування</p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
+
       <Footer />
     </div>
   );

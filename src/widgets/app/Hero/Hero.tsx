@@ -1,5 +1,7 @@
+"use client";
+
 import { Button } from "@shared/ui/button";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { ArrowRight, Search, MessageSquare, CheckCircle } from "lucide-react";
 
 const Hero = () => {
@@ -32,13 +34,13 @@ const Hero = () => {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                 <Button size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8 shadow-red" asChild>
-                  <Link to="/create">
+                  <Link href="/create">
                     Створити запит
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" className="text-lg px-8 border-2" asChild>
-                  <Link to="/browse">
+                  <Link href="/browse">
                     Переглянути запити
                   </Link>
                 </Button>

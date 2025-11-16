@@ -1,5 +1,6 @@
 export const apiBaseUrl = (() => {
-  const value = import.meta.env.VITE_API_BASE_URL;
+  // Next.js використовує process.env для змінних оточення
+  const value = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (typeof value !== "string") {
     return "/api";
   }
