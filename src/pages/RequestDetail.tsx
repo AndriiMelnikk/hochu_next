@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
 import ImageLightbox from "@/components/ImageLightbox";
 import { 
   Star, 
@@ -40,6 +42,12 @@ const requestData = {
   id: 1,
   title: "Шукаю ремонт ноутбука MacBook Pro",
   description: "Потрібно замінити батарею та почистити від пилу. Ноутбук 2019 року, працює повільно. Батарея тримає заряд лише 2 години, раніше було 8-10 годин.\n\nТакож помітив що ноутбук гріється при роботі, можливо потрібна заміна термопасти.\n\nБажано щоб використовувались оригінальні комплектуючі та була гарантія на роботу.",
+  edits: [
+    {
+      text: "Уточнення: також потрібна діагностика клавіатури, деякі клавіші працюють з затримкою.",
+      timestamp: "2 години тому"
+    }
+  ],
   category: "Електроніка",
   budgetMin: 2000,
   budgetMax: 3000,
@@ -79,6 +87,7 @@ const RequestDetail = () => {
   const [reportDetails, setReportDetails] = useState("");
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
   const [discussionText, setDiscussionText] = useState("");
+  const [replyTo, setReplyTo] = useState<number | null>(null);
 
   const handleReportSubmit = () => {
     console.log("Report submitted:", { reportReason, reportDetails });
@@ -89,8 +98,9 @@ const RequestDetail = () => {
 
   const handleDiscussionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Discussion message:", discussionText);
+    console.log("Discussion message:", discussionText, "Reply to:", replyTo);
     setDiscussionText("");
+    setReplyTo(null);
   };
 
   // Mock discussion data
@@ -102,20 +112,22 @@ const RequestDetail = () => {
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Olena",
         role: "seller"
       },
+      replyTo: null,
       message: "Чи потрібна діагностика перед ремонтом? Можу провести безкоштовно.",
       timestamp: "2 години тому",
-      replies: [
-        {
-          id: 2,
-          user: {
-            name: "Андрій Шевченко",
-            avatar: requestData.buyer.avatar,
-            role: "buyer"
-          },
-          message: "Так, це було б чудово! Коли можете провести діагностику?",
-          timestamp: "1 годину тому"
-        }
-      ]
+      replies: []
+    },
+    {
+      id: 2,
+      user: {
+        name: "Андрій Шевченко",
+        avatar: requestData.buyer.avatar,
+        role: "buyer"
+      },
+      replyTo: 1,
+      message: "Так, це було б чудово! Коли можете провести діагностику?",
+      timestamp: "1 годину тому",
+      replies: []
     },
     {
       id: 3,
@@ -124,6 +136,7 @@ const RequestDetail = () => {
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dmytro",
         role: "seller"
       },
+      replyTo: null,
       message: "Використовую лише оригінальні батареї Apple. Гарантія 12 місяців.",
       timestamp: "3 години тому",
       replies: []
@@ -280,6 +293,24 @@ const RequestDetail = () => {
                 <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
                   {requestData.description}
                 </div>
+                
+                {/* Edit History */}
+                {requestData.edits && requestData.edits.length > 0 && (
+                  <div className="mt-6 pt-6 border-t border-border">
+                    <h3 className="text-sm font-semibold text-muted-foreground mb-3">Історія редагування:</h3>
+                    <div className="space-y-3">
+                      {requestData.edits.map((edit, index) => (
+                        <div key={index} className="bg-muted/30 rounded-lg p-3 border border-border">
+                          <div className="flex items-center justify-between mb-2">
+                            <Badge variant="outline" className="text-xs">Уточнення</Badge>
+                            <span className="text-xs text-muted-foreground">{edit.timestamp}</span>
+                          </div>
+                          <p className="text-sm">{edit.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Images */}
@@ -307,14 +338,24 @@ const RequestDetail = () => {
                 </div>
               )}
 
-              {/* Received Proposals Section (visible to request owner) */}
-              <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-semibold">Отримані пропозиції ({requestData.proposalsCount})</h2>
-                  <Badge variant="secondary" className="text-lg px-4 py-2">
-                    {requestData.proposalsCount} відгуків
-                  </Badge>
-                </div>
+              {/* Tabs for Proposals and Discussion */}
+              <Tabs defaultValue="proposals" className="bg-card rounded-2xl shadow-md border border-border">
+                <TabsList className="w-full justify-start rounded-t-2xl rounded-b-none h-14 p-1 bg-muted/50">
+                  <TabsTrigger value="proposals" className="flex-1 text-base">
+                    Отримані пропозиції ({requestData.proposalsCount})
+                  </TabsTrigger>
+                  <TabsTrigger value="discussion" className="flex-1 text-base">
+                    Публічні обговорення
+                  </TabsTrigger>
+                </TabsList>
+
+                {/* Received Proposals Tab */}
+                <TabsContent value="proposals" className="p-6 mt-0">
+                  <div className="flex items-center justify-between mb-6">
+                    <Badge variant="secondary" className="text-lg px-4 py-2">
+                      {requestData.proposalsCount} відгуків
+                    </Badge>
+                  </div>
 
                 <div className="space-y-4">
                   {/* Individual Proposal Cards */}
@@ -437,23 +478,19 @@ const RequestDetail = () => {
                     </div>
                   ))}
                 </div>
-              </div>
+                </TabsContent>
 
-              {/* Public Discussion Section */}
-              <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-semibold flex items-center gap-2">
-                    <MessageSquare className="h-6 w-6 text-primary" />
-                    Публічні обговорення
-                  </h2>
-                  <Badge variant="outline" className="text-base px-3 py-1">
-                    {discussions.length} повідомлень
-                  </Badge>
-                </div>
+                {/* Public Discussion Tab */}
+                <TabsContent value="discussion" className="p-6 mt-0">
+                  <div className="flex items-center justify-between mb-6">
+                    <Badge variant="outline" className="text-base px-3 py-1">
+                      {discussions.length} повідомлень
+                    </Badge>
+                  </div>
 
-                <p className="text-sm text-muted-foreground mb-6">
-                  Задавайте питання публічно. Автор запиту та інші виконавці можуть відповісти.
-                </p>
+                  <p className="text-sm text-muted-foreground mb-6">
+                    Задавайте питання публічно. Автор запиту та інші виконавці можуть відповісти.
+                  </p>
 
                 {/* Discussion Thread */}
                 <div className="space-y-6 mb-6">
@@ -478,34 +515,28 @@ const RequestDetail = () => {
                           <p className="text-sm">{discussion.message}</p>
                         </div>
                       </div>
-
-                      {/* Replies */}
-                      {discussion.replies.map((reply) => (
-                        <div key={reply.id} className="flex items-start gap-3 ml-12">
-                          <Avatar className="h-8 w-8">
-                            <AvatarImage src={reply.user.avatar} />
-                            <AvatarFallback>{reply.user.name[0]}</AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 bg-accent/30 rounded-lg p-3">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="flex items-center gap-2">
-                                <span className="font-semibold text-sm">{reply.user.name}</span>
-                                <Badge variant={reply.user.role === "buyer" ? "default" : "secondary"} className="text-xs">
-                                  {reply.user.role === "buyer" ? "Замовник" : "Виконавець"}
-                                </Badge>
-                              </div>
-                              <span className="text-xs text-muted-foreground">{reply.timestamp}</span>
-                            </div>
-                            <p className="text-sm">{reply.message}</p>
-                          </div>
-                        </div>
-                      ))}
                     </div>
                   ))}
                 </div>
 
                 {/* Add Discussion Form */}
                 <form onSubmit={handleDiscussionSubmit} className="space-y-3">
+                  {replyTo && (
+                    <div className="bg-primary/10 border border-primary/20 rounded-lg p-3 flex items-center justify-between">
+                      <span className="text-sm">
+                        Відповідь на повідомлення #{replyTo}
+                      </span>
+                      <Button 
+                        type="button" 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => setReplyTo(null)}
+                        className="h-6"
+                      >
+                        Скасувати
+                      </Button>
+                    </div>
+                  )}
                   <div className="bg-muted/30 rounded-lg p-4 border border-border">
                     <div className="flex items-start gap-3">
                       <Avatar className="h-10 w-10">
@@ -514,7 +545,7 @@ const RequestDetail = () => {
                       </Avatar>
                       <div className="flex-1">
                         <Textarea
-                          placeholder="Задайте питання або залишіть коментар..."
+                          placeholder={replyTo ? "Напишіть вашу відповідь..." : "Задайте питання або залишіть коментар..."}
                           value={discussionText}
                           onChange={(e) => setDiscussionText(e.target.value)}
                           rows={3}
@@ -538,7 +569,8 @@ const RequestDetail = () => {
                     </div>
                   </div>
                 </form>
-              </div>
+                </TabsContent>
+              </Tabs>
 
               {/* Create Proposal Form */}
               <div className="bg-gradient-primary rounded-2xl p-1 shadow-lg">
