@@ -3,7 +3,7 @@
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
 import HowItWorksWidget from "@/widgets/app/HowItWorks";
-import { Button } from "@/components/ui/button";
+import { Button } from "@shared/ui/button";
 import Link from "next/link";
 import { routes } from "@/app/router/routes";
 import { UserCircle, Store, CheckCircle2 } from "lucide-react";

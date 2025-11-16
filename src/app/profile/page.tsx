@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Header from "@/widgets/app/Header";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@shared/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@shared/ui/card";
+import { Badge } from "@shared/ui/badge";
 import ProfileStats from "@/widgets/app/ProfileStats";
 import ProfileSettings from "@/widgets/app/ProfileSettings";
 import Chat from "@/widgets/app/Chat";

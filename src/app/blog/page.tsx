@@ -1,6 +1,6 @@
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
-import { Card } from "@/components/ui/card";
+import { Card } from "@shared/ui/card";
 import Link from "next/link";
 import { routes } from "@/app/router/routes";
 

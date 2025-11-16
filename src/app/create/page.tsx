@@ -2,10 +2,10 @@
 
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { Button } from "@shared/ui/button";
+import { Input } from "@shared/ui/input";
+import { Textarea } from "@shared/ui/textarea";
+import { Label } from "@shared/ui/label";
 import { FileText, DollarSign, MapPin, Clock, Upload } from "lucide-react";
 
 export default function CreateRequestPage() {

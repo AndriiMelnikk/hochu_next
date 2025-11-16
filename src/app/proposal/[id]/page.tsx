@@ -4,10 +4,12 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@shared/ui/button";
+import { Badge } from "@shared/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@shared/ui/avatar";
+import { Separator } from "@shared/ui/separator";
+import { Card, CardContent, CardHeader, CardTitle } from "@shared/ui/card";
+import Reviews from "@/widgets/app/Reviews";
 import { routes } from "@/app/router/routes";
 import { 
   Star, 
@@ -21,8 +23,11 @@ import {
   Award,
   Package,
   Truck,
-  Calendar
+  Calendar,
+  Eye,
+  User
 } from "lucide-react";
+import { Textarea } from "@shared/ui/textarea";
 
 // Mock proposal data
 const proposalData = {
@@ -61,8 +66,46 @@ const proposalData = {
     id: 1,
     title: "Шукаю ремонт ноутбука MacBook Pro",
     budget: "2000-3000 грн",
-    totalProposals: 8
-  }
+    totalProposals: 8,
+    views: 156
+  },
+  
+  // Buyer info (from original request)
+  buyer: {
+    id: 2,
+    name: "Олександр Мельник",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Oleksandr",
+    rating: 4.9,
+    reviewsCount: 89,
+    completedDeals: 145,
+    isVerified: true,
+    memberSince: "2021",
+    location: "Київ, Оболонський район"
+  },
+  
+  // Comments/Discussion
+  comments: [
+    {
+      id: 1,
+      author: {
+        name: "Олександр Мельник",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Oleksandr",
+        isBuyer: true
+      },
+      text: "Дякую за пропозицію! Чи можна подивитися приклади ваших попередніх робіт?",
+      createdAt: "1 годину тому"
+    },
+    {
+      id: 2,
+      author: {
+        name: "Сергій Коваленко",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sergiy",
+        isBuyer: false
+      },
+      text: "Звичайно! Можу надіслати фото наших робіт в чаті. Також можемо обговорити всі деталі особисто.",
+      createdAt: "45 хвилин тому"
+    }
+  ]
 };
 
 export default function ProposalDetailPage() {
@@ -166,12 +209,126 @@ export default function ProposalDetailPage() {
                       <DollarSign className="h-4 w-4 mr-1" />
                       Бюджет: {proposalData.request.budget}
                     </span>
+                    <span className="flex items-center">
+                      <Eye className="h-4 w-4 mr-1" />
+                      {proposalData.request.views} переглядів
+                    </span>
                     <span>
                       {proposalData.request.totalProposals} пропозицій
                     </span>
                   </div>
                 </div>
               </div>
+
+              {/* Buyer Information */}
+              <Card className="border-2 border-primary/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="h-5 w-5 text-primary" />
+                    Замовник (Покупець)
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-start gap-4">
+                    <Avatar className="h-16 w-16">
+                      <AvatarImage src={proposalData.buyer.avatar} />
+                      <AvatarFallback>{proposalData.buyer.name[0]}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <h3 className="font-semibold text-lg">{proposalData.buyer.name}</h3>
+                        {proposalData.buyer.isVerified && (
+                          <Shield className="h-4 w-4 text-primary" />
+                        )}
+                      </div>
+                      <p className="text-sm text-muted-foreground flex items-center mb-3">
+                        <MapPin className="h-3 w-3 mr-1" />
+                        {proposalData.buyer.location}
+                      </p>
+                      
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="text-muted-foreground">Рейтинг: </span>
+                          <div className="flex items-center gap-1">
+                            <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                            <span className="font-semibold">{proposalData.buyer.rating}</span>
+                            <span className="text-muted-foreground">
+                              ({proposalData.buyer.reviewsCount} відгуків)
+                            </span>
+                          </div>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">Завершено угод: </span>
+                          <span className="font-semibold">{proposalData.buyer.completedDeals}</span>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">На платформі з: </span>
+                          <span className="font-semibold">{proposalData.buyer.memberSince} року</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Comments/Discussion */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <MessageCircle className="h-5 w-5 text-primary" />
+                    Обговорення ({proposalData.comments.length})
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {proposalData.comments.map((comment) => (
+                      <div key={comment.id} className="flex gap-3 pb-4 border-b last:border-0 last:pb-0">
+                        <Avatar className="h-10 w-10">
+                          <AvatarImage src={comment.author.avatar} />
+                          <AvatarFallback>
+                            {comment.author.name.split(" ").map(n => n[0]).join("")}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-semibold">{comment.author.name}</span>
+                            {comment.author.isBuyer && (
+                              <Badge variant="outline" className="text-xs">Замовник</Badge>
+                            )}
+                            <span className="text-xs text-muted-foreground">
+                              {comment.createdAt}
+                            </span>
+                          </div>
+                          <p className="text-sm text-foreground">{comment.text}</p>
+                        </div>
+                      </div>
+                    ))}
+                    
+                    <div className="pt-4 border-t">
+                      <div className="flex gap-2">
+                        <Textarea 
+                          placeholder="Написати коментар..."
+                          className="min-h-[80px]"
+                        />
+                        <Button className="self-end">
+                          <MessageCircle className="h-4 w-4 mr-2" />
+                          Відправити
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Full Reviews Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Відгуки про продавця</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Reviews />
+                </CardContent>
+              </Card>
             </div>
 
             {/* Sidebar */}
@@ -270,46 +427,35 @@ export default function ProposalDetailPage() {
                 </div>
               </div>
 
-              {/* Reviews Preview */}
-              <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-                <h3 className="text-lg font-semibold mb-4">Останні відгуки</h3>
-                <div className="space-y-4">
-                  <div className="pb-4 border-b border-border last:border-0 last:pb-0">
-                    <div className="flex items-center mb-2">
-                      <div className="flex">
-                        {[1,2,3,4,5].map((star) => (
-                          <Star key={star} className="h-3 w-3 text-yellow-500 fill-yellow-500" />
-                        ))}
-                      </div>
-                      <span className="text-xs text-muted-foreground ml-2">3 дні тому</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      Чудова робота! Ноутбук працює як новий. Рекомендую!
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">— Олена К.</p>
+              {/* Quick Stats */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Статистика пропозиції</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground flex items-center">
+                      <Eye className="h-4 w-4 mr-1" />
+                      Переглядів
+                    </span>
+                    <span className="font-semibold">{proposalData.request.views}</span>
                   </div>
-                  
-                  <div className="pb-4 border-b border-border last:border-0 last:pb-0">
-                    <div className="flex items-center mb-2">
-                      <div className="flex">
-                        {[1,2,3,4].map((star) => (
-                          <Star key={star} className="h-3 w-3 text-yellow-500 fill-yellow-500" />
-                        ))}
-                        <Star className="h-3 w-3 text-gray-300" />
-                      </div>
-                      <span className="text-xs text-muted-foreground ml-2">1 тиждень тому</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      Якісно та швидко. Батарея тримає заряд відмінно.
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">— Максим П.</p>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground flex items-center">
+                      <MessageCircle className="h-4 w-4 mr-1" />
+                      Коментарів
+                    </span>
+                    <span className="font-semibold">{proposalData.comments.length}</span>
                   </div>
-                </div>
-                
-                <Button variant="link" className="w-full mt-4 text-primary">
-                  Переглянути всі відгуки ({proposalData.seller.reviewsCount})
-                </Button>
-              </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground flex items-center">
+                      <Star className="h-4 w-4 mr-1" />
+                      Відгуків про продавця
+                    </span>
+                    <span className="font-semibold">{proposalData.seller.reviewsCount}</span>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>

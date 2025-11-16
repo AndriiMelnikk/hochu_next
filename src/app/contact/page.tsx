@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@shared/ui/button";
+import { Input } from "@shared/ui/input";
+import { Textarea } from "@shared/ui/textarea";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@shared/ui/use-toast";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({

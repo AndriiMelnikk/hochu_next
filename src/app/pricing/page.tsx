@@ -1,7 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@shared/ui/button";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
 import Link from "next/link";

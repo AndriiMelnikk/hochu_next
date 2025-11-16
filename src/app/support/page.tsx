@@ -1,8 +1,8 @@
 "use client";
 
 import { Search, BookOpen, MessageCircle, HelpCircle, FileText, Video, Mail } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from "@shared/ui/input";
+import { Button } from "@shared/ui/button";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@shared/ui/accordion";
 
 export default function SupportPage() {
   const categories = [
