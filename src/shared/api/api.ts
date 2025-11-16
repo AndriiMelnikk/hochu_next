@@ -1,56 +1,40 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-
-// Mock API base URL - в production це буде реальний API
-const apiBaseUrl =
-  typeof window !== "undefined"
-    ? process.env.NEXT_PUBLIC_API_BASE_URL || "/api"
-    : "http://localhost:3000/api";
+import axios, { AxiosRequestConfig, AxiosError } from "axios";
+import { apiBaseUrl, LS_KEYS } from "@shared/config/envVars";
 
 const getAuthorizationHeader = () => {
-  if (typeof window === "undefined") return undefined;
-  const accessToken = localStorage.getItem("access_token");
+  const accessToken = localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
   return accessToken ? `Token ${accessToken}` : undefined;
 };
 
-export const api: AxiosInstance = axios.create({
+export const api = axios.create({
   baseURL: apiBaseUrl,
   headers: {
-    "Content-Type": "application/json",
-    "Accept-Language":
-      (typeof window !== "undefined" &&
-        localStorage.getItem("locale")) ||
-      "uk",
+    "Accept-Language": localStorage.getItem(LS_KEYS.LOCALE) || "uk",
+    Authorization: getAuthorizationHeader(),
   },
 });
 
-// Request interceptor для додавання токену
-api.interceptors.request.use(
-  (config) => {
-    const token = getAuthorizationHeader();
-    if (token) {
-      config.headers.Authorization = token;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
+  if (token) {
+    config.headers.Authorization = `Token ${token}`;
   }
-);
+  const locale = localStorage.getItem(LS_KEYS.LOCALE) || "uk";
+  config.headers["Accept-Language"] = locale;
+  return config;
+});
 
-// Response interceptor для обробки помилок
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  (error: AxiosError) => {
     if (error.response?.status === 401) {
-      // Обробка 401 помилок
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("access_token");
-        window.location.href = "/login";
-      }
+      // Автоматичний logout буде оброблятись через auth context
+      localStorage.removeItem(LS_KEYS.ACCESS_TOKEN);
+      localStorage.removeItem(LS_KEYS.REFRESH_TOKEN);
     }
     return Promise.reject(error);
   }
 );
 
-export default api;
+export type { AxiosRequestConfig, AxiosError };
 

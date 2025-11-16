@@ -1,15 +1,13 @@
-import type { LinguiConfig } from "@lingui/conf";
+import { defineConfig } from "@lingui/cli";
 
-const config: LinguiConfig = {
+export default defineConfig({
   locales: ["uk", "en"],
   sourceLocale: "uk",
   catalogs: [
     {
-      path: "src/locales/{locale}/messages",
+      path: "<rootDir>/src/locales/{locale}/messages",
       include: ["src"],
     },
   ],
-};
-
-export default config;
+});
 

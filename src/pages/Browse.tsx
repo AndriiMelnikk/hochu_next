@@ -1,9 +1,9 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Navbar from "@widgets/app/Header";
+import Footer from "@widgets/app/Footer";
+import { Button } from "@shared/ui/button";
+import { Input } from "@shared/ui/input";
+import { Badge } from "@shared/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@shared/ui/select";
 import { Search, MapPin, DollarSign, Clock, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";

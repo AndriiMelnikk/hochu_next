@@ -1,31 +1,15 @@
-"use client";
-
 import { useQuery } from "@tanstack/react-query";
-import { requestService } from "../api/requestService";
-import { GetRequestsResponseSchema, RequestSchema } from "../model/schemas";
-import type { IGetRequestsRequest } from "../model/types";
+import { requestService } from "../services/requestService";
+import type { IGetRequestsRequest } from "../types/requests";
+import { getRequestsResponseSchema } from "../schemas/requestSchema";
 
-export const useRequests = (params?: IGetRequestsRequest) => {
+export const useRequests = (searchParams: IGetRequestsRequest = {}) => {
   return useQuery({
-    queryKey: ["requests", params],
+    queryKey: ["requests", "list", searchParams],
     queryFn: async () => {
-      const data = await requestService.get(params);
-      // Валідація через Zod
-      return GetRequestsResponseSchema.parse(data);
+      const data = await requestService.get(searchParams);
+      return getRequestsResponseSchema.parse(data);
     },
-    staleTime: 60 * 1000, // 1 хвилина
-  });
-};
-
-export const useRequest = (id: number) => {
-  return useQuery({
-    queryKey: ["request", id],
-    queryFn: async () => {
-      const data = await requestService.getOne(id);
-      // Валідація через Zod
-      return RequestSchema.parse(data);
-    },
-    enabled: !!id,
   });
 };
 

@@ -27,7 +27,7 @@ const steps = [
   }
 ];
 
-export default function HowItWorks() {
+const HowItWorks = () => {
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -77,5 +77,6 @@ export default function HowItWorks() {
       </div>
     </section>
   );
-}
+};
 
+export default HowItWorks;

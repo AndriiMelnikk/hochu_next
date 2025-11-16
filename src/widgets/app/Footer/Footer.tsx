@@ -1,8 +1,8 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
-import { routes } from "@/app/router/routes";
+import { routes } from "@app/router/routes";
 
-export default function Footer() {
+const Footer = () => {
   return (
     <footer className="bg-muted/30 border-t border-border">
       <div className="container mx-auto px-4 py-12">
@@ -21,10 +21,10 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Платформа</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href={routes.BROWSE} className="hover:text-primary transition-colors">Переглянути запити</Link></li>
-              <li><Link href={routes.CREATE} className="hover:text-primary transition-colors">Створити запит</Link></li>
-              <li><Link href={routes.HOW_IT_WORKS} className="hover:text-primary transition-colors">Як це працює</Link></li>
-              <li><Link href={routes.PRICING} className="hover:text-primary transition-colors">Ціни</Link></li>
+              <li><Link to={routes.BROWSE} className="hover:text-primary transition-colors">Переглянути запити</Link></li>
+              <li><Link to={routes.CREATE} className="hover:text-primary transition-colors">Створити запит</Link></li>
+              <li><Link to={routes.HOW_IT_WORKS} className="hover:text-primary transition-colors">Як це працює</Link></li>
+              <li><Link to={routes.PRICING} className="hover:text-primary transition-colors">Ціни</Link></li>
             </ul>
           </div>
 
@@ -32,9 +32,9 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Компанія</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href={routes.ABOUT} className="hover:text-primary transition-colors">Про нас</Link></li>
-              <li><Link href={routes.BLOG} className="hover:text-primary transition-colors">Блог</Link></li>
-              <li><Link href={routes.CONTACT} className="hover:text-primary transition-colors">Контакти</Link></li>
+              <li><Link to={routes.ABOUT} className="hover:text-primary transition-colors">Про нас</Link></li>
+              <li><Link to={routes.BLOG} className="hover:text-primary transition-colors">Блог</Link></li>
+              <li><Link to={routes.CONTACT} className="hover:text-primary transition-colors">Контакти</Link></li>
             </ul>
           </div>
 
@@ -42,9 +42,9 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Правова інформація</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href={routes.TERMS} className="hover:text-primary transition-colors">Умови використання</Link></li>
-              <li><Link href={routes.PRIVACY} className="hover:text-primary transition-colors">Політика конфіденційності</Link></li>
-              <li><Link href={routes.SUPPORT} className="hover:text-primary transition-colors">Підтримка</Link></li>
+              <li><Link to={routes.TERMS} className="hover:text-primary transition-colors">Умови використання</Link></li>
+              <li><Link to={routes.PRIVACY} className="hover:text-primary transition-colors">Політика конфіденційності</Link></li>
+              <li><Link to={routes.SUPPORT} className="hover:text-primary transition-colors">Підтримка</Link></li>
             </ul>
           </div>
         </div>
@@ -73,5 +73,7 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;
 

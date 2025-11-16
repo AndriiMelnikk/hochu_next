@@ -1,8 +1,8 @@
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import Features from "@/components/Features";
-import HowItWorks from "@/components/HowItWorks";
-import Footer from "@/components/Footer";
+import Navbar from "@widgets/app/Header";
+import Hero from "@widgets/app/Hero";
+import Features from "@widgets/app/Features";
+import HowItWorks from "@widgets/app/HowItWorks";
+import Footer from "@widgets/app/Footer";
 
 const Index = () => {
   return (
