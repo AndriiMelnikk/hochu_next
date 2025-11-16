@@ -251,8 +251,13 @@ export const mockApi = {
 // Axios adapter to handle mock API
 export const setupMockInterceptor = (apiInstance: any) => {
   apiInstance.interceptors.request.use(async (config: any) => {
-    if (config.url?.startsWith("/api")) {
-      const url = config.url.replace("/api", "");
+    // Check if URL starts with /api or if baseURL is /api
+    const fullUrl = config.baseURL && config.url 
+      ? `${config.baseURL}${config.url}` 
+      : config.url;
+    
+    if (fullUrl?.startsWith("/api")) {
+      const url = fullUrl.replace("/api", "");
       let response;
 
       try {

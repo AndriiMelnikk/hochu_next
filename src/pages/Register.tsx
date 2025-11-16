@@ -1,41 +1,38 @@
-"use client";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@shared/ui/button";
+import { Input } from "@shared/ui/input";
+import { Label } from "@shared/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@shared/ui/card";
+import { Checkbox } from "@shared/ui/checkbox";
+import Navbar from "@widgets/app/Header";
 
-import Header from "@/widgets/app/Header";
-import Footer from "@/widgets/app/Footer";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { routes } from "@/app/router/routes";
-import { useAuth } from "@/entities/auth";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from "@/entities/auth";
-
-export default function RegisterPage() {
-  const router = useRouter();
-  const { register: registerUser } = useAuth();
-  const { register, handleSubmit, formState: { errors }, watch } = useForm({
-    resolver: zodResolver(registerSchema),
+const Register = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    agreeToTerms: false,
   });
 
-  const password = watch("password");
-
-  const onSubmit = async (data: { name: string; email: string; password: string }) => {
-    try {
-      await registerUser(data.email, data.password, data.name);
-      router.push(routes.HOME);
-    } catch (error) {
-      console.error("Registration error:", error);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      console.error("Паролі не співпадають");
+      return;
     }
+    if (!formData.agreeToTerms) {
+      console.error("Потрібно прийняти умови використання");
+      return;
+    }
+    // TODO: Implement registration logic
+    console.log("Registration attempt:", formData);
   };
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Navbar />
       <div className="container mx-auto px-4 pt-24 pb-16">
         <div className="grid lg:grid-cols-2 gap-0 max-w-6xl mx-auto bg-card rounded-3xl shadow-2xl overflow-hidden">
           {/* Left Section - Form */}
@@ -47,16 +44,17 @@ export default function RegisterPage() {
               </p>
             </div>
             
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Ім'я</Label>
                 <Input
                   id="name"
                   type="text"
                   placeholder="Ваше ім'я"
-                  {...register("name")}
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
                 />
-                {errors.name && <p className="text-sm text-red-500">{errors.name.message as string}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
@@ -64,9 +62,10 @@ export default function RegisterPage() {
                   id="email"
                   type="email"
                   placeholder="your@email.com"
-                  {...register("email")}
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
                 />
-                {errors.email && <p className="text-sm text-red-500">{errors.email.message as string}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Пароль</Label>
@@ -74,9 +73,39 @@ export default function RegisterPage() {
                   id="password"
                   type="password"
                   placeholder="••••••••"
-                  {...register("password")}
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
                 />
-                {errors.password && <p className="text-sm text-red-500">{errors.password.message as string}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">Підтвердіть пароль</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="••••••••"
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="terms"
+                  checked={formData.agreeToTerms}
+                  onCheckedChange={(checked) =>
+                    setFormData({ ...formData, agreeToTerms: checked as boolean })
+                  }
+                />
+                <label
+                  htmlFor="terms"
+                  className="text-sm text-muted-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Я приймаю{" "}
+                  <Link to="/terms" className="text-primary hover:underline">
+                    умови використання
+                  </Link>
+                </label>
               </div>
               <Button type="submit" className="w-full bg-gradient-primary">
                 Зареєструватися
@@ -85,7 +114,7 @@ export default function RegisterPage() {
             
             <div className="mt-6 text-center text-sm">
               <span className="text-muted-foreground">Вже є акаунт? </span>
-              <Link href={routes.LOGIN} className="text-primary hover:underline font-medium">
+              <Link to="/login" className="text-primary hover:underline font-medium">
                 Увійти
               </Link>
             </div>
@@ -142,8 +171,8 @@ export default function RegisterPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
-}
+};
 
+export default Register;

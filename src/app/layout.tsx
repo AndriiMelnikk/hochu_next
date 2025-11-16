@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { Providers } from "./providers";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/app/providers";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Web Simple Shaper",
@@ -13,8 +16,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uk" suppressHydrationWarning>
-      <body>
+    <html lang="uk">
+      <body className={inter.className}>
         <Providers>{children}</Providers>
       </body>
     </html>

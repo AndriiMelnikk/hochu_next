@@ -1,54 +1,25 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
-import { ContextProvider } from "./ContextProvider";
-import { QueryProvider } from "./QueryProvider";
-import { LinguiProvider } from "./LinguiProvider";
-import { AuthProvider } from "@entities/auth";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { setupMockInterceptor } from "@/shared/api";
-import { api } from "@/shared/api/api";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactNode, useState } from "react";
 
-interface ProvidersProps {
-  children: ReactNode;
-}
-
-export const Providers = ({ children }: ProvidersProps) => {
-  useEffect(() => {
-    // Setup mock API interceptor (тільки на клієнті)
-    setupMockInterceptor(api);
-  }, []);
+export function Providers({ children }: { children: ReactNode }) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 60 * 1000, // 1 minute
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
 
   return (
-    <QueryProvider>
-      <LinguiProvider>
-        <AuthProvider>
-          <ContextProvider>
-            <TooltipProvider>
-              {children}
-              <Toaster />
-              <Sonner />
-              <ToastContainer
-                position="bottom-center"
-                autoClose={5000}
-                hideProgressBar
-                newestOnTop
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-              />
-            </TooltipProvider>
-          </ContextProvider>
-        </AuthProvider>
-      </LinguiProvider>
-    </QueryProvider>
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
   );
-};
+}
 

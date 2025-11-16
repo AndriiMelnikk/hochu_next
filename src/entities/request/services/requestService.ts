@@ -16,16 +16,16 @@ class RequestService {
       }
     });
 
-    const url = `/api/requests${urlSearchParams.toString() ? `?${urlSearchParams.toString()}` : ""}`;
+    const url = `/requests${urlSearchParams.toString() ? `?${urlSearchParams.toString()}` : ""}`;
     return (await api.get(url, config)).data;
   }
 
   async getOne(id: string | number, config?: AxiosRequestConfig): Promise<IRequestWithBuyer> {
-    return (await api.get(`/api/requests/${id}`, config)).data;
+    return (await api.get(`/requests/${id}`, config)).data;
   }
 
   async create(data: ICreateRequestRequest, config?: AxiosRequestConfig): Promise<IRequestWithBuyer> {
-    return (await api.post("/api/requests", data, config)).data;
+    return (await api.post("/requests", data, config)).data;
   }
 
   async update(
@@ -33,11 +33,11 @@ class RequestService {
     data: Partial<ICreateRequestRequest>,
     config?: AxiosRequestConfig
   ): Promise<IRequestWithBuyer> {
-    return (await api.patch(`/api/requests/${id}`, data, config)).data;
+    return (await api.patch(`/requests/${id}`, data, config)).data;
   }
 
   async delete(id: string | number, config?: AxiosRequestConfig): Promise<void> {
-    return (await api.delete(`/api/requests/${id}`, config)).data;
+    return (await api.delete(`/requests/${id}`, config)).data;
   }
 }
 

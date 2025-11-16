@@ -1,29 +1,92 @@
-"use client";
-
-import Header from "@/widgets/app/Header";
-import Footer from "@/widgets/app/Footer";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Navbar from "@widgets/app/Header";
+import Footer from "@widgets/app/Footer";
+import { Button } from "@shared/ui/button";
+import { Input } from "@shared/ui/input";
+import { Badge } from "@shared/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@shared/ui/select";
 import { Search, MapPin, DollarSign, Clock, X } from "lucide-react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useRequests } from "@/entities/request";
-import { REQUEST_CATEGORIES } from "@/entities/request";
-import { routes } from "@/app/router/routes";
 
-export default function BrowsePage() {
+// Mock data for requests
+const mockRequests = [
+  {
+    id: 1,
+    title: "Шукаю ремонт ноутбука MacBook Pro",
+    description: "Потрібно замінити батарею та почистити від пилу. Ноутбук 2019 року, працює повільно.",
+    category: "Електроніка",
+    budget: "2000-3000 грн",
+    location: "Київ, Печерський район",
+    timeAgo: "15 хв тому",
+    proposalsCount: 8
+  },
+  {
+    id: 2,
+    title: "Потрібен веб-дизайнер для лендінгу",
+    description: "Створення сучасного лендінгу для IT-компанії. Важливий досвід з Figma.",
+    category: "Дизайн",
+    budget: "10000-15000 грн",
+    location: "Віддалено",
+    timeAgo: "2 год тому",
+    proposalsCount: 23
+  },
+  {
+    id: 3,
+    title: "Куплю iPhone 15 Pro Max",
+    description: "Нова або у відмінному стані, 256GB, будь-який колір крім титанового.",
+    category: "Смартфони",
+    budget: "до 50000 грн",
+    location: "Львів",
+    timeAgo: "3 год тому",
+    proposalsCount: 12
+  },
+  {
+    id: 4,
+    title: "Шукаю репетитора з англійської",
+    description: "Потрібен носій мови або рівень C2 для підготовки до IELTS. Онлайн заняття.",
+    category: "Освіта",
+    budget: "500-800 грн/год",
+    location: "Онлайн",
+    timeAgo: "5 год тому",
+    proposalsCount: 15
+  },
+  {
+    id: 5,
+    title: "Ремонт квартири під ключ",
+    description: "2-кімнатна квартира 65м², потрібен повний ремонт з матеріалами.",
+    category: "Будівництво",
+    budget: "200000-300000 грн",
+    location: "Одеса",
+    timeAgo: "1 день тому",
+    proposalsCount: 31
+  },
+  {
+    id: 6,
+    title: "Фотограф на весілля",
+    description: "Потрібен досвідчений фотограф, повний день, травень 2025.",
+    category: "Послуги",
+    budget: "15000-25000 грн",
+    location: "Харків",
+    timeAgo: "1 день тому",
+    proposalsCount: 19
+  }
+];
+
+const categories = [
+  "Всі категорії",
+  "Електроніка",
+  "Смартфони",
+  "Дизайн",
+  "Освіта",
+  "Будівництво",
+  "Послуги"
+];
+
+const Browse = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [budgetRange, setBudgetRange] = useState("");
   const [location, setLocation] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-
-  const { data, isLoading, error } = useRequests({
-    category: selectedCategories.length > 0 ? selectedCategories[0] : undefined,
-    search: searchQuery || undefined,
-    location: location || undefined,
-  });
 
   const toggleCategory = (category: string) => {
     if (category === "Всі категорії") {
@@ -41,12 +104,9 @@ export default function BrowsePage() {
   const removeCategory = (category: string) => {
     setSelectedCategories(selectedCategories.filter(c => c !== category));
   };
-
-  const requests = data?.results || [];
-
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Navbar />
       
       <main className="flex-1 pt-24 pb-12">
         <div className="container mx-auto px-4">
@@ -81,7 +141,7 @@ export default function BrowsePage() {
               <div className="relative">
                 <div className="overflow-x-auto pb-2 scrollbar-thin">
                   <div className="flex gap-2 min-w-min">
-                    {REQUEST_CATEGORIES.map((category) => (
+                    {categories.map((category) => (
                       <Button
                         key={category}
                         variant={selectedCategories.includes(category) || (category === "Всі категорії" && selectedCategories.length === 0) ? "default" : "outline"}
@@ -164,76 +224,58 @@ export default function BrowsePage() {
           {/* Results Count */}
           <div className="mb-6 flex items-center justify-between">
             <p className="text-muted-foreground">
-              {isLoading ? (
-                "Завантаження..."
-              ) : error ? (
-                "Помилка завантаження"
-              ) : (
-                <>
-                  Знайдено <span className="font-semibold text-foreground">{data?.count || 0}</span> активних запитів
-                </>
-              )}
+              Знайдено <span className="font-semibold text-foreground">{mockRequests.length}</span> активних запитів
             </p>
           </div>
 
           {/* Requests Grid */}
-          {isLoading ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">Завантаження...</p>
-            </div>
-          ) : error ? (
-            <div className="text-center py-12">
-              <p className="text-destructive">Помилка завантаження запитів</p>
-            </div>
-          ) : (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-              {requests.map((request) => (
-                <Link 
-                  key={request.id}
-                  href={`${routes.REQUEST}/${request.id}`}
-                  className="group"
-                >
-                  <div className="bg-card rounded-2xl p-6 shadow-md border border-border hover:shadow-lg hover:shadow-blue/20 transition-all h-full flex flex-col">
-                    <div className="flex items-center justify-between mb-3">
-                      <Badge variant="secondary" className="bg-accent text-accent-foreground">
-                        {request.category}
-                      </Badge>
-                      <span className="text-xs text-muted-foreground flex items-center">
-                        <Clock className="h-3 w-3 mr-1" />
-                        {new Date(request.createdAt).toLocaleDateString()}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+            {mockRequests.map((request) => (
+              <Link 
+                key={request.id}
+                to={`/request/${request.id}`}
+                className="group"
+              >
+                <div className="bg-card rounded-2xl p-6 shadow-md border border-border hover:shadow-lg hover:shadow-blue/20 transition-all h-full flex flex-col">
+                  <div className="flex items-center justify-between mb-3">
+                    <Badge variant="secondary" className="bg-accent text-accent-foreground">
+                      {request.category}
+                    </Badge>
+                    <span className="text-xs text-muted-foreground flex items-center">
+                      <Clock className="h-3 w-3 mr-1" />
+                      {request.timeAgo}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+                    {request.title}
+                  </h3>
+                  
+                  <p className="text-muted-foreground mb-4 line-clamp-2 flex-1">
+                    {request.description}
+                  </p>
+
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center text-muted-foreground">
+                      <DollarSign className="h-4 w-4 mr-2 text-primary" />
+                      <span className="font-medium text-foreground">{request.budget}</span>
+                    </div>
+                    
+                    <div className="flex items-center text-muted-foreground">
+                      <MapPin className="h-4 w-4 mr-2 text-primary" />
+                      {request.location}
+                    </div>
+
+                    <div className="pt-3 border-t border-border">
+                      <span className="text-primary font-medium">
+                        {request.proposalsCount} пропозицій
                       </span>
                     </div>
-
-                    <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                      {request.title}
-                    </h3>
-                    
-                    <p className="text-muted-foreground mb-4 line-clamp-2 flex-1">
-                      {request.description}
-                    </p>
-
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center text-muted-foreground">
-                        <DollarSign className="h-4 w-4 mr-2 text-primary" />
-                        <span className="font-medium text-foreground">{request.budgetMin}-{request.budgetMax} грн</span>
-                      </div>
-                      
-                      <div className="flex items-center text-muted-foreground">
-                        <MapPin className="h-4 w-4 mr-2 text-primary" />
-                        {request.location}
-                      </div>
-
-                      <div className="pt-3 border-t border-border">
-                        <span className="text-primary font-medium">
-                          {request.proposalsCount} пропозицій
-                        </span>
-                      </div>
-                    </div>
                   </div>
-                </Link>
-              ))}
-            </div>
-          )}
+                </div>
+              </Link>
+            ))}
+          </div>
 
           {/* Load More */}
           <div className="text-center mt-12">
@@ -247,5 +289,6 @@ export default function BrowsePage() {
       <Footer />
     </div>
   );
-}
+};
 
+export default Browse;

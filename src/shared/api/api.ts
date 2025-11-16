@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosError } from "axios";
 import { apiBaseUrl, LS_KEYS } from "@shared/config/envVars";
+import { setupMockInterceptor } from "./mock/mockServer";
 
 const getAuthorizationHeader = () => {
   // localStorage доступний тільки на клієнті
@@ -20,6 +21,11 @@ export const api = axios.create({
     Authorization: getAuthorizationHeader(),
   },
 });
+
+// Setup mock interceptor for development
+if (typeof window !== "undefined") {
+  setupMockInterceptor(api);
+}
 
 api.interceptors.request.use((config) => {
   // localStorage доступний тільки на клієнті
