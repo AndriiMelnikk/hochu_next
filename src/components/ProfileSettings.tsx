@@ -7,6 +7,8 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Shield, AlertCircle } from "lucide-react";
 
 const ProfileSettings = () => {
   const { toast } = useToast();
@@ -78,6 +80,77 @@ const ProfileSettings = () => {
           <Button onClick={handleSaveProfile} disabled={loading}>
             {loading ? "Збереження..." : "Зберегти зміни"}
           </Button>
+        </CardContent>
+      </Card>
+
+      {/* Verification Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Верифікація акаунту</CardTitle>
+          <CardDescription>Підтвердіть свій номер телефону для підвищення довіри</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between p-4 border border-border rounded-lg bg-muted/30">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Shield className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="font-medium">Статус верифікації</p>
+                <p className="text-sm text-muted-foreground">+380 67 123 4567</p>
+              </div>
+            </div>
+            <Badge variant="outline" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">
+              Не підтверджено
+            </Badge>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="verifyPhone">Номер телефону для верифікації</Label>
+            <div className="flex gap-2">
+              <Input 
+                id="verifyPhone" 
+                type="tel" 
+                placeholder="+380 XX XXX XXXX"
+                defaultValue="+380 67 123 4567"
+              />
+              <Button onClick={() => {
+                toast({
+                  title: "Код відправлено",
+                  description: "Перевірте SMS повідомлення",
+                });
+              }}>
+                Надіслати код
+              </Button>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="verifyCode">Код підтвердження</Label>
+            <div className="flex gap-2">
+              <Input 
+                id="verifyCode" 
+                type="text" 
+                placeholder="Введіть 6-значний код"
+                maxLength={6}
+              />
+              <Button variant="default" onClick={() => {
+                toast({
+                  title: "Номер підтверджено!",
+                  description: "Ваш акаунт успішно верифіковано",
+                });
+              }}>
+                Підтвердити
+              </Button>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-2 p-3 bg-primary/5 border border-primary/20 rounded-lg">
+            <AlertCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+            <p className="text-xs text-muted-foreground">
+              Верифіковані користувачі отримують значок довіри в профілі та мають перевагу при виборі виконавців.
+            </p>
+          </div>
         </CardContent>
       </Card>
 
