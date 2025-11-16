@@ -1,73 +1,91 @@
-# Welcome to your Lovable project
+# Next.js FSD App
 
-## Project info
+Проєкт побудований на базі **Next.js 15** з **App Router** та **Feature-Sliced Design (FSD)** архітектури.
 
-**URL**: https://lovable.dev/projects/a7094d46-6794-4af6-ba90-dd269662ddc9
+## Технологічний стек
 
-## How can I edit this code?
+- **Next.js 15** - React фреймворк з App Router
+- **TypeScript** - типізація
+- **React 19** - UI бібліотека
+- **React Query** - кешування та управління серверним станом
+- **Zod** - валідація даних
+- **React Context** - state management
+- **Lingui** - інтернаціоналізація (i18n)
+- **React Hook Form** - робота з формами
+- **Tailwind CSS** - utility-first CSS фреймворк
+- **Sonner** - нотифікації
+- **Framer Motion** - анімації
+- **Axios** - HTTP клієнт
 
-There are several ways of editing your application.
+## Структура проєкту (Feature-Sliced Design)
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/a7094d46-6794-4af6-ba90-dd269662ddc9) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+src/
+├── app/              # Ініціалізація, конфігурація, провайдери
+│   ├── providers/    # React Context, React Query, Lingui
+│   ├── router/       # Константи маршрутів
+│   └── styles/       # Глобальні стилі
+├── pages/            # Сторінки (Next.js App Router pages)
+├── widgets/          # Складні композитні компоненти
+├── features/         # Бізнес-функціональність
+├── entities/         # Бізнес-сутності з API
+└── shared/           # Переіспользувані компоненти, утиліти
+    ├── api/          # Axios instance, mock API
+    ├── ui/           # UI компоненти (shadcn)
+    └── lib/          # Утиліти
 ```
 
-**Edit a file directly in GitHub**
+## Встановлення
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm install
+```
 
-**Use GitHub Codespaces**
+## Запуск
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+# Development сервер
+npm run dev
 
-## What technologies are used for this project?
+# Production build
+npm run build
 
-This project is built with:
+# Запуск production build
+npm start
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+# Лінтер
+npm run lint
+```
 
-## How can I deploy this project?
+## Path Aliases
 
-Simply open [Lovable](https://lovable.dev/projects/a7094d46-6794-4af6-ba90-dd269662ddc9) and click on Share -> Publish.
+Проєкт використовує path aliases для зручності імпортів:
 
-## Can I connect a custom domain to my Lovable project?
+- `@app/*` → `src/app/*`
+- `@pages/*` → `src/pages/*`
+- `@widgets/*` → `src/widgets/*`
+- `@features/*` → `src/features/*`
+- `@entities/*` → `src/entities/*`
+- `@shared/*` → `src/shared/*`
+- `@/*` → `src/*`
 
-Yes, you can!
+## Mock API
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Проєкт використовує mock API для розробки. Mock дані знаходяться в `src/shared/api/mock/` та `src/entities/*/api/mock/`.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+В production замініть mock реалізацію на реальні API запити в сервісах entities.
+
+## Правила залежностей (Import Rules)
+
+Імпорти можуть йти тільки "вниз" по шарах:
+
+- `app` → може імпортувати з усіх шарів
+- `pages` → може імпортувати з `widgets`, `features`, `entities`, `shared`
+- `widgets` → може імпортувати з `features`, `entities`, `shared`
+- `features` → може імпортувати з `entities`, `shared`
+- `entities` → може імпортувати з `shared`
+- `shared` → не може імпортувати з інших шарів
+
+## Додаткова інформація
+
+Детальний опис архітектури дивіться в `docs/ARCHITECTURE.md`.

@@ -1,0 +1,20 @@
+export const routes = {
+  HOME: "/",
+  BROWSE: "/browse",
+  CREATE: "/create",
+  HOW_IT_WORKS: "/how-it-works",
+  REQUEST: "/request",
+  PROPOSAL: "/proposal",
+  LOGIN: "/login",
+  REGISTER: "/register",
+  PROFILE: "/profile",
+  PRICING: "/pricing",
+  ABOUT: "/about",
+  CONTACT: "/contact",
+  SUPPORT: "/support",
+  TERMS: "/terms",
+  PRIVACY: "/privacy",
+  BLOG: "/blog",
+  ADMIN: "/admin",
+} as const;
+
