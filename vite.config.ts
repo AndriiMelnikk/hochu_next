@@ -13,6 +13,13 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@app": path.resolve(__dirname, "./src/app"),
+      "@shared": path.resolve(__dirname, "./src/shared"),
+      "@pages": path.resolve(__dirname, "./src/pages"),
+      "@widgets": path.resolve(__dirname, "./src/widgets"),
+      "@features": path.resolve(__dirname, "./src/features"),
+      "@entities": path.resolve(__dirname, "./src/entities"),
+      "@locales": path.resolve(__dirname, "./src/locales"),
     },
   },
 }));

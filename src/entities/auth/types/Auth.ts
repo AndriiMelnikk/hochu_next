@@ -1,0 +1,19 @@
+import { IUser } from "@entities/user";
+
+export interface ILoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface IRegisterRequest {
+  email: string;
+  password: string;
+  name: string;
+}
+
+export interface IAuthResponse {
+  access_token: string;
+  refresh_token: string;
+  user: IUser;
+}
+
