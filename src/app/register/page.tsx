@@ -78,7 +78,7 @@ export default function RegisterPage() {
                 />
                 {errors.password && <p className="text-sm text-red-500">{errors.password.message as string}</p>}
               </div>
-              <Button type="submit" className="w-full bg-gradient-primary">
+              <Button type="submit" variant="gradient" className="w-full">
                 Зареєструватися
               </Button>
             </form>

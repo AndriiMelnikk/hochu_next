@@ -6,6 +6,7 @@ import { Button } from "@shared/ui/button";
 import { Input } from "@shared/ui/input";
 import { Badge } from "@shared/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@shared/ui/select";
+import { CategoryFilterButton } from "@/features/requests";
 import { Search, MapPin, DollarSign, Clock, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -63,7 +64,7 @@ export default function BrowsePage() {
           {/* Search and Filters */}
           <div className="bg-card rounded-2xl shadow-md p-6 mb-8 border border-border">
             {/* Search Bar */}
-            <div className="mb-4">
+            <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4" >
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
                 <Input 
@@ -73,32 +74,8 @@ export default function BrowsePage() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-            </div>
 
-            {/* Category Tags */}
-            <div className="mb-4">
-              <p className="text-sm font-medium mb-2">Категорії:</p>
-              <div className="relative">
-                <div className="overflow-x-auto pb-2 scrollbar-thin">
-                  <div className="flex gap-2 min-w-min">
-                    {REQUEST_CATEGORIES.map((category) => (
-                      <Button
-                        key={category}
-                        variant={selectedCategories.includes(category) || (category === "Всі категорії" && selectedCategories.length === 0) ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => toggleCategory(category)}
-                        className="rounded-full whitespace-nowrap flex-shrink-0"
-                      >
-                        {category}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Filters Row */}
-            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
               <Select value={budgetRange} onValueChange={setBudgetRange}>
                 <SelectTrigger className="w-full sm:w-[200px]">
                   <DollarSign className="h-4 w-4 mr-2" />
@@ -144,6 +121,27 @@ export default function BrowsePage() {
                 </Button>
               )}
             </div>
+            </div>
+
+            {/* Category Tags */}
+            <div className="mb-4">
+              <p className="text-sm font-medium mb-2">Категорії:</p>
+              <div className="relative">
+                <div className="overflow-x-auto pb-2 scrollbar-thin">
+                  <div className="flex gap-2 min-w-min">
+                    {REQUEST_CATEGORIES.map((category) => (
+                      <CategoryFilterButton
+                        key={category}
+                        category={category}
+                        isSelected={selectedCategories.includes(category) || (category === "Всі категорії" && selectedCategories.length === 0)}
+                        onClick={() => toggleCategory(category)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
 
             {/* Active Filters */}
             {selectedCategories.length > 0 && (

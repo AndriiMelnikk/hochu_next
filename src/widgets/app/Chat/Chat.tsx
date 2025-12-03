@@ -246,7 +246,7 @@ const Chat = () => {
                 onChange={(e) => setMessageText(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
               />
-              <Button onClick={handleSendMessage} className="bg-gradient-primary">
+              <Button onClick={handleSendMessage} variant="gradient">
                 <Send className="h-4 w-4" />
               </Button>
             </div>

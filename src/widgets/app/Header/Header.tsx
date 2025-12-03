@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@shared/ui/button";
+import { RegisterButton } from "@/features/auth";
 import Link from "next/link";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
@@ -43,11 +44,7 @@ const Header = () => {
                 Увійти
               </Button>
             </Link>
-            <Link href={routes.REGISTER}>
-              <Button size="sm" className="bg-gradient-primary">
-                Реєстрація
-              </Button>
-            </Link>
+            <RegisterButton />
           </div>
 
           {/* Mobile menu button */}
@@ -103,11 +100,7 @@ const Header = () => {
                   Увійти
                 </Button>
               </Link>
-              <Link href={routes.REGISTER} onClick={() => setIsOpen(false)}>
-                <Button size="sm" className="bg-gradient-primary w-full">
-                  Реєстрація
-                </Button>
-              </Link>
+              <RegisterButton size="sm" fullWidth onClick={() => setIsOpen(false)} />
             </div>
           </div>
         )}

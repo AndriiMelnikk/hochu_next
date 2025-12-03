@@ -152,7 +152,8 @@ export default function CreateRequestPage() {
                 <Button 
                   type="submit" 
                   size="lg" 
-                  className="flex-1 bg-gradient-primary text-lg shadow-glow"
+                  variant="gradient"
+                  className="flex-1 text-lg shadow-glow"
                 >
                   Опублікувати запит
                 </Button>

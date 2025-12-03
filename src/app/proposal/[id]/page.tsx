@@ -394,7 +394,8 @@ export default function ProposalDetailPage() {
                 {/* Action Buttons */}
                 <div className="space-y-3">
                   <Button 
-                    className="w-full bg-gradient-primary shadow-glow"
+                    variant="gradient"
+                    className="w-full shadow-glow"
                     size="lg"
                   >
                     <CheckCircle className="mr-2 h-5 w-5" />

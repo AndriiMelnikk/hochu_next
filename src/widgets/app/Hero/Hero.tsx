@@ -1,8 +1,10 @@
 "use client";
 
 import { Button } from "@shared/ui/button";
+import { HeroBadge } from "@shared/ui/hero-badge";
+import { CreateRequestButton } from "@/features/requests";
 import Link from "next/link";
-import { ArrowRight, Search, MessageSquare, CheckCircle } from "lucide-react";
+import { Search, MessageSquare, CheckCircle } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -16,10 +18,9 @@ const Hero = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Ліва частина */}
             <div className="text-center lg:text-left">
-              <div className="inline-flex items-center px-4 py-2 rounded-full border-2 border-primary/20 bg-primary/5 text-sm font-medium mb-6">
-                <span className="mr-2">🎯</span>
+              <HeroBadge icon="🎯" className="mb-6">
                 Реверсна платформа торгівлі
-              </div>
+              </HeroBadge>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 Не шукай —{" "}
@@ -33,13 +34,8 @@ const Hero = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8 shadow-red" asChild>
-                  <Link href="/create">
-                    Створити запит
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 border-2" asChild>
+                <CreateRequestButton />
+                <Button size="xl" variant="outline" className="border-2" asChild>
                   <Link href="/browse">
                     Переглянути запити
                   </Link>

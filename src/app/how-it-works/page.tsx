@@ -4,6 +4,8 @@ import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
 import HowItWorksWidget from "@/widgets/app/HowItWorks";
 import { Button } from "@shared/ui/button";
+import { HeroBadge } from "@shared/ui/hero-badge";
+import { CreateRequestButton } from "@/features/requests";
 import Link from "next/link";
 import { routes } from "@/app/router/routes";
 import { UserCircle, Store, CheckCircle2 } from "lucide-react";
@@ -16,10 +18,9 @@ export default function HowItWorksPage() {
         {/* Hero Section */}
         <div className="container mx-auto px-4 relative z-10 mb-16">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center px-4 py-2 rounded-full border-2 border-primary/20 bg-primary/5 text-sm font-medium mb-6">
-              <span className="mr-2">📖</span>
+            <HeroBadge icon="📖" className="mb-6">
               Інструкція користувача
-            </div>
+            </HeroBadge>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Як працює <span className="text-primary">Hochu</span>?
             </h1>
@@ -76,9 +77,7 @@ export default function HowItWorksPage() {
                   </div>
                 </div>
 
-                <Button className="w-full bg-primary hover:bg-primary/90" size="lg" asChild>
-                  <Link href={routes.CREATE}>Створити запит</Link>
-                </Button>
+                <CreateRequestButton className="w-full" />
               </div>
 
               {/* For Sellers */}
@@ -140,10 +139,8 @@ export default function HowItWorksPage() {
                 Приєднуйтесь до тисяч користувачів, які вже знайшли те, що їм потрібно
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="secondary" className="text-lg px-8" asChild>
-                  <Link href={routes.CREATE}>Створити запит</Link>
-                </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 bg-white/10 hover:bg-white/20 border-2 border-white text-white hover:text-white" asChild>
+                <CreateRequestButton />
+                <Button size="xl" variant="outline" className="bg-white/10 hover:bg-white/20 border-2 border-white text-white hover:text-white" asChild>
                   <Link href={routes.BROWSE}>Стати продавцем</Link>
                 </Button>
               </div>

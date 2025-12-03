@@ -292,7 +292,7 @@ export default function RequestDetailPage() {
                         <Button
                           onClick={handleReportSubmit}
                           disabled={!reportReason}
-                          className="bg-gradient-primary"
+                          variant="gradient"
                         >
                           Надіслати скаргу
                         </Button>
@@ -583,7 +583,7 @@ export default function RequestDetailPage() {
                               type="submit"
                               size="sm"
                               disabled={!discussionText.trim()}
-                              className="bg-gradient-primary"
+                              variant="gradient"
                             >
                               <Send className="h-4 w-4 mr-2" />
                               Надіслати
@@ -718,7 +718,7 @@ export default function RequestDetailPage() {
                     </div>
 
                     {/* Submit Button */}
-                    <Button type="submit" size="lg" className="w-full bg-gradient-primary text-lg shadow-glow">
+                    <Button type="submit" size="lg" variant="gradient" className="w-full text-lg shadow-glow">
                       <Send className="mr-2 h-5 w-5" />
                       Надіслати пропозицію
                     </Button>
