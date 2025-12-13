@@ -11,10 +11,21 @@ import Chat from "@/widgets/app/Chat";
 import Reviews from "@/widgets/app/Reviews";
 import GamifiedAvatar from "@/widgets/app/GamifiedAvatar";
 import GamificationProgress from "@/widgets/app/GamificationProgress";
-import { User, Settings, MessageSquare, TrendingUp, Star, Trophy } from "lucide-react";
+import { User, Settings, MessageSquare, TrendingUp, Star, Trophy, Lock } from "lucide-react";
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("overview");
+
+  // Список заблокованих вкладок
+  const lockedTabs = ["gamification", "analytics", "reviews", "messages"];
+
+  const handleTabChange = (value: string) => {
+    // Блокуємо перемикання на заблоковані вкладки
+    if (lockedTabs.includes(value)) {
+      return;
+    }
+    setActiveTab(value);
+  };
 
   // Макетні дані користувача
   const user: {
@@ -40,7 +51,7 @@ export default function ProfilePage() {
     rating: 4.8,
     xp: 1250,
     unlockedAchievements: ["first_sale", "fast_responder", "perfect_rating", "price_master"],
-    topAchievements: ["⚡", "🌟", "💰"],
+    topAchievements: [],
   };
 
   return (
@@ -82,26 +93,42 @@ export default function ProfilePage() {
         </Card>
 
         {/* Вкладки */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <Tabs value={activeTab} onValueChange={handleTabChange}>
           <TabsList className="grid w-full grid-cols-6 mb-6">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">Огляд</span>
             </TabsTrigger>
-            <TabsTrigger value="gamification" className="flex items-center gap-2">
-              <Trophy className="h-4 w-4" />
+            <TabsTrigger 
+              value="gamification" 
+              className="flex items-center gap-2 cursor-not-allowed opacity-60"
+              disabled
+            >
+              <Lock className="h-4 w-4" />
               <span className="hidden sm:inline">Досягнення</span>
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
+            <TabsTrigger 
+              value="analytics" 
+              className="flex items-center gap-2 cursor-not-allowed opacity-60"
+              disabled
+            >
+              <Lock className="h-4 w-4" />
               <span className="hidden sm:inline">Аналітика</span>
             </TabsTrigger>
-            <TabsTrigger value="reviews" className="flex items-center gap-2">
-              <Star className="h-4 w-4" />
+            <TabsTrigger 
+              value="reviews" 
+              className="flex items-center gap-2 cursor-not-allowed opacity-60"
+              disabled
+            >
+              <Lock className="h-4 w-4" />
               <span className="hidden sm:inline">Відгуки</span>
             </TabsTrigger>
-            <TabsTrigger value="messages" className="flex items-center gap-2">
-              <MessageSquare className="h-4 w-4" />
+            <TabsTrigger 
+              value="messages" 
+              className="flex items-center gap-2 cursor-not-allowed opacity-60"
+              disabled
+            >
+              <Lock className="h-4 w-4" />
               <span className="hidden sm:inline">Повідомлення</span>
             </TabsTrigger>
             <TabsTrigger value="settings" className="flex items-center gap-2">
