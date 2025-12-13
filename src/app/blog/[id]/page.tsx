@@ -7,58 +7,178 @@ import Footer from "@/widgets/app/Footer";
 import { Card, CardContent } from "@shared/ui/card";
 import { Badge } from "@shared/ui/badge";
 import { Button } from "@shared/ui/button";
-import { Calendar, User, Clock, ArrowLeft, Share2 } from "lucide-react";
+import { Alert, AlertTitle, AlertDescription } from "@shared/ui/alert";
+import { Separator } from "@shared/ui/separator";
+import { Loading } from "@shared/ui/loading";
+import { Error } from "@shared/ui/error";
+import { useBlogPost } from "@/entities/blog/hooks/useBlogPosts";
+import { 
+  parseContentToSections, 
+  getIconComponent,
+  type ArticleSectionData 
+} from "@/entities/blog/utils/contentParser";
+import { 
+  Calendar, 
+  User, 
+  Clock, 
+  ArrowLeft, 
+  Share2, 
+  Lightbulb, 
+  Info, 
+  CheckCircle, 
+  Target,
+  DollarSign,
+  Image as ImageIcon,
+  FileText,
+  Star
+} from "lucide-react";
+
+// Компонент для секції з порадою
+function TipSection({ title, content, items, iconName }: { title: string; content: string; items?: string[]; iconName?: string }) {
+  const IconComponent = iconName ? getIconComponent(iconName) : Lightbulb;
+  const Icon = IconComponent || Lightbulb;
+  
+  return (
+    <Alert className="border-primary/50 bg-primary/5 shadow-sm">
+      <Icon className="h-5 w-5 text-primary" />
+      <AlertTitle className="text-xl font-bold mb-3 text-foreground">{title}</AlertTitle>
+      <AlertDescription className="text-base">
+        <p className="mb-4 leading-7">{content}</p>
+        {items && items.length > 0 && (
+          <ul className="list-disc list-inside space-y-2.5 mt-4 ml-2">
+            {items.map((item, idx) => (
+              <li key={idx} className="text-sm leading-6 text-muted-foreground">{item}</li>
+            ))}
+          </ul>
+        )}
+      </AlertDescription>
+    </Alert>
+  );
+}
+
+// Компонент для інформаційної секції
+function InfoSection({ title, content, iconName }: { title: string; content: string; iconName?: string }) {
+  const IconComponent = iconName ? getIconComponent(iconName) : undefined;
+  
+  return (
+    <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+      <CardContent className="p-6">
+        <div className="flex items-start gap-4">
+          {IconComponent && (
+            <div className="mt-1 text-primary flex-shrink-0">
+              <IconComponent className="h-5 w-5" />
+            </div>
+          )}
+          <div className="flex-1">
+            <h3 className="text-xl font-bold mb-3 text-foreground">{title}</h3>
+            <p className="text-muted-foreground leading-7 text-base">{content}</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Компонент для вступу
+function IntroSection({ content }: { content: string }) {
+  return (
+    <div className="prose prose-lg dark:prose-invert max-w-none">
+      <p className="text-xl leading-8 text-muted-foreground font-light">{content}</p>
+    </div>
+  );
+}
+
+// Компонент для висновку
+function ConclusionSection({ content }: { content: string }) {
+  return (
+    <Card className="bg-muted/50 border-primary/20 shadow-sm">
+      <CardContent className="p-6">
+        <div className="flex items-start gap-4">
+          <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+          <p className="text-base leading-7 font-medium text-foreground">{content}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Компонент для списку порад
+function TipsListSection({ title, items }: { title: string; items: string[] }) {
+  return (
+    <Card className="shadow-sm">
+      <CardContent className="p-6">
+        <h3 className="text-xl font-bold mb-5 flex items-center gap-2 text-foreground">
+          <Star className="h-5 w-5 text-primary" />
+          {title}
+        </h3>
+        <div className="grid gap-4">
+          {items.map((item, idx) => (
+            <div key={idx} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+              <Badge variant="outline" className="mt-0.5 flex-shrink-0 font-semibold">
+                {idx + 1}
+              </Badge>
+              <p className="text-sm text-muted-foreground flex-1 leading-6">{item}</p>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Компонент для рендерингу секції
+function ArticleSection({ section }: { section: ArticleSectionData }) {
+  switch (section.type) {
+    case 'intro':
+      return <IntroSection content={section.content} />;
+    case 'tip':
+      return <TipSection title={section.title} content={section.content} items={section.items} iconName={section.icon} />;
+    case 'info':
+      return <InfoSection title={section.title} content={section.content} iconName={section.icon} />;
+    case 'conclusion':
+      return <ConclusionSection content={section.content} />;
+    case 'tips-list':
+      return <TipsListSection title={section.title} items={section.items} />;
+    default:
+      return null;
+  }
+}
 
 export default function BlogArticlePage() {
   const params = useParams();
   const id = params?.id as string;
 
-  // Макетні дані статті
-  const article = {
-    id,
-    title: "Як створити ідеальний запит на послугу",
-    category: "Поради покупцям",
-    author: "Команда Hochu",
-    date: "2024-03-15",
-    readTime: "5 хв",
-    image: "/placeholder.svg",
-    content: `
-      <h2>Вступ</h2>
-      <p>Створення якісного запиту на послугу — це перший крок до успішного співробітництва з виконавцями. У цій статті ми розповімо, як правильно сформулювати ваші потреби, щоб отримати найкращі пропозиції.</p>
+  // Завантаження даних з API
+  const { data: article, isLoading, isError, error } = useBlogPost(id);
 
-      <h2>1. Будьте конкретними</h2>
-      <p>Чим детальніше ви опишете свої вимоги, тим точніші пропозиції отримаєте. Вкажіть:</p>
-      <ul>
-        <li>Точний обсяг робіт</li>
-        <li>Бажані терміни виконання</li>
-        <li>Технічні вимоги та специфікації</li>
-        <li>Формат результату</li>
-      </ul>
+  // Парсинг контенту в секції
+  const sections = article?.content 
+    ? parseContentToSections(article.content)
+    : [];
 
-      <h2>2. Вкажіть бюджет</h2>
-      <p>Прозоре зазначення бюджету допомагає виконавцям оцінити реалістичність проєкту та запропонувати адекватні умови. Не бійтеся вказувати діапазон, якщо точна сума ще не визначена.</p>
+  // Обробка стану завантаження
+  if (isLoading) {
+    return (
+      <Loading 
+        variant="full-page" 
+        message="Завантаження статті..."
+        HeaderComponent={Header}
+        FooterComponent={Footer}
+      />
+    );
+  }
 
-      <h2>3. Додайте візуальні матеріали</h2>
-      <p>Фотографії, ескізи, приклади робіт — все це значно покращує розуміння вашого запиту. Зображення допомагають уникнути непорозумінь та забезпечують кращу комунікацію.</p>
-
-      <h2>4. Опишіть контекст</h2>
-      <p>Поясніть, для чого потрібна ця послуга, які цілі ви переслідуєте. Це допоможе виконавцям краще зрозуміти ваші потреби та запропонувати оптимальні рішення.</p>
-
-      <h2>5. Вкажіть критерії оцінки</h2>
-      <p>Що для вас найважливіше: швидкість, якість, ціна чи щось інше? Визначте пріоритети, щоб виконавці могли підготувати пропозиції, що відповідають вашим очікуванням.</p>
-
-      <h2>Висновок</h2>
-      <p>Якісний запит — це запорука успішного співробітництва. Витративши трохи часу на детальний опис ваших потреб, ви заощадите набагато більше часу на пошуки підходящого виконавця та уточнення деталей.</p>
-
-      <h2>Корисні поради</h2>
-      <ul>
-        <li>Перевіряйте запит перед публікацією на наявність помилок</li>
-        <li>Будьте відкриті до питань та уточнень</li>
-        <li>Оперативно відповідайте на запитання виконавців</li>
-        <li>Використовуйте систему рейтингів для вибору надійних виконавців</li>
-      </ul>
-    `,
-  };
+  // Обробка помилок
+  if (isError || !article) {
+    return (
+      <Error 
+        variant="full-page" 
+        message={error?.message || "Не вдалося завантажити статтю"}
+        HeaderComponent={Header}
+        FooterComponent={Footer}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -114,11 +234,16 @@ export default function BlogArticlePage() {
         </Card>
 
         {/* Article Content */}
-        <Card>
-          <CardContent className="p-8 prose prose-lg max-w-none dark:prose-invert">
-            <div dangerouslySetInnerHTML={{ __html: article.content }} />
-          </CardContent>
-        </Card>
+        <div className="space-y-8">
+          {sections.map((section, index) => (
+            <div key={index} className="scroll-mt-24">
+              <ArticleSection section={section} />
+              {index < sections.length - 1 && section.type !== 'intro' && (
+                <Separator className="my-8" />
+              )}
+            </div>
+          ))}
+        </div>
 
         {/* Related Articles */}
         <div className="mt-12">

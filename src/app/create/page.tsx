@@ -1,14 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
 import { Button } from "@shared/ui/button";
 import { Input } from "@shared/ui/input";
 import { Textarea } from "@shared/ui/textarea";
 import { Label } from "@shared/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@shared/ui/select";
 import { FileText, DollarSign, MapPin, Clock, Upload } from "lucide-react";
 
 export default function CreateRequestPage() {
+  const [category, setCategory] = useState("");
+  const [urgency, setUrgency] = useState("");
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -49,19 +60,20 @@ export default function CreateRequestPage() {
                 <Label htmlFor="category" className="text-base font-semibold">
                   Категорія
                 </Label>
-                <select 
-                  id="category"
-                  className="w-full px-3 py-2 bg-background border border-input rounded-md text-base focus:outline-none focus:ring-2 focus:ring-ring"
-                >
-                  <option value="">Оберіть категорію</option>
-                  <option value="electronics">Електроніка</option>
-                  <option value="design">Дизайн</option>
-                  <option value="development">Розробка</option>
-                  <option value="education">Освіта</option>
-                  <option value="construction">Будівництво</option>
-                  <option value="services">Послуги</option>
-                  <option value="other">Інше</option>
-                </select>
+                <Select value={category} onValueChange={setCategory}>
+                  <SelectTrigger id="category" className="text-base">
+                    <SelectValue placeholder="Оберіть категорію" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="electronics">Електроніка</SelectItem>
+                    <SelectItem value="design">Дизайн</SelectItem>
+                    <SelectItem value="development">Розробка</SelectItem>
+                    <SelectItem value="education">Освіта</SelectItem>
+                    <SelectItem value="construction">Будівництво</SelectItem>
+                    <SelectItem value="services">Послуги</SelectItem>
+                    <SelectItem value="other">Інше</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Description */}
@@ -123,15 +135,17 @@ export default function CreateRequestPage() {
                   <Clock className="h-5 w-5 mr-2 text-primary" />
                   Терміновість
                 </Label>
-                <select 
-                  id="urgency"
-                  className="w-full px-3 py-2 bg-background border border-input rounded-md text-base focus:outline-none focus:ring-2 focus:ring-ring"
-                >
-                  <option value="flexible">Гнучко (не терміново)</option>
-                  <option value="week">Протягом тижня</option>
-                  <option value="days">2-3 дні</option>
-                  <option value="urgent">Терміново (сьогодні-завтра)</option>
-                </select>
+                <Select value={urgency} onValueChange={setUrgency}>
+                  <SelectTrigger id="urgency" className="text-base">
+                    <SelectValue placeholder="Оберіть терміновість" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="flexible">Гнучко (не терміново)</SelectItem>
+                    <SelectItem value="week">Протягом тижня</SelectItem>
+                    <SelectItem value="days">2-3 дні</SelectItem>
+                    <SelectItem value="urgent">Терміново (сьогодні-завтра)</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* File Upload */}
