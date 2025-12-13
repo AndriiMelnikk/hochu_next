@@ -18,6 +18,7 @@ import { Label } from "@shared/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@shared/ui/avatar";
 import { Separator } from "@shared/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@shared/ui/tabs";
+import { Breadcrumbs } from "@shared/ui/breadcrumbs";
 import {
   Dialog,
   DialogContent,
@@ -171,18 +172,11 @@ export default function RequestDetailPage() {
 
       <main className="flex-1 pt-24 pb-12">
         <div className="container mx-auto px-4 max-w-7xl">
-          {/* Breadcrumb */}
-          <div className="mb-6 text-sm text-muted-foreground">
-            <Link href={routes.HOME} className="hover:text-primary">
-              Головна
-            </Link>
-            {" / "}
-            <Link href={routes.BROWSE} className="hover:text-primary">
-              Запити
-            </Link>
-            {" / "}
-            <span className="text-foreground">Запит #{request.id}</span>
-          </div>
+          <Breadcrumbs
+            dynamicLabels={{
+              [`/request/${request.id}`]: `Запит #${request.id}`,
+            }}
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Content */}

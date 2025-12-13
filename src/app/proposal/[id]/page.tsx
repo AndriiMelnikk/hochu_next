@@ -1,7 +1,6 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Link from "next/link";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
 import { Button } from "@shared/ui/button";
@@ -11,6 +10,7 @@ import { Separator } from "@shared/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@shared/ui/card";
 import Reviews from "@/widgets/app/Reviews";
 import { routes } from "@/app/router/routes";
+import { Breadcrumbs } from "@shared/ui/breadcrumbs";
 import { 
   Star, 
   MapPin, 
@@ -118,14 +118,11 @@ export default function ProposalDetailPage() {
       
       <main className="flex-1 pt-24 pb-12">
         <div className="container mx-auto px-4 max-w-7xl">
-          {/* Breadcrumb */}
-          <div className="mb-6 text-sm text-muted-foreground">
-            <Link href={routes.HOME} className="hover:text-primary">Головна</Link>
-            {" / "}
-            <Link href={routes.BROWSE} className="hover:text-primary">Запити</Link>
-            {" / "}
-            <span className="text-foreground">Пропозиція #{id || proposalData.id}</span>
-          </div>
+          <Breadcrumbs
+            dynamicLabels={{
+              [`/proposal/${id || proposalData.id}`]: `Пропозиція #${id || proposalData.id}`,
+            }}
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Content */}
