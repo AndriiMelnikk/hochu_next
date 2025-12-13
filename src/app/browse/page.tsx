@@ -6,6 +6,8 @@ import { Button } from "@shared/ui/button";
 import { Input } from "@shared/ui/input";
 import { Badge } from "@shared/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@shared/ui/select";
+import { Loading } from "@shared/ui/loading";
+import { Error } from "@shared/ui/error";
 import { CategoryFilterButton } from "@/features/requests";
 import { Search, MapPin, DollarSign, Clock, X } from "lucide-react";
 import Link from "next/link";
@@ -163,9 +165,9 @@ export default function BrowsePage() {
           <div className="mb-6 flex items-center justify-between">
             <p className="text-muted-foreground">
               {isLoading ? (
-                "Завантаження..."
+                <Loading variant="inline" />
               ) : error ? (
-                "Помилка завантаження"
+                <Error variant="inline" message="Помилка завантаження" />
               ) : (
                 <>
                   Знайдено <span className="font-semibold text-foreground">{data?.count || 0}</span> активних запитів
@@ -176,13 +178,9 @@ export default function BrowsePage() {
 
           {/* Requests Grid */}
           {isLoading ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">Завантаження...</p>
-            </div>
+            <Loading variant="block" />
           ) : error ? (
-            <div className="text-center py-12">
-              <p className="text-destructive">Помилка завантаження запитів</p>
-            </div>
+            <Error variant="block" message="Помилка завантаження запитів" />
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
               {requests.map((request) => (

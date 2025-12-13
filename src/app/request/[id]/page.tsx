@@ -7,6 +7,8 @@ import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
 import ImageLightbox from "@/widgets/app/ImageLightbox";
 import { useRequest } from "@/entities/request";
+import { Loading } from "@shared/ui/loading";
+import { Error } from "@shared/ui/error";
 import { Button } from "@shared/ui/button";
 import { Badge } from "@shared/ui/badge";
 import { Card } from "@shared/ui/card";
@@ -151,31 +153,11 @@ export default function RequestDetailPage() {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen">
-        <Header />
-        <main className="pt-24 pb-12">
-          <div className="container mx-auto px-4">
-            <p>Завантаження...</p>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
+    return <Loading variant="full-page" HeaderComponent={Header} FooterComponent={Footer} />;
   }
 
   if (error || !request) {
-    return (
-      <div className="min-h-screen">
-        <Header />
-        <main className="pt-24 pb-12">
-          <div className="container mx-auto px-4">
-            <p>Помилка завантаження запиту</p>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
+    return <Error variant="full-page" message="Помилка завантаження запиту" HeaderComponent={Header} FooterComponent={Footer} />;
   }
 
   const budget = request.budgetMin && request.budgetMax 
