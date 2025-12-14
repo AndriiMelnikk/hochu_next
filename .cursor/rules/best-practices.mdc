@@ -52,10 +52,9 @@ alwaysApply: true
 - Make functions pure when possible
 
 ## Git & Version Control
-- Write clear, descriptive commit messages
-- Keep commits focused and atomic
-- Use meaningful branch names
-- Review code before committing
+- See detailed Git rules in `git.mdc`
+- Always follow Conventional Commits format
+- Run tests and linter before committing
 
 ## Accessibility
 - Use semantic HTML elements
