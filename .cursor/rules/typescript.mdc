@@ -1,0 +1,50 @@
+---
+alwaysApply: true
+---
+
+# TypeScript Rules
+
+## Type Safety
+- Always use TypeScript types, avoid `any` unless absolutely necessary
+- Use `unknown` instead of `any` when type is truly unknown
+- Define explicit types for function parameters and return values
+- Use type inference only when types are obvious from context
+
+## Type Definitions
+- Define types in `types/` directory within each entity/feature
+- Use PascalCase for type names (`Request`, `User`, `Proposal`)
+- Use `interface` for object shapes that might be extended
+- Use `type` for unions, intersections, and computed types
+- Export types from `index.ts` for public API
+
+## Zod Schemas
+- Always define Zod schemas for data validation
+- Place schemas in `schemas/` directory
+- Use schemas for:
+  - API request/response validation
+  - Form validation with React Hook Form
+  - Runtime type checking
+- Infer TypeScript types from Zod schemas using `z.infer<typeof schema>`
+
+## Type Organization
+- Group related types in the same file
+- Use separate files for complex types (e.g., `types/requests/`, `types/responses/`)
+- Re-export types through `index.ts` for clean imports
+
+## Generic Types
+- Use generics for reusable components and utilities
+- Provide meaningful generic parameter names (e.g., `TData`, `TError`)
+- Constrain generics when appropriate
+
+## Type Guards
+- Create type guard functions for runtime type checking
+- Use type guards with Zod schemas for validation
+
+## Import Types
+- Use `import type` for type-only imports to improve build performance
+- Example: `import type { Request } from '@entities/request'`
+
+## Strict Mode
+- The project uses relaxed TypeScript settings for flexibility
+- Still aim for type safety where possible
+- Document `any` usage with comments explaining why

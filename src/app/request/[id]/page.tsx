@@ -29,6 +29,13 @@ import {
   DialogTrigger,
 } from "@shared/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@shared/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@shared/ui/select";
 import { routes } from "@/app/router/routes";
 import {
   Star,
@@ -59,6 +66,8 @@ export default function RequestDetailPage() {
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
   const [discussionText, setDiscussionText] = useState("");
   const [replyTo, setReplyTo] = useState<number | null>(null);
+  const [deliveryTime, setDeliveryTime] = useState("");
+  const [warranty, setWarranty] = useState("");
 
   // Mock proposals data (should come from API)
   const mockProposals = [
@@ -389,12 +398,6 @@ export default function RequestDetailPage() {
 
                 {/* Received Proposals Tab */}
                 <TabsContent value="proposals" className="p-6 mt-0">
-                  <div className="flex items-center justify-between mb-6">
-                    <Badge variant="secondary" className="text-lg px-4 py-2">
-                      {request.proposalsCount} відгуків
-                    </Badge>
-                  </div>
-
                   <div className="space-y-4">
                     {mockProposals.map((proposal) => (
                       <div
@@ -475,12 +478,6 @@ export default function RequestDetailPage() {
 
                 {/* Public Discussion Tab */}
                 <TabsContent value="discussion" className="p-6 mt-0">
-                  <div className="flex items-center justify-between mb-6">
-                    <Badge variant="outline" className="text-base px-3 py-1">
-                      {discussions.length} повідомлень
-                    </Badge>
-                  </div>
-
                   <p className="text-sm text-muted-foreground mb-6">
                     Задавайте питання публічно. Автор запиту та інші виконавці можуть відповісти.
                   </p>
@@ -634,33 +631,35 @@ export default function RequestDetailPage() {
                         <Label htmlFor="delivery-time" className="text-base font-semibold">
                           Термін виконання
                         </Label>
-                        <select
-                          id="delivery-time"
-                          className="w-full px-3 py-2 bg-background border border-input rounded-md text-base focus:outline-none focus:ring-2 focus:ring-ring"
-                        >
-                          <option value="">Оберіть термін</option>
-                          <option value="1-2">1-2 дні</option>
-                          <option value="3-5">3-5 днів</option>
-                          <option value="week">Тиждень</option>
-                          <option value="2-weeks">2 тижні</option>
-                        </select>
+                        <Select value={deliveryTime} onValueChange={setDeliveryTime}>
+                          <SelectTrigger id="delivery-time" className="text-base">
+                            <SelectValue placeholder="Оберіть термін" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1-2">1-2 дні</SelectItem>
+                            <SelectItem value="3-5">3-5 днів</SelectItem>
+                            <SelectItem value="week">Тиждень</SelectItem>
+                            <SelectItem value="2-weeks">2 тижні</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="warranty" className="text-base font-semibold">
                           Гарантія
                         </Label>
-                        <select
-                          id="warranty"
-                          className="w-full px-3 py-2 bg-background border border-input rounded-md text-base focus:outline-none focus:ring-2 focus:ring-ring"
-                        >
-                          <option value="">Оберіть гарантію</option>
-                          <option value="none">Без гарантії</option>
-                          <option value="1m">1 місяць</option>
-                          <option value="3m">3 місяці</option>
-                          <option value="6m">6 місяців</option>
-                          <option value="1y">1 рік</option>
-                        </select>
+                        <Select value={warranty} onValueChange={setWarranty}>
+                          <SelectTrigger id="warranty" className="text-base">
+                            <SelectValue placeholder="Оберіть гарантію" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="none">Без гарантії</SelectItem>
+                            <SelectItem value="1m">1 місяць</SelectItem>
+                            <SelectItem value="3m">3 місяці</SelectItem>
+                            <SelectItem value="6m">6 місяців</SelectItem>
+                            <SelectItem value="1y">1 рік</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
                     </div>
 

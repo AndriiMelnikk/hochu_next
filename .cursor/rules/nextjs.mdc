@@ -1,0 +1,49 @@
+---
+alwaysApply: true
+---
+
+# Next.js 15 App Router Rules
+
+## General Rules
+- Always use Next.js 15 App Router conventions
+- Use Server Components by default, Client Components only when needed (interactivity, hooks, browser APIs)
+- Mark Client Components with `'use client'` directive at the top of the file
+- Use `async/await` for Server Components that fetch data
+- Prefer Server Components for better performance and SEO
+
+## File Structure
+- Pages must be in `app/` directory following App Router structure
+- Use `page.tsx` for route pages
+- Use `layout.tsx` for shared layouts
+- Use `loading.tsx` for loading states
+- Use `error.tsx` for error boundaries
+- Use `not-found.tsx` for 404 pages
+- Use `route.ts` for API routes (if needed)
+
+## Data Fetching
+- Use Server Components with `async/await` for initial data fetching
+- Use React Query (`@tanstack/react-query`) for client-side data fetching and caching
+- Never use `useEffect` for data fetching - use React Query hooks instead
+- Prefer Server Components for static data, React Query for dynamic/interactive data
+
+## Routing
+- Use `app/router/routes.ts` constants for route paths
+- Use Next.js `Link` component for navigation, not anchor tags
+- Use `useRouter` from `next/navigation` for programmatic navigation
+- Use dynamic routes with `[id]` or `[...slug]` syntax
+
+## Metadata
+- Export `metadata` object from page files for SEO
+- Use `generateMetadata` function for dynamic metadata
+- Include proper title, description, and Open Graph tags
+
+## Performance
+- Use `next/image` for images, never `<img>` tags
+- Use `next/font` for custom fonts
+- Implement proper loading states and error boundaries
+- Use Suspense boundaries for better loading UX
+
+## Providers
+- All providers must be in `app/providers/` directory
+- Wrap app in `app/providers/index.tsx` in root layout
+- Keep providers minimal and focused

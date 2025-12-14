@@ -1,0 +1,61 @@
+---
+alwaysApply: true
+---
+
+# API & Data Fetching Rules
+
+## API Client
+- Use Axios instance from `@shared/api/api.ts`
+- Never create new Axios instances, always use the shared one
+- Configure interceptors in the shared API instance
+- Handle errors consistently across the app
+
+## Services
+- Create service classes/functions in `entities/*/services/` or `entities/*/api/`
+- Services should contain API call logic only
+- One service per entity
+- Export services from entity `index.ts`
+
+## React Query
+- Use React Query (`@tanstack/react-query`) for all client-side data fetching
+- Create custom hooks in `entities/*/hooks/` directory
+- Use `useQuery` for GET requests
+- Use `useMutation` for POST, PUT, DELETE requests
+- Always provide query keys following the pattern: `['entity', 'action', ...params]`
+- Use `queryClient.invalidateQueries` after mutations
+
+## Data Validation
+- Always validate API responses with Zod schemas
+- Use `z.infer<typeof schema>` to infer TypeScript types from schemas
+- Validate data in React Query hooks using `schema.parse()` or `schema.safeParse()`
+- Handle validation errors gracefully
+
+## Mock Data
+- Place mock data in `@shared/api/mock/` directory
+- Use mock data for development and testing
+- Structure mock data to match real API responses
+- Use `delay.ts` utility to simulate network latency
+
+## Error Handling
+- Use React Query's built-in error handling
+- Provide user-friendly error messages
+- Handle network errors, validation errors, and API errors separately
+- Use `isAbortErr` utility to check for abort errors
+
+## Request/Response Types
+- Define request types in `types/requests/` directory
+- Define response types in `types/responses/` directory
+- Use Zod schemas to validate both requests and responses
+- Export types from entity `index.ts`
+
+## API Patterns
+- Use consistent naming: `getEntity`, `createEntity`, `updateEntity`, `deleteEntity`
+- Use RESTful conventions for endpoints
+- Handle pagination, filtering, and sorting consistently
+- Use proper HTTP methods (GET, POST, PUT, DELETE)
+
+## Caching
+- Configure appropriate cache times for queries
+- Use `staleTime` and `cacheTime` appropriately
+- Invalidate queries after mutations
+- Use optimistic updates when appropriate
