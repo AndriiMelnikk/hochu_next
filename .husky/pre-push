@@ -1,0 +1,3 @@
+# Ensure lint and build succeed
+npm run lint
+npm run build

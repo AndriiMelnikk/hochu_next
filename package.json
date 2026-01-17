@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "translations:extract": "lingui extract",
-    "translations:compile": "lingui compile"
+    "translations:compile": "lingui compile",
+    "prepare": "husky || true",
+    "commit": "git-cz",
+    "commit:retry": "git-cz --retry",
+    "test:staged": "npm run lint"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -77,5 +81,19 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
