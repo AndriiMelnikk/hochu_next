@@ -1,6 +1,3 @@
-"use client";
-
-import { useParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
@@ -8,12 +5,45 @@ import { Card, CardContent } from "@shared/ui/card";
 import { Badge } from "@shared/ui/badge";
 import { Button } from "@shared/ui/button";
 import { Calendar, User, Clock, ArrowLeft, Share2 } from "lucide-react";
+import { getLocaleFromHeaders } from "@/locales/locale";
+import { getMetadataForRoute } from "@/locales/route-metadata";
 
-export default function BlogArticlePage() {
-  const params = useParams();
-  const id = params?.id as string;
+import { blogService } from "@/entities/blog/services/blogService";
 
-  // Макетні дані статті
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export async function generateMetadata({ params }: Props) {
+  const { id } = await params;
+  const locale = await getLocaleFromHeaders();
+  const baseMetadata = getMetadataForRoute(locale, 'BLOG_ID');
+
+  try {
+    const post = await blogService.getOne(id);
+    if (post) {
+      return {
+        ...baseMetadata,
+        title: `${post.title} | Hochu Blog`,
+        description: post.content?.slice(0, 160).replace(/<[^>]*>/g, ""),
+        openGraph: {
+          title: post.title,
+          description: post.content?.slice(0, 160).replace(/<[^>]*>/g, ""),
+          images: post.image ? [post.image] : [],
+        },
+      };
+    }
+  } catch (error) {
+    console.error("Failed to fetch blog post for metadata:", error);
+  }
+
+  return baseMetadata;
+}
+
+export default async function BlogArticlePage({ params }: Props) {
+  const { id } = await params;
+
+  // Макетні дані статті (в реальному додатку тут буде fetch з сервера)
   const article = {
     id,
     title: "Як створити ідеальний запит на послугу",
@@ -146,4 +176,3 @@ export default function BlogArticlePage() {
     </div>
   );
 }
-

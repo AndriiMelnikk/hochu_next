@@ -1,6 +1,13 @@
 import { Shield, Lock, Eye, UserCheck, Database } from "lucide-react";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
+import { getLocaleFromHeaders } from "@/locales/locale";
+import { getMetadataForRoute } from "@/locales/route-metadata";
+
+export async function generateMetadata() {
+  const locale = await getLocaleFromHeaders();
+  return getMetadataForRoute(locale, 'PRIVACY');
+}
 
 export default function PrivacyPage() {
   const principles = [

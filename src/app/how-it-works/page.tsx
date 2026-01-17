@@ -1,5 +1,3 @@
-"use client";
-
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
 import HowItWorksWidget from "@/widgets/app/HowItWorks";
@@ -9,6 +7,13 @@ import { CreateRequestButton } from "@/features/requests";
 import Link from "next/link";
 import { routes } from "@/app/router/routes";
 import { UserCircle, Store, CheckCircle2 } from "lucide-react";
+import { getLocaleFromHeaders } from "@/locales/locale";
+import { getMetadataForRoute } from "@/locales/route-metadata";
+
+export async function generateMetadata() {
+  const locale = await getLocaleFromHeaders();
+  return getMetadataForRoute(locale, 'HOW_IT_WORKS');
+}
 
 export default function HowItWorksPage() {
   return (
