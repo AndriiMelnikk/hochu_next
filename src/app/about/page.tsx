@@ -125,7 +125,7 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold text-center mb-12">Наша історія</h2>
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Hochu був створений у 2024 році з метою вирішити просту проблему: 
+                Hochu був створений у 2026 році з метою вирішити просту проблему: 
                 як легко знайти надійного виконавця для повсякденних завдань?
               </p>
               <p>

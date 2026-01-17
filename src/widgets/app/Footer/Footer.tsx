@@ -26,7 +26,7 @@ const Footer = () => {
               <li><Link href={routes.BROWSE} className="hover:text-primary transition-colors">Переглянути запити</Link></li>
               <li><Link href={routes.CREATE} className="hover:text-primary transition-colors">Створити запит</Link></li>
               <li><Link href={routes.HOW_IT_WORKS} className="hover:text-primary transition-colors">Як це працює</Link></li>
-              <li><Link href={routes.PRICING} className="hover:text-primary transition-colors">Ціни</Link></li>
+              {/* <li><Link href={routes.PRICING} className="hover:text-primary transition-colors">Ціни</Link></li> */}
             </ul>
           </div>
 
@@ -35,7 +35,7 @@ const Footer = () => {
             <h4 className="font-semibold text-foreground mb-4">Компанія</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link href={routes.ABOUT} className="hover:text-primary transition-colors">Про нас</Link></li>
-              <li><Link href={routes.BLOG} className="hover:text-primary transition-colors">Блог</Link></li>
+              {/* <li><Link href={routes.BLOG} className="hover:text-primary transition-colors">Блог</Link></li> */}
               <li><Link href={routes.CONTACT} className="hover:text-primary transition-colors">Контакти</Link></li>
             </ul>
           </div>
@@ -54,10 +54,12 @@ const Footer = () => {
         {/* Social & Copyright */}
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-muted-foreground text-sm mb-4 md:mb-0">
-            © 2024 Hochu. Всі права захищені.
+            © 2026 Hochu. Всі права захищені.
           </p>
-          
-          <div className="flex space-x-4">
+
+          {/* TODO: add social media links */}
+
+          {/* <div className="flex space-x-4">
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
               <Facebook className="h-5 w-5" />
             </a>
@@ -70,7 +72,7 @@ const Footer = () => {
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
               <Linkedin className="h-5 w-5" />
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

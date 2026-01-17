@@ -1,8 +1,9 @@
 import { AxiosRequestConfig } from "axios";
 import { api } from "@shared/api/api";
-import type { IGetRequestsRequest, ICreateRequestRequest } from "../types/requests";
 import type { IGetRequestsResponse } from "../types/responses/GetRequests";
 import type { IRequestWithBuyer } from "../types/Request";
+import { IGetRequestsRequest } from "../types/requests/GetRequests";
+import { ICreateRequestRequest } from "../types/requests/CreateRequest";
 
 class RequestService {
   async get(

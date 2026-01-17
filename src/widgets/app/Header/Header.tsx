@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
 import { routes } from "@app/router/routes";
+import { HeroBadge } from "@/shared/ui/hero-badge";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,11 +15,16 @@ const Header = () => {
     <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
+          <div className="flex items-center space-x-2">
           <Link href={routes.HOME} className="flex items-center space-x-2">
             <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
               Hochu
             </div>
+         
           </Link>
+          <HeroBadge>Бета-версія</HeroBadge>
+          </div>
+          
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
@@ -30,9 +36,6 @@ const Header = () => {
             </Link>
             <Link href={routes.HOW_IT_WORKS} className="text-foreground hover:text-primary transition-colors">
               Як це працює
-            </Link>
-            <Link href={routes.BLOG} className="text-foreground hover:text-primary transition-colors">
-              Блог
             </Link>
             <Link href={routes.PROFILE}>
               <Button variant="ghost" size="sm">
@@ -79,13 +82,6 @@ const Header = () => {
               onClick={() => setIsOpen(false)}
             >
               Як це працює
-            </Link>
-            <Link 
-              href={routes.BLOG} 
-              className="block text-foreground hover:text-primary transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Блог
             </Link>
             <Link 
               href={routes.PROFILE} 

@@ -66,7 +66,7 @@ export default function ContactContent() {
         </section>
 
         {/* Contact Info Cards */}
-        <section className="py-8 px-4">
+        {/* <section className="py-8 px-4">
           <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
             {contactInfo.map((info, index) => {
               const Icon = info.icon;
@@ -98,7 +98,7 @@ export default function ContactContent() {
               );
             })}
           </div>
-        </section>
+        </section> */}
 
         {/* Contact Form */}
         <section className="py-16 px-4">
@@ -172,7 +172,7 @@ export default function ContactContent() {
         </section>
 
         {/* Map Section */}
-        <section className="py-8 px-4 pb-16">
+        {/* <section className="py-8 px-4 pb-16">
           <div className="max-w-6xl mx-auto">
             <div className="bg-card rounded-3xl overflow-hidden shadow-lg border border-border h-96">
               <div className="w-full h-full bg-muted flex items-center justify-center">
@@ -180,7 +180,7 @@ export default function ContactContent() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
 
       <Footer />

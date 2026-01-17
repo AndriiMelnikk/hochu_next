@@ -81,7 +81,7 @@ export default function SupportContent() {
       
       <main className="flex-1 pt-20">
         {/* Hero Section */}
-        <section className="py-16 px-4">
+        {/* <section className="py-16 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
               Як ми можемо допомогти?
@@ -95,10 +95,10 @@ export default function SupportContent() {
               />
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Categories */}
-        <section className="py-12 px-4">
+        {/* <section className="py-12 px-4">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-2xl font-bold mb-8 text-center">Категорії допомоги</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -123,7 +123,7 @@ export default function SupportContent() {
               })}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* FAQ Section */}
         <section className="py-16 px-4 bg-muted/30">
