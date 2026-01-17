@@ -1,0 +1,51 @@
+---
+alwaysApply: false
+manual: true
+---
+
+# Internationalization (i18n) Rules
+
+## Lingui
+- Use Lingui (`@lingui/core`, `@lingui/react`) for all internationalization
+- Wrap app with `LinguiProvider` from `app/providers/LinguiProvider`
+- Use `Trans` component for complex translations with HTML
+- Use `t` macro for simple string translations
+
+## Translation Files
+- Translation files are in `@locales/` directory
+- Support languages: `en` (English), `uk` (Ukrainian)
+- Each language has `messages.ts` file
+- Use `npm run translations:extract` to extract translatable strings
+- Use `npm run translations:compile` to compile translations
+
+## Usage Patterns
+- Use `t` macro for simple strings: `t`Hello World``
+- Use `Trans` component for strings with HTML: `<Trans>Hello <strong>World</strong></Trans>`
+- Use `plural` for pluralization
+- Use `select` for gender/conditional translations
+
+## Naming Conventions
+- Use descriptive keys for translation strings
+- Group related translations together
+- Use namespacing for large features (e.g., `auth.login`, `request.create`)
+
+## Best Practices
+- Always extract strings for translation, never hardcode user-facing text
+- Test UI in both languages
+- Keep translations context-aware
+- Use interpolation for dynamic values: `t`Hello {name}`` with `name` variable
+
+## Code Examples
+```typescript
+// Simple translation
+import { t } from '@lingui/macro';
+const message = t`Welcome`;
+
+// Component with translation
+import { Trans } from '@lingui/react';
+<Trans>Click <button>here</button> to continue</Trans>
+
+// With variables
+import { t } from '@lingui/macro';
+const message = t`Hello ${userName}`;
+```

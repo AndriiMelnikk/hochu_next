@@ -1,22 +1,30 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/app/providers";
+import { getLocaleFromHeaders } from "@/locales/locale";
+import { defaultMetadata as enMetadata } from "@/locales/en/metadata";
+import { defaultMetadata as ukMetadata } from "@/locales/uk/metadata";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Web Simple Shaper",
-  description: "Platform for connecting buyers and sellers",
-};
+const metadataByLocale = {
+  en: enMetadata,
+  uk: ukMetadata,
+} as const;
 
-export default function RootLayout({
+const locale = await getLocaleFromHeaders();
+
+export async function generateMetadata() {
+  return metadataByLocale[locale];
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uk">
+    <html lang={locale}>
       <body className={inter.className}>
         <Providers>{children}</Providers>
       </body>

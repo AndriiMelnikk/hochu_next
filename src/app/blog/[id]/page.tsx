@@ -1,156 +1,62 @@
-"use client";
-
-import { useParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
 import { Card, CardContent } from "@shared/ui/card";
 import { Badge } from "@shared/ui/badge";
 import { Button } from "@shared/ui/button";
-import { Alert, AlertTitle, AlertDescription } from "@shared/ui/alert";
-import { Separator } from "@shared/ui/separator";
-import { Loading } from "@shared/ui/loading";
-import { Error } from "@shared/ui/error";
-import { useBlogPost } from "@/entities/blog/hooks/useBlogPosts";
-import { 
-  parseContentToSections, 
-  getIconComponent,
-  type ArticleSectionData 
-} from "@/entities/blog/utils/contentParser";
-import { 
-  Calendar, 
-  User, 
-  Clock, 
-  ArrowLeft, 
-  Share2, 
-  Lightbulb, 
-  Info, 
-  CheckCircle, 
-  Target,
-  DollarSign,
-  Image as ImageIcon,
-  FileText,
-  Star
-} from "lucide-react";
+import { Calendar, User, Clock, ArrowLeft, Share2 } from "lucide-react";
+import { getLocaleFromHeaders } from "@/locales/locale";
+import { getMetadataForRoute } from "@/locales/route-metadata";
 
-// Компонент для секції з порадою
-function TipSection({ title, content, items, iconName }: { title: string; content: string; items?: string[]; iconName?: string }) {
-  const IconComponent = iconName ? getIconComponent(iconName) : Lightbulb;
-  const Icon = IconComponent || Lightbulb;
-  
-  return (
-    <Alert className="border-primary/50 bg-primary/5 shadow-sm">
-      <Icon className="h-5 w-5 text-primary" />
-      <AlertTitle className="text-xl font-bold mb-3 text-foreground">{title}</AlertTitle>
-      <AlertDescription className="text-base">
-        <p className="mb-4 leading-7">{content}</p>
-        {items && items.length > 0 && (
-          <ul className="list-disc list-inside space-y-2.5 mt-4 ml-2">
-            {items.map((item, idx) => (
-              <li key={idx} className="text-sm leading-6 text-muted-foreground">{item}</li>
-            ))}
-          </ul>
-        )}
-      </AlertDescription>
-    </Alert>
-  );
-}
+import { blogService } from "@/entities/blog/services/blogService";
+import { Loading } from "@/shared/ui/loading";
 
-// Компонент для інформаційної секції
-function InfoSection({ title, content, iconName }: { title: string; content: string; iconName?: string }) {
-  const IconComponent = iconName ? getIconComponent(iconName) : undefined;
-  
-  return (
-    <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
-      <CardContent className="p-6">
-        <div className="flex items-start gap-4">
-          {IconComponent && (
-            <div className="mt-1 text-primary flex-shrink-0">
-              <IconComponent className="h-5 w-5" />
-            </div>
-          )}
-          <div className="flex-1">
-            <h3 className="text-xl font-bold mb-3 text-foreground">{title}</h3>
-            <p className="text-muted-foreground leading-7 text-base">{content}</p>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
+type Props = {
+  params: Promise<{ id: string }>;
+};
 
-// Компонент для вступу
-function IntroSection({ content }: { content: string }) {
-  return (
-    <div className="prose prose-lg dark:prose-invert max-w-none">
-      <p className="text-xl leading-8 text-muted-foreground font-light">{content}</p>
-    </div>
-  );
-}
+export async function generateMetadata({ params }: Props) {
+  const { id } = await params;
+  const locale = await getLocaleFromHeaders();
+  const baseMetadata = getMetadataForRoute(locale, 'BLOG_ID');
 
-// Компонент для висновку
-function ConclusionSection({ content }: { content: string }) {
-  return (
-    <Card className="bg-muted/50 border-primary/20 shadow-sm">
-      <CardContent className="p-6">
-        <div className="flex items-start gap-4">
-          <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-          <p className="text-base leading-7 font-medium text-foreground">{content}</p>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-// Компонент для списку порад
-function TipsListSection({ title, items }: { title: string; items: string[] }) {
-  return (
-    <Card className="shadow-sm">
-      <CardContent className="p-6">
-        <h3 className="text-xl font-bold mb-5 flex items-center gap-2 text-foreground">
-          <Star className="h-5 w-5 text-primary" />
-          {title}
-        </h3>
-        <div className="grid gap-4">
-          {items.map((item, idx) => (
-            <div key={idx} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-              <Badge variant="outline" className="mt-0.5 flex-shrink-0 font-semibold">
-                {idx + 1}
-              </Badge>
-              <p className="text-sm text-muted-foreground flex-1 leading-6">{item}</p>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-// Компонент для рендерингу секції
-function ArticleSection({ section }: { section: ArticleSectionData }) {
-  switch (section.type) {
-    case 'intro':
-      return <IntroSection content={section.content} />;
-    case 'tip':
-      return <TipSection title={section.title} content={section.content} items={section.items} iconName={section.icon} />;
-    case 'info':
-      return <InfoSection title={section.title} content={section.content} iconName={section.icon} />;
-    case 'conclusion':
-      return <ConclusionSection content={section.content} />;
-    case 'tips-list':
-      return <TipsListSection title={section.title} items={section.items} />;
-    default:
-      return null;
+  try {
+    const post = await blogService.getOne(id);
+    if (post) {
+      return {
+        ...baseMetadata,
+        title: `${post.title} | Hochu Blog`,
+        description: post.content?.slice(0, 160).replace(/<[^>]*>/g, ""),
+        openGraph: {
+          title: post.title,
+          description: post.content?.slice(0, 160).replace(/<[^>]*>/g, ""),
+          images: post.image ? [post.image] : [],
+        },
+      };
+    }
+  } catch (error) {
+    console.error("Failed to fetch blog post for metadata:", error);
   }
+
+  return baseMetadata;
 }
 
-export default function BlogArticlePage() {
-  const params = useParams();
-  const id = params?.id as string;
+export default async function BlogArticlePage({ params }: Props) {
+  const { id } = await params;
 
-  // Завантаження даних з API
-  const { data: article, isLoading, isError, error } = useBlogPost(id);
-
+  // Макетні дані статті (в реальному додатку тут буде fetch з сервера)
+  const article = {
+    id,
+    title: "Як створити ідеальний запит на послугу",
+    category: "Поради покупцям",
+    author: "Команда Hochu",
+    date: "2024-03-15",
+    readTime: "5 хв",
+    image: "/placeholder.svg",
+    content: `
+      <h2>Вступ</h2>
+      <p>Створення якісного запиту на послугу — це перший крок до успішного співробітництва з виконавцями. У цій статті ми розповімо, як правильно сформулювати ваші потреби, щоб отримати найкращі пропозиції.</p>`
+  }
   // Парсинг контенту в секції
   const sections = article?.content 
     ? parseContentToSections(article.content)
@@ -271,4 +177,3 @@ export default function BlogArticlePage() {
     </div>
   );
 }
-

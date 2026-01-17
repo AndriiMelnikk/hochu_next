@@ -1,0 +1,60 @@
+---
+alwaysApply: false
+manual: true
+---
+
+# Styling Rules
+
+## Tailwind CSS
+- Use Tailwind CSS utility classes for all styling
+- Never use inline styles or CSS modules
+- Use `cn()` utility from `@shared/utils/cn` for conditional classes
+- Prefer Tailwind classes over custom CSS
+
+## Component Styling
+- Use `className` prop for styling, never `style` prop
+- Combine classes using `cn()` utility: `cn("base-classes", conditionalClasses)`
+- Use Tailwind's responsive prefixes (`sm:`, `md:`, `lg:`, `xl:`, `2xl:`)
+- Use Tailwind's state variants (`hover:`, `focus:`, `active:`, `disabled:`)
+
+## UI Components
+- Use shadcn/ui components from `@shared/ui/` directory
+- Extend shadcn components when needed, don't modify originals
+- Follow shadcn component patterns and conventions
+- Use Radix UI primitives through shadcn components
+
+## Design System
+- Use consistent spacing (Tailwind spacing scale)
+- Use consistent colors from Tailwind theme
+- Use consistent typography (Tailwind typography plugin)
+- Follow design system tokens for colors, spacing, typography
+
+## Responsive Design
+- Mobile-first approach: design for mobile, then enhance for larger screens
+- Use Tailwind breakpoints consistently
+- Test on multiple screen sizes
+- Use `use-mobile` hook for mobile-specific logic
+
+## Animations
+- Use Framer Motion for complex animations
+- Use Tailwind's `transition-*` utilities for simple animations
+- Use `tailwindcss-animate` for common animations
+- Keep animations subtle and performant
+
+## Dark Mode
+- Use `next-themes` for theme management
+- Support both light and dark modes
+- Use Tailwind's `dark:` variant for dark mode styles
+- Test components in both themes
+
+## Accessibility
+- Ensure sufficient color contrast
+- Use semantic HTML elements
+- Provide proper ARIA labels when needed
+- Test with keyboard navigation
+
+## Global Styles
+- Global styles should be in `app/globals.css`
+- Use CSS variables for theme values
+- Keep global styles minimal
+- Use Tailwind directives (`@tailwind base`, `@tailwind components`, `@tailwind utilities`)

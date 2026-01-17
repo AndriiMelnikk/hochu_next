@@ -1,0 +1,91 @@
+---
+alwaysApply: false
+manual: true
+---
+
+# Feature-Sliced Design (FSD) Architecture Rules
+
+## Layer Structure
+The project follows FSD architecture with these layers (from top to bottom):
+- `app/` - Initialization, configuration, providers
+- `pages/` - Page components (composition of widgets and features)
+- `widgets/` - Complex composite components
+- `features/` - Business functionality
+- `entities/` - Business entities with API
+- `shared/` - Reusable components, utilities, API
+
+## Import Rules (CRITICAL)
+**Imports can only go DOWN the layers, never up:**
+- `app` → can import from all layers
+- `pages` → can import from `widgets`, `features`, `entities`, `shared`
+- `widgets` → can import from `features`, `entities`, `shared`
+- `features` → can import from `entities`, `shared`
+- `entities` → can import from `shared` only
+- `shared` → cannot import from any other layer
+
+**NEVER import from:**
+- Higher layers (e.g., `entities` cannot import from `features`)
+- Same layer (e.g., `features/auth` cannot import from `features/user`)
+- Sibling slices (e.g., `entities/user` cannot import from `entities/request`)
+
+## Path Aliases
+Always use path aliases instead of relative imports:
+- `@app/*` for app layer
+- `@pages/*` for pages layer
+- `@widgets/*` for widgets layer
+- `@features/*` for features layer
+- `@entities/*` for entities layer
+- `@shared/*` for shared layer
+- `@locales/*` for locales
+
+Example: `import { Button } from '@shared/ui/button'` not `import { Button } from '../../../shared/ui/button'`
+
+## Entity Structure
+Each entity should follow this structure:
+```
+entities/entity-name/
+├── api/           # API calls, services
+├── hooks/         # React hooks (useEntity, useEntities)
+├── model/         # Types, schemas, constants
+├── schemas/       # Zod validation schemas
+├── services/      # Business logic services
+├── types/         # TypeScript types
+└── index.ts       # Public API exports
+```
+
+## Feature Structure
+Each feature should follow this structure:
+```
+features/feature-name/
+├── ui/            # UI components
+├── hooks/         # Feature-specific hooks
+├── model/         # Feature state, types
+└── index.ts       # Public API exports
+```
+
+## Widget Structure
+Each widget should follow this structure:
+```
+widgets/widget-name/
+├── WidgetName.tsx # Main component
+└── index.ts       # Public API exports
+```
+
+## Naming Conventions
+- **Components**: PascalCase (`UserCard.tsx`, `CreateRequestButton.tsx`)
+- **Hooks**: camelCase with `use` prefix (`useRequests.ts`, `useAuth.tsx`)
+- **Services**: camelCase (`requestService.ts`, `authService.ts`)
+- **Types**: PascalCase (`Request.ts`, `User.ts`)
+- **Schemas**: camelCase with `Schema` suffix (`requestSchema.ts`, `authSchema.ts`)
+- **Constants**: camelCase (`const.ts`)
+
+## Public API
+- Always export public API through `index.ts` files
+- Never import from internal files (e.g., `./model/types.ts`), always use `index.ts`
+- Keep internal implementation details private
+
+## Shared Layer
+- `shared/ui/` - Reusable UI components (shadcn/ui components)
+- `shared/api/` - API configuration, axios instance, mock data
+- `shared/utils/` - Utility functions
+- `shared/config/` - Configuration files
