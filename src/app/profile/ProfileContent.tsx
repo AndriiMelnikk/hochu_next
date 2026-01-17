@@ -11,7 +11,7 @@ import Chat from "@/widgets/app/Chat";
 import Reviews from "@/widgets/app/Reviews";
 import GamifiedAvatar from "@/widgets/app/GamifiedAvatar";
 import GamificationProgress from "@/widgets/app/GamificationProgress";
-import { User, Settings, MessageSquare, TrendingUp, Star, Trophy, Lock } from "lucide-react";
+import { User, Settings} from "lucide-react";
 
 export default function ProfileContent() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -104,7 +104,7 @@ export default function ProfileContent() {
               className="flex items-center gap-2 cursor-not-allowed opacity-60"
               disabled
             >
-              <Lock className="h-4 w-4" />
+
               <span className="hidden sm:inline">Досягнення</span>
             </TabsTrigger>
             <TabsTrigger 
@@ -112,7 +112,7 @@ export default function ProfileContent() {
               className="flex items-center gap-2 cursor-not-allowed opacity-60"
               disabled
             >
-              <Lock className="h-4 w-4" />
+
               <span className="hidden sm:inline">Аналітика</span>
             </TabsTrigger>
             <TabsTrigger 
@@ -120,7 +120,7 @@ export default function ProfileContent() {
               className="flex items-center gap-2 cursor-not-allowed opacity-60"
               disabled
             >
-              <Lock className="h-4 w-4" />
+
               <span className="hidden sm:inline">Відгуки</span>
             </TabsTrigger>
             <TabsTrigger 
@@ -128,7 +128,7 @@ export default function ProfileContent() {
               className="flex items-center gap-2 cursor-not-allowed opacity-60"
               disabled
             >
-              <Lock className="h-4 w-4" />
+
               <span className="hidden sm:inline">Повідомлення</span>
             </TabsTrigger>
             <TabsTrigger value="settings" className="flex items-center gap-2">

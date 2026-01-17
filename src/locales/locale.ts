@@ -26,6 +26,10 @@ export function resolveLocale(acceptLanguageHeader?: string): Locale {
 }
 
 export async function getLocaleFromHeaders(): Promise<Locale> {
-  const acceptLanguage = (await headers()).get("accept-language") ?? "";
-  return resolveLocale(acceptLanguage);
+  try {
+    const acceptLanguage = (await headers()).get("accept-language") ?? "";
+    return resolveLocale(acceptLanguage);
+  } catch {
+    return defaultLocale;
+  }
 }

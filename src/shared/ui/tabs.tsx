@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { Lock } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -23,7 +24,7 @@ TabsList.displayName = TabsPrimitive.List.displayName;
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
@@ -31,7 +32,10 @@ const TabsTrigger = React.forwardRef<
       className,
     )}
     {...props}
-  />
+  >
+    {props.disabled && <Lock className="mr-2 h-4 w-4" />}
+    {children}
+  </TabsPrimitive.Trigger>
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 

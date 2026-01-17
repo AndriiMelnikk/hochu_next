@@ -7,9 +7,11 @@ import { Button } from "@shared/ui/button";
 import { Calendar, User, Clock, ArrowLeft, Share2 } from "lucide-react";
 import { getLocaleFromHeaders } from "@/locales/locale";
 import { getMetadataForRoute } from "@/locales/route-metadata";
-
 import { blogService } from "@/entities/blog/services/blogService";
-import { Loading } from "@/shared/ui/loading";
+import { Error as ErrorComponent } from "@shared/ui/error";
+import { Separator } from "@shared/ui/separator";
+import { parseContentToSections } from "@/entities/blog/utils/contentParser";
+import { ArticleSection } from "./ArticleSection";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -44,47 +46,31 @@ export async function generateMetadata({ params }: Props) {
 export default async function BlogArticlePage({ params }: Props) {
   const { id } = await params;
 
-  // Макетні дані статті (в реальному додатку тут буде fetch з сервера)
-  const article = {
-    id,
-    title: "Як створити ідеальний запит на послугу",
-    category: "Поради покупцям",
-    author: "Команда Hochu",
-    date: "2024-03-15",
-    readTime: "5 хв",
-    image: "/placeholder.svg",
-    content: `
-      <h2>Вступ</h2>
-      <p>Створення якісного запиту на послугу — це перший крок до успішного співробітництва з виконавцями. У цій статті ми розповімо, як правильно сформулювати ваші потреби, щоб отримати найкращі пропозиції.</p>`
+  let article;
+  let error;
+
+  try {
+    article = await blogService.getOne(id);
+  } catch (err) {
+    console.error("Failed to fetch article:", err);
+    error = err;
   }
+
+  if (error || !article) {
+    return (
+      <ErrorComponent 
+        variant="full-page" 
+        message={error instanceof Error ? error.message : "Не вдалося завантажити статтю"}
+        HeaderComponent={Header}
+        FooterComponent={Footer}
+      />
+    );
+  }
+
   // Парсинг контенту в секції
   const sections = article?.content 
     ? parseContentToSections(article.content)
     : [];
-
-  // Обробка стану завантаження
-  if (isLoading) {
-    return (
-      <Loading 
-        variant="full-page" 
-        message="Завантаження статті..."
-        HeaderComponent={Header}
-        FooterComponent={Footer}
-      />
-    );
-  }
-
-  // Обробка помилок
-  if (isError || !article) {
-    return (
-      <Error 
-        variant="full-page" 
-        message={error?.message || "Не вдалося завантажити статтю"}
-        HeaderComponent={Header}
-        FooterComponent={Footer}
-      />
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -102,7 +88,7 @@ export default async function BlogArticlePage({ params }: Props) {
         <Card className="mb-8">
           <div className="relative h-96 w-full overflow-hidden rounded-t-lg">
             <img
-              src={article.image}
+              src={article.image || "/placeholder.svg"}
               alt={article.title}
               className="w-full h-full object-cover"
             />

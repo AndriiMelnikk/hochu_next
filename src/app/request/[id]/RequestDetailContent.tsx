@@ -18,16 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@shared/ui/avatar";
 import { Separator } from "@shared/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@shared/ui/tabs";
 import { Breadcrumbs } from "@shared/ui/breadcrumbs";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@shared/ui/dialog";
-import { RadioGroup, RadioGroupItem } from "@shared/ui/radio-group";
+import { Lock } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -35,6 +26,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@shared/ui/select";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@shared/ui/carousel";
 import { routes } from "@/app/router/routes";
 import {
   Star,
@@ -65,6 +63,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
   const [replyTo, setReplyTo] = useState<number | null>(null);
   const [deliveryTime, setDeliveryTime] = useState("");
   const [warranty, setWarranty] = useState("");
+  const [activeLightboxImages, setActiveLightboxImages] = useState<string[]>([]);
 
   // Mock proposals data (should come from API)
   const mockProposals = [
@@ -83,6 +82,14 @@ export default function RequestDetailContent({ id }: { id: string }) {
       deliveryTime: "2-3 дні",
       warranty: "6 місяців",
       createdAt: "10 хвилин тому",
+      images: [
+        "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1526509867162-5b0c0d1b4b33?w=800&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1550041473-d296a1a8ec52?w=800&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?w=800&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1531297461136-82lw9z1w1w?w=800&auto=format&fit=crop&q=60"
+      ],
     },
     {
       id: 2,
@@ -99,6 +106,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
       deliveryTime: "1 день",
       warranty: "3 місяці",
       createdAt: "25 хвилин тому",
+      images: [],
     },
   ];
 
@@ -200,7 +208,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
                   </div>
 
                   {/* Report Button */}
-                  <Dialog open={reportDialogOpen} onOpenChange={setReportDialogOpen}>
+                  {/* <Dialog open={reportDialogOpen} onOpenChange={setReportDialogOpen}>
                     <DialogTrigger asChild>
                       <Button variant="outline" size="sm" className="flex items-center gap-2">
                         <Flag className="h-4 w-4" />
@@ -280,7 +288,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
                         </Button>
                       </DialogFooter>
                     </DialogContent>
-                  </Dialog>
+                  </Dialog> */}
                 </div>
 
                 <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
@@ -367,6 +375,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
                         key={index}
                         className="aspect-video rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer group"
                         onClick={() => {
+                          setActiveLightboxImages(request.images);
                           setLightboxIndex(index);
                           setLightboxOpen(true);
                         }}
@@ -386,10 +395,13 @@ export default function RequestDetailContent({ id }: { id: string }) {
               <Tabs defaultValue="proposals" className="bg-card rounded-2xl shadow-md border border-border">
                 <TabsList className="w-full justify-start rounded-t-2xl rounded-b-none h-14 p-1 bg-muted/50">
                   <TabsTrigger value="proposals" className="flex-1 text-base">
-                    Отримані пропозиції ({request.proposalsCount})
+                    Активні пропозиції ({request.proposalsCount})
                   </TabsTrigger>
-                  <TabsTrigger value="discussion" className="flex-1 text-base">
-                    Публічні обговорення
+                  <TabsTrigger value="discussion" className="flex-1 items-center gap-2 cursor-not-allowed opacity-60"  disabled>
+                    <span className="hidden sm:inline">Публічні обговорення</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="discussion" className="flex-1 items-center gap-2 cursor-not-allowed opacity-60"  disabled>
+                    <span className="hidden sm:inline">Відхилені пропозиції</span>
                   </TabsTrigger>
                 </TabsList>
 
@@ -454,13 +466,53 @@ export default function RequestDetailContent({ id }: { id: string }) {
                               </span>
                             </div>
 
+                            {/* Proposal Images */}
+                            {proposal.images && proposal.images.length > 0 && (
+                              <div className="mb-4">
+                                <h4 className="font-semibold mb-2">Фотографії до пропозиції:</h4>
+                                <Carousel
+                                  opts={{
+                                    align: "start",
+                                  }}
+                                  className="w-full max-w-full"
+                                >
+                                  <CarouselContent className="-ml-2">
+                                    {proposal.images.map((image, index) => (
+                                      <CarouselItem key={index} className="pl-2 basis-1/3 sm:basis-1/3 md:basis-1/4">
+                                        <div
+                                          className="aspect-video rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer group"
+                                          onClick={() => {
+                                            setActiveLightboxImages(proposal.images);
+                                            setLightboxIndex(index);
+                                            setLightboxOpen(true);
+                                          }}
+                                        >
+                                          <img
+                                            src={image}
+                                            alt={`Фото ${index + 1}`}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                          />
+                                        </div>
+                                      </CarouselItem>
+                                    ))}
+                                  </CarouselContent>
+                                  {proposal.images.length > 3 && (
+                                    <>
+                                      <CarouselPrevious className="left-2" />
+                                      <CarouselNext className="right-2" />
+                                    </>
+                                  )}
+                                </Carousel>
+                              </div>
+                            )}
+
                             {/* Action Buttons */}
                             <div className="flex gap-2">
-                              <Link href={`${routes.PROPOSAL}/${proposal.id}`}>
+                              {/* <Link href={`${routes.PROPOSAL}/${proposal.id}`}>
                                 <Button variant="default" size="sm">
                                   Переглянути детально
                                 </Button>
-                              </Link>
+                              </Link> */}
                               <Button variant="outline" size="sm">
                                 <MessageSquare className="h-4 w-4 mr-2" />
                                 Написати
@@ -795,14 +847,12 @@ export default function RequestDetailContent({ id }: { id: string }) {
         </div>
       </main>
 
-      {request.images && request.images.length > 0 && (
-        <ImageLightbox
-          images={request.images}
-          initialIndex={lightboxIndex}
-          open={lightboxOpen}
-          onOpenChange={setLightboxOpen}
-        />
-      )}
+      <ImageLightbox
+        images={activeLightboxImages.length > 0 ? activeLightboxImages : request.images || []}
+        initialIndex={lightboxIndex}
+        open={lightboxOpen}
+        onOpenChange={setLightboxOpen}
+      />
 
       <Footer />
     </div>
