@@ -31,12 +31,6 @@ manual: true
 - Validate data in React Query hooks using `schema.parse()` or `schema.safeParse()`
 - Handle validation errors gracefully
 
-## Mock Data
-- Place mock data in `@shared/api/mock/` directory
-- Use mock data for development and testing
-- Structure mock data to match real API responses
-- Use `delay.ts` utility to simulate network latency
-
 ## Error Handling
 - Use React Query's built-in error handling
 - Provide user-friendly error messages

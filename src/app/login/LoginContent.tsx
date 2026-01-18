@@ -3,6 +3,7 @@
 import { Button } from "@shared/ui/button";
 import { Input } from "@shared/ui/input";
 import { Label } from "@shared/ui/label";
+import { FormError } from "@shared/ui/form-error";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { routes } from "@/app/router/routes";
@@ -12,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/entities/auth";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
+import { toast } from "sonner";
 
 export default function LoginContent() {
   const router = useRouter();
@@ -24,9 +26,36 @@ export default function LoginContent() {
     try {
       await login(data.email, data.password);
       router.push(routes.HOME);
-    } catch (error) {
-      console.error("Login error:", error);
+    } catch (error: any) {
+      let handledAsFieldError = false;
+
+      if (error.response?.data) {
+        const serverErrors = error.response.data.errors || error.response.data;
+        if (typeof serverErrors === 'object') {
+          Object.keys(serverErrors).forEach((key) => {
+            if (['email', 'password'].includes(key)) {
+              const message = Array.isArray(serverErrors[key]) ? serverErrors[key][0] : serverErrors[key];
+              const errorMessage = typeof message === 'string' ? message : "Невалідні дані";
+              
+              toast.error(errorMessage);
+              handledAsFieldError = true;
+            }
+          });
+        }
+      }
+
+      if (!handledAsFieldError) {
+        toast.error(error.friendlyMessage || "Сталася помилка при вході");
+      }
     }
+  };
+
+  const onInvalid = (errors: any) => {
+    Object.values(errors).forEach((error: any) => {
+      if (error.message) {
+        toast.error(error.message as string);
+      }
+    });
   };
 
   return (
@@ -43,7 +72,7 @@ export default function LoginContent() {
               </p>
             </div>
             
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -52,7 +81,7 @@ export default function LoginContent() {
                   placeholder="your@email.com"
                   {...register("email")}
                 />
-                {errors.email && <p className="text-sm text-red-500">{errors.email.message as string}</p>}
+                <FormError message={errors.email?.message as string} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Пароль</Label>
@@ -62,7 +91,7 @@ export default function LoginContent() {
                   placeholder="••••••••"
                   {...register("password")}
                 />
-                {errors.password && <p className="text-sm text-red-500">{errors.password.message as string}</p>}
+                <FormError message={errors.password?.message as string} />
               </div>
               <Button type="submit" variant="gradient" className="w-full">
                 Увійти

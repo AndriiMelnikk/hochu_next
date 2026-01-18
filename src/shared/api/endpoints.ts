@@ -1,0 +1,24 @@
+export const ENDPOINTS = {
+  AUTH: {
+    LOGIN: "/api/auth/login",
+    REGISTER: "/api/auth/register",
+    LOGOUT: "/api/auth/logout",
+    REFRESH: "/api/auth/refresh",
+  },
+  USER: {
+    ME: "/api/users/me",
+    BY_ID: (id: string | number) => `/api/users/${id}`,
+  },
+  REQUESTS: {
+    BASE: "/api/requests",
+    BY_ID: (id: string | number) => `/api/requests/${id}`,
+  },
+  PROPOSALS: {
+    BASE: "/api/proposals",
+    BY_ID: (id: string | number) => `/api/proposals/${id}`,
+  },
+  BLOG: {
+    BASE: "/api/blog",
+    BY_ID: (id: string | number) => `/api/blog/${id}`,
+  },
+} as const;

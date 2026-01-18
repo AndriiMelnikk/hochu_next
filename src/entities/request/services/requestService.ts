@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import { api } from "@shared/api/api";
+import { api, ENDPOINTS } from "@shared/api";
 import type { IGetRequestsResponse } from "../types/responses/GetRequests";
 import type { IRequestWithBuyer } from "../types/Request";
 import { IGetRequestsRequest } from "../types/requests/GetRequests";
@@ -17,16 +17,17 @@ class RequestService {
       }
     });
 
-    const url = `/requests${urlSearchParams.toString() ? `?${urlSearchParams.toString()}` : ""}`;
+    const queryString = urlSearchParams.toString();
+    const url = `${ENDPOINTS.REQUESTS.BASE}${queryString ? `?${queryString}` : ""}`;
     return (await api.get(url, config)).data;
   }
 
   async getOne(id: string | number, config?: AxiosRequestConfig): Promise<IRequestWithBuyer> {
-    return (await api.get(`/requests/${id}`, config)).data;
+    return (await api.get(ENDPOINTS.REQUESTS.BY_ID(id), config)).data;
   }
 
   async create(data: ICreateRequestRequest, config?: AxiosRequestConfig): Promise<IRequestWithBuyer> {
-    return (await api.post("/requests", data, config)).data;
+    return (await api.post(ENDPOINTS.REQUESTS.BASE, data, config)).data;
   }
 
   async update(
@@ -34,11 +35,11 @@ class RequestService {
     data: Partial<ICreateRequestRequest>,
     config?: AxiosRequestConfig
   ): Promise<IRequestWithBuyer> {
-    return (await api.patch(`/requests/${id}`, data, config)).data;
+    return (await api.patch(ENDPOINTS.REQUESTS.BY_ID(id), data, config)).data;
   }
 
   async delete(id: string | number, config?: AxiosRequestConfig): Promise<void> {
-    return (await api.delete(`/requests/${id}`, config)).data;
+    return (await api.delete(ENDPOINTS.REQUESTS.BY_ID(id), config)).data;
   }
 }
 

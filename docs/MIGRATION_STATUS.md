@@ -22,9 +22,8 @@
 ### 4. Entity Request (приклад) ✅
 - `entities/request/model/types.ts` - TypeScript типи
 - `entities/request/model/schemas.ts` - Zod схеми для валідації
-- `entities/request/api/requestService.ts` - Service клас з mock API
+- `entities/request/api/requestService.ts` - Service клас з API запитами
 - `entities/request/hooks/useRequests.ts` - React Query hooks з Zod валідацією
-- `shared/api/mock/requestMock.ts` - Mock дані з імітацією затримки
 
 ### 5. Стилі ✅
 - Мігровано `src/index.css` → `app/globals.css`
@@ -128,7 +127,7 @@ src/
 │       ├── model/
 │       └── hooks/
 └── shared/           # Переіспользувані компоненти
-    ├── api/          # Axios instance, mock API
+    ├── api/          # Axios instance
     └── ui/           # UI компоненти
 ```
 

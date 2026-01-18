@@ -1,37 +1,52 @@
 import { AxiosRequestConfig } from "axios";
-import { api } from "@shared/api/api";
-import type { ILoginRequest, IRegisterRequest, IAuthResponse } from "../types/Auth";
+import { api, ENDPOINTS } from "@shared/api";
+import type { ILoginRequest } from "../types/requests/LoginRequest";
+import type { IRegisterRequest } from "../types/requests/RegisterRequest";
+import type { IAuthResponse } from "../types/responses/AuthResponse";
+import { authResponseSchema } from "../schemas/authSchema";
 import { LS_KEYS } from "../const";
 
 class AuthService {
   async login(data: ILoginRequest, config?: AxiosRequestConfig): Promise<IAuthResponse> {
-    const response = await api.post<IAuthResponse>("/api/auth/login", data, config);
-    if (response.data.access_token) {
-      localStorage.setItem(LS_KEYS.ACCESS_TOKEN, response.data.access_token);
-      localStorage.setItem(LS_KEYS.REFRESH_TOKEN, response.data.refresh_token);
+    const response = await api.post<IAuthResponse>(ENDPOINTS.AUTH.LOGIN, data, config);
+    
+    // Валідація відповіді через Zod для гарантії цілісності даних
+    const validatedData = authResponseSchema.parse(response.data);
+
+    if (validatedData.access_token && typeof window !== "undefined") {
+      localStorage.setItem(LS_KEYS.ACCESS_TOKEN, validatedData.access_token);
+      localStorage.setItem(LS_KEYS.REFRESH_TOKEN, validatedData.refresh_token);
     }
-    return response.data;
+    return validatedData;
   }
 
   async register(data: IRegisterRequest, config?: AxiosRequestConfig): Promise<IAuthResponse> {
-    const response = await api.post<IAuthResponse>("/api/auth/register", data, config);
-    if (response.data.access_token) {
-      localStorage.setItem(LS_KEYS.ACCESS_TOKEN, response.data.access_token);
-      localStorage.setItem(LS_KEYS.REFRESH_TOKEN, response.data.refresh_token);
+    const response = await api.post<IAuthResponse>(ENDPOINTS.AUTH.REGISTER, data, config);
+    
+    // Валідація відповіді через Zod
+    const validatedData = authResponseSchema.parse(response.data);
+
+    if (validatedData.access_token && typeof window !== "undefined") {
+      localStorage.setItem(LS_KEYS.ACCESS_TOKEN, validatedData.access_token);
+      localStorage.setItem(LS_KEYS.REFRESH_TOKEN, validatedData.refresh_token);
     }
-    return response.data;
+    return validatedData;
   }
 
   async logout(): Promise<void> {
-    localStorage.removeItem(LS_KEYS.ACCESS_TOKEN);
-    localStorage.removeItem(LS_KEYS.REFRESH_TOKEN);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(LS_KEYS.ACCESS_TOKEN);
+      localStorage.removeItem(LS_KEYS.REFRESH_TOKEN);
+    }
   }
 
   getToken(): string | null {
+    if (typeof window === "undefined") return null;
     return localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
   }
 
   isAuthenticated(): boolean {
+    if (typeof window === "undefined") return false;
     return !!this.getToken();
   }
 }

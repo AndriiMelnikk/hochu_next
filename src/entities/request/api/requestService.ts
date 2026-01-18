@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import { mockRequestService } from "@/shared/api/mock/requestMock";
+import { api } from "@/shared/api";
 import type { IGetRequestsRequest, IGetRequestsResponse, IRequest } from "../model/types";
 
 class RequestService {
@@ -7,16 +7,11 @@ class RequestService {
     searchParams: IGetRequestsRequest = {},
     config?: AxiosRequestConfig
   ): Promise<IGetRequestsResponse> {
-    // В production тут буде реальний API виклик
-    // return (await api.get(`/requests/`, { params: searchParams, ...config })).data;
-    
-    // Поки що використовуємо mock
-    return mockRequestService.getAll(searchParams);
+    return (await api.get(`/requests/`, { params: searchParams, ...config })).data;
   }
 
   async getOne(id: number, config?: AxiosRequestConfig): Promise<IRequest> {
-    // В production: return (await api.get(`/requests/${id}/`, config)).data;
-    return mockRequestService.getById(id);
+    return (await api.get(`/requests/${id}/`, config)).data;
   }
 }
 

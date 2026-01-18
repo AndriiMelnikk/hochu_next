@@ -30,7 +30,7 @@ src/
 ├── features/         # Бізнес-функціональність
 ├── entities/         # Бізнес-сутності з API
 └── shared/           # Переіспользувані компоненти, утиліти
-    ├── api/          # Axios instance, mock API
+    ├── api/          # Axios instance
     ├── ui/           # UI компоненти (shadcn)
     └── lib/          # Утиліти
 ```
@@ -68,12 +68,6 @@ npm run lint
 - `@entities/*` → `src/entities/*`
 - `@shared/*` → `src/shared/*`
 - `@/*` → `src/*`
-
-## Mock API
-
-Проєкт використовує mock API для розробки. Mock дані знаходяться в `src/shared/api/mock/` та `src/entities/*/api/mock/`.
-
-В production замініть mock реалізацію на реальні API запити в сервісах entities.
 
 ## Правила залежностей (Import Rules)
 

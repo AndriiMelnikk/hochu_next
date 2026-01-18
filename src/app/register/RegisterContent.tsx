@@ -1,34 +1,12 @@
 "use client";
 
-import { Button } from "@shared/ui/button";
-import { Input } from "@shared/ui/input";
-import { Label } from "@shared/ui/label";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { routes } from "@/app/router/routes";
-import { useAuth } from "@/entities/auth";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from "@/entities/auth";
+import { RegisterForm } from "@/features/auth";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
 
 export default function RegisterContent() {
-  const router = useRouter();
-  const { register: registerUser } = useAuth();
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: zodResolver(registerSchema),
-  });
-
-  const onSubmit = async (data: { name: string; email: string; password: string }) => {
-    try {
-      await registerUser(data.email, data.password, data.name);
-      router.push(routes.HOME);
-    } catch (error) {
-      console.error("Registration error:", error);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -43,41 +21,7 @@ export default function RegisterContent() {
               </p>
             </div>
             
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Ім'я</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Ваше ім'я"
-                  {...register("name")}
-                />
-                {errors.name && <p className="text-sm text-red-500">{errors.name.message as string}</p>}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  {...register("email")}
-                />
-                {errors.email && <p className="text-sm text-red-500">{errors.email.message as string}</p>}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Пароль</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  {...register("password")}
-                />
-                {errors.password && <p className="text-sm text-red-500">{errors.password.message as string}</p>}
-              </div>
-              <Button type="submit" variant="gradient" className="w-full">
-                Зареєструватися
-              </Button>
-            </form>
+            <RegisterForm />
             
             <div className="mt-6 text-center text-sm">
               <span className="text-muted-foreground">Вже є акаунт? </span>
