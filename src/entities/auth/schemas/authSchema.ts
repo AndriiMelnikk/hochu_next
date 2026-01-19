@@ -15,20 +15,18 @@ export const authResponseSchema = z.object({
   access_token: z.string(),
   refresh_token: z.string(),
   user: z.object({
-    id: z.number(),
+    _id: z.string(),
     name: z.string(),
     email: z.string(),
-    avatar: z.string(),
+    avatar: z.string().nullable(),
     rating: z.number(),
     reviewsCount: z.number(),
     isVerified: z.boolean(),
     memberSince: z.string(),
     completedDeals: z.number(),
     role: z.enum(["buyer", "seller"]),
-    location: z.string(),
+    location: z.string().nullable(),
     xp: z.number(),
-    unlockedAchievements: z.array(z.string()),
-    topAchievements: z.array(z.string()),
   }),
 });
 

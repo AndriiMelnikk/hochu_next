@@ -10,27 +10,39 @@ class AuthService {
   async login(data: ILoginRequest, config?: AxiosRequestConfig): Promise<IAuthResponse> {
     const response = await api.post<IAuthResponse>(ENDPOINTS.AUTH.LOGIN, data, config);
     
+    console.log("response.data", response.data);
     // Валідація відповіді через Zod для гарантії цілісності даних
-    const validatedData = authResponseSchema.parse(response.data);
-
-    if (validatedData.access_token && typeof window !== "undefined") {
-      localStorage.setItem(LS_KEYS.ACCESS_TOKEN, validatedData.access_token);
-      localStorage.setItem(LS_KEYS.REFRESH_TOKEN, validatedData.refresh_token);
+    try {
+      const validatedData = authResponseSchema.parse(response.data);
+      console.log("validatedData", validatedData);
+      
+      if (validatedData.access_token && typeof window !== "undefined") {
+        localStorage.setItem(LS_KEYS.ACCESS_TOKEN, validatedData.access_token);
+        localStorage.setItem(LS_KEYS.REFRESH_TOKEN, validatedData.refresh_token);
+      }
+      return validatedData;
+    } catch (error) {
+      console.error("Zod validation error:", error);
+      throw error;
     }
-    return validatedData;
   }
 
   async register(data: IRegisterRequest, config?: AxiosRequestConfig): Promise<IAuthResponse> {
     const response = await api.post<IAuthResponse>(ENDPOINTS.AUTH.REGISTER, data, config);
     
     // Валідація відповіді через Zod
-    const validatedData = authResponseSchema.parse(response.data);
+    try {
+      const validatedData = authResponseSchema.parse(response.data);
 
-    if (validatedData.access_token && typeof window !== "undefined") {
-      localStorage.setItem(LS_KEYS.ACCESS_TOKEN, validatedData.access_token);
-      localStorage.setItem(LS_KEYS.REFRESH_TOKEN, validatedData.refresh_token);
+      if (validatedData.access_token && typeof window !== "undefined") {
+        localStorage.setItem(LS_KEYS.ACCESS_TOKEN, validatedData.access_token);
+        localStorage.setItem(LS_KEYS.REFRESH_TOKEN, validatedData.refresh_token);
+      }
+      return validatedData;
+    } catch (error) {
+      console.error("Zod validation error during registration:", error);
+      throw error;
     }
-    return validatedData;
   }
 
   async logout(): Promise<void> {

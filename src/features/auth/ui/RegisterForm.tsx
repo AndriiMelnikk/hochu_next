@@ -10,23 +10,35 @@ import {
 } from "@/entities/auth";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
-import { Label } from "@/shared/ui/label";
-import { FormError } from "@/shared/ui/form-error";
+import { 
+  Form, 
+  FormControl, 
+  FormField, 
+  FormItem, 
+  FormLabel, 
+  FormMessage 
+} from "@/shared/ui/form";
 import { routes } from "@/app/router/routes";
 import { toast } from "sonner";
 
 export const RegisterForm = () => {
   const router = useRouter();
-  const { register: registerUser, isLoading, error } = useAuthStore();
+  const { register: registerUser, isLoading } = useAuthStore();
+
+  const form = useForm<IRegisterRequest>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
 
   const {
-    register,
     handleSubmit,
     setError,
-    formState: { errors },
-  } = useForm<IRegisterRequest>({
-    resolver: zodResolver(registerSchema),
-  });
+    control,
+  } = form;
 
   const onSubmit = async (data: IRegisterRequest) => {
     try {
@@ -71,58 +83,79 @@ export const RegisterForm = () => {
   const onInvalid = (errors: any) => {
     Object.values(errors).forEach((error: any) => {
       if (error.message) {
-        toast.error(error.message);
+        toast.error(error.message as string);
       }
     });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="name">Ім'я</Label>
-        <Input
-          id="name"
-          type="text"
-          placeholder="Ваше ім'я"
-          {...register("name")}
-          disabled={isLoading}
+    <Form {...form}>
+      <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-4">
+        <FormField
+          control={control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Ім'я</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Ваше ім'я"
+                  {...field}
+                  disabled={isLoading}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FormError message={errors.name?.message} />
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="your@email.com"
-          {...register("email")}
-          disabled={isLoading}
+        <FormField
+          control={control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder="your@email.com"
+                  {...field}
+                  disabled={isLoading}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FormError message={errors.email?.message} />
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="password">Пароль</Label>
-        <Input
-          id="password"
-          type="password"
-          placeholder="••••••••"
-          {...register("password")}
-          disabled={isLoading}
+        <FormField
+          control={control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Пароль</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  {...field}
+                  disabled={isLoading}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FormError message={errors.password?.message} />
-      </div>
 
-
-      <Button 
-        type="submit" 
-        variant="gradient" 
-        className="w-full"
-        disabled={isLoading}
-      >
-        {isLoading ? "Реєстрація..." : "Зареєструватися"}
-      </Button>
-    </form>
+        <Button 
+          type="submit" 
+          variant="gradient" 
+          className="w-full"
+          disabled={isLoading}
+        >
+          {isLoading ? "Реєстрація..." : "Зареєструватися"}
+        </Button>
+      </form>
+    </Form>
   );
 };

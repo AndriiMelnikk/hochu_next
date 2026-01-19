@@ -1,54 +1,47 @@
 "use client";
 
-import { Button } from "@shared/ui/button";
-import { Input } from "@shared/ui/input";
-import { Label } from "@shared/ui/label";
-import { FormError } from "@shared/ui/form-error";
+
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { routes } from "@/app/router/routes";
-import { useAuth } from "@/entities/auth";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/entities/auth";
+import { LoginForm } from "@/features/auth/ui/LoginForm";
 import Header from "@/widgets/app/Header";
 import Footer from "@/widgets/app/Footer";
 import { toast } from "sonner";
 
 export default function LoginContent() {
-  const router = useRouter();
-  const { login } = useAuth();
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: zodResolver(loginSchema),
-  });
+  // const router = useRouter();
+  // const { login } = useAuth();
+  // const { register, handleSubmit, formState: { errors } } = useForm({
+  //   resolver: zodResolver(loginSchema),
+  // });
 
-  const onSubmit = async (data: { email: string; password: string }) => {
-    try {
-      await login(data.email, data.password);
-      router.push(routes.HOME);
-    } catch (error: any) {
-      let handledAsFieldError = false;
+  // const onSubmit = async (data: { email: string; password: string }) => {
+  //   try {
+  //     await login(data.email, data.password);
+  //     router.push(routes.HOME);
+  //   } catch (error: any) {
+  //     let handledAsFieldError = false;
 
-      if (error.response?.data) {
-        const serverErrors = error.response.data.errors || error.response.data;
-        if (typeof serverErrors === 'object') {
-          Object.keys(serverErrors).forEach((key) => {
-            if (['email', 'password'].includes(key)) {
-              const message = Array.isArray(serverErrors[key]) ? serverErrors[key][0] : serverErrors[key];
-              const errorMessage = typeof message === 'string' ? message : "Невалідні дані";
+  //     if (error.response?.data) {
+  //       const serverErrors = error.response.data.errors || error.response.data;
+  //       if (typeof serverErrors === 'object') {
+  //         Object.keys(serverErrors).forEach((key) => {
+  //           if (['email', 'password'].includes(key)) {
+  //             const message = Array.isArray(serverErrors[key]) ? serverErrors[key][0] : serverErrors[key];
+  //             const errorMessage = typeof message === 'string' ? message : "Невалідні дані";
               
-              toast.error(errorMessage);
-              handledAsFieldError = true;
-            }
-          });
-        }
-      }
+  //             toast.error(errorMessage);
+  //             handledAsFieldError = true;
+  //           }
+  //         });
+  //       }
+  //     }
 
-      if (!handledAsFieldError) {
-        toast.error(error.friendlyMessage || "Сталася помилка при вході");
-      }
-    }
-  };
+  //     if (!handledAsFieldError) {
+  //       toast.error(error.friendlyMessage || "Сталася помилка при вході");
+  //     }
+  //   }
+  // };
 
   const onInvalid = (errors: any) => {
     Object.values(errors).forEach((error: any) => {
@@ -71,33 +64,7 @@ export default function LoginContent() {
                 Введіть свої дані для входу в акаунт
               </p>
             </div>
-            
-            <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  {...register("email")}
-                />
-                <FormError message={errors.email?.message as string} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Пароль</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  {...register("password")}
-                />
-                <FormError message={errors.password?.message as string} />
-              </div>
-              <Button type="submit" variant="gradient" className="w-full">
-                Увійти
-              </Button>
-            </form>
-            
+            <LoginForm />
             <div className="mt-6 text-center text-sm">
               <span className="text-muted-foreground">Ще не маєте акаунту? </span>
               <Link href={routes.REGISTER} className="text-primary hover:underline font-medium">
