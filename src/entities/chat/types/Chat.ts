@@ -6,4 +6,3 @@ export interface IMessage {
   createdAt: string;
   read: boolean;
 }
-

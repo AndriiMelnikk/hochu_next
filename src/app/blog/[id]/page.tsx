@@ -1,17 +1,17 @@
-import Link from "next/link";
-import Header from "@/widgets/app/Header";
-import Footer from "@/widgets/app/Footer";
-import { Card, CardContent } from "@shared/ui/card";
-import { Badge } from "@shared/ui/badge";
-import { Button } from "@shared/ui/button";
-import { Calendar, User, Clock, ArrowLeft, Share2 } from "lucide-react";
-import { getLocaleFromHeaders } from "@/locales/locale";
-import { getMetadataForRoute } from "@/locales/route-metadata";
-import { blogService } from "@/entities/blog/services/blogService";
-import { Error as ErrorComponent } from "@shared/ui/error";
-import { Separator } from "@shared/ui/separator";
-import { parseContentToSections } from "@/entities/blog/utils/contentParser";
-import { ArticleSection } from "./ArticleSection";
+import Link from 'next/link';
+import Header from '@/widgets/app/Header';
+import Footer from '@/widgets/app/Footer';
+import { Card, CardContent } from '@shared/ui/card';
+import { Badge } from '@shared/ui/badge';
+import { Button } from '@shared/ui/button';
+import { Calendar, User, Clock, ArrowLeft, Share2 } from 'lucide-react';
+import { getLocaleFromHeaders } from '@/locales/locale';
+import { getMetadataForRoute } from '@/locales/route-metadata';
+import { blogService } from '@/entities/blog/services/blogService';
+import { Error as ErrorComponent } from '@shared/ui/error';
+import { Separator } from '@shared/ui/separator';
+import { parseContentToSections } from '@/entities/blog/utils/contentParser';
+import { ArticleSection } from './ArticleSection';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -28,16 +28,16 @@ export async function generateMetadata({ params }: Props) {
       return {
         ...baseMetadata,
         title: `${post.title} | Hochu Blog`,
-        description: post.content?.slice(0, 160).replace(/<[^>]*>/g, ""),
+        description: post.content?.slice(0, 160).replace(/<[^>]*>/g, ''),
         openGraph: {
           title: post.title,
-          description: post.content?.slice(0, 160).replace(/<[^>]*>/g, ""),
+          description: post.content?.slice(0, 160).replace(/<[^>]*>/g, ''),
           images: post.image ? [post.image] : [],
         },
       };
     }
   } catch (error) {
-    console.error("Failed to fetch blog post for metadata:", error);
+    console.error('Failed to fetch blog post for metadata:', error);
   }
 
   return baseMetadata;
@@ -52,15 +52,15 @@ export default async function BlogArticlePage({ params }: Props) {
   try {
     article = await blogService.getOne(id);
   } catch (err) {
-    console.error("Failed to fetch article:", err);
+    console.error('Failed to fetch article:', err);
     error = err;
   }
 
   if (error || !article) {
     return (
-      <ErrorComponent 
-        variant="full-page" 
-        message={error instanceof Error ? error.message : "Не вдалося завантажити статтю"}
+      <ErrorComponent
+        variant="full-page"
+        message={error instanceof Error ? error.message : 'Не вдалося завантажити статтю'}
         HeaderComponent={Header}
         FooterComponent={Footer}
       />
@@ -68,9 +68,7 @@ export default async function BlogArticlePage({ params }: Props) {
   }
 
   // Парсинг контенту в секції
-  const sections = article?.content 
-    ? parseContentToSections(article.content)
-    : [];
+  const sections = article?.content ? parseContentToSections(article.content) : [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -88,7 +86,7 @@ export default async function BlogArticlePage({ params }: Props) {
         <Card className="mb-8">
           <div className="relative h-96 w-full overflow-hidden rounded-t-lg">
             <img
-              src={article.image || "/placeholder.svg"}
+              src={article.image || '/placeholder.svg'}
               alt={article.title}
               className="w-full h-full object-cover"
             />
@@ -96,7 +94,7 @@ export default async function BlogArticlePage({ params }: Props) {
           <CardContent className="p-8">
             <Badge className="mb-4">{article.category}</Badge>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">{article.title}</h1>
-            
+
             <div className="flex flex-wrap items-center gap-6 text-muted-foreground mb-6">
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4" />
@@ -104,11 +102,13 @@ export default async function BlogArticlePage({ params }: Props) {
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{new Date(article.date).toLocaleDateString('uk-UA', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}</span>
+                <span>
+                  {new Date(article.date).toLocaleDateString('uk-UA', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />

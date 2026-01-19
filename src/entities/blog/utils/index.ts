@@ -1,8 +1,7 @@
-export { 
-  parseContentToSections, 
-  serializeSectionsToContent, 
+export {
+  parseContentToSections,
+  serializeSectionsToContent,
   getIconComponent,
   createDefaultSections,
-  type ArticleSectionData 
-} from "./contentParser";
-
+  type ArticleSectionData,
+} from './contentParser';

@@ -1,6 +1,6 @@
-import { getLocaleFromHeaders } from "@/locales/locale";
-import { getMetadataForRoute } from "@/locales/route-metadata";
-import RegisterContent from "./RegisterContent";
+import { getLocaleFromHeaders } from '@/locales/locale';
+import { getMetadataForRoute } from '@/locales/route-metadata';
+import RegisterContent from './RegisterContent';
 
 export async function generateMetadata() {
   const locale = await getLocaleFromHeaders();

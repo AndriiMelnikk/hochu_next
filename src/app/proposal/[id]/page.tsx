@@ -1,7 +1,7 @@
-import ProposalDetailContent from "./ProposalDetailContent";
-import { getLocaleFromHeaders } from "@/locales/locale";
-import { getMetadataForRoute } from "@/locales/route-metadata";
-import { proposalService } from "@/entities/proposal/services/proposalService";
+import ProposalDetailContent from './ProposalDetailContent';
+import { getLocaleFromHeaders } from '@/locales/locale';
+import { getMetadataForRoute } from '@/locales/route-metadata';
+import { proposalService } from '@/entities/proposal/services/proposalService';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props) {
       };
     }
   } catch (error) {
-    console.error("Failed to fetch proposal for metadata:", error);
+    console.error('Failed to fetch proposal for metadata:', error);
   }
 
   return baseMetadata;

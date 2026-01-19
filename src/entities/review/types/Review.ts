@@ -6,4 +6,3 @@ export interface IReview {
   comment: string;
   createdAt: string;
 }
-

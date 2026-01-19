@@ -1,6 +1,6 @@
-import { ArticleSectionData, getIconComponent } from "@/entities/blog/utils/contentParser";
-import { Card, CardContent } from "@shared/ui/card";
-import { cn } from "@/lib/utils";
+import { ArticleSectionData, getIconComponent } from '@/entities/blog/utils/contentParser';
+import { Card, CardContent } from '@shared/ui/card';
+import { cn } from '@/lib/utils';
 
 type Props = {
   section: ArticleSectionData;
@@ -8,30 +8,39 @@ type Props = {
 
 export function ArticleSection({ section }: Props) {
   switch (section.type) {
-    case "intro":
-    case "conclusion":
+    case 'intro':
+    case 'conclusion':
       return (
-        <div 
+        <div
           className={cn(
-            "prose prose-slate max-w-none dark:prose-invert",
-            section.type === "conclusion" && "mt-8 p-6 bg-muted/50 rounded-lg"
+            'prose prose-slate max-w-none dark:prose-invert',
+            section.type === 'conclusion' && 'mt-8 p-6 bg-muted/50 rounded-lg',
           )}
-          dangerouslySetInnerHTML={{ __html: section.content }} 
+          dangerouslySetInnerHTML={{ __html: section.content }}
         />
       );
 
-    case "tip":
-    case "info": {
+    case 'tip':
+    case 'info': {
       const Icon = getIconComponent(section.icon);
       return (
-        <Card className={cn("my-6", section.type === "tip" ? "border-primary/50" : "border-blue-500/50")}>
+        <Card
+          className={cn(
+            'my-6',
+            section.type === 'tip' ? 'border-primary/50' : 'border-blue-500/50',
+          )}
+        >
           <CardContent className="p-6">
             <div className="flex items-start gap-4">
               {Icon && (
-                <div className={cn(
-                  "p-2 rounded-full", 
-                  section.type === "tip" ? "bg-primary/10 text-primary" : "bg-blue-500/10 text-blue-500"
-                )}>
+                <div
+                  className={cn(
+                    'p-2 rounded-full',
+                    section.type === 'tip'
+                      ? 'bg-primary/10 text-primary'
+                      : 'bg-blue-500/10 text-blue-500',
+                  )}
+                >
                   <Icon className="h-6 w-6" />
                 </div>
               )}
@@ -52,7 +61,7 @@ export function ArticleSection({ section }: Props) {
       );
     }
 
-    case "tips-list":
+    case 'tips-list':
       return (
         <div className="my-8">
           <h3 className="text-xl font-bold mb-4">{section.title}</h3>
@@ -68,7 +77,7 @@ export function ArticleSection({ section }: Props) {
           </ul>
         </div>
       );
-      
+
     default:
       return null;
   }

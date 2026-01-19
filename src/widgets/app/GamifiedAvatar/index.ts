@@ -1,2 +1,1 @@
-export { default } from "./GamifiedAvatar";
-
+export { default } from './GamifiedAvatar';

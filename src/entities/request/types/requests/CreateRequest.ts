@@ -8,4 +8,3 @@ export interface ICreateRequestRequest {
   urgency: string;
   images?: string[];
 }
-

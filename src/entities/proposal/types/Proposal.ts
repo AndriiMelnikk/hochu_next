@@ -6,7 +6,7 @@ export interface IProposal {
   description: string;
   estimatedTime: string;
   createdAt: string;
-  status: "pending" | "accepted" | "rejected";
+  status: 'pending' | 'accepted' | 'rejected';
 }
 
 export interface IProposalWithSeller extends IProposal {
@@ -19,4 +19,3 @@ export interface IProposalWithSeller extends IProposal {
     isVerified: boolean;
   };
 }
-

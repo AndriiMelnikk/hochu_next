@@ -47,6 +47,7 @@ src/
 - `shared` → не може імпортувати з інших шарів
 
 **Заборонено:**
+
 - `entities` → `features`
 - `shared` → `entities`
 - Циклічні залежності між модулями одного шару
@@ -60,6 +61,7 @@ src/
 **Призначення:** Ініціалізація додатку, глобальна конфігурація, провайдери.
 
 #### Структура:
+
 ```
 app/
 ├── config/           # Конфігураційні файли (vite-env.d.ts)
@@ -81,22 +83,26 @@ app/
 #### Ключові особливості:
 
 **App.tsx:**
+
 - Ініціалізує Lingui для інтернаціоналізації
 - Завантажує переклади динамічно залежно від локалі
 - Використовує `useGetUserData` для автоматичного завантаження даних користувача
 - Налаштовує `RouterProvider` та `ToastContainer`
 
 **Router (router.tsx):**
+
 - Використовує `createBrowserRouter` з React Router v7
 - Всі сторінки завантажуються через `lazy()` для code splitting
 - Всі маршрути обгорнуті в `RootLayout`
 - Реалізовано fallback на головну сторінку для невідомих маршрутів
 
 **Routes (routes.ts):**
+
 - Всі маршрути визначені як константи об'єкта
 - Використовуються для типобезпечного навігування
 
 **useGetUserData:**
+
 - Автоматично завантажує дані користувача та збережені курси при автентифікації
 - Використовує `setTimeout` для обходу проблеми з встановленням Authorization header
 
@@ -107,6 +113,7 @@ app/
 **Призначення:** Сторінки додатку - композиція widgets та features.
 
 #### Структура:
+
 ```
 pages/
 ├── app/
@@ -133,20 +140,21 @@ pages/
 #### Патерн реалізації сторінок:
 
 **Типова структура сторінки:**
+
 ```typescript
 // Course.tsx
 export default function CoursePage() {
   // 1. Отримання параметрів з URL
   const { uuid } = useParams();
-  
+
   // 2. Використання хуків для отримання даних
   const { course, isLoading, error } = useCourse(uuid);
-  
+
   // 3. Обробка помилок
   if (error) {
     return <ErrorComponent />;
   }
-  
+
   // 4. Композиція widgets та features
   return (
     <div>
@@ -162,6 +170,7 @@ export default function CoursePage() {
 ```
 
 **Особливості:**
+
 - Сторінки мінімальні - тільки композиція
 - Вся бізнес-логіка винесена в widgets/features
 - Використання хуків для отримання даних
@@ -174,6 +183,7 @@ export default function CoursePage() {
 **Призначення:** Складні композитні компоненти, що об'єднують кілька features.
 
 #### Структура:
+
 ```
 widgets/
 ├── app/
@@ -195,15 +205,16 @@ widgets/
 #### Патерн реалізації widgets:
 
 **Типова структура widget:**
+
 ```typescript
 // Courses.tsx
 export default function Courses() {
   // 1. Локальний стан для UI
   const [showSelectCategory, setShowSelectCategory] = useState(false);
-  
+
   // 2. Використання кастомних хуків для даних
   const { allCourses, coursesByCategories, isLoading, error } = useCourses();
-  
+
   // 3. Композиція features та shared компонентів
   return (
     <main>
@@ -226,12 +237,14 @@ export default function Courses() {
 ```
 
 **Особливості:**
+
 - Widgets містять бізнес-логіку для конкретної функціональності
 - Використовують кастомні хуки для роботи з даними
 - Можуть містити локальний стан для UI
 - Композують features та shared компоненти
 
 **Хуки widgets:**
+
 - Зазвичай знаходяться в `widgets/[module]/[widget]/hooks/`
 - Інкапсулюють логіку отримання та обробки даних
 - Можуть використовувати кілька entities одночасно
@@ -243,6 +256,7 @@ export default function Courses() {
 **Призначення:** Бізнес-функціональність, що може бути використана в різних місцях.
 
 #### Структура:
+
 ```
 features/
 ├── app/
@@ -262,6 +276,7 @@ features/
 #### Патерн реалізації features:
 
 **Типова структура feature:**
+
 ```typescript
 // OnlineCourseCard.tsx
 interface OnlineCourseCardProps {
@@ -276,19 +291,19 @@ export default function OnlineCourseCard({
   // 1. Використання entities для отримання даних
   const providers = useProvidersStore((state) => state.providers);
   const provider = providers.find(p => p.uuid === course.provider);
-  
+
   // 2. Використання хуків entities для трансформації
   const transformedDuration = useTransformDuration(course.duration);
-  
+
   // 3. Локальний стан для UI
   const [openPopover, setOpenPopover] = useState(false);
-  
+
   // 4. Обробка подій
   function saveHandle() {
     setOpenPopover(false);
     onSaveClick?.({ courseId: course.uuid });
   }
-  
+
   return (
     <article>
       {/* UI компонент */}
@@ -298,6 +313,7 @@ export default function OnlineCourseCard({
 ```
 
 **Особливості:**
+
 - Features - це переіспользувані UI компоненти з бізнес-логікою
 - Можуть приймати колбеки для інтеграції з батьківськими компонентами
 - Використовують entities для отримання даних
@@ -310,6 +326,7 @@ export default function OnlineCourseCard({
 **Призначення:** Бізнес-сутності та їх логіка (Course, User, Auth, Review тощо).
 
 #### Структура entity:
+
 ```
 entities/
 └── [entity]/
@@ -330,24 +347,21 @@ entities/
 #### Детальний опис компонентів entity:
 
 **1. Service (`[entity]Service.ts`):**
+
 ```typescript
 class CourseService {
   async get(
     searchParams: IGetCourseRequest = {},
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<IGetCourseResponse> {
     // Побудова query параметрів
     const urlSearchParams = new URLSearchParams();
-    Object.entries(searchParams).forEach(([key, value]) =>
-      urlSearchParams.append(key, value)
-    );
-    
+    Object.entries(searchParams).forEach(([key, value]) => urlSearchParams.append(key, value));
+
     // Виконання запиту через shared/api
-    return (
-      await api.get(`/courses/courses/?${urlSearchParams.toString()}`, config)
-    ).data;
+    return (await api.get(`/courses/courses/?${urlSearchParams.toString()}`, config)).data;
   }
-  
+
   async getOne(id: string | number): Promise<ICourse> {
     return (await api.get(`/courses/courses/${id}/`)).data;
   }
@@ -357,6 +371,7 @@ export const courseService = new CourseService();
 ```
 
 **Особливості сервісів:**
+
 - Класи з методами для роботи з API
 - Приймають типізовані параметри запитів
 - Повертають типізовані відповіді
@@ -364,6 +379,7 @@ export const courseService = new CourseService();
 - Використовують `api` з `@shared/api/api`
 
 **2. Store (`store/[entity].ts`):**
+
 ```typescript
 type State = {
   isLoading: boolean;
@@ -380,30 +396,31 @@ export const useCoursesStore = create<State & Actions>()(
     // Початковий стан
     isLoading: true,
     courses: { count: 0, next: null, previous: null, results: [] },
-    error: "",
-    
+    error: '',
+
     // Actions
     getCourses: async (searchParams = {}) => {
       try {
-        set({ isLoading: true, error: "" });
-        
+        set({ isLoading: true, error: '' });
+
         const courses = await courseService.get(searchParams);
-        
+
         set({ courses });
       } catch {
         set((state) => {
           state.courses = { count: 0, next: null, previous: null, results: [] };
-          state.error = "Unexpected error occured. Please try again later";
+          state.error = 'Unexpected error occured. Please try again later';
         });
       } finally {
         set({ isLoading: false });
       }
     },
-  }))
+  })),
 );
 ```
 
 **Особливості stores:**
+
 - Використовують Zustand з Immer middleware для імутабельних оновлень
 - Розділення на State та Actions
 - Обробка станів завантаження та помилок
@@ -411,6 +428,7 @@ export const useCoursesStore = create<State & Actions>()(
 - Використання try-catch для обробки помилок
 
 **3. Types:**
+
 ```typescript
 // types/Course.ts
 export interface ICourse {
@@ -439,11 +457,13 @@ export interface IGetCourseResponse {
 ```
 
 **Особливості типів:**
+
 - Чітке розділення на requests, responses та основні типи
 - Використання TypeScript interfaces
 - Експорт констант для enum-подібних значень
 
 **4. Hooks:**
+
 ```typescript
 // hooks/useTransformDuration.tsx
 export const useTransformDuration = (duration: number) => {
@@ -454,42 +474,44 @@ export const useTransformDuration = (duration: number) => {
     }
     // ... логіка трансформації
   }, [duration]);
-  
+
   return transformedDuration;
 };
 ```
 
 **Особливості хуків:**
+
 - Інкапсулюють логіку трансформації даних
 - Можуть використовувати інтернаціоналізацію
 - Використовують useMemo для оптимізації
 
 **5. Selectors:**
+
 ```typescript
 // selectors.ts
-export const selectSavedCourse =
-  (savedCourseId: string) => (state: SavedCourseStore) =>
-    state.savedCourses.results.find(
-      (savedCourse) => savedCourse.course === savedCourseId
-    );
+export const selectSavedCourse = (savedCourseId: string) => (state: SavedCourseStore) =>
+  state.savedCourses.results.find((savedCourse) => savedCourse.course === savedCourseId);
 ```
 
 **Особливості селекторів:**
+
 - Функції для вибірки конкретних даних з store
 - Можуть приймати параметри
 - Повертають функцію, яка приймає state
 
 **6. Index.ts (Public API):**
+
 ```typescript
 // index.ts
-export { courseService } from "./services/course";
-export { useCoursesStore } from "./store/course";
-export type { ICourse } from "./types/Course";
-export { useTransformDuration } from "./hooks/useTransformDuration";
+export { courseService } from './services/course';
+export { useCoursesStore } from './store/course';
+export type { ICourse } from './types/Course';
+export { useTransformDuration } from './hooks/useTransformDuration';
 // ... інші експорти
 ```
 
 **Особливості:**
+
 - Експортує тільки публічний API модуля
 - Дозволяє імпортувати з `@entities/course` замість конкретних файлів
 
@@ -500,6 +522,7 @@ export { useTransformDuration } from "./hooks/useTransformDuration";
 **Призначення:** Переіспользувані компоненти, утиліти, конфігурація.
 
 #### Структура:
+
 ```
 shared/
 ├── api/
@@ -533,6 +556,7 @@ shared/
 #### Ключові компоненти:
 
 **1. API (`api/api.ts`):**
+
 ```typescript
 const getAuthorizationHeader = () => {
   const accessToken = localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
@@ -542,7 +566,7 @@ const getAuthorizationHeader = () => {
 export const api = axios.create({
   baseURL: apiBaseUrl,
   headers: {
-    "Accept-Language": localStorage.getItem(LS_KEYS.LOCALE) || "uk",
+    'Accept-Language': localStorage.getItem(LS_KEYS.LOCALE) || 'uk',
     Authorization: getAuthorizationHeader(),
   },
 });
@@ -555,23 +579,26 @@ api.interceptors.response.use(
       localStorage.removeItem(LS_KEYS.ACCESS_TOKEN);
     }
     return Promise.reject(error);
-  }
+  },
 );
 ```
 
 **Особливості:**
+
 - Єдиний екземпляр Axios для всього додатку
 - Автоматичне додавання Authorization header
 - Автоматичне додавання Accept-Language header
 - Interceptor для обробки 401 помилок (автоматичний logout)
 
 **2. UI Components:**
+
 - Переіспользувані компоненти без бізнес-логіки
 - Використовують CSS Modules для стилізації
 - Можуть приймати className для кастомізації
 - Типізовані через TypeScript
 
 **3. Utils:**
+
 - Чисті функції без залежностей від React
 - Можуть використовуватися в будь-якому місці
 - Добре тестуються
@@ -583,6 +610,7 @@ api.interceptors.response.use(
 ### Архітектура Store
 
 **Використання:**
+
 - Zustand з Immer middleware для імутабельних оновлень
 - Stores знаходяться в `entities/[entity]/store/`
 - Використання через хуки: `useStore((state) => state.property)`
@@ -590,8 +618,8 @@ api.interceptors.response.use(
 ### Патерн Store:
 
 ```typescript
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
 
 type State = {
   data: DataType;
@@ -609,28 +637,28 @@ export const useStore = create<State & Actions>()(
     // Initial state
     data: initialData,
     isLoading: false,
-    error: "",
-    
+    error: '',
+
     // Actions
     fetchData: async () => {
       try {
-        set({ isLoading: true, error: "" });
+        set({ isLoading: true, error: '' });
         const data = await service.get();
         set({ data, isLoading: false });
       } catch (err) {
         set((state) => {
-          state.error = "Error message";
+          state.error = 'Error message';
           state.isLoading = false;
         });
       }
     },
-    
+
     updateData: (data) => {
       set((state) => {
         state.data = data;
       });
     },
-  }))
+  })),
 );
 ```
 
@@ -649,6 +677,7 @@ export const useStore = create<State & Actions>()(
 ### Структура запитів
 
 **1. Service Layer:**
+
 - Кожна entity має свій service клас
 - Методи service повертають Promise з типізованими даними
 - Використовують `api` з `@shared/api/api`
@@ -656,6 +685,7 @@ export const useStore = create<State & Actions>()(
 **2. Обробка помилок:**
 
 **На рівні API interceptor:**
+
 ```typescript
 api.interceptors.response.use(
   (response) => response,
@@ -666,23 +696,25 @@ api.interceptors.response.use(
       localStorage.removeItem(LS_KEYS.ACCESS_TOKEN);
     }
     return Promise.reject(error);
-  }
+  },
 );
 ```
 
 **На рівні Service/Store:**
+
 ```typescript
 try {
   const data = await service.get();
   set({ data });
 } catch (err) {
   set((state) => {
-    state.error = "Unexpected error occured. Please try again later";
+    state.error = 'Unexpected error occured. Please try again later';
   });
 }
 ```
 
 **На рівні компонентів:**
+
 ```typescript
 try {
   await login(data);
@@ -697,14 +729,15 @@ try {
 ```
 
 **3. Abort Controller:**
+
 ```typescript
 useEffect(() => {
   const controller = new AbortController();
   const signal = controller.signal;
-  
+
   const fetchData = async () => {
     try {
-      const data = await service.get("", { signal });
+      const data = await service.get('', { signal });
       // Handle data
     } catch (err) {
       if (!isAbortErr(err)) {
@@ -712,9 +745,9 @@ useEffect(() => {
       }
     }
   };
-  
+
   fetchData();
-  
+
   return () => {
     controller.abort();
   };
@@ -722,11 +755,10 @@ useEffect(() => {
 ```
 
 **4. Query Parameters:**
+
 ```typescript
 const urlSearchParams = new URLSearchParams();
-Object.entries(searchParams).forEach(([key, value]) =>
-  urlSearchParams.append(key, value)
-);
+Object.entries(searchParams).forEach(([key, value]) => urlSearchParams.append(key, value));
 
 return await api.get(`/endpoint/?${urlSearchParams.toString()}`);
 ```
@@ -738,6 +770,7 @@ return await api.get(`/endpoint/?${urlSearchParams.toString()}`);
 ### Конфігурація
 
 **Маршрути визначені в `app/router/router.tsx`:**
+
 ```typescript
 export const router = createBrowserRouter([
   {
@@ -771,11 +804,11 @@ export const router = createBrowserRouter([
 ### Навігація:
 
 ```typescript
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 // Програмна навігація
 const navigate = useNavigate();
-navigate(routes.COURSE + "/" + uuid);
+navigate(routes.COURSE + '/' + uuid);
 
 // Отримання параметрів
 const { uuid } = useParams();
@@ -783,7 +816,7 @@ const { uuid } = useParams();
 // Отримання query параметрів
 const location = useLocation();
 const urlSearchParams = new URLSearchParams(location.search);
-const redirectUri = urlSearchParams.get("redirect_uri");
+const redirectUri = urlSearchParams.get('redirect_uri');
 ```
 
 ---
@@ -793,18 +826,17 @@ const redirectUri = urlSearchParams.get("redirect_uri");
 ### Налаштування
 
 **В App.tsx:**
+
 ```typescript
 useEffect(() => {
   const loadTranslations = async () => {
     try {
-      const { messages } = await import(
-        `../../locales/${locale}/translations.po`
-      );
+      const { messages } = await import(`../../locales/${locale}/translations.po`);
       i18n.load(locale, messages);
       i18n.activate(locale);
-    } catch { }
+    } catch {}
   };
-  
+
   loadTranslations();
 }, [locale]);
 ```
@@ -812,6 +844,7 @@ useEffect(() => {
 ### Використання
 
 **1. Trans компонент:**
+
 ```typescript
 import { Trans } from "@lingui/react/macro";
 
@@ -819,6 +852,7 @@ import { Trans } from "@lingui/react/macro";
 ```
 
 **2. Plural:**
+
 ```typescript
 import { Plural } from "@lingui/react/macro";
 
@@ -826,8 +860,9 @@ import { Plural } from "@lingui/react/macro";
 ```
 
 **3. useLingui hook:**
+
 ```typescript
-import { useLingui } from "@lingui/react/macro";
+import { useLingui } from '@lingui/react/macro';
 
 const { t } = useLingui();
 const message = t`Error message`;
@@ -864,13 +899,13 @@ npm run translations:compile  # Скомпілювати переклади
 
 ```scss
 // Component.module.scss
-@use "../../shared/config/breakpoints.scss";
-@use "../../shared/config/colors.scss";
-@use "../../shared/utils/mixins.scss";
+@use '../../shared/config/breakpoints.scss';
+@use '../../shared/config/colors.scss';
+@use '../../shared/utils/mixins.scss';
 
 .component {
   // Стилі компонента
-  
+
   @media (max-width: $md) {
     // Responsive стилі
   }
@@ -909,8 +944,8 @@ $sm: 600px;
 ### Патерн використання:
 
 ```typescript
-import { useForm } from "react-hook-form";
-import { useLingui } from "@lingui/react/macro";
+import { useForm } from 'react-hook-form';
+import { useLingui } from '@lingui/react/macro';
 
 type Inputs = {
   email: string;
@@ -919,8 +954,12 @@ type Inputs = {
 
 export const useHandleSubmit = () => {
   const { t } = useLingui();
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
-  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       await login(data);
@@ -929,7 +968,7 @@ export const useHandleSubmit = () => {
       // Error handling
     }
   };
-  
+
   return {
     register,
     handleSubmit,
@@ -942,7 +981,7 @@ export const useHandleSubmit = () => {
 ### Валідація:
 
 ```typescript
-register("email", {
+register('email', {
   required: t`Email is required`,
   pattern: {
     value: REGEXS.EMAIL,
@@ -958,20 +997,23 @@ register("email", {
 ### Використання:
 
 ```typescript
-import { toast as notify } from "react-toastify";
-import { Bounce } from "react-toastify";
+import { toast as notify } from 'react-toastify';
+import { Bounce } from 'react-toastify';
 
-notify(SuccessNotification({
-  text: "Course successfully added!",
-  Icon: Success
-}), {
-  position: "bottom-center",
-  autoClose: 5000,
-  closeButton: false,
-  hideProgressBar: true,
-  theme: "colored",
-  transition: Bounce,
-});
+notify(
+  SuccessNotification({
+    text: 'Course successfully added!',
+    Icon: Success,
+  }),
+  {
+    position: 'bottom-center',
+    autoClose: 5000,
+    closeButton: false,
+    hideProgressBar: true,
+    theme: 'colored',
+    transition: Bounce,
+  },
+);
 ```
 
 ### Налаштування:
@@ -1005,9 +1047,9 @@ resolve: {
 ### Використання:
 
 ```typescript
-import { api } from "@shared/api/api";
-import { useAuthStore } from "@entities/auth";
-import Container from "@shared/ui/Container/Container";
+import { api } from '@shared/api/api';
+import { useAuthStore } from '@entities/auth';
+import Container from '@shared/ui/Container/Container';
 ```
 
 ---
@@ -1020,8 +1062,8 @@ import Container from "@shared/ui/Container/Container";
 // shared/config/envVars.ts
 export const apiBaseUrl = (() => {
   const value = import.meta.env.VITE_API_BASE_URL;
-  if (typeof value !== "string") {
-    return "https://backend.freecourses.com.ua/api";
+  if (typeof value !== 'string') {
+    return 'https://backend.freecourses.com.ua/api';
   }
   return value;
 })();
@@ -1040,12 +1082,13 @@ export const apiBaseUrl = (() => {
 ### 1. Кастомні хуки
 
 **Для отримання даних:**
+
 ```typescript
 export const useCourses = () => {
   const [courses, setCourses] = useState<ICourse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-  
+  const [error, setError] = useState('');
+
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -1053,15 +1096,15 @@ export const useCourses = () => {
         const data = await courseService.get();
         setCourses(data.results);
       } catch (err) {
-        setError("Error message");
+        setError('Error message');
       } finally {
         setIsLoading(false);
       }
     };
-    
+
     fetchCourses();
   }, []);
-  
+
   return { courses, isLoading, error };
 };
 ```
@@ -1094,9 +1137,9 @@ const courses = useCoursesStore((state) => state.courses.results);
 ```typescript
 useEffect(() => {
   const controller = new AbortController();
-  
+
   fetchData({ signal: controller.signal });
-  
+
   return () => {
     controller.abort();
   };
@@ -1127,8 +1170,8 @@ Component/
 ### index.ts:
 
 ```typescript
-export { default } from "./Component";
-export type { ComponentProps } from "./Component";
+export { default } from './Component';
+export type { ComponentProps } from './Component';
 ```
 
 ---
@@ -1140,20 +1183,20 @@ export type { ComponentProps } from "./Component";
 ```json
 {
   "dependencies": {
-    "@heroui/react": "^2.8.2",        // UI компоненти
-    "@lingui/core": "^5.3.1",          // i18n
+    "@heroui/react": "^2.8.2", // UI компоненти
+    "@lingui/core": "^5.3.1", // i18n
     "@lingui/react": "^5.3.1",
-    "axios": "^1.8.4",                 // HTTP клієнт
-    "clsx": "^2.1.1",                  // Утиліта для className
-    "date-fns": "^4.1.0",              // Робота з датами
-    "framer-motion": "^12.23.12",       // Анімації
-    "immer": "^10.1.1",                // Immer для Zustand
+    "axios": "^1.8.4", // HTTP клієнт
+    "clsx": "^2.1.1", // Утиліта для className
+    "date-fns": "^4.1.0", // Робота з датами
+    "framer-motion": "^12.23.12", // Анімації
+    "immer": "^10.1.1", // Immer для Zustand
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.60.0",      // Форми
-    "react-router-dom": "^7.3.0",      // Роутинг
-    "react-toastify": "^11.0.5",       // Нотифікації
-    "zustand": "^5.0.6"                // State management
+    "react-hook-form": "^7.60.0", // Форми
+    "react-router-dom": "^7.3.0", // Роутинг
+    "react-toastify": "^11.0.5", // Нотифікації
+    "zustand": "^5.0.6" // State management
   }
 }
 ```
@@ -1190,6 +1233,7 @@ npm run format     # Форматування коду
 ### 2. Імпорти
 
 **Порядок:**
+
 1. React та сторонні бібліотеки
 2. Shared компоненти та утиліти
 3. Entities
@@ -1198,18 +1242,19 @@ npm run format     # Форматування коду
 6. Локальні імпорти (стилі, типи)
 
 **Приклад:**
+
 ```typescript
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Trans } from "@lingui/react/macro";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Trans } from '@lingui/react/macro';
 
-import { useTransformDuration, type ICourse } from "@entities/course";
-import Container from "@shared/ui/Container/Container";
-import { routes } from "@app/router/routes";
+import { useTransformDuration, type ICourse } from '@entities/course';
+import Container from '@shared/ui/Container/Container';
+import { routes } from '@app/router/routes';
 
-import OnlineCourseCard from "@features/courses/OnlineCourseCard";
+import OnlineCourseCard from '@features/courses/OnlineCourseCard';
 
-import s from "./Component.module.scss";
+import s from './Component.module.scss';
 ```
 
 ### 3. Експорти
@@ -1289,6 +1334,7 @@ Component/
 ### Netlify
 
 Конфігурація в `netlify.toml`:
+
 ```toml
 [build]
   command = "npm run build"
@@ -1298,6 +1344,7 @@ Component/
 ### Environment Variables
 
 Встановлюються в налаштуваннях платформи деплою:
+
 - `VITE_API_BASE_URL`
 - `VITE_APP_ENV`
 - `VITE_API_LOAN_SITE_URL`
@@ -1327,4 +1374,3 @@ Component/
 - [Zustand Documentation](https://zustand-demo.pmnd.rs/)
 - [React Router Documentation](https://reactrouter.com/)
 - [Lingui Documentation](https://lingui.dev/)
-

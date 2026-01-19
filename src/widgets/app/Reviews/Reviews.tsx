@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Card, CardContent } from "@shared/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@shared/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@shared/ui/avatar";
-import { Button } from "@shared/ui/button";
-import { Textarea } from "@shared/ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@shared/ui/dialog";
-import { Star, Flag, ThumbsUp } from "lucide-react";
-import { useToast } from "@shared/ui/use-toast";
+import { useState } from 'react';
+import { Card, CardContent } from '@shared/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
+import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
+import { Button } from '@shared/ui/button';
+import { Textarea } from '@shared/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@shared/ui/dialog';
+import { Star, Flag, ThumbsUp } from 'lucide-react';
+import { useToast } from '@shared/ui/use-toast';
 
 interface Review {
   id: number;
@@ -24,66 +24,66 @@ interface Review {
 const mockReviewsAboutMe: Review[] = [
   {
     id: 1,
-    author: { name: "Марія Коваль", avatar: "" },
+    author: { name: 'Марія Коваль', avatar: '' },
     rating: 5,
-    comment: "Чудовий покупець! Швидка оплата, ввічлива комунікація. Рекомендую!",
-    date: "10.11.2024",
-    dealTitle: "iPad Air",
-    helpful: 12
+    comment: 'Чудовий покупець! Швидка оплата, ввічлива комунікація. Рекомендую!',
+    date: '10.11.2024',
+    dealTitle: 'iPad Air',
+    helpful: 12,
   },
   {
     id: 2,
-    author: { name: "Дмитро Петренко", avatar: "" },
+    author: { name: 'Дмитро Петренко', avatar: '' },
     rating: 5,
-    comment: "Все пройшло чудово. Швидка відповідь, чітка домовленість про зустріч.",
-    date: "05.11.2024",
-    dealTitle: "Apple Watch",
-    helpful: 8
+    comment: 'Все пройшло чудово. Швидка відповідь, чітка домовленість про зустріч.',
+    date: '05.11.2024',
+    dealTitle: 'Apple Watch',
+    helpful: 8,
   },
   {
     id: 3,
-    author: { name: "Олена Сидоренко", avatar: "" },
+    author: { name: 'Олена Сидоренко', avatar: '' },
     rating: 4,
-    comment: "Гарна людина, але трохи довго вирішувалися з місцем зустрічі.",
-    date: "28.10.2024",
-    dealTitle: "Magic Keyboard",
-    helpful: 5
-  }
+    comment: 'Гарна людина, але трохи довго вирішувалися з місцем зустрічі.',
+    date: '28.10.2024',
+    dealTitle: 'Magic Keyboard',
+    helpful: 5,
+  },
 ];
 
 const mockMyReviews: Review[] = [
   {
     id: 4,
-    author: { name: "Іван Мельник", avatar: "" },
+    author: { name: 'Іван Мельник', avatar: '' },
     rating: 5,
-    comment: "Відмінний продавець! Товар у ідеальному стані, все як описано.",
-    date: "12.11.2024",
-    dealTitle: "iPhone 14 Pro",
-    helpful: 15
+    comment: 'Відмінний продавець! Товар у ідеальному стані, все як описано.',
+    date: '12.11.2024',
+    dealTitle: 'iPhone 14 Pro',
+    helpful: 15,
   },
   {
     id: 5,
-    author: { name: "Анна Кравченко", avatar: "" },
+    author: { name: 'Анна Кравченко', avatar: '' },
     rating: 4,
-    comment: "Гарний сервіс, але ціна трохи завищена.",
-    date: "08.11.2024",
-    dealTitle: "Ремонт ноутбука",
-    helpful: 6
-  }
+    comment: 'Гарний сервіс, але ціна трохи завищена.',
+    date: '08.11.2024',
+    dealTitle: 'Ремонт ноутбука',
+    helpful: 6,
+  },
 ];
 
 const Reviews = () => {
   const { toast } = useToast();
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
-  const [reportReason, setReportReason] = useState("");
+  const [reportReason, setReportReason] = useState('');
 
   const handleReport = () => {
     toast({
-      title: "Скаргу відправлено",
-      description: "Ми розглянемо вашу скаргу найближчим часом.",
+      title: 'Скаргу відправлено',
+      description: 'Ми розглянемо вашу скаргу найближчим часом.',
     });
     setReportDialogOpen(false);
-    setReportReason("");
+    setReportReason('');
   };
 
   const renderStars = (rating: number) => {
@@ -93,7 +93,7 @@ const Reviews = () => {
           <Star
             key={star}
             className={`h-4 w-4 ${
-              star <= rating ? "fill-primary text-primary" : "text-muted-foreground"
+              star <= rating ? 'fill-primary text-primary' : 'text-muted-foreground'
             }`}
           />
         ))}
@@ -109,7 +109,10 @@ const Reviews = () => {
             <Avatar>
               <AvatarImage src={review.author.avatar} />
               <AvatarFallback className="bg-gradient-primary text-white">
-                {review.author.name.split(" ").map(n => n[0]).join("")}
+                {review.author.name
+                  .split(' ')
+                  .map((n) => n[0])
+                  .join('')}
               </AvatarFallback>
             </Avatar>
             <div>
@@ -130,10 +133,14 @@ const Reviews = () => {
             <ThumbsUp className="h-4 w-4 mr-1" />
             Корисно ({review.helpful})
           </Button>
-          
+
           <Dialog open={reportDialogOpen} onOpenChange={setReportDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-destructive">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground hover:text-destructive"
+              >
                 <Flag className="h-4 w-4 mr-1" />
                 Поскаржитись
               </Button>
@@ -153,9 +160,7 @@ const Reviews = () => {
                   <Button variant="outline" onClick={() => setReportDialogOpen(false)}>
                     Скасувати
                   </Button>
-                  <Button onClick={handleReport}>
-                    Відправити скаргу
-                  </Button>
+                  <Button onClick={handleReport}>Відправити скаргу</Button>
                 </div>
               </div>
             </DialogContent>
@@ -165,7 +170,8 @@ const Reviews = () => {
     </Card>
   );
 
-  const avgRating = mockReviewsAboutMe.reduce((acc, r) => acc + r.rating, 0) / mockReviewsAboutMe.length;
+  const avgRating =
+    mockReviewsAboutMe.reduce((acc, r) => acc + r.rating, 0) / mockReviewsAboutMe.length;
 
   return (
     <div className="space-y-6">
@@ -183,7 +189,7 @@ const Reviews = () => {
 
             <div className="flex-1 space-y-2">
               {[5, 4, 3, 2, 1].map((stars) => {
-                const count = mockReviewsAboutMe.filter(r => r.rating === stars).length;
+                const count = mockReviewsAboutMe.filter((r) => r.rating === stars).length;
                 const percentage = (count / mockReviewsAboutMe.length) * 100;
                 return (
                   <div key={stars} className="flex items-center gap-3">
@@ -192,14 +198,9 @@ const Reviews = () => {
                       <Star className="h-3 w-3 fill-primary text-primary" />
                     </div>
                     <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-primary"
-                        style={{ width: `${percentage}%` }}
-                      />
+                      <div className="h-full bg-primary" style={{ width: `${percentage}%` }} />
                     </div>
-                    <span className="text-sm text-muted-foreground w-12 text-right">
-                      {count}
-                    </span>
+                    <span className="text-sm text-muted-foreground w-12 text-right">{count}</span>
                   </div>
                 );
               })}
@@ -211,12 +212,8 @@ const Reviews = () => {
       {/* Reviews Tabs */}
       <Tabs defaultValue="about-me" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="about-me">
-            Відгуки про мене ({mockReviewsAboutMe.length})
-          </TabsTrigger>
-          <TabsTrigger value="my-reviews">
-            Мої відгуки ({mockMyReviews.length})
-          </TabsTrigger>
+          <TabsTrigger value="about-me">Відгуки про мене ({mockReviewsAboutMe.length})</TabsTrigger>
+          <TabsTrigger value="my-reviews">Мої відгуки ({mockMyReviews.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="about-me" className="mt-6">
@@ -232,4 +229,3 @@ const Reviews = () => {
 };
 
 export default Reviews;
-

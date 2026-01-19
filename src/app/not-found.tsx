@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { Button } from "@shared/ui/button";
-import { routes } from "@/app/router/routes";
+import Link from 'next/link';
+import { Button } from '@shared/ui/button';
+import { routes } from '@/app/router/routes';
 
 export default function NotFoundPage() {
   return (
@@ -18,4 +18,3 @@ export default function NotFoundPage() {
     </div>
   );
 }
-

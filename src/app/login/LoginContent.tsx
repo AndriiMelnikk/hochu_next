@@ -1,12 +1,11 @@
-"use client";
+'use client';
 
-
-import Link from "next/link";
-import { routes } from "@/app/router/routes";
-import { LoginForm } from "@/features/auth/ui/LoginForm";
-import Header from "@/widgets/app/Header";
-import Footer from "@/widgets/app/Footer";
-import { toast } from "sonner";
+import Link from 'next/link';
+import { routes } from '@/app/router/routes';
+import { LoginForm } from '@/features/auth/ui/LoginForm';
+import Header from '@/widgets/app/Header';
+import Footer from '@/widgets/app/Footer';
+import { toast } from 'sonner';
 
 export default function LoginContent() {
   // const router = useRouter();
@@ -29,7 +28,7 @@ export default function LoginContent() {
   //           if (['email', 'password'].includes(key)) {
   //             const message = Array.isArray(serverErrors[key]) ? serverErrors[key][0] : serverErrors[key];
   //             const errorMessage = typeof message === 'string' ? message : "Невалідні дані";
-              
+
   //             toast.error(errorMessage);
   //             handledAsFieldError = true;
   //           }
@@ -60,9 +59,7 @@ export default function LoginContent() {
           <div className="p-8 lg:p-12">
             <div className="space-y-2 mb-8">
               <h1 className="text-3xl font-bold text-card-foreground">Вхід</h1>
-              <p className="text-muted-foreground">
-                Введіть свої дані для входу в акаунт
-              </p>
+              <p className="text-muted-foreground">Введіть свої дані для входу в акаунт</p>
             </div>
             <LoginForm />
             <div className="mt-6 text-center text-sm">
@@ -87,7 +84,12 @@ export default function LoginContent() {
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   </div>
                   <div>
@@ -99,7 +101,12 @@ export default function LoginContent() {
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                      />
                     </svg>
                   </div>
                   <div>
@@ -111,7 +118,12 @@ export default function LoginContent() {
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
                     </svg>
                   </div>
                   <div>

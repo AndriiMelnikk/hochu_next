@@ -1,25 +1,14 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { 
-  registerSchema, 
-  useAuthStore, 
-  type IRegisterRequest 
-} from "@/entities/auth";
-import { Button } from "@/shared/ui/button";
-import { Input } from "@/shared/ui/input";
-import { 
-  Form, 
-  FormControl, 
-  FormField, 
-  FormItem, 
-  FormLabel, 
-  FormMessage 
-} from "@/shared/ui/form";
-import { routes } from "@/app/router/routes";
-import { toast } from "sonner";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { registerSchema, useAuthStore, type IRegisterRequest } from '@/entities/auth';
+import { Button } from '@/shared/ui/button';
+import { Input } from '@/shared/ui/input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
+import { routes } from '@/app/router/routes';
+import { toast } from 'sonner';
 
 export const RegisterForm = () => {
   const router = useRouter();
@@ -28,22 +17,18 @@ export const RegisterForm = () => {
   const form = useForm<IRegisterRequest>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
     },
   });
 
-  const {
-    handleSubmit,
-    setError,
-    control,
-  } = form;
+  const { handleSubmit, setError, control } = form;
 
   const onSubmit = async (data: IRegisterRequest) => {
     try {
       await registerUser(data);
-      toast.success("Реєстрація успішна!");
+      toast.success('Реєстрація успішна!');
       router.push(routes.HOME);
     } catch (err: any) {
       let handledAsFieldError = false;
@@ -55,14 +40,16 @@ export const RegisterForm = () => {
           Object.keys(serverErrors).forEach((key) => {
             // Перевіряємо, чи це поле є у нашій формі
             if (['email', 'name', 'password'].includes(key)) {
-              const message = Array.isArray(serverErrors[key]) ? serverErrors[key][0] : serverErrors[key];
-              const errorMessage = typeof message === 'string' ? message : "Невалідні дані";
-              
-              setError(key as any, { 
-                type: 'server', 
-                message: errorMessage 
+              const message = Array.isArray(serverErrors[key])
+                ? serverErrors[key][0]
+                : serverErrors[key];
+              const errorMessage = typeof message === 'string' ? message : 'Невалідні дані';
+
+              setError(key as any, {
+                type: 'server',
+                message: errorMessage,
               });
-              
+
               // Виводимо помилку поля в toast
               toast.error(errorMessage);
               handledAsFieldError = true;
@@ -70,12 +57,12 @@ export const RegisterForm = () => {
           });
         }
       }
-      
+
       // Якщо помилка не була оброблена як помилка поля, або є загальна помилка
       if (err.friendlyMessage && !handledAsFieldError) {
         toast.error(err.friendlyMessage);
       } else if (!handledAsFieldError) {
-        toast.error("Сталася помилка при реєстрації");
+        toast.error('Сталася помилка при реєстрації');
       }
     }
   };
@@ -98,11 +85,7 @@ export const RegisterForm = () => {
             <FormItem>
               <FormLabel>Ім'я</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Ваше ім'я"
-                  {...field}
-                  disabled={isLoading}
-                />
+                <Input placeholder="Ваше ім'я" {...field} disabled={isLoading} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,12 +99,7 @@ export const RegisterForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  type="email"
-                  placeholder="your@email.com"
-                  {...field}
-                  disabled={isLoading}
-                />
+                <Input type="email" placeholder="your@email.com" {...field} disabled={isLoading} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -135,25 +113,15 @@ export const RegisterForm = () => {
             <FormItem>
               <FormLabel>Пароль</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  {...field}
-                  disabled={isLoading}
-                />
+                <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button 
-          type="submit" 
-          variant="gradient" 
-          className="w-full"
-          disabled={isLoading}
-        >
-          {isLoading ? "Реєстрація..." : "Зареєструватися"}
+        <Button type="submit" variant="gradient" className="w-full" disabled={isLoading}>
+          {isLoading ? 'Реєстрація...' : 'Зареєструватися'}
         </Button>
       </form>
     </Form>

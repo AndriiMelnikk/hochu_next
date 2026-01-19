@@ -1,39 +1,33 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import Header from "@/widgets/app/Header";
-import Footer from "@/widgets/app/Footer";
-import ImageLightbox from "@/widgets/app/ImageLightbox";
-import { useRequest } from "@/entities/request";
-import { Loading } from "@shared/ui/loading";
-import { Error } from "@shared/ui/error";
-import { Button } from "@shared/ui/button";
-import { Badge } from "@shared/ui/badge";
-import { Card } from "@shared/ui/card";
-import { Input } from "@shared/ui/input";
-import { Textarea } from "@shared/ui/textarea";
-import { Label } from "@shared/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@shared/ui/avatar";
-import { Separator } from "@shared/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@shared/ui/tabs";
-import { Breadcrumbs } from "@shared/ui/breadcrumbs";
-import { Lock } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@shared/ui/select";
+import { useState } from 'react';
+import Link from 'next/link';
+import Header from '@/widgets/app/Header';
+import Footer from '@/widgets/app/Footer';
+import ImageLightbox from '@/widgets/app/ImageLightbox';
+import { useRequest } from '@/entities/request';
+import { Loading } from '@shared/ui/loading';
+import { Error } from '@shared/ui/error';
+import { Button } from '@shared/ui/button';
+import { Badge } from '@shared/ui/badge';
+import { Card } from '@shared/ui/card';
+import { Input } from '@shared/ui/input';
+import { Textarea } from '@shared/ui/textarea';
+import { Label } from '@shared/ui/label';
+import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
+import { Separator } from '@shared/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
+import { Breadcrumbs } from '@shared/ui/breadcrumbs';
+import { Lock } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@shared/ui/carousel";
-import { routes } from "@/app/router/routes";
+} from '@shared/ui/carousel';
+import { routes } from '@/app/router/routes';
 import {
   Star,
   MapPin,
@@ -47,22 +41,22 @@ import {
   Send,
   AlertCircle,
   Flag,
-} from "lucide-react";
+} from 'lucide-react';
 
 export default function RequestDetailContent({ id }: { id: string }) {
   const { data: request, isLoading, error } = useRequest(id);
 
-  const [proposalText, setProposalText] = useState("");
-  const [proposalPrice, setProposalPrice] = useState("");
+  const [proposalText, setProposalText] = useState('');
+  const [proposalPrice, setProposalPrice] = useState('');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [reportReason, setReportReason] = useState("");
-  const [reportDetails, setReportDetails] = useState("");
+  const [reportReason, setReportReason] = useState('');
+  const [reportDetails, setReportDetails] = useState('');
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
-  const [discussionText, setDiscussionText] = useState("");
+  const [discussionText, setDiscussionText] = useState('');
   const [replyTo, setReplyTo] = useState<number | null>(null);
-  const [deliveryTime, setDeliveryTime] = useState("");
-  const [warranty, setWarranty] = useState("");
+  const [deliveryTime, setDeliveryTime] = useState('');
+  const [warranty, setWarranty] = useState('');
   const [activeLightboxImages, setActiveLightboxImages] = useState<string[]>([]);
 
   // Mock proposals data (should come from API)
@@ -70,42 +64,44 @@ export default function RequestDetailContent({ id }: { id: string }) {
     {
       id: 1,
       seller: {
-        name: "Олексій Шевченко",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Oleksiy",
+        name: 'Олексій Шевченко',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Oleksiy',
         rating: 4.9,
         reviewsCount: 47,
         completedDeals: 52,
       },
       price: 2500,
-      title: "Професійний ремонт MacBook з гарантією 6 місяців",
-      description: "Маю 8 років досвіду ремонту техніки Apple. Використовую тільки оригінальні комплектуючі. Зроблю діагностику безкоштовно, заміню батарею, почищу від пилу та заміню термопасту. Гарантія на всі роботи 6 місяців.",
-      deliveryTime: "2-3 дні",
-      warranty: "6 місяців",
-      createdAt: "10 хвилин тому",
+      title: 'Професійний ремонт MacBook з гарантією 6 місяців',
+      description:
+        'Маю 8 років досвіду ремонту техніки Apple. Використовую тільки оригінальні комплектуючі. Зроблю діагностику безкоштовно, заміню батарею, почищу від пилу та заміню термопасту. Гарантія на всі роботи 6 місяців.',
+      deliveryTime: '2-3 дні',
+      warranty: '6 місяців',
+      createdAt: '10 хвилин тому',
       images: [
-        "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&auto=format&fit=crop&q=60",
-        "https://images.unsplash.com/photo-1526509867162-5b0c0d1b4b33?w=800&auto=format&fit=crop&q=60",
-        "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&auto=format&fit=crop&q=60",
-        "https://images.unsplash.com/photo-1550041473-d296a1a8ec52?w=800&auto=format&fit=crop&q=60",
-        "https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?w=800&auto=format&fit=crop&q=60",
-        "https://images.unsplash.com/photo-1531297461136-82lw9z1w1w?w=800&auto=format&fit=crop&q=60"
+        'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&auto=format&fit=crop&q=60',
+        'https://images.unsplash.com/photo-1526509867162-5b0c0d1b4b33?w=800&auto=format&fit=crop&q=60',
+        'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&auto=format&fit=crop&q=60',
+        'https://images.unsplash.com/photo-1550041473-d296a1a8ec52?w=800&auto=format&fit=crop&q=60',
+        'https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?w=800&auto=format&fit=crop&q=60',
+        'https://images.unsplash.com/photo-1531297461136-82lw9z1w1w?w=800&auto=format&fit=crop&q=60',
       ],
     },
     {
       id: 2,
       seller: {
-        name: "Марина Коваль",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maryna",
+        name: 'Марина Коваль',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Maryna',
         rating: 4.7,
         reviewsCount: 31,
         completedDeals: 38,
       },
       price: 2800,
-      title: "Якісний ремонт Apple техніки",
-      description: "Сертифікований спеціаліст Apple. Можу виконати ремонт протягом дня при наявності комплектуючих. Використовую оригінальні батареї з гарантією якості.",
-      deliveryTime: "1 день",
-      warranty: "3 місяці",
-      createdAt: "25 хвилин тому",
+      title: 'Якісний ремонт Apple техніки',
+      description:
+        'Сертифікований спеціаліст Apple. Можу виконати ремонт протягом дня при наявності комплектуючих. Використовую оригінальні батареї з гарантією якості.',
+      deliveryTime: '1 день',
+      warranty: '3 місяці',
+      createdAt: '25 хвилин тому',
       images: [],
     },
   ];
@@ -115,50 +111,50 @@ export default function RequestDetailContent({ id }: { id: string }) {
     {
       id: 1,
       user: {
-        name: "Олена Коваленко",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Olena",
-        role: "seller",
+        name: 'Олена Коваленко',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Olena',
+        role: 'seller',
       },
       replyTo: null,
-      message: "Чи потрібна діагностика перед ремонтом? Можу провести безкоштовно.",
-      timestamp: "2 години тому",
+      message: 'Чи потрібна діагностика перед ремонтом? Можу провести безкоштовно.',
+      timestamp: '2 години тому',
     },
     {
       id: 2,
       user: {
-        name: "Андрій Шевченко",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Andriy",
-        role: "buyer",
+        name: 'Андрій Шевченко',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Andriy',
+        role: 'buyer',
       },
       replyTo: 1,
-      message: "Так, це було б чудово! Коли можете провести діагностику?",
-      timestamp: "1 годину тому",
+      message: 'Так, це було б чудово! Коли можете провести діагностику?',
+      timestamp: '1 годину тому',
     },
   ];
 
   // Mock buyer data (should come from API)
   const buyer = {
     id: 1,
-    name: "Андрій Шевченко",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Andriy",
+    name: 'Андрій Шевченко',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Andriy',
     rating: 4.9,
     reviewsCount: 23,
     isVerified: true,
-    memberSince: "2023",
+    memberSince: '2023',
     completedDeals: 31,
   };
 
   const handleReportSubmit = () => {
-    console.log("Report submitted:", { reportReason, reportDetails });
+    console.log('Report submitted:', { reportReason, reportDetails });
     setReportDialogOpen(false);
-    setReportReason("");
-    setReportDetails("");
+    setReportReason('');
+    setReportDetails('');
   };
 
   const handleDiscussionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Discussion message:", discussionText, "Reply to:", replyTo);
-    setDiscussionText("");
+    console.log('Discussion message:', discussionText, 'Reply to:', replyTo);
+    setDiscussionText('');
     setReplyTo(null);
   };
 
@@ -172,13 +168,21 @@ export default function RequestDetailContent({ id }: { id: string }) {
   }
 
   if (error || !request) {
-    return <Error variant="full-page" message="Помилка завантаження запиту" HeaderComponent={Header} FooterComponent={Footer} />;
+    return (
+      <Error
+        variant="full-page"
+        message="Помилка завантаження запиту"
+        HeaderComponent={Header}
+        FooterComponent={Footer}
+      />
+    );
   }
 
-  const budget = request.budgetMin && request.budgetMax 
-    ? `${request.budgetMin}-${request.budgetMax} грн`
-    : "Не вказано";
-  const timeAgo = request.createdAt ? formatTimeAgo(request.createdAt) : "";
+  const budget =
+    request.budgetMin && request.budgetMax
+      ? `${request.budgetMin}-${request.budgetMax} грн`
+      : 'Не вказано';
+  const timeAgo = request.createdAt ? formatTimeAgo(request.createdAt) : '';
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -348,7 +352,10 @@ export default function RequestDetailContent({ id }: { id: string }) {
                     </h3>
                     <div className="space-y-3">
                       {request.edits.map((edit, index) => (
-                        <div key={index} className="bg-muted/30 rounded-lg p-3 border border-border">
+                        <div
+                          key={index}
+                          className="bg-muted/30 rounded-lg p-3 border border-border"
+                        >
                           <div className="flex items-center justify-between mb-2">
                             <Badge variant="outline" className="text-xs">
                               Уточнення
@@ -392,15 +399,26 @@ export default function RequestDetailContent({ id }: { id: string }) {
               )}
 
               {/* Tabs for Proposals and Discussion */}
-              <Tabs defaultValue="proposals" className="bg-card rounded-2xl shadow-md border border-border">
+              <Tabs
+                defaultValue="proposals"
+                className="bg-card rounded-2xl shadow-md border border-border"
+              >
                 <TabsList className="w-full justify-start rounded-t-2xl rounded-b-none h-14 p-1 bg-muted/50">
                   <TabsTrigger value="proposals" className="flex-1 text-base">
                     Активні пропозиції ({request.proposalsCount})
                   </TabsTrigger>
-                  <TabsTrigger value="discussion" className="flex-1 items-center gap-2 cursor-not-allowed opacity-60"  disabled>
+                  <TabsTrigger
+                    value="discussion"
+                    className="flex-1 items-center gap-2 cursor-not-allowed opacity-60"
+                    disabled
+                  >
                     <span className="hidden sm:inline">Публічні обговорення</span>
                   </TabsTrigger>
-                  <TabsTrigger value="discussion" className="flex-1 items-center gap-2 cursor-not-allowed opacity-60"  disabled>
+                  <TabsTrigger
+                    value="discussion"
+                    className="flex-1 items-center gap-2 cursor-not-allowed opacity-60"
+                    disabled
+                  >
                     <span className="hidden sm:inline">Відхилені пропозиції</span>
                   </TabsTrigger>
                 </TabsList>
@@ -432,7 +450,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
                                   </Badge>
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                  {proposal.seller.completedDeals} виконаних замовлень •{" "}
+                                  {proposal.seller.completedDeals} виконаних замовлень •{' '}
                                   {proposal.seller.reviewsCount} відгуків
                                 </p>
                               </div>
@@ -440,7 +458,9 @@ export default function RequestDetailContent({ id }: { id: string }) {
                                 <div className="text-2xl font-bold text-primary">
                                   {proposal.price} грн
                                 </div>
-                                <p className="text-xs text-muted-foreground">{proposal.createdAt}</p>
+                                <p className="text-xs text-muted-foreground">
+                                  {proposal.createdAt}
+                                </p>
                               </div>
                             </div>
 
@@ -472,13 +492,16 @@ export default function RequestDetailContent({ id }: { id: string }) {
                                 <h4 className="font-semibold mb-2">Фотографії до пропозиції:</h4>
                                 <Carousel
                                   opts={{
-                                    align: "start",
+                                    align: 'start',
                                   }}
                                   className="w-full max-w-full"
                                 >
                                   <CarouselContent className="-ml-2">
                                     {proposal.images.map((image, index) => (
-                                      <CarouselItem key={index} className="pl-2 basis-1/3 sm:basis-1/3 md:basis-1/4">
+                                      <CarouselItem
+                                        key={index}
+                                        className="pl-2 basis-1/3 sm:basis-1/3 md:basis-1/4"
+                                      >
                                         <div
                                           className="aspect-video rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer group"
                                           onClick={() => {
@@ -546,10 +569,12 @@ export default function RequestDetailContent({ id }: { id: string }) {
                               <div className="flex items-center gap-2">
                                 <span className="font-semibold">{discussion.user.name}</span>
                                 <Badge
-                                  variant={discussion.user.role === "buyer" ? "default" : "secondary"}
+                                  variant={
+                                    discussion.user.role === 'buyer' ? 'default' : 'secondary'
+                                  }
                                   className="text-xs"
                                 >
-                                  {discussion.user.role === "buyer" ? "Замовник" : "Виконавець"}
+                                  {discussion.user.role === 'buyer' ? 'Замовник' : 'Виконавець'}
                                 </Badge>
                               </div>
                               <span className="text-xs text-muted-foreground">
@@ -589,8 +614,8 @@ export default function RequestDetailContent({ id }: { id: string }) {
                           <Textarea
                             placeholder={
                               replyTo
-                                ? "Напишіть вашу відповідь..."
-                                : "Задайте питання або залишіть коментар..."
+                                ? 'Напишіть вашу відповідь...'
+                                : 'Задайте питання або залишіть коментар...'
                             }
                             value={discussionText}
                             onChange={(e) => setDiscussionText(e.target.value)}
@@ -632,7 +657,10 @@ export default function RequestDetailContent({ id }: { id: string }) {
                   <form className="space-y-5">
                     {/* Price */}
                     <div className="space-y-2">
-                      <Label htmlFor="proposal-price" className="text-base font-semibold flex items-center">
+                      <Label
+                        htmlFor="proposal-price"
+                        className="text-base font-semibold flex items-center"
+                      >
                         <DollarSign className="h-4 w-4 mr-1 text-primary" />
                         Ваша ціна (грн)
                       </Label>
@@ -671,7 +699,9 @@ export default function RequestDetailContent({ id }: { id: string }) {
                         onChange={(e) => setProposalText(e.target.value)}
                         className="text-base"
                       />
-                      <p className="text-sm text-muted-foreground">{proposalText.length} символів</p>
+                      <p className="text-sm text-muted-foreground">
+                        {proposalText.length} символів
+                      </p>
                     </div>
 
                     {/* Delivery details */}
@@ -714,7 +744,10 @@ export default function RequestDetailContent({ id }: { id: string }) {
 
                     {/* Images */}
                     <div className="space-y-2">
-                      <Label htmlFor="proposal-images" className="text-base font-semibold flex items-center">
+                      <Label
+                        htmlFor="proposal-images"
+                        className="text-base font-semibold flex items-center"
+                      >
                         <Upload className="h-4 w-4 mr-1 text-primary" />
                         Фото ваших робіт
                       </Label>
@@ -742,7 +775,12 @@ export default function RequestDetailContent({ id }: { id: string }) {
                     </div>
 
                     {/* Submit Button */}
-                    <Button type="submit" size="lg" variant="gradient" className="w-full text-lg shadow-glow">
+                    <Button
+                      type="submit"
+                      size="lg"
+                      variant="gradient"
+                      className="w-full text-lg shadow-glow"
+                    >
                       <Send className="mr-2 h-5 w-5" />
                       Надіслати пропозицію
                     </Button>

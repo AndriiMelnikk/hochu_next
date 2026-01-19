@@ -1,84 +1,85 @@
-"use client";
+'use client';
 
-import { Search, BookOpen, MessageCircle, HelpCircle, FileText, Video, Mail } from "lucide-react";
-import { Input } from "@shared/ui/input";
-import { Button } from "@shared/ui/button";
-import Header from "@/widgets/app/Header";
-import Footer from "@/widgets/app/Footer";
-import Link from "next/link";
-import { routes } from "@/app/router/routes";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@shared/ui/accordion";
+import { Search, BookOpen, MessageCircle, HelpCircle, FileText, Video, Mail } from 'lucide-react';
+import { Input } from '@shared/ui/input';
+import { Button } from '@shared/ui/button';
+import Header from '@/widgets/app/Header';
+import Footer from '@/widgets/app/Footer';
+import Link from 'next/link';
+import { routes } from '@/app/router/routes';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@shared/ui/accordion';
 
 export default function SupportContent() {
   const categories = [
     {
       icon: BookOpen,
-      title: "Початок роботи",
-      description: "Як створити акаунт та почати використовувати Hochu",
-      articles: 12
+      title: 'Початок роботи',
+      description: 'Як створити акаунт та почати використовувати Hochu',
+      articles: 12,
     },
     {
       icon: MessageCircle,
-      title: "Замовлення та пропозиції",
-      description: "Як створювати запити та надсилати пропозиції",
-      articles: 8
+      title: 'Замовлення та пропозиції',
+      description: 'Як створювати запити та надсилати пропозиції',
+      articles: 8,
     },
     {
       icon: HelpCircle,
-      title: "Оплата та розрахунки",
-      description: "Інформація про платежі та фінансові операції",
-      articles: 6
+      title: 'Оплата та розрахунки',
+      description: 'Інформація про платежі та фінансові операції',
+      articles: 6,
     },
     {
       icon: FileText,
-      title: "Профіль та налаштування",
-      description: "Керування вашим профілем та параметрами",
-      articles: 10
+      title: 'Профіль та налаштування',
+      description: 'Керування вашим профілем та параметрами',
+      articles: 10,
     },
     {
       icon: Video,
-      title: "Відеоінструкції",
-      description: "Навчальні відео для швидкого старту",
-      articles: 5
-    }
+      title: 'Відеоінструкції',
+      description: 'Навчальні відео для швидкого старту',
+      articles: 5,
+    },
   ];
 
   const faqs = [
     {
-      question: "Як створити запит на послугу?",
-      answer: "Натисніть кнопку 'Створити запит' у верхній навігації, заповніть форму з описом потрібної послуги, вкажіть бюджет та локацію. Після публікації виконавці зможуть надсилати свої пропозиції."
+      question: 'Як створити запит на послугу?',
+      answer:
+        "Натисніть кнопку 'Створити запит' у верхній навігації, заповніть форму з описом потрібної послуги, вкажіть бюджет та локацію. Після публікації виконавці зможуть надсилати свої пропозиції.",
     },
     {
-      question: "Як надіслати пропозицію на виконання?",
-      answer: "Перегляньте доступні запити в розділі 'Огляд', оберіть той, що вас цікавить, та натисніть 'Запропонувати'. Опишіть свої послуги, вкажіть ціну та терміни виконання."
+      question: 'Як надіслати пропозицію на виконання?',
+      answer:
+        "Перегляньте доступні запити в розділі 'Огляд', оберіть той, що вас цікавить, та натисніть 'Запропонувати'. Опишіть свої послуги, вкажіть ціну та терміни виконання.",
     },
     {
-      question: "Як працює система оплати?",
-      answer: "Оплата здійснюється безпосередньо між замовником та виконавцем після узгодження умов. Hochu не приймає оплату, а лише надає платформу для зв'язку."
+      question: 'Як працює система оплати?',
+      answer:
+        "Оплата здійснюється безпосередньо між замовником та виконавцем після узгодження умов. Hochu не приймає оплату, а лише надає платформу для зв'язку.",
     },
     {
-      question: "Що робити, якщо виникла проблема з виконавцем?",
-      answer: "Ви можете звернутися до нашої служби підтримки через розділ 'Контакти'. Ми допоможемо вирішити конфлікт та захистимо ваші права як користувача платформи."
+      question: 'Що робити, якщо виникла проблема з виконавцем?',
+      answer:
+        "Ви можете звернутися до нашої служби підтримки через розділ 'Контакти'. Ми допоможемо вирішити конфлікт та захистимо ваші права як користувача платформи.",
     },
     {
-      question: "Чи безпечно використовувати платформу?",
-      answer: "Так, ми використовуємо захищене з'єднання та перевіряємо користувачів. Система відгуків допомагає оцінити надійність виконавців перед початком співпраці."
+      question: 'Чи безпечно використовувати платформу?',
+      answer:
+        "Так, ми використовуємо захищене з'єднання та перевіряємо користувачів. Система відгуків допомагає оцінити надійність виконавців перед початком співпраці.",
     },
     {
-      question: "Як підвищити свій рейтинг?",
-      answer: "Виконуйте замовлення якісно та вчасно, підтримуйте зв'язок із клієнтами, збирайте позитивні відгуки. Активні та надійні користувачі отримують вищий рейтинг та більше замовлень."
-    }
+      question: 'Як підвищити свій рейтинг?',
+      answer:
+        "Виконуйте замовлення якісно та вчасно, підтримуйте зв'язок із клієнтами, збирайте позитивні відгуки. Активні та надійні користувачі отримують вищий рейтинг та більше замовлень.",
+    },
   ];
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      
+
       <main className="flex-1 pt-20">
         {/* Hero Section */}
         {/* <section className="py-16 px-4">
@@ -131,8 +132,8 @@ export default function SupportContent() {
             <h2 className="text-3xl font-bold text-center mb-12">Часті питання</h2>
             <Accordion type="single" collapsible className="space-y-4">
               {faqs.map((faq, index) => (
-                <AccordionItem 
-                  key={index} 
+                <AccordionItem
+                  key={index}
                   value={`item-${index}`}
                   className="bg-card rounded-2xl border border-border px-6 shadow-sm"
                 >

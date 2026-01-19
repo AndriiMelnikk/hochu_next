@@ -30,4 +30,3 @@ export interface IRequestWithBuyer extends IRequest {
     completedDeals: number;
   };
 }
-

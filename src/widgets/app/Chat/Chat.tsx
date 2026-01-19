@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@shared/ui/card";
-import { Input } from "@shared/ui/input";
-import { Button } from "@shared/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@shared/ui/avatar";
-import { ScrollArea } from "@shared/ui/scroll-area";
-import { Send, Search, MoreVertical } from "lucide-react";
-import { Badge } from "@shared/ui/badge";
+import { useState, useRef, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/card';
+import { Input } from '@shared/ui/input';
+import { Button } from '@shared/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
+import { ScrollArea } from '@shared/ui/scroll-area';
+import { Send, Search, MoreVertical } from 'lucide-react';
+import { Badge } from '@shared/ui/badge';
 
 interface Message {
   id: number;
@@ -27,45 +27,45 @@ interface Conversation {
 
 const Chat = () => {
   const [selectedChat, setSelectedChat] = useState<number>(1);
-  const [messageText, setMessageText] = useState("");
+  const [messageText, setMessageText] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Макетні дані розмов
   const conversations: Conversation[] = [
     {
       id: 1,
-      name: "Марія Коваль",
-      lastMessage: "Так, товар в наявності",
-      time: "10:30",
+      name: 'Марія Коваль',
+      lastMessage: 'Так, товар в наявності',
+      time: '10:30',
       unread: 2,
-      avatar: "",
+      avatar: '',
       online: true,
     },
     {
       id: 2,
-      name: "Дмитро Петренко",
-      lastMessage: "Коли зможете зустрітись?",
-      time: "09:15",
+      name: 'Дмитро Петренко',
+      lastMessage: 'Коли зможете зустрітись?',
+      time: '09:15',
       unread: 0,
-      avatar: "",
+      avatar: '',
       online: false,
     },
     {
       id: 3,
-      name: "Олена Сидоренко",
-      lastMessage: "Дякую за швидку відповідь!",
-      time: "Вчора",
+      name: 'Олена Сидоренко',
+      lastMessage: 'Дякую за швидку відповідь!',
+      time: 'Вчора',
       unread: 0,
-      avatar: "",
+      avatar: '',
       online: true,
     },
     {
       id: 4,
-      name: "Андрій Мельник",
-      lastMessage: "Можу запропонувати знижку 10%",
-      time: "Вчора",
+      name: 'Андрій Мельник',
+      lastMessage: 'Можу запропонувати знижку 10%',
+      time: 'Вчора',
       unread: 1,
-      avatar: "",
+      avatar: '',
       online: false,
     },
   ];
@@ -74,44 +74,44 @@ const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      sender: "Марія Коваль",
-      text: "Доброго дня! Щодо вашого запиту на ноутбук MacBook Pro",
-      time: "10:25",
+      sender: 'Марія Коваль',
+      text: 'Доброго дня! Щодо вашого запиту на ноутбук MacBook Pro',
+      time: '10:25',
       isOwn: false,
     },
     {
       id: 2,
-      sender: "Ви",
-      text: "Привіт! Так, цікавить",
-      time: "10:26",
+      sender: 'Ви',
+      text: 'Привіт! Так, цікавить',
+      time: '10:26',
       isOwn: true,
     },
     {
       id: 3,
-      sender: "Марія Коваль",
-      text: "Маю в наявності модель 2023 року, 16GB RAM, 512GB SSD. Ціна 45000 грн",
-      time: "10:27",
+      sender: 'Марія Коваль',
+      text: 'Маю в наявності модель 2023 року, 16GB RAM, 512GB SSD. Ціна 45000 грн',
+      time: '10:27',
       isOwn: false,
     },
     {
       id: 4,
-      sender: "Ви",
-      text: "Чудово! Який стан? Є гарантія?",
-      time: "10:28",
+      sender: 'Ви',
+      text: 'Чудово! Який стан? Є гарантія?',
+      time: '10:28',
       isOwn: true,
     },
     {
       id: 5,
-      sender: "Марія Коваль",
-      text: "Стан відмінний, використовувався рік. Гарантія ще діє півроку",
-      time: "10:29",
+      sender: 'Марія Коваль',
+      text: 'Стан відмінний, використовувався рік. Гарантія ще діє півроку',
+      time: '10:29',
       isOwn: false,
     },
     {
       id: 6,
-      sender: "Марія Коваль",
-      text: "Так, товар в наявності",
-      time: "10:30",
+      sender: 'Марія Коваль',
+      text: 'Так, товар в наявності',
+      time: '10:30',
       isOwn: false,
     },
   ]);
@@ -121,14 +121,14 @@ const Chat = () => {
 
     const newMessage: Message = {
       id: messages.length + 1,
-      sender: "Ви",
+      sender: 'Ви',
       text: messageText,
-      time: new Date().toLocaleTimeString("uk-UA", { hour: "2-digit", minute: "2-digit" }),
+      time: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' }),
       isOwn: true,
     };
 
     setMessages([...messages, newMessage]);
-    setMessageText("");
+    setMessageText('');
   };
 
   useEffect(() => {
@@ -137,7 +137,7 @@ const Chat = () => {
     }
   }, [messages]);
 
-  const selectedConversation = conversations.find(c => c.id === selectedChat);
+  const selectedConversation = conversations.find((c) => c.id === selectedChat);
 
   return (
     <div className="grid md:grid-cols-[350px_1fr] gap-6 h-[600px]">
@@ -157,14 +157,17 @@ const Chat = () => {
                 key={conv.id}
                 onClick={() => setSelectedChat(conv.id)}
                 className={`flex items-start gap-3 p-4 cursor-pointer transition-colors hover:bg-muted/50 border-b ${
-                  selectedChat === conv.id ? "bg-muted" : ""
+                  selectedChat === conv.id ? 'bg-muted' : ''
                 }`}
               >
                 <div className="relative">
                   <Avatar>
                     <AvatarImage src={conv.avatar} />
                     <AvatarFallback className="bg-gradient-primary text-white">
-                      {conv.name.split(" ").map(n => n[0]).join("")}
+                      {conv.name
+                        .split(' ')
+                        .map((n) => n[0])
+                        .join('')}
                     </AvatarFallback>
                   </Avatar>
                   {conv.online && (
@@ -178,9 +181,7 @@ const Chat = () => {
                   </div>
                   <p className="text-sm text-muted-foreground truncate">{conv.lastMessage}</p>
                 </div>
-                {conv.unread > 0 && (
-                  <Badge className="bg-primary">{conv.unread}</Badge>
-                )}
+                {conv.unread > 0 && <Badge className="bg-primary">{conv.unread}</Badge>}
               </div>
             ))}
           </ScrollArea>
@@ -196,7 +197,10 @@ const Chat = () => {
                 <Avatar>
                   <AvatarImage src={selectedConversation?.avatar} />
                   <AvatarFallback className="bg-gradient-primary text-white">
-                    {selectedConversation?.name.split(" ").map(n => n[0]).join("")}
+                    {selectedConversation?.name
+                      .split(' ')
+                      .map((n) => n[0])
+                      .join('')}
                   </AvatarFallback>
                 </Avatar>
                 {selectedConversation?.online && (
@@ -206,7 +210,7 @@ const Chat = () => {
               <div>
                 <h3 className="font-semibold">{selectedConversation?.name}</h3>
                 <p className="text-xs text-muted-foreground">
-                  {selectedConversation?.online ? "В мережі" : "Не в мережі"}
+                  {selectedConversation?.online ? 'В мережі' : 'Не в мережі'}
                 </p>
               </div>
             </div>
@@ -219,15 +223,10 @@ const Chat = () => {
           <ScrollArea className="flex-1 h-[440px] p-4" ref={scrollRef}>
             <div className="space-y-4">
               {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex ${msg.isOwn ? "justify-end" : "justify-start"}`}
-                >
+                <div key={msg.id} className={`flex ${msg.isOwn ? 'justify-end' : 'justify-start'}`}>
                   <div
                     className={`max-w-[70%] rounded-lg p-3 ${
-                      msg.isOwn
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted"
+                      msg.isOwn ? 'bg-primary text-primary-foreground' : 'bg-muted'
                     }`}
                   >
                     <p className="text-sm">{msg.text}</p>
@@ -237,14 +236,14 @@ const Chat = () => {
               ))}
             </div>
           </ScrollArea>
-          
+
           <div className="border-t p-4">
             <div className="flex gap-2">
               <Input
                 placeholder="Напишіть повідомлення..."
                 value={messageText}
                 onChange={(e) => setMessageText(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
               />
               <Button onClick={handleSendMessage} variant="gradient">
                 <Send className="h-4 w-4" />
@@ -258,4 +257,3 @@ const Chat = () => {
 };
 
 export default Chat;
-

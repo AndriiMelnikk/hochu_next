@@ -1,7 +1,7 @@
-import { Button } from "@shared/ui/button";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { routes } from "@/app/router/routes";
+import { Button } from '@shared/ui/button';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import { routes } from '@/app/router/routes';
 
 interface CreateRequestButtonProps {
   className?: string;
@@ -17,4 +17,3 @@ export const CreateRequestButton = ({ className }: CreateRequestButtonProps) => 
     </Button>
   );
 };
-

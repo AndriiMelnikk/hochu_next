@@ -1,61 +1,57 @@
-"use client";
+'use client';
 
-import { Check } from "lucide-react";
-import { Button } from "@shared/ui/button";
-import Header from "@/widgets/app/Header";
-import Footer from "@/widgets/app/Footer";
-import Link from "next/link";
-import { routes } from "@/app/router/routes";
+import { Check } from 'lucide-react';
+import { Button } from '@shared/ui/button';
+import Header from '@/widgets/app/Header';
+import Footer from '@/widgets/app/Footer';
+import Link from 'next/link';
+import { routes } from '@/app/router/routes';
 
 export default function PricingContent() {
   const plans = [
     {
-      name: "Free",
-      price: "0",
-      period: "назавжди",
-      description: "Ідеально для початку роботи",
+      name: 'Free',
+      price: '0',
+      period: 'назавжди',
+      description: 'Ідеально для початку роботи',
       features: [
-        "До 3 пропозицій на місяць",
-        "Базовий профіль",
-        "Перегляд запитів",
-        "Чат з користувачами",
-        "Базова підтримка"
+        'До 3 пропозицій на місяць',
+        'Базовий профіль',
+        'Перегляд запитів',
+        'Чат з користувачами',
+        'Базова підтримка',
       ],
-      limitations: [
-        "Без статистики",
-        "Без аналітики",
-        "Обмежена кількість пропозицій"
-      ],
-      buttonText: "Почати безкоштовно",
-      buttonVariant: "outline" as const,
-      popular: false
+      limitations: ['Без статистики', 'Без аналітики', 'Обмежена кількість пропозицій'],
+      buttonText: 'Почати безкоштовно',
+      buttonVariant: 'outline' as const,
+      popular: false,
     },
     {
-      name: "Pro",
-      price: "199",
-      period: "на місяць",
-      description: "Для професіоналів та бізнесу",
+      name: 'Pro',
+      price: '199',
+      period: 'на місяць',
+      description: 'Для професіоналів та бізнесу',
       features: [
-        "До 50 пропозицій на місяць",
-        "Розширена аналітика",
-        "Детальна статистика",
-        "Пріоритетна підтримка",
-        "Просування пропозицій",
-        "Розширений профіль",
-        "Бейджі верифікації",
-        "Експорт даних"
+        'До 50 пропозицій на місяць',
+        'Розширена аналітика',
+        'Детальна статистика',
+        'Пріоритетна підтримка',
+        'Просування пропозицій',
+        'Розширений профіль',
+        'Бейджі верифікації',
+        'Експорт даних',
       ],
       limitations: [],
-      buttonText: "Оформити підписку",
-      buttonVariant: "default" as const,
-      popular: true
-    }
+      buttonText: 'Оформити підписку',
+      buttonVariant: 'default' as const,
+      popular: true,
+    },
   ];
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      
+
       <main className="flex-1 pt-20">
         {/* Hero Section */}
         <section className="py-16 px-4">
@@ -76,9 +72,9 @@ export default function PricingContent() {
               <div
                 key={plan.name}
                 className={`relative bg-card rounded-3xl p-8 shadow-lg border-2 transition-all hover:shadow-xl ${
-                  plan.popular 
-                    ? "border-primary scale-105" 
-                    : "border-border hover:border-primary/50"
+                  plan.popular
+                    ? 'border-primary scale-105'
+                    : 'border-border hover:border-primary/50'
                 }`}
               >
                 {plan.popular && (
@@ -86,13 +82,13 @@ export default function PricingContent() {
                     Популярний вибір
                   </div>
                 )}
-                
+
                 <div className="text-center mb-8">
                   <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                   <p className="text-muted-foreground mb-4">{plan.description}</p>
                   <div className="flex items-baseline justify-center gap-2">
                     <span className="text-5xl font-bold">{plan.price}</span>
-                    {plan.price !== "0" && <span className="text-muted-foreground">грн</span>}
+                    {plan.price !== '0' && <span className="text-muted-foreground">грн</span>}
                   </div>
                   <p className="text-muted-foreground mt-1">{plan.period}</p>
                 </div>
@@ -114,11 +110,7 @@ export default function PricingContent() {
                   ))}
                 </div>
 
-                <Button 
-                  variant={plan.buttonVariant}
-                  className="w-full text-lg py-6"
-                  asChild
-                >
+                <Button variant={plan.buttonVariant} className="w-full text-lg py-6" asChild>
                   <Link href={routes.REGISTER}>{plan.buttonText}</Link>
                 </Button>
               </div>
@@ -140,7 +132,8 @@ export default function PricingContent() {
               <div className="bg-card rounded-2xl p-6 shadow-sm">
                 <h3 className="font-semibold text-lg mb-2">Які способи оплати доступні?</h3>
                 <p className="text-muted-foreground">
-                  Ми приймаємо всі банківські картки (Visa, Mastercard), а також Google Pay та Apple Pay.
+                  Ми приймаємо всі банківські картки (Visa, Mastercard), а також Google Pay та Apple
+                  Pay.
                 </p>
               </div>
               <div className="bg-card rounded-2xl p-6 shadow-sm">

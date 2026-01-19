@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const userSchema = z.object({
   id: z.number(),
@@ -10,10 +10,9 @@ export const userSchema = z.object({
   isVerified: z.boolean(),
   memberSince: z.string(),
   completedDeals: z.number(),
-  role: z.enum(["buyer", "seller"]),
+  role: z.enum(['buyer', 'seller']),
   location: z.string(),
   xp: z.number(),
   unlockedAchievements: z.array(z.string()),
   topAchievements: z.array(z.string()),
 });
-

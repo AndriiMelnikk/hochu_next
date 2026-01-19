@@ -8,10 +8,9 @@ export interface IUser {
   isVerified: boolean;
   memberSince: string;
   completedDeals: number;
-  role: "buyer" | "seller";
+  role: 'buyer' | 'seller';
   location: string;
   xp: number;
   unlockedAchievements: string[];
   topAchievements: string[];
 }
-

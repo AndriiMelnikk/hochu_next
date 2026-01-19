@@ -1,12 +1,12 @@
-import axios, { AxiosRequestConfig, AxiosError, InternalAxiosRequestConfig } from "axios";
-import { apiBaseUrl, LS_KEYS } from "@shared/config/envVars";
+import axios, { AxiosRequestConfig, AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { apiBaseUrl, LS_KEYS } from '@shared/config/envVars';
 
 /**
  * Отримує заголовок авторизації з localStorage.
  * Використовується для ініціалізації інстансу.
  */
 const getAuthorizationHeader = () => {
-  if (typeof window === "undefined") return undefined;
+  if (typeof window === 'undefined') return undefined;
   const accessToken = localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
   return accessToken ? `Token ${accessToken}` : undefined;
 };
@@ -15,8 +15,8 @@ const getAuthorizationHeader = () => {
  * Отримує поточну локаль зі сховища.
  */
 const getLocale = () => {
-  if (typeof window === "undefined") return "uk";
-  return localStorage.getItem(LS_KEYS.LOCALE) || "uk";
+  if (typeof window === 'undefined') return 'uk';
+  return localStorage.getItem(LS_KEYS.LOCALE) || 'uk';
 };
 
 /**
@@ -26,8 +26,8 @@ const getLocale = () => {
 export const api = axios.create({
   baseURL: apiBaseUrl,
   headers: {
-    "Content-Type": "application/json",
-    "Accept-Language": getLocale(),
+    'Content-Type': 'application/json',
+    'Accept-Language': getLocale(),
     Authorization: getAuthorizationHeader(),
   },
 });
@@ -37,14 +37,14 @@ export const api = axios.create({
  * Гарантує, що кожен запит має актуальний токен та локаль.
  */
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     const token = localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
     if (token) {
       config.headers.Authorization = `Token ${token}`;
     }
-    
-    const locale = localStorage.getItem(LS_KEYS.LOCALE) || "uk";
-    config.headers["Accept-Language"] = locale;
+
+    const locale = localStorage.getItem(LS_KEYS.LOCALE) || 'uk';
+    config.headers['Accept-Language'] = locale;
   }
   return config;
 });
@@ -58,7 +58,7 @@ api.interceptors.response.use(
   (error: AxiosError) => {
     // 1. Обробка помилки авторизації (401)
     if (error.response?.status === 401) {
-      if (typeof window !== "undefined") {
+      if (typeof window !== 'undefined') {
         // Очищаємо застарілі токени при невалідній сесії
         localStorage.removeItem(LS_KEYS.ACCESS_TOKEN);
         localStorage.removeItem(LS_KEYS.REFRESH_TOKEN);
@@ -70,31 +70,39 @@ api.interceptors.response.use(
     }
 
     // 2. Формування зрозумілого повідомлення про помилку для UI
-    let errorMessage = "Сталася неочікувана помилка. Спробуйте пізніше.";
-    
+    let errorMessage = 'Сталася неочікувана помилка. Спробуйте пізніше.';
+
     if (error.response) {
       // Сервер повернув відповідь зі статусом помилки (4xx, 5xx)
       const data = error.response.data as any;
-      
+
       // Спробуємо знайти повідомлення у звичних полях
       const potentialMessage = data?.detail || data?.message || data?.error;
       if (typeof potentialMessage === 'string') {
         errorMessage = potentialMessage;
-      } else if (potentialMessage && typeof potentialMessage === 'object' && 'message' in potentialMessage) {
+      } else if (
+        potentialMessage &&
+        typeof potentialMessage === 'object' &&
+        'message' in potentialMessage
+      ) {
         // Якщо помилка прийшла як об'єкт { message, code }
         errorMessage = String(potentialMessage.message);
       }
-      
+
       // Детальна обробка помилок валідації (наприклад, від Django REST Framework)
       // Перевіряємо як data.errors, так і саму data на наявність полів з помилками
-      const errorSource = (data?.errors && typeof data.errors === 'object') ? data.errors : data;
-      
-      if ((error.response.status === 400 || error.response.status === 409) && errorSource && typeof errorSource === 'object') {
+      const errorSource = data?.errors && typeof data.errors === 'object' ? data.errors : data;
+
+      if (
+        (error.response.status === 400 || error.response.status === 409) &&
+        errorSource &&
+        typeof errorSource === 'object'
+      ) {
         // Шукаємо першу помилку, ігноруючи вже перевірені загальні поля
-        const fieldErrorKey = Object.keys(errorSource).find(key => 
-          !['detail', 'message', 'error', 'status'].includes(key)
+        const fieldErrorKey = Object.keys(errorSource).find(
+          (key) => !['detail', 'message', 'error', 'status'].includes(key),
         );
-        
+
         if (fieldErrorKey) {
           const fieldError = errorSource[fieldErrorKey];
           const message = Array.isArray(fieldError) ? fieldError[0] : fieldError;
@@ -115,13 +123,15 @@ api.interceptors.response.use(
     };
 
     // Логування помилок у консоль в режимі розробки
-    if (process.env.NODE_ENV === "development") {
-      console.error(`[API Error] ${error.config?.method?.toUpperCase()} ${error.config?.url}:`, errorMessage);
+    if (process.env.NODE_ENV === 'development') {
+      console.error(
+        `[API Error] ${error.config?.method?.toUpperCase()} ${error.config?.url}:`,
+        errorMessage,
+      );
     }
 
     return Promise.reject(enhancedError);
-  }
+  },
 );
 
 export type { AxiosRequestConfig, AxiosError };
-

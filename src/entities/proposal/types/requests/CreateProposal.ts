@@ -4,4 +4,3 @@ export interface ICreateProposalRequest {
   description: string;
   estimatedTime: string;
 }
-

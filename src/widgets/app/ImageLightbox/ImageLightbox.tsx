@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { Dialog, DialogContent } from "@shared/ui/dialog";
-import { Button } from "@shared/ui/button";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { Dialog, DialogContent } from '@shared/ui/dialog';
+import { Button } from '@shared/ui/button';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 interface ImageLightboxProps {
   images: string[];
@@ -28,16 +28,16 @@ const ImageLightbox = ({ images, initialIndex = 0, open, onOpenChange }: ImageLi
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowLeft") goToPrevious();
-    if (e.key === "ArrowRight") goToNext();
-    if (e.key === "Escape") onOpenChange(false);
+    if (e.key === 'ArrowLeft') goToPrevious();
+    if (e.key === 'ArrowRight') goToNext();
+    if (e.key === 'Escape') onOpenChange(false);
   };
 
   if (!images || images.length === 0) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent 
+      <DialogContent
         className="max-w-7xl w-full h-[90vh] p-0 bg-black/95 border-0"
         onKeyDown={handleKeyDown}
       >
@@ -96,4 +96,3 @@ const ImageLightbox = ({ images, initialIndex = 0, open, onOpenChange }: ImageLi
 };
 
 export default ImageLightbox;
-

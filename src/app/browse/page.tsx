@@ -1,6 +1,6 @@
-import { getLocaleFromHeaders } from "@/locales/locale";
-import { getMetadataForRoute } from "@/locales/route-metadata";
-import BrowseContent from "./BrowseContent";
+import { getLocaleFromHeaders } from '@/locales/locale';
+import { getMetadataForRoute } from '@/locales/route-metadata';
+import BrowseContent from './BrowseContent';
 
 export async function generateMetadata() {
   const locale = await getLocaleFromHeaders();

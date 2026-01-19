@@ -1,10 +1,10 @@
-import Header from "@/widgets/app/Header";
-import Footer from "@/widgets/app/Footer";
-import { Card } from "@shared/ui/card";
-import Link from "next/link";
-import { routes } from "@/app/router/routes";
-import { getLocaleFromHeaders } from "@/locales/locale";
-import { getMetadataForRoute } from "@/locales/route-metadata";
+import Header from '@/widgets/app/Header';
+import Footer from '@/widgets/app/Footer';
+import { Card } from '@shared/ui/card';
+import Link from 'next/link';
+import { routes } from '@/app/router/routes';
+import { getLocaleFromHeaders } from '@/locales/locale';
+import { getMetadataForRoute } from '@/locales/route-metadata';
 
 export async function generateMetadata() {
   const locale = await getLocaleFromHeaders();
@@ -33,4 +33,3 @@ export default function BlogListPage() {
     </div>
   );
 }
-

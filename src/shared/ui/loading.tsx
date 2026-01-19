@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export interface LoadingProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "inline" | "block" | "full-page";
+  variant?: 'inline' | 'block' | 'full-page';
   message?: string;
   icon?: React.ReactNode;
   HeaderComponent?: React.ComponentType;
@@ -11,16 +11,27 @@ export interface LoadingProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Loading = React.forwardRef<HTMLDivElement, LoadingProps>(
-  ({ className, variant = "block", message = "Завантаження...", icon, HeaderComponent, FooterComponent, ...props }, ref) => {
+  (
+    {
+      className,
+      variant = 'block',
+      message = 'Завантаження...',
+      icon,
+      HeaderComponent,
+      FooterComponent,
+      ...props
+    },
+    ref,
+  ) => {
     const defaultIcon = <Loader2 className="h-4 w-4 animate-spin" />;
     const displayIcon = icon !== undefined ? icon : defaultIcon;
 
     // Full page variant with Header/Footer
-    if (variant === "full-page") {
+    if (variant === 'full-page') {
       const LoadingContent = () => (
         <div className="flex flex-col items-center justify-center py-12">
           {displayIcon && <div className="mb-4">{displayIcon}</div>}
-          <p className={cn("text-muted-foreground", className)} {...props}>
+          <p className={cn('text-muted-foreground', className)} {...props}>
             {message}
           </p>
         </div>
@@ -47,10 +58,10 @@ const Loading = React.forwardRef<HTMLDivElement, LoadingProps>(
 
       React.useEffect(() => {
         if (!Header) {
-          import("@/widgets/app/Header").then((module) => setHeader(() => module.default));
+          import('@/widgets/app/Header').then((module) => setHeader(() => module.default));
         }
         if (!Footer) {
-          import("@/widgets/app/Footer").then((module) => setFooter(() => module.default));
+          import('@/widgets/app/Footer').then((module) => setFooter(() => module.default));
         }
       }, [Header, Footer]);
 
@@ -76,9 +87,9 @@ const Loading = React.forwardRef<HTMLDivElement, LoadingProps>(
     }
 
     // Inline variant
-    if (variant === "inline") {
+    if (variant === 'inline') {
       return (
-        <span ref={ref} className={cn("text-muted-foreground", className)} {...props}>
+        <span ref={ref} className={cn('text-muted-foreground', className)} {...props}>
           {message}
         </span>
       );
@@ -88,17 +99,16 @@ const Loading = React.forwardRef<HTMLDivElement, LoadingProps>(
     return (
       <div
         ref={ref}
-        className={cn("text-center py-12 flex flex-col items-center justify-center", className)}
+        className={cn('text-center py-12 flex flex-col items-center justify-center', className)}
         {...props}
       >
         {displayIcon && <div className="mb-4">{displayIcon}</div>}
         <p className="text-muted-foreground">{message}</p>
       </div>
     );
-  }
+  },
 );
 
-Loading.displayName = "Loading";
+Loading.displayName = 'Loading';
 
 export { Loading };
-

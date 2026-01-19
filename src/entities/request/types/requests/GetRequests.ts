@@ -6,4 +6,3 @@ export interface IGetRequestsRequest {
   search?: string;
   budgetRange?: string;
 }
-

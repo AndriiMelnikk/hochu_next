@@ -1,11 +1,11 @@
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { Providers } from "@/app/providers";
-import { getLocaleFromHeaders } from "@/locales/locale";
-import { defaultMetadata as enMetadata } from "@/locales/en/metadata";
-import { defaultMetadata as ukMetadata } from "@/locales/uk/metadata";
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { Providers } from '@/app/providers';
+import { getLocaleFromHeaders } from '@/locales/locale';
+import { defaultMetadata as enMetadata } from '@/locales/en/metadata';
+import { defaultMetadata as ukMetadata } from '@/locales/uk/metadata';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 const metadataByLocale = {
   en: enMetadata,
@@ -31,4 +31,3 @@ export default async function RootLayout({
     </html>
   );
 }
-

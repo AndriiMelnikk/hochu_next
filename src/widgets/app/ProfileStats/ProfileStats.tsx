@@ -1,6 +1,19 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@shared/ui/card";
-import { TrendingUp, ShoppingBag, MessageSquare, Star, DollarSign, Eye } from "lucide-react";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
+import { TrendingUp, ShoppingBag, MessageSquare, Star, DollarSign, Eye } from 'lucide-react';
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from 'recharts';
 
 const ProfileStats = () => {
   const stats = {
@@ -15,20 +28,20 @@ const ProfileStats = () => {
   };
 
   const monthlyActivity = [
-    { month: "Січ", requests: 2, deals: 1 },
-    { month: "Лют", requests: 4, deals: 3 },
-    { month: "Бер", requests: 3, deals: 2 },
-    { month: "Квіт", requests: 5, deals: 4 },
-    { month: "Трав", requests: 4, deals: 3 },
-    { month: "Черв", requests: 6, deals: 5 },
+    { month: 'Січ', requests: 2, deals: 1 },
+    { month: 'Лют', requests: 4, deals: 3 },
+    { month: 'Бер', requests: 3, deals: 2 },
+    { month: 'Квіт', requests: 5, deals: 4 },
+    { month: 'Трав', requests: 4, deals: 3 },
+    { month: 'Черв', requests: 6, deals: 5 },
   ];
 
   const popularCategories = [
-    { name: "Електроніка", value: 35, color: "hsl(var(--primary))" },
-    { name: "Послуги", value: 25, color: "hsl(206 100% 54%)" },
-    { name: "Будівництво", value: 20, color: "hsl(206 100% 44%)" },
-    { name: "Дизайн", value: 12, color: "hsl(206 100% 34%)" },
-    { name: "Інше", value: 8, color: "hsl(var(--muted))" },
+    { name: 'Електроніка', value: 35, color: 'hsl(var(--primary))' },
+    { name: 'Послуги', value: 25, color: 'hsl(206 100% 54%)' },
+    { name: 'Будівництво', value: 20, color: 'hsl(206 100% 44%)' },
+    { name: 'Дизайн', value: 12, color: 'hsl(206 100% 34%)' },
+    { name: 'Інше', value: 8, color: 'hsl(var(--muted))' },
   ];
 
   return (
@@ -42,9 +55,7 @@ const ProfileStats = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalRequests}</div>
-            <p className="text-xs text-muted-foreground">
-              {stats.activeRequests} активних зараз
-            </p>
+            <p className="text-xs text-muted-foreground">{stats.activeRequests} активних зараз</p>
           </CardContent>
         </Card>
 
@@ -55,9 +66,7 @@ const ProfileStats = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.completedDeals}</div>
-            <p className="text-xs text-muted-foreground">
-              75% від всіх запитів
-            </p>
+            <p className="text-xs text-muted-foreground">75% від всіх запитів</p>
           </CardContent>
         </Card>
 
@@ -101,24 +110,24 @@ const ProfileStats = () => {
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                 <XAxis dataKey="month" className="text-xs" />
                 <YAxis className="text-xs" />
-                <Tooltip 
-                  contentStyle={{ 
+                <Tooltip
+                  contentStyle={{
                     backgroundColor: 'hsl(var(--card))',
                     border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
                   }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="requests" 
-                  stroke="hsl(var(--primary))" 
+                <Line
+                  type="monotone"
+                  dataKey="requests"
+                  stroke="hsl(var(--primary))"
                   strokeWidth={2}
                   name="Запити"
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="deals" 
-                  stroke="hsl(206 100% 54%)" 
+                <Line
+                  type="monotone"
+                  dataKey="deals"
+                  stroke="hsl(206 100% 54%)"
                   strokeWidth={2}
                   name="Угоди"
                 />
@@ -149,11 +158,11 @@ const ProfileStats = () => {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip 
-                  contentStyle={{ 
+                <Tooltip
+                  contentStyle={{
                     backgroundColor: 'hsl(var(--card))',
                     border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
                   }}
                 />
               </PieChart>
@@ -207,4 +216,3 @@ const ProfileStats = () => {
 };
 
 export default ProfileStats;
-

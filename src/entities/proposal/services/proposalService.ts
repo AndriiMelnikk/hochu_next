@@ -1,17 +1,12 @@
-import { AxiosRequestConfig } from "axios";
-import { api } from "@shared/api/api";
-import type { ICreateProposalRequest } from "../types/requests/CreateProposal";
-import type { IGetProposalsResponse } from "../types/responses/GetProposals";
-import type { IProposalWithSeller } from "../types/Proposal";
+import { AxiosRequestConfig } from 'axios';
+import { api } from '@shared/api/api';
+import type { ICreateProposalRequest } from '../types/requests/CreateProposal';
+import type { IGetProposalsResponse } from '../types/responses/GetProposals';
+import type { IProposalWithSeller } from '../types/Proposal';
 
 class ProposalService {
-  async get(
-    requestId?: number,
-    config?: AxiosRequestConfig
-  ): Promise<IGetProposalsResponse> {
-    const url = requestId
-      ? `/api/proposals?requestId=${requestId}`
-      : "/api/proposals";
+  async get(requestId?: number, config?: AxiosRequestConfig): Promise<IGetProposalsResponse> {
+    const url = requestId ? `/api/proposals?requestId=${requestId}` : '/api/proposals';
     return (await api.get(url, config)).data;
   }
 
@@ -19,10 +14,12 @@ class ProposalService {
     return (await api.get(`/api/proposals/${id}`, config)).data;
   }
 
-  async create(data: ICreateProposalRequest, config?: AxiosRequestConfig): Promise<IProposalWithSeller> {
-    return (await api.post("/api/proposals", data, config)).data;
+  async create(
+    data: ICreateProposalRequest,
+    config?: AxiosRequestConfig,
+  ): Promise<IProposalWithSeller> {
+    return (await api.post('/api/proposals', data, config)).data;
   }
 }
 
 export const proposalService = new ProposalService();
-

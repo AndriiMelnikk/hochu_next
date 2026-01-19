@@ -1,29 +1,16 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Header from "@/widgets/app/Header";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@shared/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@shared/ui/card";
-import { Button } from "@shared/ui/button";
-import { Badge } from "@shared/ui/badge";
-import { Input } from "@shared/ui/input";
-import { Label } from "@shared/ui/label";
-import { Textarea } from "@shared/ui/textarea";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@shared/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@shared/ui/table";
+import { useState } from 'react';
+import Header from '@/widgets/app/Header';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
+import { Button } from '@shared/ui/button';
+import { Badge } from '@shared/ui/badge';
+import { Input } from '@shared/ui/input';
+import { Label } from '@shared/ui/label';
+import { Textarea } from '@shared/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shared/ui/table';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,48 +21,48 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@shared/ui/alert-dialog";
-import { 
-  BarChart, 
-  Users, 
-  FileText, 
-  MessageSquare, 
-  TrendingUp, 
+} from '@shared/ui/alert-dialog';
+import {
+  BarChart,
+  Users,
+  FileText,
+  MessageSquare,
+  TrendingUp,
   Shield,
   Ban,
   CheckCircle,
   XCircle,
   Search,
   Eye,
-} from "lucide-react";
+} from 'lucide-react';
 
 export default function AdminContent() {
-  const [activeTab, setActiveTab] = useState("analytics");
+  const [activeTab, setActiveTab] = useState('analytics');
 
   // Макетні дані аналітики
   const analytics = {
     totalUsers: 1247,
     activeRequests: 89,
     totalProposals: 456,
-    revenue: "124,580",
-    growth: "+15.3%",
+    revenue: '124,580',
+    growth: '+15.3%',
   };
 
   // Макетні дані для модерації
   const pendingRequests = [
     {
       id: 1,
-      title: "Створення веб-сайту для ресторану",
-      author: "Іван Петренко",
-      date: "2024-03-15 14:30",
-      status: "pending",
+      title: 'Створення веб-сайту для ресторану',
+      author: 'Іван Петренко',
+      date: '2024-03-15 14:30',
+      status: 'pending',
     },
     {
       id: 2,
-      title: "Дизайн логотипу для стартапу",
-      author: "Марія Коваль",
-      date: "2024-03-15 13:15",
-      status: "pending",
+      title: 'Дизайн логотипу для стартапу',
+      author: 'Марія Коваль',
+      date: '2024-03-15 13:15',
+      status: 'pending',
     },
   ];
 
@@ -83,21 +70,21 @@ export default function AdminContent() {
     {
       id: 1,
       requestId: 1,
-      author: "Олексій Шевченко",
-      price: "5000",
-      date: "2024-03-15 15:45",
-      status: "pending",
+      author: 'Олексій Шевченко',
+      price: '5000',
+      date: '2024-03-15 15:45',
+      status: 'pending',
     },
   ];
 
   const reportedUsers = [
     {
       id: 1,
-      name: "Сергій Бондаренко",
-      email: "sergiy@example.com",
-      reason: "Порушення правил спілкування",
+      name: 'Сергій Бондаренко',
+      email: 'sergiy@example.com',
+      reason: 'Порушення правил спілкування',
       reports: 3,
-      status: "active",
+      status: 'active',
     },
   ];
 
@@ -268,7 +255,8 @@ export default function AdminContent() {
                                 <AlertDialogHeader>
                                   <AlertDialogTitle>Затвердити запит?</AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    Запит буде опублікований та доступний для перегляду іншим користувачам.
+                                    Запит буде опублікований та доступний для перегляду іншим
+                                    користувачам.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
@@ -409,8 +397,8 @@ export default function AdminContent() {
                         </TableCell>
                         <TableCell className="max-w-xs truncate">{user.reason}</TableCell>
                         <TableCell>
-                          <Badge variant={user.status === "active" ? "default" : "destructive"}>
-                            {user.status === "active" ? "Активний" : "Заблокований"}
+                          <Badge variant={user.status === 'active' ? 'default' : 'destructive'}>
+                            {user.status === 'active' ? 'Активний' : 'Заблокований'}
                           </Badge>
                         </TableCell>
                         <TableCell>
@@ -429,7 +417,9 @@ export default function AdminContent() {
                                   <AlertDialogTitle>Заблокувати користувача?</AlertDialogTitle>
                                   <AlertDialogDescription>
                                     <div className="space-y-4 mt-4">
-                                      <p>Користувач: <strong>{user.name}</strong></p>
+                                      <p>
+                                        Користувач: <strong>{user.name}</strong>
+                                      </p>
                                       <div>
                                         <Label>Причина блокування</Label>
                                         <Textarea placeholder="Вкажіть причину..." />

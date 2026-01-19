@@ -1,9 +1,9 @@
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
-import { authService } from "../services/authService";
-import { IRegisterRequest } from "../types/requests/RegisterRequest";
-import { ILoginRequest } from "../types/requests/LoginRequest";
-import { IUser } from "@entities/user";
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
+import { authService } from '../services/authService';
+import { IRegisterRequest } from '../types/requests/RegisterRequest';
+import { ILoginRequest } from '../types/requests/LoginRequest';
+import { IUser } from '@entities/user';
 
 interface AuthState {
   user: IUser | null;
@@ -39,9 +39,9 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           isLoading: false,
         });
       } catch (error: any) {
-        const errorMessage = error.friendlyMessage || "Помилка при реєстрації";
+        const errorMessage = error.friendlyMessage || 'Помилка при реєстрації';
         set({
-          error: typeof errorMessage === 'string' ? errorMessage : "Помилка при реєстрації",
+          error: typeof errorMessage === 'string' ? errorMessage : 'Помилка при реєстрації',
           isLoading: false,
         });
         throw error; // Прокидаємо далі для обробки в компоненті (якщо треба)
@@ -58,9 +58,9 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           isLoading: false,
         });
       } catch (error: any) {
-        const errorMessage = error.friendlyMessage || "Помилка при вході";
+        const errorMessage = error.friendlyMessage || 'Помилка при вході';
         set({
-          error: typeof errorMessage === 'string' ? errorMessage : "Помилка при вході",
+          error: typeof errorMessage === 'string' ? errorMessage : 'Помилка при вході',
           isLoading: false,
         });
         throw error;
@@ -82,5 +82,5 @@ export const useAuthStore = create<AuthState & AuthActions>()(
     setUser: (user: IUser | null) => {
       set({ user });
     },
-  }))
+  })),
 );

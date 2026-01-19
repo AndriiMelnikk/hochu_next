@@ -9,4 +9,3 @@ export interface IBlogPost {
   image: string;
   content: string;
 }
-

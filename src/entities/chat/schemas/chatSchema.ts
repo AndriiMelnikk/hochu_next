@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const messageSchema = z.object({
   id: z.number(),
@@ -8,4 +8,3 @@ export const messageSchema = z.object({
   createdAt: z.string(),
   read: z.boolean(),
 });
-

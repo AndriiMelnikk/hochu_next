@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
-import type { Locale } from "@/locales/locale";
-import { defaultMetadata as enDefault, routeMetadata as enRoutes } from "@/locales/en/metadata";
-import { defaultMetadata as ukDefault, routeMetadata as ukRoutes } from "@/locales/uk/metadata";
-import { routes } from "@/app/router/routes";
+import type { Locale } from '@/locales/locale';
+import { defaultMetadata as enDefault, routeMetadata as enRoutes } from '@/locales/en/metadata';
+import { defaultMetadata as ukDefault, routeMetadata as ukRoutes } from '@/locales/uk/metadata';
+import { routes } from '@/app/router/routes';
 
 const metadataByLocale = {
   en: {
@@ -16,8 +16,7 @@ const metadataByLocale = {
   },
 } as const;
 
-export function getMetadataForRoute(  locale: Locale,
-route: keyof typeof routes): Metadata {
+export function getMetadataForRoute(locale: Locale, route: keyof typeof routes): Metadata {
   const metadataSet = metadataByLocale[locale];
   const routeMetadata = metadataSet.routes[route];
 

@@ -1,2 +1,1 @@
-export { default } from "./GamificationProgress";
-
+export { default } from './GamificationProgress';

@@ -37,4 +37,3 @@ export interface IGetRequestsResponse {
   previous: string | null;
   results: IRequest[];
 }
-

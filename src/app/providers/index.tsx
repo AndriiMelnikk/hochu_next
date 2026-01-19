@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { AuthProvider } from "@/entities/auth/hooks/useAuth";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactNode, useState } from "react";
-import { Toaster } from "sonner";
+import { AuthProvider } from '@/entities/auth/hooks/useAuth';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactNode, useState } from 'react';
+import { Toaster } from 'sonner';
 
 export function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(
@@ -15,9 +15,8 @@ export function Providers({ children }: { children: ReactNode }) {
             refetchOnWindowFocus: false,
           },
         },
-      })
+      }),
   );
-
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -28,4 +27,3 @@ export function Providers({ children }: { children: ReactNode }) {
     </QueryClientProvider>
   );
 }
-

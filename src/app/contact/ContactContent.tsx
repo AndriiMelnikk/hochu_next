@@ -1,57 +1,57 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { Button } from "@shared/ui/button";
-import { Input } from "@shared/ui/input";
-import { Textarea } from "@shared/ui/textarea";
-import Header from "@/widgets/app/Header";
-import Footer from "@/widgets/app/Footer";
-import { useToast } from "@shared/ui/use-toast";
+import { useState } from 'react';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Button } from '@shared/ui/button';
+import { Input } from '@shared/ui/input';
+import { Textarea } from '@shared/ui/textarea';
+import Header from '@/widgets/app/Header';
+import Footer from '@/widgets/app/Footer';
+import { useToast } from '@shared/ui/use-toast';
 
 export default function ContactContent() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: ""
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
   });
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Повідомлення відправлено!",
+      title: 'Повідомлення відправлено!',
       description: "Ми зв'яжемося з вами найближчим часом.",
     });
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
   const contactInfo = [
     {
       icon: Mail,
-      title: "Email",
-      value: "support@hochu.com",
-      link: "mailto:support@hochu.com"
+      title: 'Email',
+      value: 'support@hochu.com',
+      link: 'mailto:support@hochu.com',
     },
     {
       icon: Phone,
-      title: "Телефон",
-      value: "+380 (44) 123-45-67",
-      link: "tel:+380441234567"
+      title: 'Телефон',
+      value: '+380 (44) 123-45-67',
+      link: 'tel:+380441234567',
     },
     {
       icon: MapPin,
-      title: "Адреса",
-      value: "вул. Хрещатик, 1, Київ, Україна",
-      link: null
-    }
+      title: 'Адреса',
+      value: 'вул. Хрещатик, 1, Київ, Україна',
+      link: null,
+    },
   ];
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      
+
       <main className="flex-1 pt-20">
         {/* Hero Section */}
         <section className="py-16 px-4">

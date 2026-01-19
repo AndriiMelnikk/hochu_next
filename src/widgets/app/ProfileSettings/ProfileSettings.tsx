@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@shared/ui/card";
-import { Input } from "@shared/ui/input";
-import { Label } from "@shared/ui/label";
-import { Button } from "@shared/ui/button";
-import { Switch } from "@shared/ui/switch";
-import { Textarea } from "@shared/ui/textarea";
-import { useToast } from "@shared/ui/use-toast";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@shared/ui/select";
-import { Badge } from "@shared/ui/badge";
-import { Shield, AlertCircle } from "lucide-react";
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
+import { Input } from '@shared/ui/input';
+import { Label } from '@shared/ui/label';
+import { Button } from '@shared/ui/button';
+import { Switch } from '@shared/ui/switch';
+import { Textarea } from '@shared/ui/textarea';
+import { useToast } from '@shared/ui/use-toast';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
+import { Badge } from '@shared/ui/badge';
+import { Shield, AlertCircle } from 'lucide-react';
 
 const ProfileSettings = () => {
   const { toast } = useToast();
@@ -19,16 +19,16 @@ const ProfileSettings = () => {
     setTimeout(() => {
       setLoading(false);
       toast({
-        title: "Профіль оновлено",
-        description: "Ваші зміни успішно збережені",
+        title: 'Профіль оновлено',
+        description: 'Ваші зміни успішно збережені',
       });
     }, 1000);
   };
 
   const handleSaveNotifications = () => {
     toast({
-      title: "Налаштування збережені",
-      description: "Ваші налаштування сповіщень оновлені",
+      title: 'Налаштування збережені',
+      description: 'Ваші налаштування сповіщень оновлені',
     });
   };
 
@@ -51,34 +51,34 @@ const ProfileSettings = () => {
               <Input id="lastName" defaultValue="Коваленко" />
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" defaultValue="oleksandr@example.com" />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="phone">Телефон</Label>
             <Input id="phone" type="tel" defaultValue="+380 67 123 4567" />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="location">Місто</Label>
             <Input id="location" defaultValue="Київ" />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="bio">Про себе</Label>
-            <Textarea 
-              id="bio" 
+            <Textarea
+              id="bio"
               placeholder="Розкажіть трохи про себе..."
               defaultValue="Шукаю якісну техніку за доступними цінами. Надійний покупець з гарною історією угод."
               rows={4}
             />
           </div>
-          
+
           <Button onClick={handleSaveProfile} disabled={loading}>
-            {loading ? "Збереження..." : "Зберегти зміни"}
+            {loading ? 'Збереження...' : 'Зберегти зміни'}
           </Button>
         </CardContent>
       </Card>
@@ -100,7 +100,10 @@ const ProfileSettings = () => {
                 <p className="text-sm text-muted-foreground">+380 67 123 4567</p>
               </div>
             </div>
-            <Badge variant="outline" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">
+            <Badge
+              variant="outline"
+              className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20"
+            >
               Не підтверджено
             </Badge>
           </div>
@@ -108,18 +111,20 @@ const ProfileSettings = () => {
           <div className="space-y-2">
             <Label htmlFor="verifyPhone">Номер телефону для верифікації</Label>
             <div className="flex gap-2">
-              <Input 
-                id="verifyPhone" 
-                type="tel" 
+              <Input
+                id="verifyPhone"
+                type="tel"
                 placeholder="+380 XX XXX XXXX"
                 defaultValue="+380 67 123 4567"
               />
-              <Button onClick={() => {
-                toast({
-                  title: "Код відправлено",
-                  description: "Перевірте SMS повідомлення",
-                });
-              }}>
+              <Button
+                onClick={() => {
+                  toast({
+                    title: 'Код відправлено',
+                    description: 'Перевірте SMS повідомлення',
+                  });
+                }}
+              >
                 Надіслати код
               </Button>
             </div>
@@ -128,18 +133,21 @@ const ProfileSettings = () => {
           <div className="space-y-2">
             <Label htmlFor="verifyCode">Код підтвердження</Label>
             <div className="flex gap-2">
-              <Input 
-                id="verifyCode" 
-                type="text" 
+              <Input
+                id="verifyCode"
+                type="text"
                 placeholder="Введіть 6-значний код"
                 maxLength={6}
               />
-              <Button variant="default" onClick={() => {
-                toast({
-                  title: "Номер підтверджено!",
-                  description: "Ваш акаунт успішно верифіковано",
-                });
-              }}>
+              <Button
+                variant="default"
+                onClick={() => {
+                  toast({
+                    title: 'Номер підтверджено!',
+                    description: 'Ваш акаунт успішно верифіковано',
+                  });
+                }}
+              >
                 Підтвердити
               </Button>
             </div>
@@ -148,7 +156,8 @@ const ProfileSettings = () => {
           <div className="flex items-start gap-2 p-3 bg-primary/5 border border-primary/20 rounded-lg">
             <AlertCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
             <p className="text-xs text-muted-foreground">
-              Верифіковані користувачі отримують значок довіри в профілі та мають перевагу при виборі виконавців.
+              Верифіковані користувачі отримують значок довіри в профілі та мають перевагу при
+              виборі виконавців.
             </p>
           </div>
         </CardContent>
@@ -164,23 +173,19 @@ const ProfileSettings = () => {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="emailNotif">Email сповіщення</Label>
-              <p className="text-sm text-muted-foreground">
-                Отримувати сповіщення на email
-              </p>
+              <p className="text-sm text-muted-foreground">Отримувати сповіщення на email</p>
             </div>
             <Switch id="emailNotif" defaultChecked />
           </div>
-          
+
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="pushNotif">Push-сповіщення</Label>
-              <p className="text-sm text-muted-foreground">
-                Отримувати сповіщення в браузері
-              </p>
+              <p className="text-sm text-muted-foreground">Отримувати сповіщення в браузері</p>
             </div>
             <Switch id="pushNotif" defaultChecked />
           </div>
-          
+
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="newProposal">Нові пропозиції</Label>
@@ -190,30 +195,24 @@ const ProfileSettings = () => {
             </div>
             <Switch id="newProposal" defaultChecked />
           </div>
-          
+
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="messages">Повідомлення</Label>
-              <p className="text-sm text-muted-foreground">
-                Сповіщення про нові повідомлення
-              </p>
+              <p className="text-sm text-muted-foreground">Сповіщення про нові повідомлення</p>
             </div>
             <Switch id="messages" defaultChecked />
           </div>
-          
+
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="newsletter">Новини платформи</Label>
-              <p className="text-sm text-muted-foreground">
-                Отримувати новини та оновлення
-              </p>
+              <p className="text-sm text-muted-foreground">Отримувати новини та оновлення</p>
             </div>
             <Switch id="newsletter" />
           </div>
-          
-          <Button onClick={handleSaveNotifications}>
-            Зберегти налаштування
-          </Button>
+
+          <Button onClick={handleSaveNotifications}>Зберегти налаштування</Button>
         </CardContent>
       </Card>
 
@@ -233,17 +232,15 @@ const ProfileSettings = () => {
             </div>
             <Switch id="profileVisible" defaultChecked />
           </div>
-          
+
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="showRating">Показувати рейтинг</Label>
-              <p className="text-sm text-muted-foreground">
-                Відображати ваш рейтинг у профілі
-              </p>
+              <p className="text-sm text-muted-foreground">Відображати ваш рейтинг у профілі</p>
             </div>
             <Switch id="showRating" defaultChecked />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="privacy">Хто може бачити вашу активність</Label>
             <Select defaultValue="all">
@@ -257,7 +254,7 @@ const ProfileSettings = () => {
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="pt-4 space-y-4">
             <Button variant="outline" className="w-full">
               Змінити пароль
@@ -276,4 +273,3 @@ const ProfileSettings = () => {
 };
 
 export default ProfileSettings;
-

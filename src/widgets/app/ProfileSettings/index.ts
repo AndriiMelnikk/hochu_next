@@ -1,2 +1,1 @@
-export { default } from "./ProfileSettings";
-
+export { default } from './ProfileSettings';

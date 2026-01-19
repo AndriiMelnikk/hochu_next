@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const proposalSchema = z.object({
   id: z.number(),
@@ -8,7 +8,7 @@ export const proposalSchema = z.object({
   description: z.string(),
   estimatedTime: z.string(),
   createdAt: z.string(),
-  status: z.enum(["pending", "accepted", "rejected"]),
+  status: z.enum(['pending', 'accepted', 'rejected']),
 });
 
 export const getProposalsResponseSchema = z.object({
@@ -18,8 +18,7 @@ export const getProposalsResponseSchema = z.object({
 
 export const createProposalSchema = z.object({
   requestId: z.number(),
-  price: z.number().min(0, "Ціна має бути більше 0"),
-  description: z.string().min(10, "Опис має бути мінімум 10 символів"),
+  price: z.number().min(0, 'Ціна має бути більше 0'),
+  description: z.string().min(10, 'Опис має бути мінімум 10 символів'),
   estimatedTime: z.string().min(1, "Час виконання обов'язковий"),
 });
-

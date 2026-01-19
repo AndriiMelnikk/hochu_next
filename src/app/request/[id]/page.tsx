@@ -1,7 +1,7 @@
-import { getLocaleFromHeaders } from "@/locales/locale";
-import { getMetadataForRoute } from "@/locales/route-metadata";
-import RequestDetailContent from "./RequestDetailContent";
-import { requestService } from "@/entities/request/services/requestService";
+import { getLocaleFromHeaders } from '@/locales/locale';
+import { getMetadataForRoute } from '@/locales/route-metadata';
+import RequestDetailContent from './RequestDetailContent';
+import { requestService } from '@/entities/request/services/requestService';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props) {
       };
     }
   } catch (error) {
-    console.error("Failed to fetch request for metadata:", error);
+    console.error('Failed to fetch request for metadata:', error);
   }
 
   return baseMetadata;

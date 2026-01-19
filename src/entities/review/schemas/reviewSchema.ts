@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const reviewSchema = z.object({
   id: z.number(),
@@ -8,4 +8,3 @@ export const reviewSchema = z.object({
   comment: z.string(),
   createdAt: z.string(),
 });
-

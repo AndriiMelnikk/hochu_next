@@ -1,4 +1,4 @@
-import { IRequest } from "../../Request";
+import { IRequest } from '../../Request';
 
 export interface IGetRequestsResponse {
   count: number;
@@ -6,4 +6,3 @@ export interface IGetRequestsResponse {
   previous: string | null;
   results: IRequest[];
 }
-

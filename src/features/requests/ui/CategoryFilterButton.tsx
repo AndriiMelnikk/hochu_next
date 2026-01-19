@@ -1,5 +1,5 @@
-import { Button } from "@shared/ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from '@shared/ui/button';
+import { cn } from '@/lib/utils';
 
 interface CategoryFilterButtonProps {
   category: string;
@@ -7,16 +7,19 @@ interface CategoryFilterButtonProps {
   onClick: () => void;
 }
 
-export const CategoryFilterButton = ({ category, isSelected, onClick }: CategoryFilterButtonProps) => {
+export const CategoryFilterButton = ({
+  category,
+  isSelected,
+  onClick,
+}: CategoryFilterButtonProps) => {
   return (
     <Button
-      variant={isSelected ? "default" : "outline"}
+      variant={isSelected ? 'default' : 'outline'}
       size="sm"
       onClick={onClick}
-      className={cn("rounded-full whitespace-nowrap flex-shrink-0")}
+      className={cn('rounded-full whitespace-nowrap flex-shrink-0')}
     >
       {category}
     </Button>
   );
 };
-

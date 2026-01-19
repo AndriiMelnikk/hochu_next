@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const blogPostSchema = z.object({
   id: z.number(),
@@ -16,4 +16,3 @@ export const getBlogPostsResponseSchema = z.object({
   count: z.number(),
   results: z.array(blogPostSchema),
 });
-

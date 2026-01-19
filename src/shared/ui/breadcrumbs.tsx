@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React from "react";
-import { usePathname, useParams } from "next/navigation";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { breadcrumbLabels } from "@/shared/config/breadcrumbs";
-import { routes } from "@/app/router/routes";
+import React from 'react';
+import { usePathname, useParams } from 'next/navigation';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { breadcrumbLabels } from '@/shared/config/breadcrumbs';
+import { routes } from '@/app/router/routes';
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -13,7 +13,7 @@ import {
   BreadcrumbLink,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/shared/ui/breadcrumb";
+} from '@/shared/ui/breadcrumb';
 
 export interface BreadcrumbItemData {
   label: string;
@@ -34,11 +34,11 @@ export function Breadcrumbs({ items, className, dynamicLabels = {} }: Breadcrumb
   // Якщо items передані явно, використовуємо їх
   if (items) {
     return (
-      <Breadcrumb className={cn("mb-6", className)}>
+      <Breadcrumb className={cn('mb-6', className)}>
         <BreadcrumbList>
           {items.map((item, index) => {
             const isLast = index === items.length - 1;
-            
+
             return (
               <React.Fragment key={index}>
                 <BreadcrumbItem>
@@ -62,31 +62,32 @@ export function Breadcrumbs({ items, className, dynamicLabels = {} }: Breadcrumb
   }
 
   // Автоматично генеруємо breadcrumbs на основі шляху
-  const pathSegments = pathname.split("/").filter(Boolean);
+  const pathSegments = pathname.split('/').filter(Boolean);
   const breadcrumbItems: BreadcrumbItemData[] = [];
 
   // Завжди додаємо "Головна"
   breadcrumbItems.push({
-    label: breadcrumbLabels[routes.HOME] || "Головна",
+    label: breadcrumbLabels[routes.HOME] || 'Головна',
     href: routes.HOME,
   });
 
   // Генеруємо breadcrumbs для кожного сегменту
-  let currentPath = "";
-  
+  let currentPath = '';
+
   // Перевіряємо, чи це динамічний роут (наприклад, /request/[id] або /proposal/[id])
-  const isDynamicRoute = pathSegments.length === 2 && 
-    (pathSegments[0] === "request" || pathSegments[0] === "proposal" || pathSegments[0] === "blog");
-  
+  const isDynamicRoute =
+    pathSegments.length === 2 &&
+    (pathSegments[0] === 'request' || pathSegments[0] === 'proposal' || pathSegments[0] === 'blog');
+
   // Якщо це динамічний роут, додаємо проміжний сегмент "Запити" або "Блог"
-  if (isDynamicRoute && pathSegments[0] !== "blog") {
+  if (isDynamicRoute && pathSegments[0] !== 'blog') {
     breadcrumbItems.push({
-      label: breadcrumbLabels[routes.BROWSE] || "Запити",
+      label: breadcrumbLabels[routes.BROWSE] || 'Запити',
       href: routes.BROWSE,
     });
-  } else if (isDynamicRoute && pathSegments[0] === "blog") {
+  } else if (isDynamicRoute && pathSegments[0] === 'blog') {
     breadcrumbItems.push({
-      label: breadcrumbLabels[routes.BLOG] || "Блог",
+      label: breadcrumbLabels[routes.BLOG] || 'Блог',
       href: routes.BLOG,
     });
   }
@@ -97,13 +98,13 @@ export function Breadcrumbs({ items, className, dynamicLabels = {} }: Breadcrumb
 
     // Перевіряємо, чи це динамічний сегмент (UUID або число)
     const isDynamicSegment = segment.match(/^[a-f0-9-]{36}$|^\d+$/) !== null;
-    
+
     // Для динамічних роутів пропускаємо перший сегмент (request/proposal/blog)
     // оскільки він вже оброблений вище
     if (isDynamicRoute && index === 0) {
       return;
     }
-    
+
     let label: string;
     let href: string | undefined;
 
@@ -146,11 +147,11 @@ export function Breadcrumbs({ items, className, dynamicLabels = {} }: Breadcrumb
   });
 
   return (
-    <Breadcrumb className={cn("mb-6", className)}>
+    <Breadcrumb className={cn('mb-6', className)}>
       <BreadcrumbList>
         {breadcrumbItems.map((item, index) => {
           const isLast = index === breadcrumbItems.length - 1;
-          
+
           return (
             <React.Fragment key={index}>
               <BreadcrumbItem>
@@ -172,4 +173,3 @@ export function Breadcrumbs({ items, className, dynamicLabels = {} }: Breadcrumb
     </Breadcrumb>
   );
 }
-

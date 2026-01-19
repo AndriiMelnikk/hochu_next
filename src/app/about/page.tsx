@@ -1,49 +1,50 @@
-import { Users, Target, Heart, Zap } from "lucide-react";
-import Header from "@/widgets/app/Header";
-import Footer from "@/widgets/app/Footer";
-import { getLocaleFromHeaders } from "@/locales/locale";
-import { getMetadataForRoute } from "@/locales/route-metadata";
+import { Users, Target, Heart, Zap } from 'lucide-react';
+import Header from '@/widgets/app/Header';
+import Footer from '@/widgets/app/Footer';
+import { getLocaleFromHeaders } from '@/locales/locale';
+import { getMetadataForRoute } from '@/locales/route-metadata';
 
 export async function generateMetadata() {
   const locale = await getLocaleFromHeaders();
-  return getMetadataForRoute(locale, "ABOUT");
+  return getMetadataForRoute(locale, 'ABOUT');
 }
 
 export default function AboutPage() {
   const values = [
     {
       icon: Users,
-      title: "Спільнота",
-      description: "Ми об'єднуємо людей, які хочуть отримати послуги, з тими, хто готовий їх надати"
+      title: 'Спільнота',
+      description:
+        "Ми об'єднуємо людей, які хочуть отримати послуги, з тими, хто готовий їх надати",
     },
     {
       icon: Target,
-      title: "Прозорість",
-      description: "Чіткі умови, відкриті відгуки та прозорі ціни для всіх учасників"
+      title: 'Прозорість',
+      description: 'Чіткі умови, відкриті відгуки та прозорі ціни для всіх учасників',
     },
     {
       icon: Heart,
-      title: "Довіра",
-      description: "Система рейтингів та відгуків допомагає будувати довірчі відносини"
+      title: 'Довіра',
+      description: 'Система рейтингів та відгуків допомагає будувати довірчі відносини',
     },
     {
       icon: Zap,
-      title: "Швидкість",
-      description: "Миттєве з'єднання між тими, хто потребує послуги, та виконавцями"
-    }
+      title: 'Швидкість',
+      description: "Миттєве з'єднання між тими, хто потребує послуги, та виконавцями",
+    },
   ];
 
   const stats = [
-    { value: "5000+", label: "Користувачів" },
-    { value: "10000+", label: "Виконаних замовлень" },
-    { value: "50+", label: "Категорій послуг" },
-    { value: "4.8/5", label: "Середній рейтинг" }
+    { value: '5000+', label: 'Користувачів' },
+    { value: '10000+', label: 'Виконаних замовлень' },
+    { value: '50+', label: 'Категорій послуг' },
+    { value: '4.8/5', label: 'Середній рейтинг' },
   ];
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      
+
       <main className="flex-1 pt-20">
         {/* Hero Section */}
         <section className="py-16 px-4">
@@ -52,9 +53,9 @@ export default function AboutPage() {
               Про Hochu
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Hochu — це платформа, яка з'єднує людей, які потребують послуг, 
-              з професіоналами, готовими їх надати. Ми створили простір, 
-              де кожен може знайти потрібну послугу або запропонувати свої навички.
+              Hochu — це платформа, яка з'єднує людей, які потребують послуг, з професіоналами,
+              готовими їх надати. Ми створили простір, де кожен може знайти потрібну послугу або
+              запропонувати свої навички.
             </p>
           </div>
         </section>
@@ -81,15 +82,13 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold text-center mb-12">Наша місія</h2>
             <div className="bg-card rounded-3xl p-8 md:p-12 shadow-lg border border-border">
               <p className="text-lg text-foreground leading-relaxed mb-6">
-                Ми прагнемо створити найпростіший та найбезпечніший спосіб 
-                знайти виконавця для будь-якої послуги. Незалежно від того, 
-                чи потрібен вам ремонт, навчання, доставка чи будь-яка інша послуга — 
-                на Hochu ви знайдете відповідних фахівців.
+                Ми прагнемо створити найпростіший та найбезпечніший спосіб знайти виконавця для
+                будь-якої послуги. Незалежно від того, чи потрібен вам ремонт, навчання, доставка чи
+                будь-яка інша послуга — на Hochu ви знайдете відповідних фахівців.
               </p>
               <p className="text-lg text-foreground leading-relaxed">
-                Для виконавців ми надаємо можливість розвивати свій бізнес, 
-                знаходити нових клієнтів та будувати репутацію через систему 
-                відгуків та рейтингів.
+                Для виконавців ми надаємо можливість розвивати свій бізнес, знаходити нових клієнтів
+                та будувати репутацію через систему відгуків та рейтингів.
               </p>
             </div>
           </div>
@@ -103,7 +102,7 @@ export default function AboutPage() {
               {values.map((value, index) => {
                 const Icon = value.icon;
                 return (
-                  <div 
+                  <div
                     key={index}
                     className="bg-card rounded-2xl p-6 shadow-lg border border-border hover:border-primary transition-all hover:shadow-xl"
                   >
@@ -125,17 +124,16 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold text-center mb-12">Наша історія</h2>
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Hochu був створений у 2026 році з метою вирішити просту проблему: 
-                як легко знайти надійного виконавця для повсякденних завдань?
+                Hochu був створений у 2026 році з метою вирішити просту проблему: як легко знайти
+                надійного виконавця для повсякденних завдань?
               </p>
               <p>
-                Ми побачили, що багато людей витрачають години на пошук потрібних 
-                послуг, а професіонали втрачають потенційних клієнтів через брак 
-                зручної платформи.
+                Ми побачили, що багато людей витрачають години на пошук потрібних послуг, а
+                професіонали втрачають потенційних клієнтів через брак зручної платформи.
               </p>
               <p>
-                Сьогодні Hochu — це зростаюча спільнота тисяч користувачів, 
-                які щодня знаходять один одного та успішно співпрацюють.
+                Сьогодні Hochu — це зростаюча спільнота тисяч користувачів, які щодня знаходять один
+                одного та успішно співпрацюють.
               </p>
             </div>
           </div>
@@ -146,4 +144,3 @@ export default function AboutPage() {
     </div>
   );
 }
-

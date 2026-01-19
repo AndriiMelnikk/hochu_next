@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const RequestSchema = z.object({
   id: z.number(),
@@ -25,7 +25,7 @@ export const RequestSchema = z.object({
       z.object({
         text: z.string(),
         timestamp: z.string(),
-      })
+      }),
     )
     .optional(),
 });
@@ -39,4 +39,3 @@ export const GetRequestsResponseSchema = z.object({
 
 export type RequestType = z.infer<typeof RequestSchema>;
 export type GetRequestsResponseType = z.infer<typeof GetRequestsResponseSchema>;
-

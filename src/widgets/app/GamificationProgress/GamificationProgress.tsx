@@ -1,14 +1,14 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@shared/ui/card";
-import { Progress } from "@shared/ui/progress";
-import { Badge } from "@shared/ui/badge";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@shared/ui/tooltip";
-import { 
-  calculateLevel, 
-  getProgressToNextLevel, 
-  sellerAchievements, 
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
+import { Progress } from '@shared/ui/progress';
+import { Badge } from '@shared/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@shared/ui/tooltip';
+import {
+  calculateLevel,
+  getProgressToNextLevel,
+  sellerAchievements,
   buyerAchievements,
-  type UserRole 
-} from "@/types/gamification";
+  type UserRole,
+} from '@/types/gamification';
 
 interface GamificationProgressProps {
   xp: number;
@@ -16,16 +16,20 @@ interface GamificationProgressProps {
   unlockedAchievements: string[];
 }
 
-export default function GamificationProgress({ xp, role, unlockedAchievements }: GamificationProgressProps) {
+export default function GamificationProgress({
+  xp,
+  role,
+  unlockedAchievements,
+}: GamificationProgressProps) {
   const level = calculateLevel(xp, role);
   const progress = getProgressToNextLevel(xp, role);
-  const achievements = role === "seller" ? sellerAchievements : buyerAchievements;
-  
+  const achievements = role === 'seller' ? sellerAchievements : buyerAchievements;
+
   const rarityColors = {
-    common: "bg-slate-500",
-    rare: "bg-blue-500",
-    epic: "bg-purple-500",
-    legendary: "bg-amber-500",
+    common: 'bg-slate-500',
+    rare: 'bg-blue-500',
+    epic: 'bg-purple-500',
+    legendary: 'bg-amber-500',
   };
 
   return (
@@ -75,8 +79,8 @@ export default function GamificationProgress({ xp, role, unlockedAchievements }:
                     <TooltipTrigger asChild>
                       <div
                         className={`p-4 rounded-lg border-2 text-center transition-all ${
-                          isUnlocked 
-                            ? 'border-primary bg-primary/5 hover:bg-primary/10' 
+                          isUnlocked
+                            ? 'border-primary bg-primary/5 hover:bg-primary/10'
                             : 'border-muted bg-muted/20 opacity-50 grayscale'
                         }`}
                       >
@@ -101,4 +105,3 @@ export default function GamificationProgress({ xp, role, unlockedAchievements }:
     </TooltipProvider>
   );
 }
-
