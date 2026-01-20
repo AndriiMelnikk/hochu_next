@@ -43,7 +43,7 @@ const ProfileSettings = () => {
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="firstName">Ім'я</Label>
+              <Label htmlFor="firstName">Ім&apos;я</Label>
               <Input id="firstName" defaultValue="Олександр" />
             </div>
             <div className="space-y-2">
@@ -256,15 +256,8 @@ const ProfileSettings = () => {
           </div>
 
           <div className="pt-4 space-y-4">
-            <Button variant="outline" className="w-full">
-              Змінити пароль
-            </Button>
-            <Button variant="outline" className="w-full">
-              Завантажити мої дані
-            </Button>
-            <Button variant="destructive" className="w-full">
-              Видалити акаунт
-            </Button>
+            <Button variant="outline">Змінити пароль</Button>
+            <Button variant="destructive">Видалити акаунт</Button>
           </div>
         </CardContent>
       </Card>
