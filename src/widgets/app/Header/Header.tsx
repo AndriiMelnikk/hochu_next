@@ -4,14 +4,21 @@ import { Button } from '@shared/ui/button';
 import { RegisterButton } from '@/features/auth';
 import Link from 'next/link';
 import { Menu, X, User } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { routes } from '@app/router/routes';
 import { HeroBadge } from '@/shared/ui/hero-badge';
 import { useAuthStore } from '@/entities/auth/store/authStore';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const { isAuth } = useAuthStore();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsClient(true);
+    }, 100);
+  }, []);
 
   return (
     <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
@@ -46,22 +53,23 @@ const Header = () => {
             >
               Як це працює
             </Link>
-            {isAuth ? (
-              <Link href={routes.PROFILE}>
-                <Button variant="ghost" size="sm">
-                  <User className="h-4 w-4" />
-                </Button>
-              </Link>
-            ) : (
-              <>
-                <Link href={routes.LOGIN}>
-                  <Button variant="outline" size="sm">
-                    Увійти
+            {isClient &&
+              (isAuth ? (
+                <Link href={routes.PROFILE}>
+                  <Button variant="ghost" size="sm">
+                    <User className="h-4 w-4" />
                   </Button>
                 </Link>
-                <RegisterButton size="sm" onClick={() => setIsOpen(false)} />
-              </>
-            )}
+              ) : (
+                <>
+                  <Link href={routes.LOGIN}>
+                    <Button variant="outline" size="sm">
+                      Увійти
+                    </Button>
+                  </Link>
+                  <RegisterButton size="sm" onClick={() => setIsOpen(false)} />
+                </>
+              ))}
           </div>
 
           {/* Mobile menu button */}
@@ -95,26 +103,27 @@ const Header = () => {
               Як це працює
             </Link>
 
-            {isAuth ? (
-              <Link
-                href={routes.PROFILE}
-                className="block text-foreground hover:text-primary transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                Профіль
-              </Link>
-            ) : (
-              <>
-                <div className="flex flex-col space-y-2 pt-4">
-                  <Link href={routes.LOGIN} onClick={() => setIsOpen(false)}>
-                    <Button variant="outline" size="sm" className="w-full">
-                      Увійти
-                    </Button>
-                  </Link>
-                  <RegisterButton size="sm" fullWidth onClick={() => setIsOpen(false)} />
-                </div>
-              </>
-            )}
+            {isClient &&
+              (isAuth ? (
+                <Link
+                  href={routes.PROFILE}
+                  className="block text-foreground hover:text-primary transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Профіль
+                </Link>
+              ) : (
+                <>
+                  <div className="flex flex-col space-y-2 pt-4">
+                    <Link href={routes.LOGIN} onClick={() => setIsOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Увійти
+                      </Button>
+                    </Link>
+                    <RegisterButton size="sm" fullWidth onClick={() => setIsOpen(false)} />
+                  </div>
+                </>
+              ))}
           </div>
         )}
       </div>

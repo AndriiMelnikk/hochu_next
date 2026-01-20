@@ -8,7 +8,7 @@ import { apiBaseUrl, LS_KEYS } from '@shared/config/envVars';
 const getAuthorizationHeader = () => {
   if (typeof window === 'undefined') return undefined;
   const accessToken = localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
-  return accessToken ? `Token ${accessToken}` : undefined;
+  return accessToken ? `Bearer ${accessToken}` : undefined;
 };
 
 /**
@@ -40,7 +40,7 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (typeof window !== 'undefined') {
     const token = localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
     if (token) {
-      config.headers.Authorization = `Token ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     const locale = localStorage.getItem(LS_KEYS.LOCALE) || 'uk';
@@ -53,18 +53,78 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
  * Перехоплювач відповідей (Response Interceptor).
  * Централізована обробка помилок та статусів.
  */
+let isRefreshing = false;
+let failedQueue: {
+  resolve: (value: string | PromiseLike<string>) => void;
+  reject: (reason?: unknown) => void;
+}[] = [];
+
+const processQueue = (error: unknown, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
 api.interceptors.response.use(
   (response) => response,
-  (error: AxiosError) => {
-    // 1. Обробка помилки авторизації (401)
-    if (error.response?.status === 401) {
-      if (typeof window !== 'undefined') {
-        // Очищаємо застарілі токени при невалідній сесії
-        localStorage.removeItem(LS_KEYS.ACCESS_TOKEN);
-        localStorage.removeItem(LS_KEYS.REFRESH_TOKEN);
+  async (error: AxiosError) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
-        if (!window.location.pathname.includes('/login')) {
-          window.location.href = '/login';
+    // 1. Обробка помилки авторизації (401)
+    const isAuthRequest =
+      originalRequest.url?.includes('/auth/login') ||
+      originalRequest.url?.includes('/auth/register');
+
+    if (error.response?.status === 401 && !originalRequest._retry && !isAuthRequest) {
+      if (typeof window !== 'undefined') {
+        const refreshToken = localStorage.getItem(LS_KEYS.REFRESH_TOKEN);
+
+        if (refreshToken) {
+          if (isRefreshing) {
+            return new Promise((resolve, reject) => {
+              failedQueue.push({ resolve, reject });
+            })
+              .then((token) => {
+                originalRequest.headers.Authorization = `Bearer ${token}`;
+                return api(originalRequest);
+              })
+              .catch((err) => {
+                return Promise.reject(err);
+              });
+          }
+
+          originalRequest._retry = true;
+          isRefreshing = true;
+
+          try {
+            const response = await axios.post(`${apiBaseUrl}/api/auth/refresh`, {
+              refresh_token: refreshToken,
+            });
+
+            const { access_token, refresh_token: new_refresh_token } = response.data;
+
+            localStorage.setItem(LS_KEYS.ACCESS_TOKEN, access_token);
+            localStorage.setItem(LS_KEYS.REFRESH_TOKEN, new_refresh_token);
+
+            api.defaults.headers.Authorization = `Bearer ${access_token}`;
+            originalRequest.headers.Authorization = `Bearer ${access_token}`;
+
+            processQueue(null, access_token);
+            return api(originalRequest);
+          } catch (refreshError) {
+            processQueue(refreshError, null);
+            localStorage.removeItem(LS_KEYS.ACCESS_TOKEN);
+            localStorage.removeItem(LS_KEYS.REFRESH_TOKEN);
+            return Promise.reject(refreshError);
+          } finally {
+            isRefreshing = false;
+          }
         }
       }
     }
@@ -74,7 +134,12 @@ api.interceptors.response.use(
 
     if (error.response) {
       // Сервер повернув відповідь зі статусом помилки (4xx, 5xx)
-      const data = error.response.data as any;
+      const data = error.response.data as {
+        detail?: string;
+        message?: string | { message: string };
+        error?: string;
+        errors?: Record<string, string[] | { message: string }>;
+      };
 
       // Спробуємо знайти повідомлення у звичних полях
       const potentialMessage = data?.detail || data?.message || data?.error;
@@ -117,10 +182,7 @@ api.interceptors.response.use(
     }
 
     // Розширюємо об'єкт помилки власним повідомленням для зручності
-    const enhancedError = {
-      ...error,
-      friendlyMessage: errorMessage,
-    };
+    (error as unknown as { friendlyMessage: string }).friendlyMessage = errorMessage;
 
     // Логування помилок у консоль в режимі розробки
     if (process.env.NODE_ENV === 'development') {
@@ -130,7 +192,7 @@ api.interceptors.response.use(
       );
     }
 
-    return Promise.reject(enhancedError);
+    return Promise.reject(error);
   },
 );
 

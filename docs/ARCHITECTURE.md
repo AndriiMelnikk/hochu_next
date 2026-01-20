@@ -560,7 +560,7 @@ shared/
 ```typescript
 const getAuthorizationHeader = () => {
   const accessToken = localStorage.getItem(LS_KEYS.ACCESS_TOKEN);
-  return accessToken ? `Token ${accessToken}` : undefined;
+  return accessToken ? `Bearer ${accessToken}` : undefined;
 };
 
 export const api = axios.create({

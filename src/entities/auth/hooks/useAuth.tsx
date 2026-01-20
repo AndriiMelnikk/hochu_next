@@ -1,53 +1,46 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useEffect, ReactNode, useMemo } from 'react';
 import { authService } from '../services/authService';
 import type { IUser } from '@entities/user';
+import { useAuthStore } from '../store/authStore';
+import { ILoginRequest } from '../types/requests/LoginRequest';
+import { IRegisterRequest } from '../types/requests/RegisterRequest';
 
 interface AuthContextType {
   auth: boolean;
   user: IUser | null;
-  setAuth: (auth: boolean) => void;
-  setUser: (user: IUser | null) => void;
-  login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string) => Promise<void>;
-  logout: () => Promise<void>;
+  login: (data: ILoginRequest) => Promise<void>;
+  register: (data: IRegisterRequest) => Promise<void>;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [auth, setAuth] = useState(authService.isAuthenticated());
-  const [user, setUser] = useState<IUser | null>(null);
-
-  const login = async (email: string, password: string) => {
-    const response = await authService.login({ email, password });
-    setAuth(true);
-    setUser(response.user);
-  };
-
-  const register = async (email: string, password: string, name: string) => {
-    const response = await authService.register({ email, password, name });
-    setAuth(true);
-    setUser(response.user);
-  };
-
-  const logout = async () => {
-    await authService.logout();
-    setAuth(false);
-    setUser(null);
-  };
+  const { isAuth, user, login, register, logout, setAuth, setUser } = useAuthStore();
 
   useEffect(() => {
-    if (auth && !user) {
-      // Load user data if authenticated
-      // This will be implemented when user entity is ready
-    }
-  }, [auth, user]);
+    const initAuth = async () => {
+      if (authService.isAuthenticated()) {
+        try {
+          const user = await authService.getMe();
+          setAuth(true);
+          setUser(user);
+        } catch (error) {
+          setAuth(false);
+          setUser(null);
+        }
+      }
+    };
 
-  return (
-    <AuthContext.Provider value={{ auth, user, setAuth, setUser, login, register, logout }}>
-      {children}
-    </AuthContext.Provider>
+    initAuth();
+  }, [setAuth, setUser]);
+
+  const value = useMemo(
+    () => ({ auth: isAuth, user, login, register, logout }),
+    [isAuth, user, login, register, logout],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

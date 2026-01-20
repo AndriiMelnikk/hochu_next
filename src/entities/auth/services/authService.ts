@@ -5,6 +5,8 @@ import type { IRegisterRequest } from '../types/requests/RegisterRequest';
 import type { IAuthResponse } from '../types/responses/AuthResponse';
 import { authResponseSchema } from '../schemas/authSchema';
 import { LS_KEYS } from '../const';
+import { userSchema } from '@/entities/user/schemas/userSchema';
+import type { IUser } from '@/entities/user/types/User';
 
 class AuthService {
   async login(data: ILoginRequest, config?: AxiosRequestConfig): Promise<IAuthResponse> {
@@ -50,6 +52,18 @@ class AuthService {
       localStorage.removeItem(LS_KEYS.ACCESS_TOKEN);
       localStorage.removeItem(LS_KEYS.REFRESH_TOKEN);
     }
+  }
+
+  async getMe(config?: AxiosRequestConfig): Promise<IUser> {
+    const response = await api.get<IUser>(ENDPOINTS.USER.ME, config);
+
+    console.log('response.data', response.data);
+    return userSchema.parse(response.data) as IUser;
+  }
+
+  async refresh(refreshToken: string): Promise<{ access_token: string; refresh_token: string }> {
+    const response = await api.post(ENDPOINTS.AUTH.REFRESH, { refresh_token: refreshToken });
+    return response.data;
   }
 
   getToken(): string | null {

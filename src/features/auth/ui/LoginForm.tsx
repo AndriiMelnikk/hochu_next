@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { FieldError, FieldErrors, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@entities/auth/schemas/authSchema';
 import { Button } from '@shared/ui/button';
@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { ILoginRequest } from '@/entities/auth';
 import { routes } from '@/app/router/routes';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
+import { AxiosError } from 'axios';
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -31,11 +32,17 @@ export const LoginForm = () => {
       await loginUser(data);
       toast.success('Вхід успішний!');
       router.push(routes.HOME);
-    } catch (err: any) {
+    } catch (err: unknown) {
       let handledAsFieldError = false;
 
+      console.log('err', err);
+
       // Обробка помилок полів від сервера
-      if (err.response?.data) {
+      if (
+        err instanceof AxiosError &&
+        err.response?.data &&
+        typeof err.response.data === 'object'
+      ) {
         const serverErrors = err.response.data.errors || err.response.data;
         if (typeof serverErrors === 'object') {
           Object.keys(serverErrors).forEach((key) => {
@@ -45,7 +52,7 @@ export const LoginForm = () => {
                 ? serverErrors[key][0]
                 : serverErrors[key];
               const errorMessage = typeof message === 'string' ? message : 'Невалідні дані';
-              setError(key as any, {
+              setError(key as keyof ILoginRequest, {
                 type: 'server',
                 message: errorMessage,
               });
@@ -56,16 +63,28 @@ export const LoginForm = () => {
         }
       }
 
-      if (err.friendlyMessage && !handledAsFieldError) {
-        toast.error(err.friendlyMessage);
+      if (err instanceof AxiosError) {
+        const serverData = err.response?.data;
+        const serverMessage =
+          serverData?.error?.message || serverData?.message || serverData?.detail;
+
+        if (serverMessage && !handledAsFieldError) {
+          toast.error(serverMessage);
+          handledAsFieldError = true;
+        }
+      }
+
+      const friendlyMessage = (err as unknown as { friendlyMessage: string }).friendlyMessage;
+      if (friendlyMessage && !handledAsFieldError) {
+        toast.error(friendlyMessage);
       } else if (!handledAsFieldError) {
         toast.error('Сталася помилка при вході');
       }
     }
   };
 
-  const onInvalid = (errors: any) => {
-    Object.values(errors).forEach((error: any) => {
+  const onInvalid = (errors: FieldErrors<ILoginRequest>) => {
+    Object.values(errors).forEach((error: FieldError) => {
       if (error.message) {
         toast.error(error.message as string);
       }

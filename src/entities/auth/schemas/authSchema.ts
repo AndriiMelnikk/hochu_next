@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { userSchema } from '../../user/schemas/userSchema';
 
 export const loginSchema = z.object({
   email: z.string().email('Невірний формат email'),
@@ -14,18 +15,5 @@ export const registerSchema = z.object({
 export const authResponseSchema = z.object({
   access_token: z.string(),
   refresh_token: z.string(),
-  user: z.object({
-    _id: z.string(),
-    name: z.string(),
-    email: z.string(),
-    avatar: z.string().nullable(),
-    rating: z.number(),
-    reviewsCount: z.number(),
-    isVerified: z.boolean(),
-    memberSince: z.string(),
-    completedDeals: z.number(),
-    role: z.enum(['buyer', 'seller']),
-    location: z.string().nullable(),
-    xp: z.number(),
-  }),
+  user: userSchema,
 });

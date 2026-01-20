@@ -4,6 +4,7 @@ import { authService } from '../services/authService';
 import { IRegisterRequest } from '../types/requests/RegisterRequest';
 import { ILoginRequest } from '../types/requests/LoginRequest';
 import { IUser } from '@entities/user';
+import { AxiosError } from 'axios';
 
 interface AuthState {
   user: IUser | null;
@@ -38,13 +39,15 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           isAuth: true,
           isLoading: false,
         });
-      } catch (error: any) {
-        const errorMessage = error.friendlyMessage || 'Помилка при реєстрації';
-        set({
-          error: typeof errorMessage === 'string' ? errorMessage : 'Помилка при реєстрації',
-          isLoading: false,
-        });
-        throw error; // Прокидаємо далі для обробки в компоненті (якщо треба)
+      } catch (error: unknown) {
+        if (error instanceof AxiosError) {
+          const errorMessage = error.response?.data?.friendlyMessage || 'Помилка при реєстрації';
+          set({
+            error: errorMessage,
+            isLoading: false,
+          });
+          throw error; // Прокидаємо далі для обробки в компоненті (якщо треба)
+        }
       }
     },
 
@@ -57,13 +60,15 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           isAuth: true,
           isLoading: false,
         });
-      } catch (error: any) {
-        const errorMessage = error.friendlyMessage || 'Помилка при вході';
-        set({
-          error: typeof errorMessage === 'string' ? errorMessage : 'Помилка при вході',
-          isLoading: false,
-        });
-        throw error;
+      } catch (error: unknown) {
+        if (error instanceof AxiosError) {
+          const errorMessage = error.response?.data?.friendlyMessage || 'Помилка при вході';
+          set({
+            error: errorMessage,
+            isLoading: false,
+          });
+          throw error;
+        }
       }
     },
 
