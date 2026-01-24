@@ -5,8 +5,8 @@ export default defineConfig({
   sourceLocale: 'uk',
   catalogs: [
     {
-      path: '<rootDir>/src/locales/{locale}/messages',
-      include: ['src'],
+      path: '<rootDir>/src/locales/{locale}/create',
+      include: ['src/app/create'],
     },
   ],
 });

@@ -21,4 +21,8 @@ export const ENDPOINTS = {
     BASE: '/api/blog',
     BY_ID: (id: string | number) => `/api/blog/${id}`,
   },
+  CATEGORIES: {
+    BASE: '/api/categories',
+    BY_ID: (id: string) => `/api/categories/${id}`,
+  },
 } as const;

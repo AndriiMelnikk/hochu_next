@@ -1,0 +1,41 @@
+import type { Messages } from '@lingui/core';
+
+export const messages: Messages = {
+  'request.create.budgetMaxLabel': 'Budget up to (UAH)',
+  'request.create.budgetMaxPlaceholder': '10000',
+  'request.create.budgetMinLabel': 'Budget from (UAH)',
+  'request.create.budgetMinPlaceholder': '0',
+  'request.create.categoriesEmpty': 'No categories available',
+  'request.create.categoriesError': 'Failed to load categories',
+  'request.create.categoriesLoading': 'Loading categories...',
+  'request.create.categoryLabel': 'Category',
+  'request.create.categoryPlaceholder': 'Select a category',
+  'request.create.descriptionLabel': 'Detailed description',
+  'request.create.descriptionPlaceholder':
+    'Describe in detail what you need, requirements, and expectations...',
+  'request.create.filesHintPrimary': 'Drag files here or click to select',
+  'request.create.filesHintSecondary': 'Photos, documents (up to 5 files, max 10MB each)',
+  'request.create.filesLabel': 'Add files',
+  'request.create.locationLabel': 'Location',
+  'request.create.locationPlaceholder': "City or 'Remote'",
+  'request.create.subcategoryLabel': 'Subcategory',
+  'request.create.subcategoryPlaceholder': 'Select a subcategory',
+  'request.create.submitDraft': 'Save as draft',
+  'request.create.submitPublish': 'Publish request',
+  'request.create.subtitle': 'Describe what you need and get proposals from professionals',
+  'request.create.tipLabel': 'Tip:',
+  'request.create.tipText':
+    'The more detailed your request, the more quality proposals you will receive. Include all important details and expectations.',
+  'request.create.titleEmphasis': 'request',
+  'request.create.titleHint': 'Briefly describe what you need',
+  'request.create.titleLabel': 'Request title',
+  'request.create.titlePlaceholder':
+    'For example: Looking for a web designer to create a landing page',
+  'request.create.titlePrefix': 'Create',
+  'request.create.urgencyDays': '2-3 days',
+  'request.create.urgencyFlexible': 'Flexible (not urgent)',
+  'request.create.urgencyLabel': 'Urgency',
+  'request.create.urgencyPlaceholder': 'Select urgency',
+  'request.create.urgencyUrgent': 'Urgent (today-tomorrow)',
+  'request.create.urgencyWeek': 'Within a week',
+};

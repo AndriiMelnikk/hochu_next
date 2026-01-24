@@ -74,6 +74,8 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
     "@eslint/js": "^9.32.0",
+    "@lingui/cli": "^5.9.0",
+    "@lingui/macro": "^5.9.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.16.5",
     "@types/react": "^18.3.23",
