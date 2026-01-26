@@ -5,6 +5,7 @@ export type { ICreateRequestRequest } from './types/requests/CreateRequest';
 export type { IGetRequestsResponse } from './types/responses/GetRequests';
 export { useRequests } from './hooks/useRequests';
 export { useRequest } from './hooks/useRequest';
+export { useCreateRequest } from './hooks/useCreateRequest';
 export {
   requestSchema,
   getRequestsResponseSchema,
