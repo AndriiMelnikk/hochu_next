@@ -1,26 +1,34 @@
 import { z } from 'zod';
 
-export const requestSchema = z.object({
-  id: z.number(),
-  title: z.string(),
-  description: z.string(),
-  category: z.string(),
-  budgetMin: z.number(),
-  budgetMax: z.number(),
-  location: z.string(),
-  urgency: z.string(),
-  createdAt: z.string(),
-  views: z.number(),
-  proposalsCount: z.number(),
-  images: z.array(z.string()),
-  buyerId: z.number(),
-  edits: z.array(
-    z.object({
-      text: z.string(),
-      timestamp: z.string(),
-    }),
-  ),
-});
+export const requestSchema = z
+  .object({
+    id: z.union([z.string(), z.number()]).optional(),
+    _id: z.union([z.string(), z.number()]).optional(),
+    title: z.string(),
+    description: z.string(),
+    category: z.string(),
+    budgetMin: z.number(),
+    budgetMax: z.number(),
+    location: z.string(),
+    urgency: z.string(),
+    createdAt: z.string(),
+    views: z.number(),
+    proposalsCount: z.number(),
+    images: z.array(z.string()),
+    buyerId: z.union([z.string(), z.number()]),
+    status: z.enum(['pending', 'active', 'closed', 'rejected']),
+    edits: z.array(
+      z.object({
+        text: z.string(),
+        timestamp: z.string(),
+      }),
+    ),
+  })
+  .transform((data) => ({
+    ...data,
+    id: String(data.id ?? data._id ?? ''),
+    buyerId: String(data.buyerId),
+  }));
 
 export const getRequestsResponseSchema = z.object({
   count: z.number(),

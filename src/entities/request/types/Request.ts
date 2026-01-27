@@ -1,5 +1,5 @@
 export interface IRequest {
-  id: number;
+  id: string | number;
   title: string;
   description: string;
   category: string;
@@ -11,7 +11,8 @@ export interface IRequest {
   views: number;
   proposalsCount: number;
   images: string[];
-  buyerId: number;
+  buyerId: string | number;
+  status: 'pending' | 'active' | 'closed' | 'rejected';
   edits: Array<{
     text: string;
     timestamp: string;
@@ -20,7 +21,7 @@ export interface IRequest {
 
 export interface IRequestWithBuyer extends IRequest {
   buyer?: {
-    id: number;
+    id: string | number;
     name: string;
     avatar: string;
     rating: number;
