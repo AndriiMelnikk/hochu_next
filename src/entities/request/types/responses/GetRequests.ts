@@ -1,8 +1,11 @@
-import { IRequest } from '../../Request';
+import { IRequest } from '../Request';
 
 export interface IGetRequestsResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
   results: IRequest[];
+  count: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  next?: string;
+  previous?: string;
 }

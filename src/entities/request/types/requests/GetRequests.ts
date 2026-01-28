@@ -1,8 +1,9 @@
 export interface IGetRequestsRequest {
   page?: number;
-  page_size?: number;
+  limit?: number;
+  search?: string;
   category?: string;
   location?: string;
-  search?: string;
-  budgetRange?: string;
+  minPrice?: number;
+  maxPrice?: number;
 }

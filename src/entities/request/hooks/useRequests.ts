@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { requestService } from '../services/requestService';
-import type { IGetRequestsRequest } from '../types/requests';
+import type { IGetRequestsRequest } from '../types/requests/GetRequests';
 import { getRequestsResponseSchema } from '../schemas/requestSchema';
 
 export const useRequests = (searchParams: IGetRequestsRequest = {}) => {

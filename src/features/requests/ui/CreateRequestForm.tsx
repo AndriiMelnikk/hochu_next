@@ -24,8 +24,7 @@ import {
 } from '@/shared/ui/command';
 import {
   createRequestSchema,
-  REQUEST_URGENCY,
-  useCreateRequest,
+  useRequestStore,
   type ICreateRequestRequest,
 } from '@/entities/request';
 import { routes } from '@/app/router/routes';
@@ -43,6 +42,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/shared/ui/form';
+import { REQUEST_URGENCY } from '@/entities/request/const';
 
 const urgencyOptions = [
   { value: REQUEST_URGENCY[0], labelKey: 'request.create.urgencyFlexible' },
@@ -55,7 +55,7 @@ export const CreateRequestForm = () => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const router = useRouter();
-  const createRequestMutation = useCreateRequest();
+  const { createRequest, creating: isSubmitting } = useRequestStore();
 
   const {
     data: categories = [],
@@ -138,13 +138,13 @@ export const CreateRequestForm = () => {
     }
 
     return levels;
-  }, [categoriesByParentId, selectedCategoryIds, sortedActiveCategories]);
+  }, [categoriesByParentId, selectedCategoryIds]);
 
   const onSubmit = async (data: ICreateRequestRequest) => {
     try {
-      const created = await createRequestMutation.mutateAsync(data);
+      const created = await createRequest(data);
       toast.success(t('request.create.success'));
-      router.push(routes.REQUEST + '/' + created.id);
+      router.push(routes.REQUEST_ID(created._id));
     } catch (err: unknown) {
       let handledAsFieldError = false;
 
@@ -226,8 +226,6 @@ export const CreateRequestForm = () => {
     const selected = categoriesById.get(selectedId);
     onChange(selected?.slug ?? '');
   };
-
-  const isSubmitting = createRequestMutation.isPending;
 
   return (
     <Form {...form}>

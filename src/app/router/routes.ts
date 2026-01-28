@@ -1,11 +1,10 @@
 export const routes = {
   HOME: '/',
-  BROWSE: '/browse',
   CREATE: '/create',
   HOW_IT_WORKS: '/how-it-works',
   BLOG: '/blog',
   BLOG_ID: '/blog/[id]',
-  REQUEST_ID: '/request/[id]',
+  REQUEST_ID: (id: string) => `/request/${id}`,
   PROPOSAL_ID: '/proposal/[id]',
   PROFILE: '/profile',
   LOGIN: '/login',

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
@@ -10,7 +9,6 @@ import { Loading } from '@shared/ui/loading';
 import { Error } from '@shared/ui/error';
 import { Button } from '@shared/ui/button';
 import { Badge } from '@shared/ui/badge';
-import { Card } from '@shared/ui/card';
 import { Input } from '@shared/ui/input';
 import { Textarea } from '@shared/ui/textarea';
 import { Label } from '@shared/ui/label';
@@ -18,7 +16,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import { Separator } from '@shared/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 import { Breadcrumbs } from '@shared/ui/breadcrumbs';
-import { Lock } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
 import {
   Carousel,
@@ -27,7 +24,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@shared/ui/carousel';
-import { routes } from '@/app/router/routes';
 import {
   Star,
   MapPin,
@@ -132,18 +128,6 @@ export default function RequestDetailContent({ id }: { id: string }) {
     },
   ];
 
-  // Mock buyer data (should come from API)
-  const buyer = {
-    id: 1,
-    name: 'Андрій Шевченко',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Andriy',
-    rating: 4.9,
-    reviewsCount: 23,
-    isVerified: true,
-    memberSince: '2023',
-    completedDeals: 31,
-  };
-
   const handleReportSubmit = () => {
     console.log('Report submitted:', { reportReason, reportDetails });
     setReportDialogOpen(false);
@@ -160,7 +144,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
 
   const formatTimeAgo = (dateString: string) => {
     // Simple time ago formatter (should use a library like date-fns)
-    return dateString;
+    return new Date(dateString).toLocaleDateString('uk-UA');
   };
 
   if (isLoading) {
@@ -177,6 +161,17 @@ export default function RequestDetailContent({ id }: { id: string }) {
       />
     );
   }
+
+  const buyer = request.buyer || {
+    id: 0,
+    name: 'Невідомий користувач',
+    avatar: null,
+    rating: 0,
+    reviewsCount: 0,
+    isVerified: false,
+    memberSince: '',
+    completedDeals: 0,
+  };
 
   const budget =
     request.budgetMin && request.budgetMax

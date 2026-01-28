@@ -142,7 +142,7 @@ export default function HowItWorksPage() {
                 </div>
 
                 <Button className="w-full bg-secondary hover:bg-secondary/90" size="lg" asChild>
-                  <Link href={routes.BROWSE}>Переглянути запити</Link>
+                  <Link href={routes.REQUEST}>Переглянути запити</Link>
                 </Button>
               </div>
             </div>
@@ -165,7 +165,7 @@ export default function HowItWorksPage() {
                   className="bg-white/10 hover:bg-white/20 border-2 border-white text-white hover:text-white"
                   asChild
                 >
-                  <Link href={routes.BROWSE}>Стати продавцем</Link>
+                  <Link href={routes.REQUEST}>Стати продавцем</Link>
                 </Button>
               </div>
             </div>

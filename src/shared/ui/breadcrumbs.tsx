@@ -82,8 +82,8 @@ export function Breadcrumbs({ items, className, dynamicLabels = {} }: Breadcrumb
   // Якщо це динамічний роут, додаємо проміжний сегмент "Запити" або "Блог"
   if (isDynamicRoute && pathSegments[0] !== 'blog') {
     breadcrumbItems.push({
-      label: breadcrumbLabels[routes.BROWSE] || 'Запити',
-      href: routes.BROWSE,
+      label: breadcrumbLabels[routes.REQUEST] || 'Запити',
+      href: routes.REQUEST,
     });
   } else if (isDynamicRoute && pathSegments[0] === 'blog') {
     breadcrumbItems.push({

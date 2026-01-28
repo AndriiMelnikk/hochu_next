@@ -1,7 +1,7 @@
 import { getLocaleFromHeaders } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import RequestDetailContent from './RequestDetailContent';
-import { requestService } from '@/entities/request/services/requestService';
+import { requestService } from '@/entities/request';
 
 type Props = {
   params: Promise<{ id: string }>;

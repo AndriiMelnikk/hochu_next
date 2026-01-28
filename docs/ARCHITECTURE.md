@@ -330,23 +330,24 @@ export default function OnlineCourseCard({
 ```
 entities/
 └── [entity]/
-    ├── index.ts              # Публічний API модуля
-    ├── [entity]Service.ts    # API сервіс
-    ├── store/
-    │   └── [entity].ts        # Zustand store
-    ├── types/
-    │   ├── [Entity].ts        # Типи сутності
-    │   ├── requests/          # Типи запитів
-    │   └── responses/         # Типи відповідей
-    ├── hooks/                 # Хуки для роботи з сутністю
-    ├── utils/                 # Утиліти
-    ├── selectors.ts           # Селектори для store
-    └── const.ts               # Константи
+    ├── const.ts               # Константи
+    ├── hooks/                 # Хуки (use[Entity], use[Entities], useCreate[Entity])
+    ├── index.ts               # Публічний API модуля
+    ├── schemas/               # Zod схеми валідації
+    │   └── [entity]Schema.ts
+    ├── services/              # API сервіси
+    │   └── [entity]Service.ts
+    ├── store/                 # Zustand stores
+    │   └── [entity]Store.ts
+    └── types/                 # TypeScript типи
+        ├── [Entity].ts        # Основні типи сутності
+        ├── requests/          # Типи для API запитів
+        └── responses/         # Типи для API відповідей
 ```
 
 #### Детальний опис компонентів entity:
 
-**1. Service (`[entity]Service.ts`):**
+**1. Service (`services/[entity]Service.ts`):**
 
 ```typescript
 class CourseService {
@@ -372,13 +373,14 @@ export const courseService = new CourseService();
 
 **Особливості сервісів:**
 
+- Знаходяться в папці `services/`
 - Класи з методами для роботи з API
 - Приймають типізовані параметри запитів
 - Повертають типізовані відповіді
 - Можуть приймати додаткові Axios конфігурації (signal для abort)
 - Використовують `api` з `@shared/api/api`
 
-**2. Store (`store/[entity].ts`):**
+**2. Store (`store/[entity]Store.ts`):**
 
 ```typescript
 type State = {
@@ -391,7 +393,7 @@ type Actions = {
   getCourses: (searchParams?: IGetCourseRequest) => Promise<void>;
 };
 
-export const useCoursesStore = create<State & Actions>()(
+export const useCourseStore = create<State & Actions>()(
   immer((set) => ({
     // Початковий стан
     isLoading: true,
@@ -421,13 +423,15 @@ export const useCoursesStore = create<State & Actions>()(
 
 **Особливості stores:**
 
+- Знаходяться в папці `store/`
+- Називаються `use[Entity]Store`
 - Використовують Zustand з Immer middleware для імутабельних оновлень
 - Розділення на State та Actions
 - Обробка станів завантаження та помилок
 - Асинхронні actions для роботи з API
 - Використання try-catch для обробки помилок
 
-**3. Types:**
+**3. Types (`types/`):**
 
 ```typescript
 // types/Course.ts
@@ -458,55 +462,60 @@ export interface IGetCourseResponse {
 
 **Особливості типів:**
 
-- Чітке розділення на requests, responses та основні типи
+- Розділені на підпапки `requests/` та `responses/`
+- Основні типи сутності в корені `types/`
 - Використання TypeScript interfaces
 - Експорт констант для enum-подібних значень
 
-**4. Hooks:**
+**4. Schemas (`schemas/[entity]Schema.ts`):**
 
 ```typescript
-// hooks/useTransformDuration.tsx
-export const useTransformDuration = (duration: number) => {
-  const transformedDuration = useMemo(() => {
-    const hours = Math.round(duration / 60);
-    if (hours < 24) {
-      return <Plural value={hours} one="# hour" few="# hours" other="# hours" />;
-    }
-    // ... логіка трансформації
-  }, [duration]);
+import { z } from 'zod';
 
-  return transformedDuration;
+export const courseSchema = z.object({
+  uuid: z.string(),
+  name: z.string(),
+  // ... валідація
+});
+```
+
+**Особливості схем:**
+
+- Використовуються для валідації форм та API відповідей
+- Zod як основна бібліотека
+- Знаходяться в папці `schemas/`
+
+**5. Hooks (`hooks/`):**
+
+```typescript
+// hooks/useCourses.ts
+export const useCourses = (searchParams: IGetCourseRequest = {}) => {
+  return useQuery({
+    queryKey: ['courses', searchParams],
+    queryFn: async () => {
+      const data = await courseService.get(searchParams);
+      return data;
+    },
+  });
 };
 ```
 
 **Особливості хуків:**
 
-- Інкапсулюють логіку трансформації даних
-- Можуть використовувати інтернаціоналізацію
-- Використовують useMemo для оптимізації
-
-**5. Selectors:**
-
-```typescript
-// selectors.ts
-export const selectSavedCourse = (savedCourseId: string) => (state: SavedCourseStore) =>
-  state.savedCourses.results.find((savedCourse) => savedCourse.course === savedCourseId);
-```
-
-**Особливості селекторів:**
-
-- Функції для вибірки конкретних даних з store
-- Можуть приймати параметри
-- Повертають функцію, яка приймає state
+- Знаходяться в папці `hooks/`
+- Інкапсулюють логіку роботи з React Query або Zustand
+- Називаються `use[Entity]`, `use[Entities]`, `useCreate[Entity]` тощо
 
 **6. Index.ts (Public API):**
 
 ```typescript
 // index.ts
-export { courseService } from './services/course';
-export { useCoursesStore } from './store/course';
-export type { ICourse } from './types/Course';
-export { useTransformDuration } from './hooks/useTransformDuration';
+export { courseService } from './services/courseService';
+export { useCourseStore } from './store/courseStore';
+export * from './types/Course';
+export * from './types/requests/GetCourse';
+export * from './schemas/courseSchema';
+export { useCourses } from './hooks/useCourses';
 // ... інші експорти
 ```
 

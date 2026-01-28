@@ -25,7 +25,7 @@ const Footer = () => {
             <h4 className="font-semibold text-foreground mb-4">Платформа</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <Link href={routes.BROWSE} className="hover:text-primary transition-colors">
+                <Link href={routes.REQUEST} className="hover:text-primary transition-colors">
                   Переглянути запити
                 </Link>
               </li>

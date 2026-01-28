@@ -1,5 +1,11 @@
+export enum RequestStatus {
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
 export interface IRequest {
-  id: string | number;
+  _id: string;
   title: string;
   description: string;
   category: string;
@@ -7,16 +13,14 @@ export interface IRequest {
   budgetMax: number;
   location: string;
   urgency: string;
-  createdAt: string;
+  buyerId: string;
+  images: string[];
   views: number;
   proposalsCount: number;
-  images: string[];
-  buyerId: string | number;
-  status: 'pending' | 'active' | 'closed' | 'rejected';
-  edits: Array<{
-    text: string;
-    timestamp: string;
-  }>;
+  status: RequestStatus;
+  edits: Array<{ text: string; timestamp: string }>;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IRequestWithBuyer extends IRequest {

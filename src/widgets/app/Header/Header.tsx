@@ -36,7 +36,7 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link
-              href={routes.BROWSE}
+              href={routes.REQUEST}
               className="text-foreground hover:text-primary transition-colors"
             >
               Переглянути запити
@@ -82,7 +82,7 @@ const Header = () => {
         {isOpen && (
           <div className="md:hidden py-4 space-y-4">
             <Link
-              href={routes.BROWSE}
+              href={routes.REQUEST}
               className="block text-foreground hover:text-primary transition-colors"
               onClick={() => setIsOpen(false)}
             >
