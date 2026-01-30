@@ -8,7 +8,9 @@ export const messages: Messages = {
   'request.create.categoriesEmpty': 'No categories available',
   'request.create.categoriesError': 'Failed to load categories',
   'request.create.categoriesLoading': 'Loading categories...',
+  'request.create.categoryBackLabel': 'Back',
   'request.create.categoryLabel': 'Category',
+  'request.create.categoryMoreLabel': 'More',
   'request.create.categoryPlaceholder': 'Select a category',
   'request.create.descriptionLabel': 'Detailed description',
   'request.create.descriptionPlaceholder':

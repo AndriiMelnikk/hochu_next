@@ -4,17 +4,35 @@ import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
 import { Button } from '@shared/ui/button';
 import { Input } from '@shared/ui/input';
-import { Badge } from '@shared/ui/badge';
 import { Loading } from '@shared/ui/loading';
 import { Error } from '@shared/ui/error';
-import { CategoryFilterButton, RequestCard } from '@/features/requests';
-import { Search, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useRequestStore, REQUEST_CATEGORIES } from '@/entities/request';
+import { RequestCard } from '@/features/requests';
+import { Search } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { useLingui } from '@lingui/react';
+import { useRequestStore } from '@/entities/request';
+import { CascadingSelect, type CascadingSelectItem } from '@shared/ui/cascading-select';
+import { useCategories } from '@/entities/category';
 
 export default function RequestContent() {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const {
+    data: categories = [],
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+  } = useCategories();
+
+  const cascadingCategories = useMemo<CascadingSelectItem[]>(() => {
+    return categories.map((cat) => ({
+      id: cat._id,
+      name: cat.name,
+      parentId: cat.parentId || null,
+    }));
+  }, [categories]);
   // These seem unused in the original code but kept state for them
   const [location, setLocation] = useState('');
 
@@ -27,23 +45,6 @@ export default function RequestContent() {
       location: location || undefined,
     });
   }, [selectedCategories, searchQuery, location, fetchRequests]);
-
-  const toggleCategory = (category: string) => {
-    if (category === 'Всі категорії') {
-      setSelectedCategories([]);
-      return;
-    }
-
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((c) => c !== category));
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
-    }
-  };
-
-  const removeCategory = (category: string) => {
-    setSelectedCategories(selectedCategories.filter((c) => c !== category));
-  };
 
   const requestResults = requests?.results || [];
 
@@ -68,58 +69,44 @@ export default function RequestContent() {
 
           {/* Search and Filters */}
           <div className="bg-card rounded-2xl shadow-md p-6 mb-8 border border-border">
-            {/* Search Bar */}
-            <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-                <Input
-                  placeholder="Пошук запитів..."
-                  className="pl-10"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Search Bar */}
+              <div className="mb-4 grid gap-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+                  <Input
+                    placeholder="Пошук запитів..."
+                    className="pl-10"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Category Tags */}
+              <div className="mb-4 grid gap-4">
+                <CascadingSelect
+                  items={cascadingCategories}
+                  value={selectedCategories[0]}
+                  onValueChange={(id) => setSelectedCategories(id ? [id] : [])}
+                  placeholder={
+                    isCategoriesLoading
+                      ? t('request.create.categoriesLoading')
+                      : t('request.create.categoryPlaceholder')
+                  }
+                  disabled={isCategoriesLoading || isCategoriesError}
+                  emptyLabel={
+                    isCategoriesError
+                      ? t('request.create.categoriesError')
+                      : t('request.create.categoriesEmpty')
+                  }
+                  backLabel={t('request.create.categoryBackLabel')}
+                  moreLabel={t('request.create.categoryMoreLabel')}
+                  clearable
                 />
               </div>
             </div>
-
-            {/* Category Tags */}
-            <div className="mb-4">
-              <p className="text-sm font-medium mb-2">Категорії:</p>
-              <div className="relative">
-                <div className="overflow-x-auto pb-2 scrollbar-thin">
-                  <div className="flex gap-2 min-w-min">
-                    {REQUEST_CATEGORIES.map((category) => (
-                      <CategoryFilterButton
-                        key={category}
-                        category={category}
-                        isSelected={
-                          selectedCategories.includes(category) ||
-                          (category === 'Всі категорії' && selectedCategories.length === 0)
-                        }
-                        onClick={() => toggleCategory(category)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Active Filters */}
-            {selectedCategories.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2">
-                <p className="text-sm text-muted-foreground mr-2">Активні фільтри:</p>
-                {selectedCategories.map((category) => (
-                  <Badge key={category} variant="secondary" className="gap-1">
-                    {category}
-                    <button onClick={() => removeCategory(category)}>
-                      <X className="h-3 w-3" />
-                    </button>
-                  </Badge>
-                ))}
-              </div>
-            )}
           </div>
-
-          {/* Results Count */}
           <div className="mb-6 flex items-center justify-between">
             <p className="text-muted-foreground">
               {loading ? (

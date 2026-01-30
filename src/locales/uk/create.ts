@@ -8,7 +8,9 @@ export const messages: Messages = {
   'request.create.categoriesEmpty': 'Категорії відсутні',
   'request.create.categoriesError': 'Не вдалося завантажити категорії',
   'request.create.categoriesLoading': 'Завантажуємо категорії...',
+  'request.create.categoryBackLabel': 'Назад',
   'request.create.categoryLabel': 'Категорія',
+  'request.create.categoryMoreLabel': 'Більше',
   'request.create.categoryPlaceholder': 'Оберіть категорію',
   'request.create.descriptionLabel': 'Детальний опис',
   'request.create.descriptionPlaceholder':

@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { FileText, DollarSign, MapPin, Clock, Upload, Check, ChevronDown } from 'lucide-react';
+import { FileText, DollarSign, MapPin, Clock, Upload, Check, ChevronDown, Tag } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { useCategories } from '@/entities/category';
@@ -33,6 +33,7 @@ import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Textarea } from '@/shared/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import { CascadingSelect, type CascadingSelectItem } from '@/shared/ui/cascading-select';
 import {
   Form,
   FormControl,
@@ -63,7 +64,7 @@ export const CreateRequestForm = () => {
     isError: isCategoriesError,
   } = useCategories();
 
-  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
 
   const [locationSearch, setLocationSearch] = useState('');
   const debouncedLocationSearch = useDebounce(locationSearch, 500);
@@ -109,36 +110,13 @@ export const CreateRequestForm = () => {
     return new Map(sortedActiveCategories.map((item) => [item._id, item]));
   }, [sortedActiveCategories]);
 
-  const categoriesByParentId = useMemo(() => {
-    const map = new Map<string, typeof sortedActiveCategories>();
-    sortedActiveCategories.forEach((item) => {
-      const key = item.parentId ?? 'root';
-      if (!map.has(key)) {
-        map.set(key, []);
-      }
-      map.get(key)?.push(item);
-    });
-    return map;
+  const cascadingCategoryItems: CascadingSelectItem[] = useMemo(() => {
+    return sortedActiveCategories.map((item) => ({
+      id: item._id,
+      name: item.name,
+      parentId: item.parentId,
+    }));
   }, [sortedActiveCategories]);
-
-  const categoryLevels = useMemo(() => {
-    const levels: (typeof sortedActiveCategories)[] = [];
-    let parentId: string | null = null;
-
-    while (true) {
-      const options = categoriesByParentId.get(parentId ?? 'root') ?? [];
-      if (levels.length === 0 || options.length > 0) {
-        levels.push(options);
-      }
-      if (options.length === 0) break;
-
-      const selectedId = selectedCategoryIds[levels.length - 1];
-      if (!selectedId) break;
-      parentId = selectedId;
-    }
-
-    return levels;
-  }, [categoriesByParentId, selectedCategoryIds]);
 
   const onSubmit = async (data: ICreateRequestRequest) => {
     try {
@@ -212,18 +190,14 @@ export const CreateRequestForm = () => {
     });
   };
 
-  const handleCategoryChange = (
-    levelIndex: number,
-    selectedId: string,
-    onChange: (value: string) => void,
-  ) => {
-    setSelectedCategoryIds((prev) => {
-      const next = prev.slice(0, levelIndex);
-      next[levelIndex] = selectedId;
-      return next;
-    });
-
-    const selected = categoriesById.get(selectedId);
+  const handleCategorySelect = (categoryId: string | null, onChange: (value: string) => void) => {
+    if (categoryId === null) {
+      setSelectedCategoryId('');
+      onChange('');
+      return;
+    }
+    setSelectedCategoryId(categoryId);
+    const selected = categoriesById.get(categoryId);
     onChange(selected?.slug ?? '');
   };
 
@@ -258,50 +232,26 @@ export const CreateRequestForm = () => {
           name="category"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-base font-semibold">
+              <FormLabel className="text-base font-semibold flex items-center">
+                <Tag className="h-5 w-5 mr-2 text-primary" />
                 {t('request.create.categoryLabel')}
               </FormLabel>
-              <div className="space-y-4">
-                {categoryLevels.map((levelOptions, levelIndex) => (
-                  <div key={`category-level-${levelIndex}`} className="space-y-2">
-                    {levelIndex > 0 && (
-                      <Label htmlFor={`category-${levelIndex}`} className="text-base font-semibold">
-                        {t('request.create.subcategoryLabel')}
-                      </Label>
-                    )}
-                    <Select
-                      value={selectedCategoryIds[levelIndex] ?? ''}
-                      onValueChange={(value) =>
-                        handleCategoryChange(levelIndex, value, field.onChange)
-                      }
-                      disabled={isCategoryDisabled || isSubmitting}
-                    >
-                      <SelectTrigger id={`category-${levelIndex}`} className="text-base">
-                        <SelectValue
-                          placeholder={
-                            levelIndex === 0
-                              ? categoryPlaceholder
-                              : t('request.create.subcategoryPlaceholder')
-                          }
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {levelOptions.length > 0 ? (
-                          levelOptions.map((item) => (
-                            <SelectItem key={item._id} value={item._id}>
-                              {item.name}
-                            </SelectItem>
-                          ))
-                        ) : (
-                          <SelectItem value="__empty__" disabled>
-                            {categoryEmptyLabel}
-                          </SelectItem>
-                        )}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                ))}
-              </div>
+              <FormControl>
+                <CascadingSelect
+                  items={cascadingCategoryItems}
+                  value={selectedCategoryId}
+                  onValueChange={(categoryId) => {
+                    handleCategorySelect(categoryId, field.onChange);
+                  }}
+                  clearable
+                  placeholder={categoryPlaceholder}
+                  emptyLabel={categoryEmptyLabel}
+                  backLabel={t('request.create.categoryBackLabel')}
+                  moreLabel={t('request.create.categoryMoreLabel')}
+                  disabled={isCategoryDisabled || isSubmitting}
+                  className="text-base"
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
