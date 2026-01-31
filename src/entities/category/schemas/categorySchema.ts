@@ -10,7 +10,8 @@ export const categorySchema = z.lazy(() =>
   z
     .object({
       _id: objectIdSchema,
-      name: z.string(),
+      title: z.string(),
+      description: z.string().nullable().optional(),
       slug: z.string(),
       parentId: objectIdSchema.nullable().optional(),
       parent: objectIdSchema.nullable().optional(),

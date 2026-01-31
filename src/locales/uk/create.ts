@@ -1,6 +1,18 @@
 import type { Messages } from '@lingui/core';
 
 export const messages: Messages = {
+  // Request list page
+  'request.list.titlePrefix': 'Знайдіть',
+  'request.list.titleEmphasis': 'своїх клієнтів',
+  'request.list.subtitle': 'Переглядайте запити та пропонуйте свої послуги',
+  'request.list.searchPlaceholder': 'Пошук запитів...',
+  'request.list.loadingError': 'Помилка завантаження',
+  'request.list.foundPrefix': 'Знайдено',
+  'request.list.foundSuffix': 'активних запитів',
+  'request.list.requestsError': 'Помилка завантаження запитів',
+  'request.list.loadMore': 'Завантажити ще',
+
+  // Request create page
   'request.create.budgetMaxLabel': 'Бюджет до (грн)',
   'request.create.budgetMaxPlaceholder': '10000',
   'request.create.budgetMinLabel': 'Бюджет від (грн)',

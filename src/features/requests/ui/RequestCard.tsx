@@ -6,15 +6,16 @@ import { IRequest } from '@entities/request';
 
 interface RequestCardProps {
   request: IRequest;
+  categoryName?: string;
 }
 
-export const RequestCard = ({ request }: RequestCardProps) => {
+export const RequestCard = ({ request, categoryName }: RequestCardProps) => {
   return (
     <Link href={`${routes.REQUEST_ID(request._id.toString())}`} className="group">
       <div className="bg-card rounded-2xl p-6 shadow-md border border-border hover:shadow-lg hover:shadow-blue/20 transition-all h-full flex flex-col">
         <div className="flex items-center justify-between mb-3">
           <Badge variant="secondary" className="bg-accent text-accent-foreground">
-            {request.category}
+            {categoryName || request.category}
           </Badge>
           <span className="text-xs text-muted-foreground flex items-center">
             <Clock className="h-3 w-3 mr-1" />

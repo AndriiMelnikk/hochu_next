@@ -1,6 +1,7 @@
 export interface ICategory {
   _id: string;
-  name: string;
+  title: string;
+  description: string | null;
   slug: string;
   parentId?: string | null;
   parent?: string | null;

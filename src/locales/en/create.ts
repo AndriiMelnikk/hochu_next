@@ -1,6 +1,18 @@
 import type { Messages } from '@lingui/core';
 
 export const messages: Messages = {
+  // Request list page
+  'request.list.titlePrefix': 'Find',
+  'request.list.titleEmphasis': 'your clients',
+  'request.list.subtitle': 'Browse requests and offer your services',
+  'request.list.searchPlaceholder': 'Search requests...',
+  'request.list.loadingError': 'Loading error',
+  'request.list.foundPrefix': 'Found',
+  'request.list.foundSuffix': 'active requests',
+  'request.list.requestsError': 'Failed to load requests',
+  'request.list.loadMore': 'Load more',
+
+  // Request create page
   'request.create.budgetMaxLabel': 'Budget up to (UAH)',
   'request.create.budgetMaxPlaceholder': '10000',
   'request.create.budgetMinLabel': 'Budget from (UAH)',

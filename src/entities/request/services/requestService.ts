@@ -3,13 +3,13 @@ import { api, ENDPOINTS } from '@shared/api';
 import { IRequest, IRequestWithBuyer } from '../types/Request';
 import { ICreateRequestRequest } from '../types/requests/CreateRequest';
 import { IGetRequestsRequest } from '../types/requests/GetRequests';
-import { PaginationResult } from '../types/responses/GetRequests';
+import { IGetRequestsResponse } from '../types/responses/GetRequests';
 
 class RequestService {
   async get(
     searchParams: IGetRequestsRequest = {},
     config?: AxiosRequestConfig,
-  ): Promise<PaginationResult<IRequest>> {
+  ): Promise<IGetRequestsResponse> {
     return (await api.get(ENDPOINTS.REQUESTS.BASE, { params: searchParams, ...config })).data;
   }
 

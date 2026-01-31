@@ -29,7 +29,7 @@ export default function RequestContent() {
   const cascadingCategories = useMemo<CascadingSelectItem[]>(() => {
     return categories.map((cat) => ({
       id: cat._id,
-      name: cat.name,
+      name: cat.title,
       parentId: cat.parentId || null,
     }));
   }, [categories]);
@@ -57,14 +57,12 @@ export default function RequestContent() {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold mb-4">
-              Знайдіть{' '}
+              {t('request.list.titlePrefix')}{' '}
               <span className="bg-gradient-primary bg-clip-text text-transparent">
-                своїх клієнтів
+                {t('request.list.titleEmphasis')}
               </span>
             </h1>
-            <p className="text-xl text-muted-foreground">
-              Переглядайте запити та пропонуйте свої послуги
-            </p>
+            <p className="text-xl text-muted-foreground">{t('request.list.subtitle')}</p>
           </div>
 
           {/* Search and Filters */}
@@ -75,7 +73,7 @@ export default function RequestContent() {
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
                   <Input
-                    placeholder="Пошук запитів..."
+                    placeholder={t('request.list.searchPlaceholder')}
                     className="pl-10"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -112,12 +110,12 @@ export default function RequestContent() {
               {loading ? (
                 <Loading variant="inline" />
               ) : error ? (
-                <Error variant="inline" message="Помилка завантаження" />
+                <Error variant="inline" message={t('request.list.loadingError')} />
               ) : (
                 <>
-                  Знайдено{' '}
+                  {t('request.list.foundPrefix')}{' '}
                   <span className="font-semibold text-foreground">{requests?.count || 0}</span>{' '}
-                  активних запитів
+                  {t('request.list.foundSuffix')}
                 </>
               )}
             </p>
@@ -127,19 +125,26 @@ export default function RequestContent() {
           {loading ? (
             <Loading variant="block" />
           ) : error ? (
-            <Error variant="block" message="Помилка завантаження запитів" />
+            <Error variant="block" message={t('request.list.requestsError')} />
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-              {requestResults.map((request) => (
-                <RequestCard key={request._id.toString()} request={request} />
-              ))}
+              {requestResults.map((request) => {
+                const category = categories.find((c) => c._id === request.category);
+                return (
+                  <RequestCard
+                    key={request._id.toString()}
+                    request={request}
+                    categoryName={category?.title}
+                  />
+                );
+              })}
             </div>
           )}
 
           {/* Load More */}
           <div className="text-center mt-12">
             <Button variant="outline" size="lg">
-              Завантажити ще
+              {t('request.list.loadMore')}
             </Button>
           </div>
         </div>

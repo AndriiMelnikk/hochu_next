@@ -102,7 +102,7 @@ export const CreateRequestForm = () => {
       .sort((a, b) => {
         const orderDiff = (a.order ?? 0) - (b.order ?? 0);
         if (orderDiff !== 0) return orderDiff;
-        return a.name.localeCompare(b.name, 'uk');
+        return a.title.localeCompare(b.title, 'uk');
       });
   }, [categories]);
 
@@ -113,7 +113,7 @@ export const CreateRequestForm = () => {
   const cascadingCategoryItems: CascadingSelectItem[] = useMemo(() => {
     return sortedActiveCategories.map((item) => ({
       id: item._id,
-      name: item.name,
+      name: item.title,
       parentId: item.parentId,
     }));
   }, [sortedActiveCategories]);
@@ -198,7 +198,7 @@ export const CreateRequestForm = () => {
     }
     setSelectedCategoryId(categoryId);
     const selected = categoriesById.get(categoryId);
-    onChange(selected?.slug ?? '');
+    onChange(selected?._id ?? '');
   };
 
   return (

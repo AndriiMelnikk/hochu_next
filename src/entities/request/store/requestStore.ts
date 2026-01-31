@@ -2,12 +2,12 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { requestService } from '../services/requestService';
 import { IRequest } from '../types/Request';
-import { PaginationResult } from '../types/responses/GetRequests';
+import { IGetRequestsResponse } from '../types/responses/GetRequests';
 import { ICreateRequestRequest } from '../types/requests/CreateRequest';
 import { IGetRequestsRequest } from '../types/requests/GetRequests';
 
 interface RequestState {
-  requests: PaginationResult<IRequest> | null;
+  requests: IGetRequestsResponse | null;
   loading: boolean;
   error: string | null;
   creating: boolean;
@@ -55,7 +55,7 @@ export const useRequestStore = create<RequestState & RequestActions>()(
           state.creating = false;
         });
         return newRequest;
-      } catch (error: any) {
+      } catch (error) {
         set((state) => {
           state.creating = false;
           state.createError = error.response?.data?.message || 'Failed to create request';
