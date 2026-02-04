@@ -13,12 +13,14 @@ import { useRequestStore } from '@/entities/request';
 import { CascadingSelect, type CascadingSelectItem } from '@shared/ui/cascading-select';
 import { useCategories } from '@/entities/category';
 import { UniversalPagination } from '@shared/ui/universal-pagination';
+import { useDebounce } from '@shared/hooks';
 
 export default function RequestContent() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const [page, setPage] = useState(1);
   const pageSize = 12;
 
@@ -45,10 +47,10 @@ export default function RequestContent() {
       page,
       pageSize,
       category: selectedCategories.length > 0 ? selectedCategories.join(',') : undefined,
-      search: searchQuery || undefined,
+      search: debouncedSearchQuery || undefined,
       location: location || undefined,
     });
-  }, [page, selectedCategories, searchQuery, location, fetchRequests]);
+  }, [page, selectedCategories, debouncedSearchQuery, location, fetchRequests]);
 
   const requestResults = requests?.results || [];
   const totalCount = requests?.count ?? 0;

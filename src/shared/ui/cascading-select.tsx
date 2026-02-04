@@ -101,11 +101,18 @@ export function CascadingSelect({
     return path.map((item) => item.name).join(' → ');
   }, [value, buildPathToItem]);
 
+  // Get ancestor IDs of the selected value
+  const selectedAncestors = React.useMemo(() => {
+    if (!value) return new Set<string>();
+    const path = buildPathToItem(value);
+    return new Set(path.map((item) => item.id));
+  }, [value, buildPathToItem]);
+
   // Handle item selection - always select the item
   const handleSelect = (item: CascadingSelectItem) => {
     const path = buildPathToItem(item.id);
     onValueChange?.(item.id, path);
-    // setOpen(false);
+    setOpen(false);
     // Reset navigation
     setCurrentParentId(null);
     setNavigationPath([]);
@@ -216,13 +223,18 @@ export function CascadingSelect({
                 {currentLevelItems.map((item) => {
                   const itemHasChildren = hasChildren(item.id);
                   const isSelected = value === item.id;
+                  const isAncestor = selectedAncestors.has(item.id) && !isSelected;
 
                   return (
                     <CommandItem
                       key={item.id}
                       value={item.name}
                       onSelect={() => handleSelect(item)}
-                      className="flex items-center justify-between"
+                      className={cn(
+                        'flex items-center justify-between',
+                        isAncestor && 'bg-accent/40 text-accent-foreground font-medium',
+                        isSelected && 'bg-accent text-accent-foreground font-medium',
+                      )}
                     >
                       <div className="flex items-center">
                         <Check
