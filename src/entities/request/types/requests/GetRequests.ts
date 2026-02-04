@@ -1,6 +1,6 @@
 export interface IGetRequestsRequest {
   page?: number;
-  limit?: number;
+  pageSize?: number;
   search?: string;
   category?: string;
   location?: string;

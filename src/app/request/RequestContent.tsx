@@ -2,7 +2,6 @@
 
 import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
-import { Button } from '@shared/ui/button';
 import { Input } from '@shared/ui/input';
 import { Loading } from '@shared/ui/loading';
 import { Error } from '@shared/ui/error';
@@ -13,12 +12,15 @@ import { useLingui } from '@lingui/react';
 import { useRequestStore } from '@/entities/request';
 import { CascadingSelect, type CascadingSelectItem } from '@shared/ui/cascading-select';
 import { useCategories } from '@/entities/category';
+import { UniversalPagination } from '@shared/ui/universal-pagination';
 
 export default function RequestContent() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const pageSize = 12;
 
   const {
     data: categories = [],
@@ -40,13 +42,22 @@ export default function RequestContent() {
 
   useEffect(() => {
     fetchRequests({
+      page,
+      pageSize,
       category: selectedCategories.length > 0 ? selectedCategories.join(',') : undefined,
       search: searchQuery || undefined,
       location: location || undefined,
     });
-  }, [selectedCategories, searchQuery, location, fetchRequests]);
+  }, [page, selectedCategories, searchQuery, location, fetchRequests]);
 
   const requestResults = requests?.results || [];
+  const totalCount = requests?.count ?? 0;
+  const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -76,7 +87,10 @@ export default function RequestContent() {
                     placeholder={t('request.list.searchPlaceholder')}
                     className="pl-10"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setPage(1);
+                    }}
                   />
                 </div>
               </div>
@@ -86,7 +100,10 @@ export default function RequestContent() {
                 <CascadingSelect
                   items={cascadingCategories}
                   value={selectedCategories[0]}
-                  onValueChange={(id) => setSelectedCategories(id ? [id] : [])}
+                  onValueChange={(id) => {
+                    setSelectedCategories(id ? [id] : []);
+                    setPage(1);
+                  }}
                   placeholder={
                     isCategoriesLoading
                       ? t('request.create.categoriesLoading')
@@ -141,12 +158,14 @@ export default function RequestContent() {
             </div>
           )}
 
-          {/* Load More */}
-          <div className="text-center mt-12">
-            <Button variant="outline" size="lg">
-              {t('request.list.loadMore')}
-            </Button>
-          </div>
+          {!loading && !error && totalPages > 1 && (
+            <UniversalPagination
+              currentPage={page}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              className="mt-8"
+            />
+          )}
         </div>
       </main>
 

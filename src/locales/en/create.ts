@@ -11,6 +11,9 @@ export const messages: Messages = {
   'request.list.foundSuffix': 'active requests',
   'request.list.requestsError': 'Failed to load requests',
   'request.list.loadMore': 'Load more',
+  'pagination.previous': 'Previous',
+  'pagination.next': 'Next',
+  'pagination.of': 'of',
 
   // Request create page
   'request.create.budgetMaxLabel': 'Budget up to (UAH)',

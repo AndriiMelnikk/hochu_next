@@ -11,6 +11,9 @@ export const messages: Messages = {
   'request.list.foundSuffix': 'активних запитів',
   'request.list.requestsError': 'Помилка завантаження запитів',
   'request.list.loadMore': 'Завантажити ще',
+  'pagination.previous': 'Назад',
+  'pagination.next': 'Далі',
+  'pagination.of': 'з',
 
   // Request create page
   'request.create.budgetMaxLabel': 'Бюджет до (грн)',
