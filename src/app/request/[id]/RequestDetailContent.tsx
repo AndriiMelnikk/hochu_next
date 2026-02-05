@@ -13,8 +13,8 @@ import { Error } from '@shared/ui/error';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 import { Breadcrumbs } from '@shared/ui/breadcrumbs';
 
-export default function RequestDetailContent({ _id }: { _id: string }) {
-  const { data: request, isLoading, error } = useRequest(_id);
+export default function RequestDetailContent({ id }: { id: string }) {
+  const { data: request, isLoading, error } = useRequest(id);
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
