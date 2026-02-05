@@ -24,7 +24,7 @@ export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) =
   return (
     <div className="space-y-6">
       {/* Buyer Card */}
-      <div className="bg-card rounded-2xl p-6 shadow-md border border-border sticky top-24">
+      <div className="bg-card rounded-2xl p-6 shadow-md border border-border  top-24">
         <h2 className="text-xl font-semibold mb-4">{t('request.sidebar.buyer')}</h2>
 
         <div className="flex items-start mb-4">

@@ -148,12 +148,11 @@ export default function RequestContent() {
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
               {requestResults.map((request) => {
-                const category = categories.find((c) => c._id === request.category);
                 return (
                   <RequestCard
                     key={request._id.toString()}
                     request={request}
-                    categoryName={category?.title}
+                    categoryName={request.category.name}
                   />
                 );
               })}

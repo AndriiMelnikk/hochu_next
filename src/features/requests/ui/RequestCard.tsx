@@ -15,7 +15,7 @@ export const RequestCard = ({ request, categoryName }: RequestCardProps) => {
       <div className="bg-card rounded-2xl p-6 shadow-md border border-border hover:shadow-lg hover:shadow-blue/20 transition-all h-full flex flex-col">
         <div className="flex items-center justify-between mb-3">
           <Badge variant="secondary" className="bg-accent text-accent-foreground">
-            {categoryName || request.category}
+            {categoryName || request.category.name}
           </Badge>
           <span className="text-xs text-muted-foreground flex items-center">
             <Clock className="h-3 w-3 mr-1" />

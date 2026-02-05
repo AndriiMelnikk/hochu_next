@@ -42,7 +42,7 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
             <Badge variant="secondary" className="bg-accent text-accent-foreground mb-3">
-              {request.category}
+              {request.category.name}
             </Badge>
             <h1 className="text-3xl font-bold mb-3 text-card-foreground">{request.title}</h1>
           </div>
@@ -91,7 +91,13 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
             <Package className="h-5 w-5 mr-2 text-primary" />
             <div>
               <p className="text-sm text-muted-foreground">{t('request.detail.condition')}</p>
-              <p className="font-semibold">{request.itemCondition}</p>
+              <p className="font-semibold">
+                {request.itemCondition === 'new'
+                  ? t('request.create.itemConditionNew')
+                  : request.itemCondition === 'used'
+                    ? t('request.create.itemConditionUsed')
+                    : '-'}
+              </p>
             </div>
           </div>
         </div>

@@ -13,7 +13,10 @@ export interface IRequest {
   _id: string;
   title: string;
   description: string;
-  category: string;
+  category: {
+    id: string;
+    name: string;
+  };
   budgetMin: number;
   budgetMax: number;
   location: string;
