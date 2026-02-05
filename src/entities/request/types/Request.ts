@@ -31,7 +31,7 @@ export interface IRequest {
 
 export interface IRequestWithBuyer extends IRequest {
   buyer?: {
-    id: string | number;
+    _id: string;
     name: string;
     avatar: string;
     rating: number;
