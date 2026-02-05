@@ -1,5 +1,8 @@
+'use client';
+
 import { useState } from 'react';
 import { Send } from 'lucide-react';
+import { useLingui } from '@lingui/react';
 import { Button } from '@shared/ui/button';
 import { Textarea } from '@shared/ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
@@ -11,6 +14,9 @@ interface DiscussionFormProps {
 }
 
 export const DiscussionForm = ({ replyTo, onCancelReply, onSubmit }: DiscussionFormProps) => {
+  const { i18n } = useLingui();
+  const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
+
   const [text, setText] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -24,9 +30,9 @@ export const DiscussionForm = ({ replyTo, onCancelReply, onSubmit }: DiscussionF
     <form onSubmit={handleSubmit} className="space-y-3">
       {replyTo && (
         <div className="bg-primary/10 border border-primary/20 rounded-lg p-3 flex items-center justify-between">
-          <span className="text-sm">Відповідь на повідомлення #{replyTo}</span>
+          <span className="text-sm">{t('discussion.form.replyTo', { id: replyTo })}</span>
           <Button type="button" variant="ghost" size="sm" onClick={onCancelReply} className="h-6">
-            Скасувати
+            {t('discussion.form.cancel')}
           </Button>
         </div>
       )}
@@ -34,12 +40,14 @@ export const DiscussionForm = ({ replyTo, onCancelReply, onSubmit }: DiscussionF
         <div className="flex items-start gap-3">
           <Avatar className="h-10 w-10">
             <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=Current" />
-            <AvatarFallback>Ви</AvatarFallback>
+            <AvatarFallback>{t('discussion.form.you')}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
             <Textarea
               placeholder={
-                replyTo ? 'Напишіть вашу відповідь...' : 'Задайте питання або залишіть коментар...'
+                replyTo
+                  ? t('discussion.form.placeholderReply')
+                  : t('discussion.form.placeholderQuestion')
               }
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -47,12 +55,10 @@ export const DiscussionForm = ({ replyTo, onCancelReply, onSubmit }: DiscussionF
               className="resize-none mb-2"
             />
             <div className="flex items-center justify-between">
-              <p className="text-xs text-muted-foreground">
-                Це публічне повідомлення. Всі учасники зможуть його побачити.
-              </p>
+              <p className="text-xs text-muted-foreground">{t('discussion.form.publicWarning')}</p>
               <Button type="submit" size="sm" disabled={!text.trim()} variant="gradient">
                 <Send className="h-4 w-4 mr-2" />
-                Надіслати
+                {t('discussion.form.submit')}
               </Button>
             </div>
           </div>

@@ -1,3 +1,6 @@
+'use client';
+
+import { useLingui } from '@lingui/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import { Badge } from '@shared/ui/badge';
 
@@ -16,6 +19,9 @@ interface DiscussionItemProps {
 }
 
 export const DiscussionItem = ({ discussion }: DiscussionItemProps) => {
+  const { i18n } = useLingui();
+  const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
+
   return (
     <div className="flex items-start gap-3">
       <Avatar className="h-10 w-10">
@@ -30,7 +36,9 @@ export const DiscussionItem = ({ discussion }: DiscussionItemProps) => {
               variant={discussion.user.role === 'buyer' ? 'default' : 'secondary'}
               className="text-xs"
             >
-              {discussion.user.role === 'buyer' ? 'Замовник' : 'Виконавець'}
+              {discussion.user.role === 'buyer'
+                ? t('discussion.role.buyer')
+                : t('discussion.role.seller')}
             </Badge>
           </div>
           <span className="text-xs text-muted-foreground">{discussion.timestamp}</span>

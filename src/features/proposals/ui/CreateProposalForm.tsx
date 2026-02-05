@@ -1,5 +1,8 @@
+'use client';
+
 import { useState } from 'react';
 import { DollarSign, Send, Upload, AlertCircle } from 'lucide-react';
+import { useLingui } from '@lingui/react';
 import { Button } from '@shared/ui/button';
 import { Input } from '@shared/ui/input';
 import { Textarea } from '@shared/ui/textarea';
@@ -12,6 +15,9 @@ interface CreateProposalFormProps {
 }
 
 export const CreateProposalForm = ({ budget, requestId }: CreateProposalFormProps) => {
+  const { i18n } = useLingui();
+  const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
+
   const [proposalText, setProposalText] = useState('');
   const [proposalPrice, setProposalPrice] = useState('');
   const [deliveryTime, setDeliveryTime] = useState('');
@@ -34,23 +40,21 @@ export const CreateProposalForm = ({ budget, requestId }: CreateProposalFormProp
       <div className="bg-card rounded-xl p-6">
         <h2 className="text-2xl font-bold mb-2 flex items-center">
           <Send className="h-6 w-6 mr-2 text-primary" />
-          Створити пропозицію
+          {t('proposal.create.title')}
         </h2>
-        <p className="text-muted-foreground mb-6">
-          Запропонуйте своє рішення та виграйте цей запит
-        </p>
+        <p className="text-muted-foreground mb-6">{t('proposal.create.subtitle')}</p>
 
         <form className="space-y-5" onSubmit={handleSubmit}>
           {/* Price */}
           <div className="space-y-2">
             <Label htmlFor="proposal-price" className="text-base font-semibold flex items-center">
               <DollarSign className="h-4 w-4 mr-1 text-primary" />
-              Ваша ціна (грн)
+              {t('proposal.create.priceLabel')}
             </Label>
             <Input
               id="proposal-price"
               type="number"
-              placeholder={`Бюджет замовника: ${budget}`}
+              placeholder={t('proposal.create.budgetPlaceholder', { budget })}
               value={proposalPrice}
               onChange={(e) => setProposalPrice(e.target.value)}
               className="text-base"
@@ -60,11 +64,11 @@ export const CreateProposalForm = ({ budget, requestId }: CreateProposalFormProp
           {/* Title */}
           <div className="space-y-2">
             <Label htmlFor="proposal-title" className="text-base font-semibold">
-              Заголовок пропозиції
+              {t('proposal.create.proposalTitleLabel')}
             </Label>
             <Input
               id="proposal-title"
-              placeholder="Наприклад: MacBook Pro 2019 - Професійний ремонт з гарантією"
+              placeholder={t('proposal.create.proposalTitlePlaceholder')}
               className="text-base"
             />
           </div>
@@ -72,52 +76,56 @@ export const CreateProposalForm = ({ budget, requestId }: CreateProposalFormProp
           {/* Description */}
           <div className="space-y-2">
             <Label htmlFor="proposal-description" className="text-base font-semibold">
-              Детальний опис
+              {t('proposal.create.descriptionLabel')}
             </Label>
             <Textarea
               id="proposal-description"
-              placeholder="Опишіть що саме ви пропонуєте, ваш досвід, терміни виконання, умови..."
+              placeholder={t('proposal.create.descriptionPlaceholder')}
               rows={8}
               value={proposalText}
               onChange={(e) => setProposalText(e.target.value)}
               className="text-base"
             />
-            <p className="text-sm text-muted-foreground">{proposalText.length} символів</p>
+            <p className="text-sm text-muted-foreground">
+              {t('proposal.create.charsCount', { count: proposalText.length })}
+            </p>
           </div>
 
           {/* Delivery details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="delivery-time" className="text-base font-semibold">
-                Термін виконання
+                {t('proposal.create.deliveryTimeLabel')}
               </Label>
               <Select value={deliveryTime} onValueChange={setDeliveryTime}>
                 <SelectTrigger id="delivery-time" className="text-base">
-                  <SelectValue placeholder="Оберіть термін" />
+                  <SelectValue placeholder={t('proposal.create.deliveryTimePlaceholder')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1-2">1-2 дні</SelectItem>
-                  <SelectItem value="3-5">3-5 днів</SelectItem>
-                  <SelectItem value="week">Тиждень</SelectItem>
-                  <SelectItem value="2-weeks">2 тижні</SelectItem>
+                  <SelectItem value="1-2">{t('proposal.create.deliveryTime.1_2days')}</SelectItem>
+                  <SelectItem value="3-5">{t('proposal.create.deliveryTime.3_5days')}</SelectItem>
+                  <SelectItem value="week">{t('proposal.create.deliveryTime.week')}</SelectItem>
+                  <SelectItem value="2-weeks">
+                    {t('proposal.create.deliveryTime.2weeks')}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="warranty" className="text-base font-semibold">
-                Гарантія
+                {t('proposal.create.warrantyLabel')}
               </Label>
               <Select value={warranty} onValueChange={setWarranty}>
                 <SelectTrigger id="warranty" className="text-base">
-                  <SelectValue placeholder="Оберіть гарантію" />
+                  <SelectValue placeholder={t('proposal.create.warrantyPlaceholder')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">Без гарантії</SelectItem>
-                  <SelectItem value="1m">1 місяць</SelectItem>
-                  <SelectItem value="3m">3 місяці</SelectItem>
-                  <SelectItem value="6m">6 місяців</SelectItem>
-                  <SelectItem value="1y">1 рік</SelectItem>
+                  <SelectItem value="none">{t('proposal.create.warranty.none')}</SelectItem>
+                  <SelectItem value="1m">{t('proposal.create.warranty.1month')}</SelectItem>
+                  <SelectItem value="3m">{t('proposal.create.warranty.3months')}</SelectItem>
+                  <SelectItem value="6m">{t('proposal.create.warranty.6months')}</SelectItem>
+                  <SelectItem value="1y">{t('proposal.create.warranty.1year')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -127,14 +135,12 @@ export const CreateProposalForm = ({ budget, requestId }: CreateProposalFormProp
           <div className="space-y-2">
             <Label htmlFor="proposal-images" className="text-base font-semibold flex items-center">
               <Upload className="h-4 w-4 mr-1 text-primary" />
-              Фото ваших робіт
+              {t('proposal.create.imagesLabel')}
             </Label>
             <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer">
               <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-              <p className="text-sm text-muted-foreground mb-1">
-                Перетягніть файли або натисніть для вибору
-              </p>
-              <p className="text-xs text-muted-foreground">До 5 фото, макс. 10MB кожне</p>
+              <p className="text-sm text-muted-foreground mb-1">{t('proposal.create.dragDrop')}</p>
+              <p className="text-xs text-muted-foreground">{t('proposal.create.imagesHint')}</p>
             </div>
           </div>
 
@@ -142,12 +148,12 @@ export const CreateProposalForm = ({ budget, requestId }: CreateProposalFormProp
           <div className="bg-accent/30 rounded-lg p-4 border border-accent flex items-start">
             <AlertCircle className="h-5 w-5 text-accent-foreground mr-3 mt-0.5 flex-shrink-0" />
             <div className="text-sm text-accent-foreground">
-              <p className="font-semibold mb-1">Важлива інформація:</p>
+              <p className="font-semibold mb-1">{t('proposal.create.warningTitle')}</p>
               <ul className="list-disc list-inside space-y-1">
-                <li>Чітко опишіть що ви пропонуєте</li>
-                <li>Вкажіть реальні терміни виконання</li>
-                <li>Додайте фото ваших попередніх робіт</li>
-                <li>Будьте чесні щодо гарантій та умов</li>
+                <li>{t('proposal.create.warning1')}</li>
+                <li>{t('proposal.create.warning2')}</li>
+                <li>{t('proposal.create.warning3')}</li>
+                <li>{t('proposal.create.warning4')}</li>
               </ul>
             </div>
           </div>
@@ -155,7 +161,7 @@ export const CreateProposalForm = ({ budget, requestId }: CreateProposalFormProp
           {/* Submit Button */}
           <Button type="submit" size="lg" variant="gradient" className="w-full text-lg shadow-glow">
             <Send className="mr-2 h-5 w-5" />
-            Надіслати пропозицію
+            {t('proposal.create.submitButton')}
           </Button>
         </form>
       </div>

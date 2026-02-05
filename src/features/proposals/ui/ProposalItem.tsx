@@ -1,4 +1,7 @@
+'use client';
+
 import { Star, Clock, Shield, MessageSquare } from 'lucide-react';
+import { useLingui } from '@lingui/react';
 import { Button } from '@shared/ui/button';
 import { Badge } from '@shared/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
@@ -17,6 +20,9 @@ interface ProposalItemProps {
 }
 
 export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
+  const { i18n } = useLingui();
+  const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
+
   return (
     <div className="border border-border rounded-lg p-6 hover:border-primary transition-all hover:shadow-md">
       <div className="flex items-start gap-4">
@@ -38,8 +44,8 @@ export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
                 </Badge>
               </h3>
               <p className="text-sm text-muted-foreground">
-                {proposal.seller.completedDeals} виконаних замовлень •{' '}
-                {proposal.seller.reviewsCount} відгуків
+                {proposal.seller.completedDeals} {t('proposal.item.completedDeals')} •{' '}
+                {proposal.seller.reviewsCount} {t('proposal.item.reviews')}
               </p>
             </div>
             <div className="text-right">
@@ -58,12 +64,12 @@ export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
           <div className="flex flex-wrap gap-4 text-sm mb-4">
             <span className="flex items-center gap-1">
               <Clock className="h-4 w-4 text-primary" />
-              <span className="text-muted-foreground">Виконання:</span>
+              <span className="text-muted-foreground">{t('proposal.item.delivery')}</span>
               <span className="font-medium">{proposal.deliveryTime}</span>
             </span>
             <span className="flex items-center gap-1">
               <Shield className="h-4 w-4 text-primary" />
-              <span className="text-muted-foreground">Гарантія:</span>
+              <span className="text-muted-foreground">{t('proposal.item.warranty')}</span>
               <span className="font-medium">{proposal.warranty}</span>
             </span>
           </div>
@@ -71,7 +77,7 @@ export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
           {/* Proposal Images */}
           {proposal.images && proposal.images.length > 0 && (
             <div className="mb-4">
-              <h4 className="font-semibold mb-2">Фотографії до пропозиції:</h4>
+              <h4 className="font-semibold mb-2">{t('proposal.item.photos')}</h4>
               <Carousel
                 opts={{
                   align: 'start',
@@ -108,7 +114,7 @@ export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
           <div className="flex gap-2">
             <Button variant="outline" size="sm">
               <MessageSquare className="h-4 w-4 mr-2" />
-              Написати
+              {t('proposal.item.writeButton')}
             </Button>
           </div>
         </div>

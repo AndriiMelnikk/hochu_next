@@ -1,4 +1,5 @@
 import { Clock, Eye, MessageSquare, DollarSign, MapPin, Calendar, Package } from 'lucide-react';
+import { useLingui } from '@lingui/react';
 import { Badge } from '@shared/ui/badge';
 import { Separator } from '@shared/ui/separator';
 import { IRequest } from '@/entities/request';
@@ -25,10 +26,13 @@ interface RequestInfoProps {
 }
 
 export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInfoProps) => {
+  const { i18n } = useLingui();
+  const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
+
   const budget =
     request.budgetMin && request.budgetMax
       ? `${request.budgetMin}-${request.budgetMax} грн`
-      : 'Не вказано';
+      : t('request.detail.budgetNotSpecified');
   const timeAgo = request.createdAt ? formatTimeAgo(request.createdAt) : '';
 
   return (
@@ -51,11 +55,11 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
           </span>
           <span className="flex items-center">
             <Eye className="h-4 w-4 mr-1" />
-            {request.views} переглядів
+            {request.views} {t('request.detail.views')}
           </span>
           <span className="flex items-center">
             <MessageSquare className="h-4 w-4 mr-1" />
-            {request.proposalsCount} пропозицій
+            {request.proposalsCount} {t('request.detail.proposals')}
           </span>
         </div>
 
@@ -65,28 +69,28 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
           <div className="flex items-start">
             <DollarSign className="h-5 w-5 text-primary mr-2 mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">Бюджет</p>
+              <p className="text-sm text-muted-foreground">{t('request.detail.budget')}</p>
               <p className="font-semibold">{budget}</p>
             </div>
           </div>
           <div className="flex items-start">
             <MapPin className="h-5 w-5 text-primary mr-2 mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">Локація</p>
+              <p className="text-sm text-muted-foreground">{t('request.detail.location')}</p>
               <p className="font-semibold">{request.location}</p>
             </div>
           </div>
           <div className="flex items-start">
             <Calendar className="h-5 w-5 text-primary mr-2 mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">Терміни</p>
+              <p className="text-sm text-muted-foreground">{t('request.detail.urgency')}</p>
               <p className="font-semibold">{request.urgency}</p>
             </div>
           </div>
           <div className="flex items-start">
             <Package className="h-5 w-5 mr-2 text-primary" />
             <div>
-              <p className="text-sm text-muted-foreground">Стан</p>
+              <p className="text-sm text-muted-foreground">{t('request.detail.condition')}</p>
               <p className="font-semibold">{request.itemCondition}</p>
             </div>
           </div>
@@ -95,7 +99,7 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
 
       {/* Description */}
       <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-        <h2 className="text-xl font-semibold mb-4">Детальний опис</h2>
+        <h2 className="text-xl font-semibold mb-4">{t('request.detail.description')}</h2>
         <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
           {request.description}
         </div>
@@ -104,14 +108,14 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
         {request.edits && request.edits.length > 0 && (
           <div className="mt-6 pt-6 border-t border-border">
             <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-              Історія редагування:
+              {t('request.detail.editHistory')}
             </h3>
             <div className="space-y-3">
               {request.edits.map((edit, index) => (
                 <div key={index} className="bg-muted/30 rounded-lg p-3 border border-border">
                   <div className="flex items-center justify-between mb-2">
                     <Badge variant="outline" className="text-xs">
-                      Уточнення
+                      {t('request.detail.clarification')}
                     </Badge>
                     <span className="text-xs text-muted-foreground">{edit.timestamp}</span>
                   </div>
@@ -126,7 +130,9 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
       {/* Images */}
       {request.images && request.images.length > 0 && (
         <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-          <h2 className="text-xl font-semibold mb-4">Фотографії ({request.images.length})</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            {t('request.detail.photos', { count: request.images.length })}
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {request.images.map((image, index) => (
               <div

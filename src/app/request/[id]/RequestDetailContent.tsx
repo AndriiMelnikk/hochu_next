@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLingui } from '@lingui/react';
 import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
@@ -14,6 +15,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 import { Breadcrumbs } from '@shared/ui/breadcrumbs';
 
 export default function RequestDetailContent({ id }: { id: string }) {
+  const { i18n } = useLingui();
+  const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
+
   const { data: request, isLoading, error } = useRequest(id);
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -30,7 +34,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
 
   const formatTimeAgo = (dateString: string) => {
     // Simple time ago formatter (should use a library like date-fns)
-    return new Date(dateString).toLocaleDateString('uk-UA');
+    return new Date(dateString).toLocaleDateString(i18n.locale === 'uk' ? 'uk-UA' : 'en-US');
   };
 
   const handleImageClick = (images: string[], index: number) => {
@@ -47,7 +51,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
     return (
       <Error
         variant="full-page"
-        message="Помилка завантаження запиту"
+        message={t('request.detail.loadingError')}
         HeaderComponent={Header}
         FooterComponent={Footer}
       />
@@ -56,7 +60,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
 
   const buyer = request.buyer || {
     _id: '0',
-    name: 'Невідомий користувач',
+    name: t('request.detail.unknownUser'),
     avatar: null,
     rating: 0,
     reviewsCount: 0,
@@ -68,7 +72,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
   const budget =
     request.budgetMin && request.budgetMax
       ? `${request.budgetMin}-${request.budgetMax} грн`
-      : 'Не вказано';
+      : t('request.detail.budgetNotSpecified');
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -78,7 +82,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
         <div className="container mx-auto px-4 max-w-7xl">
           <Breadcrumbs
             dynamicLabels={{
-              [`/request/${request._id}`]: `Запит #${request._id}`,
+              [`/request/${request._id}`]: t('request.detail.breadcrumbs', { id: request._id }),
             }}
           />
 
@@ -100,21 +104,21 @@ export default function RequestDetailContent({ id }: { id: string }) {
               >
                 <TabsList className="w-full justify-start rounded-t-2xl rounded-b-none h-14 p-1 bg-muted/50">
                   <TabsTrigger value="proposals" className="flex-1 text-base">
-                    Активні пропозиції ({request.proposalsCount})
+                    {t('request.detail.tabs.proposals', { count: request.proposalsCount })}
                   </TabsTrigger>
                   <TabsTrigger
                     value="discussion"
                     className="flex-1 items-center gap-2 cursor-not-allowed opacity-60"
                     disabled
                   >
-                    <span className="hidden sm:inline">Публічні обговорення</span>
+                    <span className="hidden sm:inline">{t('request.detail.tabs.discussion')}</span>
                   </TabsTrigger>
                   <TabsTrigger
                     value="discussion"
                     className="flex-1 items-center gap-2 cursor-not-allowed opacity-60"
                     disabled
                   >
-                    <span className="hidden sm:inline">Відхилені пропозиції</span>
+                    <span className="hidden sm:inline">{t('request.detail.tabs.rejected')}</span>
                   </TabsTrigger>
                 </TabsList>
 
@@ -126,7 +130,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
                 {/* Public Discussion Tab */}
                 <TabsContent value="discussion" className="p-6 mt-0">
                   <p className="text-sm text-muted-foreground mb-6">
-                    Задавайте питання публічно. Автор запиту та інші виконавці можуть відповісти.
+                    {t('request.detail.discussion.empty')}
                   </p>
 
                   <DiscussionList />
