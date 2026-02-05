@@ -1,3 +1,5 @@
+import { ItemCondition } from '../Request';
+
 export interface ICreateRequestRequest {
   title: string;
   description: string;
@@ -6,5 +8,6 @@ export interface ICreateRequestRequest {
   budgetMax: number;
   location: string;
   urgency: string;
+  itemCondition: ItemCondition;
   images?: string[];
 }

@@ -4,6 +4,11 @@ export enum RequestStatus {
   CANCELLED = 'CANCELLED',
 }
 
+export enum ItemCondition {
+  NEW = 'new',
+  USED = 'used',
+}
+
 export interface IRequest {
   _id: string;
   title: string;
@@ -13,6 +18,7 @@ export interface IRequest {
   budgetMax: number;
   location: string;
   urgency: string;
+  itemCondition: ItemCondition;
   buyerId: string;
   images: string[];
   views: number;

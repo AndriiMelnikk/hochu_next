@@ -60,4 +60,8 @@ export const messages: Messages = {
   'request.create.urgencyPlaceholder': 'Select urgency',
   'request.create.urgencyUrgent': 'Urgent (today-tomorrow)',
   'request.create.urgencyWeek': 'Within a week',
+  'request.create.itemConditionLabel': 'Item Condition',
+  'request.create.itemConditionPlaceholder': 'Select condition',
+  'request.create.itemConditionNew': 'New',
+  'request.create.itemConditionUsed': 'Used',
 };

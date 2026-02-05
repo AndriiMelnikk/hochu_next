@@ -7,7 +7,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { FileText, DollarSign, MapPin, Clock, Upload, Check, ChevronDown, Tag } from 'lucide-react';
+import {
+  FileText,
+  DollarSign,
+  MapPin,
+  Clock,
+  Upload,
+  Check,
+  ChevronDown,
+  Tag,
+  Package,
+} from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { useCategories } from '@/entities/category';
@@ -25,6 +35,7 @@ import {
 import {
   createRequestSchema,
   useRequestStore,
+  ItemCondition,
   type ICreateRequestRequest,
 } from '@/entities/request';
 import { routes } from '@/app/router/routes';
@@ -82,6 +93,7 @@ export const CreateRequestForm = () => {
       budgetMax: null,
       location: '',
       urgency: '',
+      itemCondition: ItemCondition.NEW,
     },
   });
 
@@ -423,6 +435,33 @@ export const CreateRequestForm = () => {
                       {t(option.labelKey)}
                     </SelectItem>
                   ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="itemCondition"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base font-semibold flex items-center">
+                <Package className="h-5 w-5 mr-2 text-primary" />
+                {t('request.create.itemConditionLabel')}
+              </FormLabel>
+              <Select value={field.value} onValueChange={field.onChange} disabled={isSubmitting}>
+                <SelectTrigger id="itemCondition" className="text-base">
+                  <SelectValue placeholder={t('request.create.itemConditionPlaceholder')} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={ItemCondition.NEW}>
+                    {t('request.create.itemConditionNew')}
+                  </SelectItem>
+                  <SelectItem value={ItemCondition.USED}>
+                    {t('request.create.itemConditionUsed')}
+                  </SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />

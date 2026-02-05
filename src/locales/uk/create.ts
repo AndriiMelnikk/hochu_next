@@ -59,4 +59,8 @@ export const messages: Messages = {
   'request.create.urgencyPlaceholder': 'Оберіть терміновість',
   'request.create.urgencyUrgent': 'Терміново (сьогодні-завтра)',
   'request.create.urgencyWeek': 'Протягом тижня',
+  'request.create.itemConditionLabel': 'Стан товару',
+  'request.create.itemConditionPlaceholder': 'Оберіть стан',
+  'request.create.itemConditionNew': 'Новий',
+  'request.create.itemConditionUsed': 'Вживаний',
 };

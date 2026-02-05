@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ItemCondition } from '../types/Request';
 
 const userShortSchema = z.object({
   _id: z.string(),
@@ -22,6 +23,7 @@ export const requestSchema = z
     budgetMax: z.number(),
     location: z.string(),
     urgency: z.string(),
+    itemCondition: z.nativeEnum(ItemCondition),
     createdAt: z.string(),
     updatedAt: z.string().optional(),
     views: z.number(),
@@ -76,5 +78,6 @@ export const createRequestSchema = z.object({
   budgetMax: z.coerce.number().min(0, 'Максимальний бюджет має бути більше 0'),
   location: z.string().min(1, "Локація обов'язкова"),
   urgency: z.string(),
+  itemCondition: z.nativeEnum(ItemCondition),
   images: z.array(z.string()).optional(),
 });
