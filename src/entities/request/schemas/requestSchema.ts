@@ -10,6 +10,8 @@ const userShortSchema = z.object({
   completedDeals: z.number().optional().default(0),
   location: z.string().nullable().optional(),
   xp: z.number().optional(),
+  reviewsCount: z.number().optional(),
+  isVerified: z.boolean().optional(),
 });
 
 export const requestSchema = z
@@ -55,8 +57,9 @@ export const requestSchema = z
             name: buyerObj.name,
             avatar: buyerObj.avatar,
             rating: buyerObj.rating || 0,
-            reviewsCount: 0, // Mock for now as it is not in the response
-            isVerified: false, // Mock for now
+            xp: buyerObj.xp || 0,
+            reviewsCount: buyerObj.reviewsCount || 0,
+            isVerified: buyerObj.isVerified || false,
             memberSince: buyerObj.memberSince
               ? new Date(buyerObj.memberSince).getFullYear().toString()
               : '',

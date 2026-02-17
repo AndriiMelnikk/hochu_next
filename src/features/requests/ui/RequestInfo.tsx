@@ -3,6 +3,7 @@ import { useLingui } from '@lingui/react';
 import { Badge } from '@shared/ui/badge';
 import { Separator } from '@shared/ui/separator';
 import { IRequest } from '@/entities/request';
+import Image from 'next/image';
 
 interface RequestInfoProps {
   request: Pick<
@@ -146,9 +147,11 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
                 className="aspect-video rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer group"
                 onClick={() => onImageClick(request.images, index)}
               >
-                <img
+                <Image
                   src={image}
-                  alt={`Фото ${index + 1}`}
+                  alt={`Photo ${index + 1}`}
+                  width={100}
+                  height={100}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>

@@ -15,10 +15,11 @@ class ProposalService {
   }
 
   async create(
-    data: ICreateProposalRequest,
+    requestId: string | number,
+    data: Omit<ICreateProposalRequest, 'requestId'>,
     config?: AxiosRequestConfig,
   ): Promise<IProposalWithSeller> {
-    return (await api.post('/api/proposals', data, config)).data;
+    return (await api.post(`/api/proposals/requests/${requestId}`, data, config)).data;
   }
 }
 

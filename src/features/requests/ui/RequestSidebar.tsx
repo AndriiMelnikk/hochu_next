@@ -2,27 +2,32 @@ import { Star, Shield } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { Separator } from '@shared/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
+import { IUser } from '@/entities/user';
 
 interface RequestSidebarProps {
-  buyer: {
-    _id: string;
-    name: string;
-    avatar: string | null;
-    rating: number;
-    reviewsCount: number;
-    isVerified: boolean;
-    memberSince: string;
-    completedDeals: number;
-  };
+  buyer?: IUser;
   proposalsCount: number;
 }
 
-export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) => {
+const DEFAULT_BUYER: IUser = {
+  _id: '0',
+  name: '-',
+  avatar: null,
+  rating: 0,
+  reviewsCount: 0,
+  isVerified: false,
+  memberSince: '',
+  email: '-',
+  role: 'buyer',
+  xp: 0,
+};
+
+export const RequestSidebar = ({ buyer = DEFAULT_BUYER, proposalsCount }: RequestSidebarProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 sticky top-24">
       {/* Buyer Card */}
       <div className="bg-card rounded-2xl p-6 shadow-md border border-border  top-24">
         <h2 className="text-xl font-semibold mb-4">{t('request.sidebar.buyer')}</h2>
@@ -81,29 +86,6 @@ export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) =
             {t('request.sidebar.competitionHint')}
           </p>
         </div>
-      </div>
-
-      {/* Tips */}
-      <div className="bg-gradient-secondary rounded-2xl p-6 text-white shadow-md">
-        <h3 className="text-lg font-semibold mb-3">{t('request.sidebar.tipsTitle')}</h3>
-        <ul className="space-y-2 text-sm opacity-90">
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>{t('request.sidebar.tip1')}</span>
-          </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>{t('request.sidebar.tip2')}</span>
-          </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>{t('request.sidebar.tip3')}</span>
-          </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>{t('request.sidebar.tip4')}</span>
-          </li>
-        </ul>
       </div>
     </div>
   );

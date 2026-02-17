@@ -1,7 +1,10 @@
+import { IUser } from '@/entities/user';
+
 export enum RequestStatus {
-  IN_PROGRESS = 'IN_PROGRESS',
-  COMPLETED = 'COMPLETED',
-  CANCELLED = 'CANCELLED',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled',
+  ACTIVE = 'active',
 }
 
 export enum ItemCondition {
@@ -22,7 +25,7 @@ export interface IRequest {
   location: string;
   urgency: string;
   itemCondition: ItemCondition;
-  buyerId: string;
+  buyer: IUser;
   images: string[];
   views: number;
   proposalsCount: number;
@@ -30,17 +33,4 @@ export interface IRequest {
   edits: Array<{ text: string; timestamp: string }>;
   createdAt: string;
   updatedAt: string;
-}
-
-export interface IRequestWithBuyer extends IRequest {
-  buyer?: {
-    _id: string;
-    name: string;
-    avatar: string;
-    rating: number;
-    reviewsCount: number;
-    isVerified: boolean;
-    memberSince: string;
-    completedDeals: number;
-  };
 }

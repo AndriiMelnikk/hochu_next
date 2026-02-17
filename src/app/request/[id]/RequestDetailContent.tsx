@@ -5,7 +5,7 @@ import { useLingui } from '@lingui/react';
 import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
-import { useRequest } from '@/entities/request';
+import { RequestStatus, useRequest } from '@/entities/request';
 import { RequestInfo, RequestSidebar } from '@/features/requests';
 import { CreateProposalForm, ProposalList } from '@/features/proposals';
 import { DiscussionForm, DiscussionList } from '@/features/discussions';
@@ -58,16 +58,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
     );
   }
 
-  const buyer = request.buyer || {
-    _id: '0',
-    name: t('request.detail.unknownUser'),
-    avatar: null,
-    rating: 0,
-    reviewsCount: 0,
-    isVerified: false,
-    memberSince: '',
-    completedDeals: 0,
-  };
+  const buyer = request.buyer;
 
   const budget =
     request.budgetMin && request.budgetMax
@@ -95,7 +86,9 @@ export default function RequestDetailContent({ id }: { id: string }) {
                 formatTimeAgo={formatTimeAgo}
               />
 
-              <CreateProposalForm budget={budget} requestId={request._id} />
+              {buyer._id !== request.buyer._id && request.status === RequestStatus.ACTIVE && (
+                <CreateProposalForm budget={budget} requestId={request._id} />
+              )}
 
               {/* Tabs for Proposals and Discussion */}
               <Tabs
