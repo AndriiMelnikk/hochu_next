@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { proposalService } from '../services/proposalService';
-import { proposalSchema } from '../schemas/proposalSchema';
 import type { ICreateProposalRequest } from '../types/requests/CreateProposal';
 
 export const useCreateProposal = (requestId: string | number) => {
@@ -15,7 +14,7 @@ export const useCreateProposal = (requestId: string | number) => {
       return data;
     },
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['proposals', requestId] });
+      void queryClient.invalidateQueries({ queryKey: ['proposals', 'list', requestId] });
       void queryClient.invalidateQueries({ queryKey: ['requests', 'detail', requestId] });
     },
   });

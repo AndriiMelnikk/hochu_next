@@ -1,6 +1,5 @@
-import { IProposal } from '../../Proposal';
+import type { IProposal } from '../Proposal';
 
 export interface IGetProposalsResponse {
-  count: number;
   results: IProposal[];
 }

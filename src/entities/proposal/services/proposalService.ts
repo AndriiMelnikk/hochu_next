@@ -1,17 +1,56 @@
 import { AxiosRequestConfig } from 'axios';
 import { api } from '@shared/api/api';
+import { ENDPOINTS } from '@shared/api/endpoints';
 import type { ICreateProposalRequest } from '../types/requests/CreateProposal';
 import type { IGetProposalsResponse } from '../types/responses/GetProposals';
-import type { IProposalWithSeller } from '../types/Proposal';
+import type { ICanProposeResponse } from '../types/responses/CanPropose';
+import type { IProposalWithSeller, IProposalSeller } from '../types/Proposal';
+
+/** Бекенд може повертати sellerId як populated об'єкт; нормалізуємо до sellerId (string) + seller (object). */
+function normalizeProposalItem(raw: Record<string, unknown>): IProposalWithSeller {
+  const sellerIdRaw = raw.sellerId;
+  const sellerId =
+    typeof sellerIdRaw === 'object' && sellerIdRaw !== null && '_id' in sellerIdRaw
+      ? String((sellerIdRaw as { _id: string })._id)
+      : String(sellerIdRaw ?? '');
+  const seller: IProposalSeller | undefined =
+    typeof sellerIdRaw === 'object' && sellerIdRaw !== null && '_id' in sellerIdRaw
+      ? (sellerIdRaw as IProposalSeller)
+      : (raw.seller as IProposalSeller | undefined);
+
+  const { __v: _v, sellerId: _sid, seller: _s, ...rest } = raw;
+  return {
+    ...rest,
+    sellerId,
+    seller,
+    images: Array.isArray(raw.images) ? raw.images : [],
+  } as IProposalWithSeller;
+}
 
 class ProposalService {
-  async get(requestId?: number, config?: AxiosRequestConfig): Promise<IGetProposalsResponse> {
-    const url = requestId ? `/api/proposals?requestId=${requestId}` : '/api/proposals';
-    return (await api.get(url, config)).data;
+  /** GET proposals/requests/:requestId — список пропозицій по заявці */
+  async getByRequestId(
+    requestId: string | number,
+    config?: AxiosRequestConfig,
+  ): Promise<IGetProposalsResponse> {
+    const url = ENDPOINTS.PROPOSALS.BY_REQUEST_ID(requestId);
+    const data = (await api.get(url, config)).data;
+    const items = Array.isArray(data) ? data : (data?.results ?? []);
+    const results = items.map((item: Record<string, unknown>) => normalizeProposalItem(item));
+    return { results };
   }
 
   async getOne(id: string | number, config?: AxiosRequestConfig): Promise<IProposalWithSeller> {
     return (await api.get(`/api/proposals/${id}`, config)).data;
+  }
+
+  /** GET proposals/can-propose/:requestId — чи може поточний користувач створити пропозицію */
+  async canPropose(
+    requestId: string | number,
+    config?: AxiosRequestConfig,
+  ): Promise<ICanProposeResponse> {
+    const url = ENDPOINTS.PROPOSALS.CAN_PROPOSE(requestId);
+    return (await api.get(url, config)).data;
   }
 
   async create(

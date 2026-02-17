@@ -84,6 +84,8 @@ export const messages: Messages = {
   'request.detail.editHistory': 'Історія редагування:',
   'request.detail.clarification': 'Уточнення',
   'request.detail.photos': 'Фотографії ({count})',
+  'request.detail.proposalsLoadError': 'Не вдалося завантажити пропозиції. Спробуйте пізніше.',
+  'request.detail.proposalsEmpty': 'Пропозицій поки немає.',
 
   // Request sidebar
   'request.sidebar.buyer': 'Замовник',

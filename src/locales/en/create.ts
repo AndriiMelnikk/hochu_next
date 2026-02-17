@@ -85,6 +85,8 @@ export const messages: Messages = {
   'request.detail.editHistory': 'Edit history:',
   'request.detail.clarification': 'Clarification',
   'request.detail.photos': 'Photos ({count})',
+  'request.detail.proposalsLoadError': 'Failed to load proposals. Please try again later.',
+  'request.detail.proposalsEmpty': 'No proposals yet.',
 
   // Request sidebar
   'request.sidebar.buyer': 'Buyer',

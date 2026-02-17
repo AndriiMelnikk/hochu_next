@@ -1,8 +1,11 @@
 export { proposalService } from './services/proposalService';
-export type { IProposal, IProposalWithSeller } from './types/Proposal';
+export { ProposalStatus } from './types/Proposal';
+export type { IProposal, IProposalWithSeller, IProposalSeller } from './types/Proposal';
 export type { ICreateProposalRequest } from './types/requests/CreateProposal';
 export type { IGetProposalsResponse } from './types/responses/GetProposals';
-export { useProposals, useProposal } from './hooks/useProposals';
+export type { ICanProposeResponse } from './types/responses/CanPropose';
+export { useProposals } from './hooks/useProposals';
+export { useCanPropose } from './hooks/useCanPropose';
 export { useProposal as useProposalDetail } from './hooks/useProposal';
 export {
   proposalSchema,

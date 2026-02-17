@@ -5,7 +5,8 @@ import { useLingui } from '@lingui/react';
 import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
-import { RequestStatus, useRequest } from '@/entities/request';
+import { useRequest } from '@/entities/request';
+import { useCanPropose } from '@/entities/proposal';
 import { RequestInfo, RequestSidebar } from '@/features/requests';
 import { CreateProposalForm, ProposalList } from '@/features/proposals';
 import { DiscussionForm, DiscussionList } from '@/features/discussions';
@@ -19,6 +20,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
   const { data: request, isLoading, error } = useRequest(id);
+  const { data: canProposeData } = useCanPropose(request?._id);
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -86,7 +88,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
                 formatTimeAgo={formatTimeAgo}
               />
 
-              {buyer._id !== request.buyer._id && request.status === RequestStatus.ACTIVE && (
+              {canProposeData?.canPropose && (
                 <CreateProposalForm budget={budget} requestId={request._id} />
               )}
 

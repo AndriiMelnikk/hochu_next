@@ -1,25 +1,42 @@
 import { z } from 'zod';
 
 import { ItemCondition } from '@/entities/request';
+import { ProposalStatus } from '../types/Proposal';
+
+const proposalSellerSchema = z
+  .object({
+    _id: z.string(),
+    name: z.string(),
+    avatar: z.string().nullable().optional(),
+    rating: z.number().optional(),
+    reviewsCount: z.number().optional(),
+    completedDeals: z.number().optional(),
+    isVerified: z.boolean().optional(),
+  })
+  .optional();
 
 export const proposalSchema = z.object({
-  id: z.number(),
-  requestId: z.number(),
-  sellerId: z.number(),
+  _id: z.string(),
+  requestId: z.string(),
+  sellerId: z.string(),
   price: z.number(),
+  title: z.string(),
   description: z.string(),
   estimatedTime: z.string(),
+  warranty: z.string().nullable().optional(),
+  itemCondition: z.nativeEnum(ItemCondition).optional(),
+  images: z.array(z.string()),
+  status: z.nativeEnum(ProposalStatus),
   createdAt: z.string(),
-  status: z.enum(['pending', 'accepted', 'rejected']),
+  updatedAt: z.string(),
+  seller: proposalSellerSchema,
 });
 
 export const getProposalsResponseSchema = z.object({
-  count: z.number(),
   results: z.array(proposalSchema),
 });
 
 export const createProposalSchema = z.object({
-  // requestId: z.(),
   price: z.coerce.number().min(0, 'proposal.create.validation.price'),
   title: z.string().min(1, 'proposal.create.validation.title'),
   description: z.string().min(10, 'proposal.create.validation.description'),
