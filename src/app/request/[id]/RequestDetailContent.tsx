@@ -60,7 +60,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
     );
   }
 
-  const buyer = request.buyer;
+  const buyer = request.buyerId;
 
   const budget =
     request.budgetMin && request.budgetMax

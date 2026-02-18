@@ -24,7 +24,7 @@ export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
   const seller = proposal.seller;
-  const displayName = seller?.name ?? '—';
+  const displayName = seller?.name;
   const displayRating = seller?.rating;
   const displayReviewsCount = seller?.reviewsCount;
   const displayCompletedDeals = seller?.completedDeals;
@@ -35,7 +35,7 @@ export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
       <div className="flex items-start gap-4">
         <Avatar className="h-16 w-16 border-2 border-primary shrink-0">
           <AvatarImage src={displayAvatar ?? undefined} />
-          <AvatarFallback>{displayName[0]}</AvatarFallback>
+          <AvatarFallback>{displayName}</AvatarFallback>
         </Avatar>
 
         <div className="flex-1 min-w-0">

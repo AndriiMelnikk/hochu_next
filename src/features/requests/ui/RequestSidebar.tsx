@@ -2,27 +2,14 @@ import { Star, Shield } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { Separator } from '@shared/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
-import { IUser } from '@/entities/user';
+import { IRequestBuyer } from '@/entities/request/types/Request';
 
 interface RequestSidebarProps {
-  buyer?: IUser;
+  buyer?: IRequestBuyer;
   proposalsCount: number;
 }
 
-const DEFAULT_BUYER: IUser = {
-  _id: '0',
-  name: '-',
-  avatar: null,
-  rating: 0,
-  reviewsCount: 0,
-  isVerified: false,
-  memberSince: '',
-  email: '-',
-  role: 'buyer',
-  xp: 0,
-};
-
-export const RequestSidebar = ({ buyer = DEFAULT_BUYER, proposalsCount }: RequestSidebarProps) => {
+export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
@@ -35,7 +22,7 @@ export const RequestSidebar = ({ buyer = DEFAULT_BUYER, proposalsCount }: Reques
         <div className="flex items-start mb-4">
           <Avatar className="h-16 w-16 mr-4">
             <AvatarImage src={buyer.avatar || undefined} />
-            <AvatarFallback>{buyer.name[0]}</AvatarFallback>
+            <AvatarFallback>{buyer.name}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
@@ -57,7 +44,9 @@ export const RequestSidebar = ({ buyer = DEFAULT_BUYER, proposalsCount }: Reques
             <div className="flex items-center">
               <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 mr-1" />
               <span className="font-semibold">{buyer.rating}</span>
-              <span className="text-sm text-muted-foreground ml-1">({buyer.reviewsCount})</span>
+              <span className="text-sm text-muted-foreground ml-1">
+                ({buyer.reviewsCount || 0})
+              </span>
             </div>
           </div>
           <div className="flex items-center justify-between text-sm">

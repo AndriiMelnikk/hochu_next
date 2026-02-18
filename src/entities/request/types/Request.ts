@@ -5,11 +5,30 @@ export enum RequestStatus {
   COMPLETED = 'completed',
   CANCELLED = 'cancelled',
   ACTIVE = 'active',
+  PENDING = 'pending',
+  CLOSED = 'closed',
+  REJECTED = 'rejected',
 }
 
 export enum ItemCondition {
   NEW = 'new',
   USED = 'used',
+}
+
+export interface IRequestBuyer {
+  _id: string;
+  accountId: {
+    _id: string;
+  };
+  rating: number;
+  memberSince: string;
+  completedDeals: number;
+  location: string | null;
+  xp: number;
+  name: string;
+  avatar: string | null;
+  reviewsCount?: number;
+  isVerified?: boolean;
 }
 
 export interface IRequest {
@@ -25,7 +44,7 @@ export interface IRequest {
   location: string;
   urgency: string;
   itemCondition: ItemCondition;
-  buyer: IUser;
+  buyerId: IRequestBuyer;
   images: string[];
   views: number;
   proposalsCount: number;
@@ -34,3 +53,5 @@ export interface IRequest {
   createdAt: string;
   updatedAt: string;
 }
+
+export type IRequestWithBuyer = IRequest;

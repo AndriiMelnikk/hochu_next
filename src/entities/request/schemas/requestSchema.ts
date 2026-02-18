@@ -1,73 +1,47 @@
 import { z } from 'zod';
-import { ItemCondition } from '../types/Request';
+import { ItemCondition, RequestStatus } from '../types/Request';
 
-const userShortSchema = z.object({
+export const requestBuyerSchema = z.object({
   _id: z.string(),
+  accountId: z.object({
+    _id: z.string(),
+    name: z.string(),
+    avatar: z.string().nullable(),
+  }),
+  rating: z.number(),
+  memberSince: z.string(),
+  completedDeals: z.number(),
+  location: z.string().nullable(),
+  xp: z.number(),
   name: z.string(),
-  avatar: z.string().nullable().optional(),
-  rating: z.number().optional().default(0),
-  memberSince: z.string().optional(),
-  completedDeals: z.number().optional().default(0),
-  location: z.string().nullable().optional(),
-  xp: z.number().optional(),
+  avatar: z.string().nullable(),
   reviewsCount: z.number().optional(),
   isVerified: z.boolean().optional(),
 });
 
-export const requestSchema = z
-  .object({
-    id: z.union([z.string(), z.number()]).optional(),
-    _id: z.union([z.string(), z.number()]).optional(),
-    title: z.string(),
-    description: z.string(),
-    category: z.object({
-      id: z.string(),
-      name: z.string(),
-    }),
-    budgetMin: z.number(),
-    budgetMax: z.number(),
-    location: z.string(),
-    urgency: z.string(),
-    itemCondition: z.nativeEnum(ItemCondition).optional(),
-    createdAt: z.string(),
-    updatedAt: z.string().optional(),
-    views: z.number(),
-    proposalsCount: z.number(),
-    images: z.array(z.string()),
-    buyerId: z.union([z.string(), z.number(), userShortSchema]),
-    status: z.enum(['pending', 'active', 'closed', 'rejected']),
-    edits: z.array(
-      z.object({
-        text: z.string(),
-        timestamp: z.string(),
-      }),
-    ),
-  })
-  .transform((data) => {
-    const buyerObj = typeof data.buyerId === 'object' ? data.buyerId : null;
-    const buyerId = buyerObj ? buyerObj._id : String(data.buyerId);
-
-    return {
-      ...data,
-      id: String(data.id ?? data._id ?? ''),
-      buyerId,
-      buyer: buyerObj
-        ? {
-            id: buyerObj._id,
-            name: buyerObj.name,
-            avatar: buyerObj.avatar,
-            rating: buyerObj.rating || 0,
-            xp: buyerObj.xp || 0,
-            reviewsCount: buyerObj.reviewsCount || 0,
-            isVerified: buyerObj.isVerified || false,
-            memberSince: buyerObj.memberSince
-              ? new Date(buyerObj.memberSince).getFullYear().toString()
-              : '',
-            completedDeals: buyerObj.completedDeals || 0,
-          }
-        : undefined,
-    };
-  });
+export const requestSchema = z.object({
+  _id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  category: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+  budgetMin: z.number(),
+  budgetMax: z.number(),
+  location: z.string(),
+  urgency: z.string(),
+  itemCondition: z.nativeEnum(ItemCondition),
+  buyerId: requestBuyerSchema,
+  images: z.array(z.string()),
+  views: z.number(),
+  proposalsCount: z.number(),
+  status: z.nativeEnum(RequestStatus),
+  edits: z.array(z.any()),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  __v: z.number().optional(),
+});
 
 export const getRequestsResponseSchema = z.object({
   count: z.number(),

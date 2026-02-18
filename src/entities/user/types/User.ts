@@ -1,11 +1,7 @@
 export interface IAccount {
   _id: string;
-  name: string;
   email: string;
-  avatar: string | null;
   isAdmin: boolean;
-  isBlocked: boolean;
-  blockedUntil: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -13,6 +9,10 @@ export interface IAccount {
 export interface IProfile {
   _id: string;
   accountId: string;
+  avatar: string | null;
+  name: string;
+  isBlocked: boolean;
+  blockedUntil: string | null;
   type: 'buyer' | 'seller';
   rating: number;
   reviewsCount: number;
