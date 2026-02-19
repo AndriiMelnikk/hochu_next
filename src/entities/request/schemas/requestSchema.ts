@@ -3,11 +3,7 @@ import { ItemCondition, RequestStatus } from '../types/Request';
 
 export const requestBuyerSchema = z.object({
   _id: z.string(),
-  accountId: z.object({
-    _id: z.string(),
-    name: z.string(),
-    avatar: z.string().nullable(),
-  }),
+
   rating: z.number(),
   memberSince: z.string(),
   completedDeals: z.number(),

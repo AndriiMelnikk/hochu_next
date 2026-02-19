@@ -34,8 +34,10 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       set({ isLoading: true, error: null });
       try {
         const response = await authService.register(data);
+
+        const { access_token, refresh_token, ...user } = response;
         set({
-          user: response.user as IUser,
+          user: user as IUser,
           isAuth: true,
           isLoading: false,
         });
@@ -55,8 +57,10 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       set({ isLoading: true, error: null });
       try {
         const response = await authService.login(data);
+
+        const { access_token, refresh_token, ...user } = response;
         set({
-          user: response.user as IUser,
+          user: user as IUser,
           isAuth: true,
           isLoading: false,
         });

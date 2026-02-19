@@ -42,13 +42,13 @@ export default function LoginContent() {
   //   }
   // };
 
-  const onInvalid = (errors: any) => {
-    Object.values(errors).forEach((error: any) => {
-      if (error.message) {
-        toast.error(error.message as string);
-      }
-    });
-  };
+  // const onInvalid = (errors: any) => {
+  //   Object.values(errors).forEach((error: any) => {
+  //     if (error.message) {
+  //       toast.error(error.message as string);
+  //     }
+  //   });
+  // };
 
   return (
     <div className="min-h-screen bg-background">

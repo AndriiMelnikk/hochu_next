@@ -1,5 +1,10 @@
 import { z } from 'zod';
-import { userSchema } from '../../user/schemas/userSchema';
+import {
+  UserRoleEnum,
+  userSchema,
+  accountSchema,
+  profileSchema,
+} from '../../user/schemas/userSchema';
 
 export const loginSchema = z.object({
   email: z.string().email('Невірний формат email'),
@@ -10,10 +15,22 @@ export const registerSchema = z.object({
   email: z.string().email('Невірний формат email'),
   password: z.string().min(6, 'Пароль має бути мінімум 6 символів'),
   name: z.string().min(2, "Ім'я має бути мінімум 2 символи"),
+  type: z.enum(UserRoleEnum as [string, ...string[]]),
 });
 
 export const authResponseSchema = z.object({
   access_token: z.string(),
   refresh_token: z.string(),
-  user: userSchema,
+  account: accountSchema,
+  profiles: z.array(
+    z.object({
+      id: z.string(),
+      type: z.enum(UserRoleEnum as [string, ...string[]]),
+      rating: z.number(),
+      xp: z.number(),
+      completedDeals: z.number(),
+    }),
+  ),
+
+  currentProfileId: z.string(),
 });

@@ -6,7 +6,12 @@ import { RegisterForm } from '@/features/auth';
 import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
 
+import { useLingui } from '@lingui/react';
+
 export default function RegisterContent() {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -15,18 +20,18 @@ export default function RegisterContent() {
           {/* Left Section - Form */}
           <div className="p-8 lg:p-12">
             <div className="space-y-2 mb-8">
-              <h1 className="text-3xl font-bold text-card-foreground">Реєстрація</h1>
-              <p className="text-muted-foreground">
-                Створіть акаунт, щоб почати користуватися платформою
-              </p>
+              <h1 className="text-3xl font-bold text-card-foreground">
+                {t('auth.register.title')}
+              </h1>
+              <p className="text-muted-foreground">{t('auth.register.subtitle')}</p>
             </div>
 
             <RegisterForm />
 
             <div className="mt-6 text-center text-sm">
-              <span className="text-muted-foreground">Вже є акаунт? </span>
+              <span className="text-muted-foreground">{t('auth.register.alreadyHaveAccount')}</span>
               <Link href={routes.LOGIN} className="text-primary hover:underline font-medium">
-                Увійти
+                {t('auth.register.loginLink')}
               </Link>
             </div>
           </div>
@@ -35,10 +40,8 @@ export default function RegisterContent() {
           <div className="bg-gradient-primary p-8 lg:p-12 text-white flex flex-col justify-center">
             <div className="space-y-6">
               <div className="space-y-3">
-                <h2 className="text-3xl font-bold">Приєднуйтесь!</h2>
-                <p className="text-white/90 text-lg">
-                  Створіть акаунт та отримайте доступ до всіх можливостей
-                </p>
+                <h2 className="text-3xl font-bold">{t('auth.register.welcomeTitle')}</h2>
+                <p className="text-white/90 text-lg">{t('auth.register.welcomeSubtitle')}</p>
               </div>
 
               <div className="space-y-4 pt-6">
@@ -54,8 +57,10 @@ export default function RegisterContent() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">Безкоштовний старт</h3>
-                    <p className="text-white/80 text-sm">Публікуйте 3 запити без оплати</p>
+                    <h3 className="font-semibold text-lg">{t('auth.register.benefit1.title')}</h3>
+                    <p className="text-white/80 text-sm">
+                      {t('auth.register.benefit1.description')}
+                    </p>
                   </div>
                 </div>
 
@@ -71,8 +76,10 @@ export default function RegisterContent() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">Геймифікація</h3>
-                    <p className="text-white/80 text-sm">Досягнення та бонуси за активність</p>
+                    <h3 className="font-semibold text-lg">{t('auth.register.benefit2.title')}</h3>
+                    <p className="text-white/80 text-sm">
+                      {t('auth.register.benefit2.description')}
+                    </p>
                   </div>
                 </div>
 
@@ -88,8 +95,10 @@ export default function RegisterContent() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">Прямий зв'язок</h3>
-                    <p className="text-white/80 text-sm">Спілкуйтесь з виконавцями напряму</p>
+                    <h3 className="font-semibold text-lg">{t('auth.register.benefit3.title')}</h3>
+                    <p className="text-white/80 text-sm">
+                      {t('auth.register.benefit3.description')}
+                    </p>
                   </div>
                 </div>
               </div>

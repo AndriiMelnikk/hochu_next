@@ -11,12 +11,9 @@ import type { IUser } from '@/entities/user/types/User';
 class AuthService {
   async login(data: ILoginRequest, config?: AxiosRequestConfig): Promise<IAuthResponse> {
     const response = await api.post<IAuthResponse>(ENDPOINTS.AUTH.LOGIN, data, config);
-
-    console.log('response.data', response.data);
     // Валідація відповіді через Zod для гарантії цілісності даних
     try {
       const validatedData = authResponseSchema.parse(response.data);
-      console.log('validatedData', validatedData);
 
       if (validatedData.access_token && typeof window !== 'undefined') {
         localStorage.setItem(LS_KEYS.ACCESS_TOKEN, validatedData.access_token);
@@ -56,8 +53,6 @@ class AuthService {
 
   async getMe(config?: AxiosRequestConfig): Promise<IUser> {
     const response = await api.get<IUser>(ENDPOINTS.USER.ME, config);
-
-    console.log('response.data', response.data);
     return userSchema.parse(response.data) as IUser;
   }
 

@@ -1,4 +1,4 @@
-export type UserRole = 'buyer' | 'seller';
+import { UserRole } from '@/entities/user/schemas/userSchema';
 
 export interface Achievement {
   id: string;

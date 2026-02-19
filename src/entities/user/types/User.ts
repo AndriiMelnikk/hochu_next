@@ -4,25 +4,26 @@ export interface IAccount {
   isAdmin: boolean;
   createdAt: string;
   updatedAt: string;
+  __v?: number;
 }
 
 export interface IProfile {
   _id: string;
-  accountId: string;
-  avatar: string | null;
-  name: string;
-  isBlocked: boolean;
-  blockedUntil: string | null;
   type: 'buyer' | 'seller';
   rating: number;
-  reviewsCount: number;
-  isVerified: boolean;
-  memberSince: string;
-  completedDeals: number;
-  location: string | null;
   xp: number;
-  createdAt: string;
-  updatedAt: string;
+  completedDeals: number;
+  accountId?: string;
+  avatar?: string | null;
+  name?: string;
+  isBlocked?: boolean;
+  blockedUntil?: string | null;
+  reviewsCount?: number;
+  isVerified?: boolean;
+  memberSince?: string;
+  location?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IUser {
