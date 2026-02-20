@@ -1,11 +1,13 @@
 'use client';
 
+import { AxiosError } from 'axios';
 import { DollarSign, Send, Upload, AlertCircle, Package } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { FieldErrors } from 'react-hook-form';
 import { toast } from 'sonner';
+import type { z } from 'zod';
 
 import { Button } from '@shared/ui/button';
 import { Input } from '@shared/ui/input';
@@ -14,9 +16,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@shared/ui/form';
 
 import { ItemCondition } from '@/entities/request';
-import { createProposalSchema } from '@/entities/proposal/schemas/proposalSchema';
-import { useCreateProposal } from '@/entities/proposal/hooks/useCreateProposal';
-import type { z } from 'zod';
+import {
+  createProposalSchema,
+  useCreateProposal,
+  PROPOSAL_DELIVERY_TIME,
+  PROPOSAL_DELIVERY_TIME_LABELS,
+  PROPOSAL_WARRANTY,
+  PROPOSAL_WARRANTY_LABELS,
+} from '@/entities/proposal';
 
 interface CreateProposalFormProps {
   budget: string;
@@ -38,8 +45,8 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
       price: undefined,
       title: '',
       description: '',
-      estimatedTime: '',
-      warranty: '',
+      estimatedTime: undefined,
+      warranty: undefined,
       itemCondition: ItemCondition.NEW,
     },
   });
@@ -58,8 +65,12 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
       toast.success(t('proposal.create.success'));
       form.reset();
       onSuccess?.();
-    } catch (error) {
-      toast.error(error?.response?.data?.error?.message || t('proposal.create.error'));
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data?.error?.message || t('proposal.create.error'));
+      } else {
+        toast.error(t('proposal.create.error'));
+      }
     }
   };
 
@@ -197,8 +208,8 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                       {t('proposal.create.deliveryTimeLabel')}
                     </FormLabel>
                     <Select
-                      onValueChange={field.onChange}
-                      value={field.value === '' ? undefined : field.value}
+                      onValueChange={(val) => field.onChange(Number(val))}
+                      value={field.value?.toString()}
                     >
                       <FormControl>
                         <SelectTrigger className="text-base">
@@ -206,18 +217,11 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="1-2">
-                          {t('proposal.create.deliveryTime.1_2days')}
-                        </SelectItem>
-                        <SelectItem value="3-5">
-                          {t('proposal.create.deliveryTime.3_5days')}
-                        </SelectItem>
-                        <SelectItem value="week">
-                          {t('proposal.create.deliveryTime.week')}
-                        </SelectItem>
-                        <SelectItem value="2-weeks">
-                          {t('proposal.create.deliveryTime.2weeks')}
-                        </SelectItem>
+                        {Object.values(PROPOSAL_DELIVERY_TIME).map((value) => (
+                          <SelectItem key={value} value={value.toString()}>
+                            {t(PROPOSAL_DELIVERY_TIME_LABELS[value])}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -234,8 +238,8 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                       {t('proposal.create.warrantyLabel')}
                     </FormLabel>
                     <Select
-                      onValueChange={field.onChange}
-                      value={field.value === '' ? undefined : field.value}
+                      onValueChange={(val) => field.onChange(Number(val))}
+                      value={field.value?.toString()}
                     >
                       <FormControl>
                         <SelectTrigger className="text-base">
@@ -243,11 +247,11 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="none">{t('proposal.create.warranty.none')}</SelectItem>
-                        <SelectItem value="1m">{t('proposal.create.warranty.1month')}</SelectItem>
-                        <SelectItem value="3m">{t('proposal.create.warranty.3months')}</SelectItem>
-                        <SelectItem value="6m">{t('proposal.create.warranty.6months')}</SelectItem>
-                        <SelectItem value="1y">{t('proposal.create.warranty.1year')}</SelectItem>
+                        {Object.values(PROPOSAL_WARRANTY).map((value) => (
+                          <SelectItem key={value} value={value.toString()}>
+                            {t(PROPOSAL_WARRANTY_LABELS[value])}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />

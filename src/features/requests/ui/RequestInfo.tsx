@@ -2,7 +2,7 @@ import { Clock, Eye, MessageSquare, DollarSign, MapPin, Calendar, Package } from
 import { useLingui } from '@lingui/react';
 import { Badge } from '@shared/ui/badge';
 import { Separator } from '@shared/ui/separator';
-import { IRequest } from '@/entities/request';
+import { IRequest, REQUEST_URGENCY_LABELS } from '@/entities/request';
 import Image from 'next/image';
 
 interface RequestInfoProps {
@@ -35,6 +35,9 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
       ? `${request.budgetMin}-${request.budgetMax} грн`
       : t('request.detail.budgetNotSpecified');
   const timeAgo = request.createdAt ? formatTimeAgo(request.createdAt) : '';
+
+  const urgencyLabel =
+    REQUEST_URGENCY_LABELS[request.urgency as keyof typeof REQUEST_URGENCY_LABELS];
 
   return (
     <div className="space-y-6">
@@ -85,7 +88,7 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
             <Calendar className="h-5 w-5 text-primary mr-2 mt-0.5" />
             <div>
               <p className="text-sm text-muted-foreground">{t('request.detail.urgency')}</p>
-              <p className="font-semibold">{request.urgency}</p>
+              <p className="font-semibold">{urgencyLabel ? t(urgencyLabel) : request.urgency}</p>
             </div>
           </div>
           <div className="flex items-start">

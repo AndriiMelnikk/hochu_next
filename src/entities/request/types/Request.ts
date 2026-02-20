@@ -42,7 +42,7 @@ export interface IRequest {
   budgetMin: number;
   budgetMax: number;
   location: string;
-  urgency: string;
+  urgency: number;
   itemCondition: ItemCondition;
   buyerId: IRequestBuyer;
   images: string[];

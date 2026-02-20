@@ -6,8 +6,8 @@ export interface ICreateProposalRequest {
   price: number;
   title: string;
   description: string;
-  estimatedTime: string;
-  warranty?: string;
+  estimatedTime: number;
+  warranty?: number;
   itemCondition: ItemCondition;
   /** URL фото портфоліо (на даному етапі — заглушка) */
   images?: string[];

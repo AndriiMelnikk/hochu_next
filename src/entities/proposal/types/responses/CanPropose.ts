@@ -1,4 +1,6 @@
+import { ProposalRejectionReason } from '../Proposal';
+
 export interface ICanProposeResponse {
   canPropose: boolean;
-  reason?: string;
+  reason?: ProposalRejectionReason;
 }

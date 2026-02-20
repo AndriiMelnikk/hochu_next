@@ -7,6 +7,14 @@ export enum ProposalStatus {
   COMPLETED = 'completed',
 }
 
+export enum ProposalRejectionReason {
+  USER_BLOCKED = 'USER_BLOCKED',
+  REQUEST_NOT_FOUND = 'REQUEST_NOT_FOUND',
+  REQUEST_NOT_ACTIVE = 'REQUEST_NOT_ACTIVE',
+  OWN_REQUEST = 'OWN_REQUEST',
+  ALREADY_PROPOSED = 'ALREADY_PROPOSED',
+}
+
 export interface IProposalSeller {
   _id: string;
   name: string;
@@ -26,8 +34,8 @@ export interface IProposal {
   price: number;
   title: string;
   description: string;
-  estimatedTime: string;
-  warranty?: string | null;
+  estimatedTime: number;
+  warranty?: number | null;
   itemCondition?: ItemCondition;
   images: string[];
   status: ProposalStatus;

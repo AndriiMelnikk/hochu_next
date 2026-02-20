@@ -5,7 +5,7 @@ export * from './types/requests/CreateRequest';
 export * from './types/requests/GetRequests';
 export * from './types/responses/GetRequests';
 export * from './schemas/requestSchema';
-export { REQUEST_CATEGORIES } from './const';
+export * from './const';
 
 export { useRequest } from './hooks/useRequest';
 export { useRequests } from './hooks/useRequests';

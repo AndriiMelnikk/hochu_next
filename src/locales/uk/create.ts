@@ -203,4 +203,10 @@ export const messages: Messages = {
   'auth.register.form.success': 'Реєстрація успішна!',
   'auth.register.form.error': 'Сталася помилка при реєстрації',
   'auth.register.form.invalidData': 'Невалідні дані',
+  'request.detail.cannotPropose': 'Неможливо створити пропозицію',
+  'proposal.rejection.USER_BLOCKED': 'Ви заблоковані цим користувачем',
+  'proposal.rejection.REQUEST_NOT_FOUND': 'Запит не знайдено',
+  'proposal.rejection.REQUEST_NOT_ACTIVE': 'Запит не активний',
+  'proposal.rejection.OWN_REQUEST': 'Ви не можете залишати пропозиції до власного запиту',
+  'proposal.rejection.ALREADY_PROPOSED': 'Ви вже залишили пропозицію до цього запиту',
 };

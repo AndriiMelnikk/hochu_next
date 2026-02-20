@@ -7,7 +7,7 @@ import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
 import { useRequest } from '@/entities/request';
-import { useCanPropose } from '@/entities/proposal';
+import { useCanPropose, ProposalRejectionReason } from '@/entities/proposal';
 import { RequestInfo, RequestSidebar } from '@/features/requests';
 import { CreateProposalForm, ProposalList } from '@/features/proposals';
 import { DiscussionForm, DiscussionList } from '@/features/discussions';
@@ -15,6 +15,8 @@ import { Loading } from '@shared/ui/loading';
 import { Error } from '@shared/ui/error';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 import { Breadcrumbs } from '@shared/ui/breadcrumbs';
+import { Alert, AlertDescription, AlertTitle } from '@shared/ui/alert';
+import { Ban } from 'lucide-react';
 
 export default function RequestDetailContent({ id }: { id: string }) {
   const { i18n } = useLingui();
@@ -103,6 +105,16 @@ export default function RequestDetailContent({ id }: { id: string }) {
                   requestId={request._id}
                   onSuccess={handleProposalSuccess}
                 />
+              )}
+
+              {!canProposeData?.canPropose && canProposeData?.reason && (
+                <Alert variant="destructive">
+                  <Ban className="h-4 w-4" />
+                  <AlertTitle>{t('request.detail.cannotPropose')}</AlertTitle>
+                  <AlertDescription>
+                    {t(`proposal.rejection.${canProposeData.reason}`)}
+                  </AlertDescription>
+                </Alert>
               )}
 
               {/* Tabs for Proposals and Discussion */}

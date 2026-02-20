@@ -203,4 +203,10 @@ export const messages: Messages = {
   'auth.register.form.success': 'Registration successful!',
   'auth.register.form.error': 'An error occurred during registration',
   'auth.register.form.invalidData': 'Invalid data',
+  'request.detail.cannotPropose': 'Cannot create proposal',
+  'proposal.rejection.USER_BLOCKED': 'You are blocked by this user',
+  'proposal.rejection.REQUEST_NOT_FOUND': 'Request not found',
+  'proposal.rejection.REQUEST_NOT_ACTIVE': 'Request is not active',
+  'proposal.rejection.OWN_REQUEST': 'You cannot make a proposal to your own request',
+  'proposal.rejection.ALREADY_PROPOSED': 'You have already made a proposal for this request',
 };

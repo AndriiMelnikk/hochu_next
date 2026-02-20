@@ -37,6 +37,8 @@ import {
   useRequestStore,
   ItemCondition,
   type ICreateRequestRequest,
+  REQUEST_URGENCY,
+  REQUEST_URGENCY_LABELS,
 } from '@/entities/request';
 import { routes } from '@/app/router/routes';
 import { Button } from '@/shared/ui/button';
@@ -54,14 +56,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/shared/ui/form';
-import { REQUEST_URGENCY } from '@/entities/request/const';
 
-const urgencyOptions = [
-  { value: REQUEST_URGENCY[0], labelKey: 'request.create.urgencyFlexible' },
-  { value: REQUEST_URGENCY[1], labelKey: 'request.create.urgencyWeek' },
-  { value: REQUEST_URGENCY[2], labelKey: 'request.create.urgencyDays' },
-  { value: REQUEST_URGENCY[3], labelKey: 'request.create.urgencyUrgent' },
-];
+const urgencyOptions = Object.values(REQUEST_URGENCY).map((value) => ({
+  value,
+  labelKey: REQUEST_URGENCY_LABELS[value],
+}));
 
 export const CreateRequestForm = () => {
   const { i18n } = useLingui();
@@ -89,10 +88,10 @@ export const CreateRequestForm = () => {
       title: '',
       description: '',
       category: '',
-      budgetMin: null,
-      budgetMax: null,
+      budgetMin: undefined,
+      budgetMax: undefined,
       location: '',
-      urgency: '',
+      urgency: undefined,
       itemCondition: ItemCondition.NEW,
     },
   });
@@ -425,13 +424,17 @@ export const CreateRequestForm = () => {
                 <Clock className="h-5 w-5 mr-2 text-primary" />
                 {t('request.create.urgencyLabel')}
               </FormLabel>
-              <Select value={field.value} onValueChange={field.onChange} disabled={isSubmitting}>
+              <Select
+                value={field.value?.toString()}
+                onValueChange={(val) => field.onChange(Number(val))}
+                disabled={isSubmitting}
+              >
                 <SelectTrigger id="urgency" className="text-base">
                   <SelectValue placeholder={t('request.create.urgencyPlaceholder')} />
                 </SelectTrigger>
                 <SelectContent>
                   {urgencyOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
+                    <SelectItem key={option.value} value={option.value.toString()}>
                       {t(option.labelKey)}
                     </SelectItem>
                   ))}

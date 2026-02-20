@@ -26,7 +26,7 @@ export const requestSchema = z.object({
   budgetMin: z.number(),
   budgetMax: z.number(),
   location: z.string(),
-  urgency: z.string(),
+  urgency: z.number(),
   itemCondition: z.nativeEnum(ItemCondition),
   buyerId: requestBuyerSchema,
   images: z.array(z.string()),
@@ -53,7 +53,7 @@ export const createRequestSchema = z.object({
   budgetMin: z.coerce.number().min(0, 'Мінімальний бюджет має бути більше 0'),
   budgetMax: z.coerce.number().min(0, 'Максимальний бюджет має бути більше 0'),
   location: z.string().min(1, "Локація обов'язкова"),
-  urgency: z.string(),
+  urgency: z.coerce.number(),
   itemCondition: z.nativeEnum(ItemCondition),
   images: z.array(z.string()).optional(),
 });

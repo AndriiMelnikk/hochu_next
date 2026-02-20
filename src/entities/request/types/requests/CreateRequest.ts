@@ -7,7 +7,7 @@ export interface ICreateRequestRequest {
   budgetMin: number;
   budgetMax: number;
   location: string;
-  urgency: string;
+  urgency: number;
   itemCondition: ItemCondition;
   images?: string[];
 }

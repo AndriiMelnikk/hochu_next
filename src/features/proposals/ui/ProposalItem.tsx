@@ -13,7 +13,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@shared/ui/carousel';
-import type { IProposalWithSeller } from '@/entities/proposal';
+import {
+  type IProposalWithSeller,
+  PROPOSAL_DELIVERY_TIME_LABELS,
+  PROPOSAL_WARRANTY_LABELS,
+  PROPOSAL_DELIVERY_TIME,
+  PROPOSAL_WARRANTY,
+} from '@/entities/proposal';
 
 interface ProposalItemProps {
   proposal: IProposalWithSeller;
@@ -86,13 +92,33 @@ export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
             <span className="flex items-center gap-1">
               <Clock className="h-4 w-4 text-primary shrink-0" />
               <span className="text-muted-foreground">{t('proposal.item.delivery')}</span>
-              <span className="font-medium">{proposal.estimatedTime}</span>
+              <span className="font-medium">
+                {PROPOSAL_DELIVERY_TIME_LABELS[
+                  proposal.estimatedTime as keyof typeof PROPOSAL_DELIVERY_TIME_LABELS
+                ]
+                  ? t(
+                      PROPOSAL_DELIVERY_TIME_LABELS[
+                        proposal.estimatedTime as keyof typeof PROPOSAL_DELIVERY_TIME_LABELS
+                      ],
+                    )
+                  : proposal.estimatedTime}
+              </span>
             </span>
-            {proposal.warranty != null && proposal.warranty !== '' && (
+            {proposal.warranty != null && (
               <span className="flex items-center gap-1">
                 <Shield className="h-4 w-4 text-primary shrink-0" />
                 <span className="text-muted-foreground">{t('proposal.item.warranty')}</span>
-                <span className="font-medium">{proposal.warranty}</span>
+                <span className="font-medium">
+                  {PROPOSAL_WARRANTY_LABELS[
+                    proposal.warranty as keyof typeof PROPOSAL_WARRANTY_LABELS
+                  ]
+                    ? t(
+                        PROPOSAL_WARRANTY_LABELS[
+                          proposal.warranty as keyof typeof PROPOSAL_WARRANTY_LABELS
+                        ],
+                      )
+                    : proposal.warranty}
+                </span>
               </span>
             )}
           </div>

@@ -1,15 +1,13 @@
-export const REQUEST_CATEGORIES = [
-  'Всі категорії',
-  'Ремонт та будівництво',
-  'Побутові послуги',
-  'Транспортні послуги',
-  'Краса та здоров`я',
-  'Освіта та репетиторство',
-  'IT та фріланс',
-  'Дизайн та творчість',
-  'Організація заходів',
-  'Юридичні та фінансові послуги',
-  'Інше',
-] as const;
+export const REQUEST_URGENCY = {
+  FLEXIBLE: 1,
+  WEEK: 2,
+  DAYS: 3,
+  URGENT: 4,
+} as const;
 
-export const REQUEST_URGENCY = ['Гнучко', 'Протягом тижня', '2-3 дні', 'Терміново'] as const;
+export const REQUEST_URGENCY_LABELS = {
+  [REQUEST_URGENCY.FLEXIBLE]: 'request.create.urgencyFlexible',
+  [REQUEST_URGENCY.WEEK]: 'request.create.urgencyWeek',
+  [REQUEST_URGENCY.DAYS]: 'request.create.urgencyDays',
+  [REQUEST_URGENCY.URGENT]: 'request.create.urgencyUrgent',
+} as const;
