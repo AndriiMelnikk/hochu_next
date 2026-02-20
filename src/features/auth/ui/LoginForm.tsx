@@ -103,7 +103,6 @@ export const LoginForm = () => {
               <FormControl>
                 <Input type="email" placeholder="your@email.com" {...field} disabled={isLoading} />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -117,7 +116,6 @@ export const LoginForm = () => {
               <FormControl>
                 <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />

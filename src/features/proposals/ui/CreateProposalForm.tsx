@@ -106,7 +106,6 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -134,7 +133,6 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                         }
                       />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -166,7 +164,6 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                         </SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -192,7 +189,6 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                   <div className="text-sm text-muted-foreground">
                     {t('proposal.create.charsCount', { count: field.value.length })}
                   </div>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -224,7 +220,6 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -254,7 +249,6 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormMessage />
                   </FormItem>
                 )}
               />

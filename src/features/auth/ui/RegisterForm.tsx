@@ -97,7 +97,6 @@ export const RegisterForm = () => {
                   disabled={isLoading}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -116,7 +115,6 @@ export const RegisterForm = () => {
                   disabled={isLoading}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -135,7 +133,6 @@ export const RegisterForm = () => {
                   disabled={isLoading}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -160,7 +157,6 @@ export const RegisterForm = () => {
                   <SelectItem value="seller">{t('auth.register.form.roleSeller')}</SelectItem>
                 </SelectContent>
               </Select>
-              <FormMessage />
             </FormItem>
           )}
         />

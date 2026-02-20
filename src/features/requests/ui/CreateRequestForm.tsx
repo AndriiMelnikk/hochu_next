@@ -233,7 +233,6 @@ export const CreateRequestForm = () => {
                 />
               </FormControl>
               <FormDescription>{t('request.create.titleHint')}</FormDescription>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -263,7 +262,6 @@ export const CreateRequestForm = () => {
                   className="text-base"
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -285,7 +283,6 @@ export const CreateRequestForm = () => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -310,7 +307,6 @@ export const CreateRequestForm = () => {
                     onChange={(event) => field.onChange(event.target.value)}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -332,7 +328,6 @@ export const CreateRequestForm = () => {
                     onChange={(event) => field.onChange(event.target.value)}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -410,7 +405,6 @@ export const CreateRequestForm = () => {
                   </Command>
                 </PopoverContent>
               </Popover>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -440,7 +434,6 @@ export const CreateRequestForm = () => {
                   ))}
                 </SelectContent>
               </Select>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -467,7 +460,6 @@ export const CreateRequestForm = () => {
                   </SelectItem>
                 </SelectContent>
               </Select>
-              <FormMessage />
             </FormItem>
           )}
         />
