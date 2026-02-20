@@ -12,6 +12,8 @@ const proposalSellerSchema = z
     reviewsCount: z.number().optional(),
     completedDeals: z.number().optional(),
     isVerified: z.boolean().optional(),
+    location: z.string().nullable().optional(),
+    memberSince: z.string().optional(),
   })
   .optional();
 

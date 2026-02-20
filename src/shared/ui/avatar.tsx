@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
+import { User } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -34,11 +35,13 @@ const AvatarFallback = React.forwardRef<
   <AvatarPrimitive.Fallback
     ref={ref}
     className={cn(
-      'flex h-full w-full items-center justify-center rounded-full bg-muted',
+      'flex h-full w-full items-center justify-center rounded-full bg-muted text-muted-foreground',
       className,
     )}
     {...props}
-  />
+  >
+    <User className="h-1/2 w-1/2 stroke-1" />
+  </AvatarPrimitive.Fallback>
 ));
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 
