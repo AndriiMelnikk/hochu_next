@@ -139,35 +139,35 @@ export function CascadingSelect({
     }
   };
 
-  // Reset navigation when opening
-  const handleOpenChange = (isOpen: boolean) => {
-    setOpen(isOpen);
-    if (isOpen) {
-      // If there's a selected value, navigate to its parent level
-      if (value) {
-        const path = buildPathToItem(value);
-        if (path.length > 1) {
-          const parentPath = path.slice(0, -1);
-          setNavigationPath(parentPath);
-          setCurrentParentId(parentPath[parentPath.length - 1]?.id ?? null);
+  const handleOpenChange = React.useCallback(
+    (isOpen: boolean) => {
+      setOpen(isOpen);
+      if (isOpen) {
+        // If there's a selected value, navigate to its parent level
+        if (value) {
+          const path = buildPathToItem(value);
+          if (path.length > 1) {
+            const parentPath = path.slice(0, -1);
+            setNavigationPath(parentPath);
+            setCurrentParentId(parentPath[parentPath.length - 1]?.id ?? null);
+          } else {
+            setCurrentParentId(null);
+            setNavigationPath([]);
+          }
         } else {
           setCurrentParentId(null);
           setNavigationPath([]);
         }
-      } else {
-        setCurrentParentId(null);
-        setNavigationPath([]);
       }
-    }
-  };
+    },
+    [value, buildPathToItem],
+  );
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          role="combobox"
-          aria-expanded={open}
           className={cn(
             'w-full justify-between text-base font-normal',
             !displayValue && 'text-muted-foreground',

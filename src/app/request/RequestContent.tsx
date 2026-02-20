@@ -13,16 +13,33 @@ import { useRequestStore } from '@/entities/request';
 import { CascadingSelect, type CascadingSelectItem } from '@shared/ui/cascading-select';
 import { useCategories } from '@/entities/category';
 import { UniversalPagination } from '@shared/ui/universal-pagination';
-import { useDebounce } from '@shared/hooks';
+import { useDebounce, useQueryPagination } from '@shared/hooks';
 
 export default function RequestContent() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const paginationOptions = useMemo(() => ({}), []);
+  const { page, pageSize, setPage, filters, setFilter } = useQueryPagination<{
+    category: string;
+    search: string;
+  }>(paginationOptions);
+
+  const [searchQuery, setSearchQuery] = useState(filters.search || '');
+  const [prevFiltersSearch, setPrevFiltersSearch] = useState(filters.search);
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
-  const [page, setPage] = useState(1);
-  const pageSize = 12;
+
+  if (filters.search !== prevFiltersSearch) {
+    setPrevFiltersSearch(filters.search);
+    if ((filters.search || '') !== debouncedSearchQuery) {
+      setSearchQuery(filters.search || '');
+    }
+  }
+
+  useEffect(() => {
+    if ((filters.search || '') !== debouncedSearchQuery) {
+      setFilter('search', debouncedSearchQuery);
+    }
+  }, [debouncedSearchQuery, setFilter, filters.search]);
 
   const {
     data: categories = [],
@@ -37,8 +54,6 @@ export default function RequestContent() {
       parentId: cat.parentId || null,
     }));
   }, [categories]);
-  // These seem unused in the original code but kept state for them
-  const [location, setLocation] = useState('');
 
   const { requests, loading, error, fetchRequests } = useRequestStore();
 
@@ -46,11 +61,10 @@ export default function RequestContent() {
     fetchRequests({
       page,
       pageSize,
-      category: selectedCategories.length > 0 ? selectedCategories.join(',') : undefined,
-      search: debouncedSearchQuery || undefined,
-      location: location || undefined,
+      category: filters.category || undefined,
+      search: filters.search || undefined,
     });
-  }, [page, selectedCategories, debouncedSearchQuery, location, fetchRequests]);
+  }, [page, filters, fetchRequests, pageSize]);
 
   const requestResults = requests?.results || [];
   const totalCount = requests?.count ?? 0;
@@ -91,7 +105,6 @@ export default function RequestContent() {
                     value={searchQuery}
                     onChange={(e) => {
                       setSearchQuery(e.target.value);
-                      setPage(1);
                     }}
                   />
                 </div>
@@ -101,10 +114,9 @@ export default function RequestContent() {
               <div className="mb-4 grid gap-4">
                 <CascadingSelect
                   items={cascadingCategories}
-                  value={selectedCategories[0]}
+                  value={filters.category || ''}
                   onValueChange={(id) => {
-                    setSelectedCategories(id ? [id] : []);
-                    setPage(1);
+                    setFilter('category', id || '');
                   }}
                   placeholder={
                     isCategoriesLoading
