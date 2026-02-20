@@ -36,6 +36,10 @@ export const proposalSchema = z.object({
 
 export const getProposalsResponseSchema = z.object({
   results: z.array(proposalSchema),
+  count: z.number().optional(),
+  page: z.number().optional(),
+  pageSize: z.number().optional(),
+  totalPages: z.number().optional(),
 });
 
 export const createProposalSchema = z.object({
