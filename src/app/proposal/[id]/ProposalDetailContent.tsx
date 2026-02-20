@@ -236,7 +236,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                             <span className="text-muted-foreground">На платформі з: </span>
                             <span className="font-semibold">
                               {request.buyerId.memberSince
-                                ? format(new Date(request.buyerId.memberSince), 'yyyy', {
+                                ? format(new Date(request.buyerId.memberSince), 'd MMMM yyyy', {
                                     locale: uk,
                                   })
                                 : '-'}{' '}
@@ -309,7 +309,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                       <span className="text-muted-foreground">На платформі з</span>
                       <span className="font-semibold">
                         {proposal.seller.memberSince
-                          ? format(new Date(proposal.seller.memberSince), 'yyyy', { locale: uk })
+                          ? format(new Date(proposal.seller.memberSince), 'd MMMM yyyy', { locale: uk })
                           : '-'}{' '}
                         року
                       </span>

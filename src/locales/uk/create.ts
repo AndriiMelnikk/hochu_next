@@ -91,7 +91,7 @@ export const messages: Messages = {
 
   // Request sidebar
   'request.sidebar.buyer': 'Замовник',
-  'request.sidebar.memberSince': 'На платформі з {year} року',
+  'request.sidebar.memberSince': 'На платформі з {date} року',
   'request.sidebar.rating': 'Рейтинг',
   'request.sidebar.completedDeals': 'Виконаних угод',
   'request.sidebar.buyerTrust':

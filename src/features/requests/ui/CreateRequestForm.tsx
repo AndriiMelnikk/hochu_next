@@ -339,7 +339,7 @@ export const CreateRequestForm = () => {
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="text-base font-semibold flex items-center">
-                <MapPin className="h-5 w-5 mr-2 text-secondary" />
+                <MapPin className="h-5 w-5 mr-2 text-primary" />
                 {t('request.create.locationLabel')}
               </FormLabel>
               <Popover open={isLocationOpen} onOpenChange={setIsLocationOpen}>

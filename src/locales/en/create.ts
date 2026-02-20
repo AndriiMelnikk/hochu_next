@@ -92,7 +92,7 @@ export const messages: Messages = {
 
   // Request sidebar
   'request.sidebar.buyer': 'Buyer',
-  'request.sidebar.memberSince': 'Member since {year}',
+  'request.sidebar.memberSince': 'Member since {date}',
   'request.sidebar.rating': 'Rating',
   'request.sidebar.completedDeals': 'Completed deals',
   'request.sidebar.buyerTrust':

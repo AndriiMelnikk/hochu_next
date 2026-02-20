@@ -1,5 +1,7 @@
 import { Star, Shield } from 'lucide-react';
 import { useLingui } from '@lingui/react';
+import { format } from 'date-fns';
+import { uk, enUS } from 'date-fns/locale';
 import { Separator } from '@shared/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import { IRequestBuyer } from '@/entities/request/types/Request';
@@ -12,6 +14,13 @@ interface RequestSidebarProps {
 export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
+
+  if (!buyer) return null;
+
+  const dateLocale = i18n.locale === 'uk' ? uk : enUS;
+  const memberSinceFormatted = buyer.memberSince
+    ? format(new Date(buyer.memberSince), 'd MMMM yyyy', { locale: dateLocale })
+    : '';
 
   return (
     <div className="space-y-6 sticky top-24">
@@ -30,7 +39,7 @@ export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) =
               {buyer.isVerified && <Shield className="h-4 w-4 text-primary" />}
             </div>
             <p className="text-sm text-muted-foreground">
-              {t('request.sidebar.memberSince', { year: buyer.memberSince })}
+              {t('request.sidebar.memberSince', { date: memberSinceFormatted })}
             </p>
           </div>
         </div>
