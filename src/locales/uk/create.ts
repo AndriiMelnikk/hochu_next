@@ -211,4 +211,13 @@ export const messages: Messages = {
   'proposal.rejection.REQUEST_NOT_ACTIVE': 'Запит не активний',
   'proposal.rejection.OWN_REQUEST': 'Ви не можете залишати пропозиції до власного запиту',
   'proposal.rejection.ALREADY_PROPOSED': 'Ви вже залишили пропозицію до цього запиту',
+
+  // Create Request Auth/Role checks
+  'request.create.authRequired.title': 'Потрібна авторизація',
+  'request.create.authRequired.description': 'Для того, щоб створити запит, необхідно авторизуватись.',
+  'request.create.authRequired.login': 'Вхід',
+  'request.create.authRequired.register': 'Реєстрація',
+  'request.create.buyerProfileRequired.title': 'Потрібен профіль покупця',
+  'request.create.buyerProfileRequired.description': 'Для створення запиту вам необхідно мати профіль покупця.',
+  'request.create.buyerProfileRequired.button': 'Створити профіль покупця',
 };

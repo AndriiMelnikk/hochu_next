@@ -211,4 +211,13 @@ export const messages: Messages = {
   'proposal.rejection.REQUEST_NOT_ACTIVE': 'Request is not active',
   'proposal.rejection.OWN_REQUEST': 'You cannot make a proposal to your own request',
   'proposal.rejection.ALREADY_PROPOSED': 'You have already made a proposal for this request',
+
+  // Create Request Auth/Role checks
+  'request.create.authRequired.title': 'Authorization required',
+  'request.create.authRequired.description': 'To create a request, you must be logged in.',
+  'request.create.authRequired.login': 'Login',
+  'request.create.authRequired.register': 'Register',
+  'request.create.buyerProfileRequired.title': 'Buyer profile required',
+  'request.create.buyerProfileRequired.description': 'To create a request, you need a buyer profile.',
+  'request.create.buyerProfileRequired.button': 'Create Buyer Profile',
 };

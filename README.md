@@ -82,4 +82,5 @@ npm run lint
 
 ## Додаткова інформація
 
-Детальний опис архітектури дивіться в `docs/ARCHITECTURE.md`.
+- Детальний опис архітектури: `docs/ARCHITECTURE.md`
+- Інструкція з пагінації: `docs/PAGINATION.md`

@@ -17,10 +17,10 @@ export const ProposalList = ({ requestId, onImageClick }: ProposalListProps) => 
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
-  const paginationOptions = useMemo(() => ({ pageSize: 10 }), []);
+  const paginationOptions = useMemo(() => ({ pageSize: 100 }), []);
   const { page, pageSize, setPage } = useQueryPagination<Record<string, never>>(paginationOptions);
 
-  const { data, isLoading, error } = useProposals(requestId, { page, pageSize: 100 });
+  const { data, isLoading, error } = useProposals(requestId, { page, pageSize });
 
   if (isLoading) {
     return (
