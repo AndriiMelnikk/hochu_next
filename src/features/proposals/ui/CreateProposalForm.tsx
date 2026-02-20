@@ -21,11 +21,12 @@ import type { z } from 'zod';
 interface CreateProposalFormProps {
   budget: string;
   requestId: string;
+  onSuccess?: () => void;
 }
 
 type CreateProposalFormValues = z.infer<typeof createProposalSchema>;
 
-export const CreateProposalForm = ({ budget, requestId }: CreateProposalFormProps) => {
+export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreateProposalFormProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
@@ -34,7 +35,7 @@ export const CreateProposalForm = ({ budget, requestId }: CreateProposalFormProp
   const form = useForm<CreateProposalFormValues>({
     resolver: zodResolver(createProposalSchema),
     defaultValues: {
-      price: 0,
+      price: undefined,
       title: '',
       description: '',
       estimatedTime: '',
@@ -56,6 +57,7 @@ export const CreateProposalForm = ({ budget, requestId }: CreateProposalFormProp
       });
       toast.success(t('proposal.create.success'));
       form.reset();
+      onSuccess?.();
     } catch (error) {
       toast.error(error?.response?.data?.error?.message || t('proposal.create.error'));
     }
@@ -115,7 +117,10 @@ export const CreateProposalForm = ({ budget, requestId }: CreateProposalFormProp
                         placeholder={t('proposal.create.budgetPlaceholder', { budget })}
                         className="text-base"
                         {...field}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        value={field.value ?? ''}
+                        onChange={(e) =>
+                          field.onChange(e.target.value === '' ? undefined : Number(e.target.value))
+                        }
                       />
                     </FormControl>
                     <FormMessage />

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useLingui } from '@lingui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
@@ -18,6 +19,7 @@ import { Breadcrumbs } from '@shared/ui/breadcrumbs';
 export default function RequestDetailContent({ id }: { id: string }) {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
+  const queryClient = useQueryClient();
 
   const { data: request, isLoading, error } = useRequest(id);
   const { data: canProposeData } = useCanPropose(request?._id);
@@ -43,6 +45,13 @@ export default function RequestDetailContent({ id }: { id: string }) {
     setActiveLightboxImages(images);
     setLightboxIndex(index);
     setLightboxOpen(true);
+  };
+
+  const handleProposalSuccess = () => {
+    if (request?._id) {
+      queryClient.invalidateQueries({ queryKey: ['proposals', 'canPropose', request._id] });
+      queryClient.invalidateQueries({ queryKey: ['proposals', 'list', request._id] });
+    }
   };
 
   if (isLoading) {
@@ -89,7 +98,11 @@ export default function RequestDetailContent({ id }: { id: string }) {
               />
 
               {canProposeData?.canPropose && (
-                <CreateProposalForm budget={budget} requestId={request._id} />
+                <CreateProposalForm
+                  budget={budget}
+                  requestId={request._id}
+                  onSuccess={handleProposalSuccess}
+                />
               )}
 
               {/* Tabs for Proposals and Discussion */}

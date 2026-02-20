@@ -5,6 +5,7 @@ import { useLingui } from '@lingui/react';
 import { Button } from '@shared/ui/button';
 import { Badge } from '@shared/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
+import Image from 'next/image';
 import {
   Carousel,
   CarouselContent,
@@ -77,7 +78,9 @@ export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
           </div>
 
           <h4 className="font-semibold mb-2">{proposal.title}</h4>
-          <p className="text-sm text-muted-foreground mb-4">{proposal.description}</p>
+          <p className="text-sm text-muted-foreground mb-4 whitespace-pre-line">
+            {proposal.description}
+          </p>
 
           <div className="flex flex-wrap gap-4 text-sm mb-4">
             <span className="flex items-center gap-1">
@@ -105,11 +108,7 @@ export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
                         className="aspect-video rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer group"
                         onClick={() => onImageClick(proposal.images, index)}
                       >
-                        <img
-                          src={image}
-                          alt={`Фото ${index + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                        />
+                        <Image width={100} height={100} src={image} alt={`Фото ${index + 1}`} />
                       </div>
                     </CarouselItem>
                   ))}
