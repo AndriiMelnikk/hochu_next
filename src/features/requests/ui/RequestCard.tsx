@@ -3,6 +3,7 @@ import { Badge } from '@shared/ui/badge';
 import { Clock, DollarSign, MapPin } from 'lucide-react';
 import { routes } from '@/app/router/routes';
 import { IRequest } from '@entities/request';
+import { useLingui } from '@lingui/react';
 
 interface RequestCardProps {
   request: IRequest;
@@ -10,6 +11,21 @@ interface RequestCardProps {
 }
 
 export const RequestCard = ({ request, categoryName }: RequestCardProps) => {
+  const { i18n } = useLingui();
+  const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
+
+  const min = request.budgetMin || 0;
+  const max = request.budgetMax || 0;
+
+  let budget = t('request.detail.budgetNotSpecified');
+  if (min > 0 && max > 0) {
+    budget = `${min}-${max} грн`;
+  } else if (min > 0) {
+    budget = t('request.budget.from', { amount: min });
+  } else if (max > 0) {
+    budget = t('request.budget.to', { amount: max });
+  }
+
   return (
     <Link href={`${routes.REQUEST_ID(request._id.toString())}`} className="group">
       <div className="bg-card rounded-2xl p-6 shadow-md border border-border hover:shadow-lg hover:shadow-blue/20 transition-all h-full flex flex-col">
@@ -32,9 +48,7 @@ export const RequestCard = ({ request, categoryName }: RequestCardProps) => {
         <div className="space-y-2 text-sm">
           <div className="flex items-center text-muted-foreground">
             <DollarSign className="h-4 w-4 mr-2 text-primary" />
-            <span className="font-medium text-foreground">
-              {request.budgetMin}-{request.budgetMax} грн
-            </span>
+            <span className="font-medium text-foreground">{budget}</span>
           </div>
 
           <div className="flex items-center text-muted-foreground">

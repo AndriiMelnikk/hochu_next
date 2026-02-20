@@ -30,10 +30,18 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
-  const budget =
-    request.budgetMin && request.budgetMax
-      ? `${request.budgetMin}-${request.budgetMax} грн`
-      : t('request.detail.budgetNotSpecified');
+  const min = request.budgetMin || 0;
+  const max = request.budgetMax || 0;
+
+  let budget = t('request.detail.budgetNotSpecified');
+
+  if (min > 0 && max > 0) {
+    budget = `${min}-${max} грн`;
+  } else if (min > 0) {
+    budget = t('request.budget.from', { amount: min });
+  } else if (max > 0) {
+    budget = t('request.budget.to', { amount: max });
+  }
   const timeAgo = request.createdAt ? formatTimeAgo(request.createdAt) : '';
 
   const urgencyLabel =

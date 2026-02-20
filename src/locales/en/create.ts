@@ -74,6 +74,8 @@ export const messages: Messages = {
     'Ask questions publicly. The request author and other sellers can reply.',
   'request.detail.loadingError': 'Error loading request',
   'request.detail.unknownUser': 'Unknown user',
+  'request.budget.from': 'from {amount} UAH',
+  'request.budget.to': 'up to {amount} UAH',
   'request.detail.budgetNotSpecified': 'Not specified',
   'request.detail.views': 'views',
   'request.detail.proposals': 'proposals',

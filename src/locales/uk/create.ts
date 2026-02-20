@@ -73,6 +73,8 @@ export const messages: Messages = {
     'Задавайте питання публічно. Автор запиту та інші виконавці можуть відповісти.',
   'request.detail.loadingError': 'Помилка завантаження запиту',
   'request.detail.unknownUser': 'Невідомий користувач',
+  'request.budget.from': 'від {amount} грн',
+  'request.budget.to': 'до {amount} грн',
   'request.detail.budgetNotSpecified': 'Не вказано',
   'request.detail.views': 'переглядів',
   'request.detail.proposals': 'пропозицій',
