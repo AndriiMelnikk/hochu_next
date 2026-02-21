@@ -90,6 +90,32 @@ export const messages: Messages = {
   'request.detail.proposalsLoadError': 'Failed to load proposals. Please try again later.',
   'request.detail.proposalsEmpty': 'No proposals yet.',
 
+  // Request status
+  'request.status.completed': 'Completed',
+  'request.status.cancelled': 'Cancelled',
+  'request.status.active': 'Active',
+  'request.status.pending': 'Pending',
+  'request.status.closed': 'Closed',
+  'request.status.rejected': 'Rejected',
+
+  // Request actions
+  'request.actions.menu': 'Select action',
+  'request.actions.edit': 'Edit',
+  'request.actions.cancel': 'Cancel order',
+  'request.actions.confirm': 'Confirm completion',
+  'request.actions.cancelSuccess': 'Order cancelled',
+  'request.actions.cancelError': 'Failed to cancel order',
+  'request.actions.confirmSuccess': 'Order confirmed as completed',
+  'request.actions.confirmError': 'Failed to confirm order',
+
+  // Request edit
+  'request.edit.title': 'Edit order',
+  'request.edit.submit': 'Save changes',
+  'request.edit.submitting': 'Saving...',
+  'request.edit.cancel': 'Cancel',
+  'request.edit.success': 'Order updated!',
+  'request.edit.error': 'Failed to update order',
+
   // Request sidebar
   'request.sidebar.buyer': 'Buyer',
   'request.sidebar.memberSince': 'Member since {date}',
@@ -162,7 +188,21 @@ export const messages: Messages = {
   'proposal.item.delivery': 'Delivery:',
   'proposal.item.warranty': 'Warranty:',
   'proposal.item.photos': 'Photos for proposal:',
-  'proposal.item.writeButton': 'Message',
+  'proposal.item.contactSellerButton': 'Contact seller',
+  'proposal.item.selectSellerButton': 'Select seller',
+  'proposal.item.editButton': 'Edit',
+  'proposal.item.cancelButton': 'Cancel proposal',
+  'proposal.edit.title': 'Edit proposal',
+  'proposal.edit.submit': 'Save changes',
+  'proposal.edit.submitting': 'Saving...',
+  'proposal.edit.cancel': 'Cancel',
+  'proposal.edit.success': 'Proposal updated!',
+  'proposal.edit.error': 'Failed to update proposal',
+  'proposal.cancel.success': 'Proposal cancelled',
+  'proposal.cancel.error': 'Failed to cancel proposal',
+  'proposal.cancel.confirmTitle': 'Cancel proposal?',
+  'proposal.cancel.confirmDescription':
+    'Are you sure you want to cancel your proposal? This action cannot be undone.',
 
   // Discussions
   'discussion.role.buyer': 'Buyer',
@@ -206,6 +246,11 @@ export const messages: Messages = {
   'auth.register.form.error': 'An error occurred during registration',
   'auth.register.form.invalidData': 'Invalid data',
   'request.detail.cannotPropose': 'Cannot create proposal',
+  'request.detail.proposalAuthRequired.title': 'Cannot make proposals',
+  'request.detail.proposalAuthRequired.description':
+    'To submit proposals to requests, you need to register or log in as a seller.',
+  'request.detail.proposalAuthRequired.login': 'Log in',
+  'request.detail.proposalAuthRequired.register': 'Register',
   'proposal.rejection.USER_BLOCKED': 'You are blocked by this user',
   'proposal.rejection.REQUEST_NOT_FOUND': 'Request not found',
   'proposal.rejection.REQUEST_NOT_ACTIVE': 'Request is not active',
@@ -218,6 +263,7 @@ export const messages: Messages = {
   'request.create.authRequired.login': 'Login',
   'request.create.authRequired.register': 'Register',
   'request.create.buyerProfileRequired.title': 'Buyer profile required',
-  'request.create.buyerProfileRequired.description': 'To create a request, you need a buyer profile.',
+  'request.create.buyerProfileRequired.description':
+    'To create a request, you need a buyer profile.',
   'request.create.buyerProfileRequired.button': 'Create Buyer Profile',
 };

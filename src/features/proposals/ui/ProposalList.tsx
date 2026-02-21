@@ -11,9 +11,18 @@ import { useMemo } from 'react';
 interface ProposalListProps {
   requestId: string;
   onImageClick: (images: string[], index: number) => void;
+  isOwner: boolean;
+  currentUserId?: string;
+  onProposalSuccess?: () => void;
 }
 
-export const ProposalList = ({ requestId, onImageClick }: ProposalListProps) => {
+export const ProposalList = ({
+  requestId,
+  onImageClick,
+  isOwner,
+  currentUserId,
+  onProposalSuccess,
+}: ProposalListProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
@@ -58,6 +67,9 @@ export const ProposalList = ({ requestId, onImageClick }: ProposalListProps) => 
           key={proposal._id}
           proposal={proposal as IProposalWithSeller}
           onImageClick={onImageClick}
+          isOwner={isOwner}
+          isProposalOwner={currentUserId != null && proposal.sellerId === currentUserId}
+          onProposalSuccess={onProposalSuccess}
         />
       ))}
       {totalPages > 1 && (

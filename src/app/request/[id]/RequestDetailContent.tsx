@@ -7,7 +7,8 @@ import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
 import { useRequest } from '@/entities/request';
-import { useCanPropose, ProposalRejectionReason } from '@/entities/proposal';
+import { useMe } from '@/entities/user/hooks/useUser';
+import { useCanPropose } from '@/entities/proposal';
 import { RequestInfo, RequestSidebar } from '@/features/requests';
 import { CreateProposalForm, ProposalList } from '@/features/proposals';
 import { DiscussionForm, DiscussionList } from '@/features/discussions';
@@ -16,7 +17,10 @@ import { Error } from '@shared/ui/error';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 import { Breadcrumbs } from '@shared/ui/breadcrumbs';
 import { Alert, AlertDescription, AlertTitle } from '@shared/ui/alert';
-import { Ban } from 'lucide-react';
+import { Button } from '@shared/ui/button';
+import { Ban, LogIn, UserPlus } from 'lucide-react';
+import Link from 'next/link';
+import { routes } from '@/app/router/routes';
 
 export default function RequestDetailContent({ id }: { id: string }) {
   const { i18n } = useLingui();
@@ -25,6 +29,9 @@ export default function RequestDetailContent({ id }: { id: string }) {
 
   const { data: request, isLoading, error } = useRequest(id);
   const { data: canProposeData } = useCanPropose(request?._id);
+  const { data: user } = useMe();
+
+  const isOwner = !!request && !!user && request.buyerId?._id === user.profile?._id;
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -97,6 +104,10 @@ export default function RequestDetailContent({ id }: { id: string }) {
                 request={request}
                 onImageClick={handleImageClick}
                 formatTimeAgo={formatTimeAgo}
+                isOwner={isOwner}
+                onActionSuccess={() => {
+                  queryClient.invalidateQueries({ queryKey: ['requests', request._id] });
+                }}
               />
 
               {canProposeData?.canPropose && (
@@ -108,11 +119,35 @@ export default function RequestDetailContent({ id }: { id: string }) {
               )}
 
               {!canProposeData?.canPropose && canProposeData?.reason && (
-                <Alert variant="destructive">
+                <Alert variant="amber">
                   <Ban className="h-4 w-4" />
                   <AlertTitle>{t('request.detail.cannotPropose')}</AlertTitle>
                   <AlertDescription>
                     {t(`proposal.rejection.${canProposeData.reason}`)}
+                  </AlertDescription>
+                </Alert>
+              )}
+
+              {!user && (
+                <Alert variant="amber">
+                  <UserPlus className="h-4 w-4 text-amber-600" />
+                  <AlertTitle>{t('request.detail.proposalAuthRequired.title')}</AlertTitle>
+                  <AlertDescription className="flex flex-col gap-3">
+                    <span>{t('request.detail.proposalAuthRequired.description')}</span>
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <Link href={routes.REGISTER}>
+                        <Button size="sm" className="gap-1.5">
+                          <UserPlus className="h-3.5 w-3.5" />
+                          {t('request.detail.proposalAuthRequired.register')}
+                        </Button>
+                      </Link>
+                      <Link href={routes.LOGIN}>
+                        <Button size="sm" variant="outline" className="gap-1.5">
+                          <LogIn className="h-3.5 w-3.5" />
+                          {t('request.detail.proposalAuthRequired.login')}
+                        </Button>
+                      </Link>
+                    </div>
                   </AlertDescription>
                 </Alert>
               )}
@@ -144,7 +179,13 @@ export default function RequestDetailContent({ id }: { id: string }) {
 
                 {/* Received Proposals Tab */}
                 <TabsContent value="proposals" className="p-6 mt-0">
-                  <ProposalList requestId={request._id} onImageClick={handleImageClick} />
+                  <ProposalList
+                    requestId={request._id}
+                    onImageClick={handleImageClick}
+                    isOwner={isOwner}
+                    currentUserId={user?.profile?._id}
+                    onProposalSuccess={handleProposalSuccess}
+                  />
                 </TabsContent>
 
                 {/* Public Discussion Tab */}

@@ -11,3 +11,21 @@ export const REQUEST_URGENCY_LABELS = {
   [REQUEST_URGENCY.DAYS]: 'request.create.urgencyDays',
   [REQUEST_URGENCY.URGENT]: 'request.create.urgencyUrgent',
 } as const;
+
+export const REQUEST_STATUS_BADGE_VARIANT = {
+  pending: 'secondary',
+  active: 'default',
+  closed: 'outline',
+  completed: 'success',
+  cancelled: 'destructive',
+  rejected: 'destructive',
+} as const;
+
+export const REQUEST_STATUS_LABELS = {
+  pending: 'request.status.pending',
+  active: 'request.status.active',
+  closed: 'request.status.closed',
+  completed: 'request.status.completed',
+  cancelled: 'request.status.cancelled',
+  rejected: 'request.status.rejected',
+} as const;

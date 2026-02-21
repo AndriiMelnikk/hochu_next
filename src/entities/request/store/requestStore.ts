@@ -5,6 +5,7 @@ import { IRequest } from '../types/Request';
 import { IGetRequestsResponse } from '../types/responses/GetRequests';
 import { ICreateRequestRequest } from '../types/requests/CreateRequest';
 import { IGetRequestsRequest } from '../types/requests/GetRequests';
+import { IUpdateRequestRequest } from '../types/requests/UpdateRequest';
 
 interface RequestState {
   requests: IGetRequestsResponse | null;
@@ -12,11 +13,14 @@ interface RequestState {
   error: string | null;
   creating: boolean;
   createError: string | null;
+  updating: boolean;
+  updateError: string | null;
 }
 
 interface RequestActions {
   fetchRequests: (params?: IGetRequestsRequest) => Promise<void>;
   createRequest: (data: ICreateRequestRequest) => Promise<IRequest>;
+  updateRequest: (id: string, data: IUpdateRequestRequest) => Promise<IRequest>;
 }
 
 export const useRequestStore = create<RequestState & RequestActions>()(
@@ -26,6 +30,8 @@ export const useRequestStore = create<RequestState & RequestActions>()(
     error: null,
     creating: false,
     createError: null,
+    updating: false,
+    updateError: null,
     fetchRequests: async (params) => {
       set((state) => {
         state.loading = true;
@@ -59,6 +65,25 @@ export const useRequestStore = create<RequestState & RequestActions>()(
         set((state) => {
           state.creating = false;
           state.createError = error.response?.data?.message || 'Failed to create request';
+        });
+        throw error;
+      }
+    },
+    updateRequest: async (id, data) => {
+      set((state) => {
+        state.updating = true;
+        state.updateError = null;
+      });
+      try {
+        const updated = await requestService.update(id, data);
+        set((state) => {
+          state.updating = false;
+        });
+        return updated;
+      } catch (error) {
+        set((state) => {
+          state.updating = false;
+          state.updateError = error.response?.data?.message || 'Failed to update request';
         });
         throw error;
       }

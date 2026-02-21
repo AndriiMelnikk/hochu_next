@@ -1,7 +1,9 @@
 'use client';
 
-import { Star, Clock, Shield, MessageSquare } from 'lucide-react';
+import { useState } from 'react';
+import { Star, Clock, Shield, MessageSquare, CheckCircle2, Pencil, XCircle } from 'lucide-react';
 import { useLingui } from '@lingui/react';
+import { toast } from 'sonner';
 import { Button } from '@shared/ui/button';
 import { Badge } from '@shared/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
@@ -14,21 +16,58 @@ import {
   CarouselPrevious,
 } from '@shared/ui/carousel';
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@shared/ui/alert-dialog';
+import {
   type IProposalWithSeller,
   PROPOSAL_DELIVERY_TIME_LABELS,
   PROPOSAL_WARRANTY_LABELS,
   PROPOSAL_DELIVERY_TIME,
   PROPOSAL_WARRANTY,
 } from '@/entities/proposal';
+import { useCancelProposal } from '@/entities/proposal/hooks/useCancelProposal';
+import { EditProposalModal } from './EditProposalModal';
 
 interface ProposalItemProps {
   proposal: IProposalWithSeller;
   onImageClick: (images: string[], index: number) => void;
+  isOwner: boolean;
+  isProposalOwner?: boolean;
+  onProposalSuccess?: () => void;
 }
 
-export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
+export const ProposalItem = ({
+  proposal,
+  onImageClick,
+  isOwner,
+  isProposalOwner = false,
+  onProposalSuccess,
+}: ProposalItemProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+  const { mutateAsync: cancelProposal, isPending: isCancelling } = useCancelProposal(
+    proposal.requestId,
+  );
+
+  const handleCancelProposal = async () => {
+    try {
+      await cancelProposal(proposal._id);
+      toast.success(t('proposal.cancel.success'));
+      setCancelDialogOpen(false);
+      onProposalSuccess?.();
+    } catch {
+      toast.error(t('proposal.cancel.error'));
+    }
+  };
 
   const seller = proposal.seller;
   const displayName = seller?.name;
@@ -149,12 +188,71 @@ export const ProposalItem = ({ proposal, onImageClick }: ProposalItemProps) => {
             </div>
           )}
 
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              <MessageSquare className="h-4 w-4 mr-2" />
-              {t('proposal.item.writeButton')}
-            </Button>
+          <div className="flex flex-wrap gap-2">
+            {isOwner && (
+              <>
+                <Button variant="outline" size="sm">
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  {t('proposal.item.contactSellerButton')}
+                </Button>
+                <Button variant="gradient" size="sm">
+                  <CheckCircle2 className="h-4 w-4 mr-2" />
+                  {t('proposal.item.selectSellerButton')}
+                </Button>
+              </>
+            )}
+            {isProposalOwner && (
+              <>
+                <Button variant="outline" size="sm" onClick={() => setEditModalOpen(true)}>
+                  <Pencil className="h-4 w-4 mr-2" />
+                  {t('proposal.item.editButton')}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-destructive hover:text-destructive"
+                  onClick={() => setCancelDialogOpen(true)}
+                  disabled={isCancelling}
+                >
+                  <XCircle className="h-4 w-4 mr-2" />
+                  {t('proposal.item.cancelButton')}
+                </Button>
+                <AlertDialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>{t('proposal.cancel.confirmTitle')}</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {t('proposal.cancel.confirmDescription')}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>{t('proposal.edit.cancel')}</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleCancelProposal();
+                        }}
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                      >
+                        {isCancelling ? t('proposal.edit.submitting') : t('proposal.item.cancelButton')}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
+            )}
           </div>
+
+          {isProposalOwner && (
+            <EditProposalModal
+              proposal={proposal}
+              open={editModalOpen}
+              onOpenChange={setEditModalOpen}
+              onSuccess={() => {
+                onProposalSuccess?.();
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

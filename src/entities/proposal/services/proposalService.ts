@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import { api } from '@shared/api/api';
 import { ENDPOINTS } from '@shared/api/endpoints';
 import type { ICreateProposalRequest } from '../types/requests/CreateProposal';
+import type { IUpdateProposalRequest } from '../types/requests/UpdateProposal';
 import type { IGetProposalsRequest } from '../types/requests/GetProposals';
 import type { IGetProposalsResponse } from '../types/responses/GetProposals';
 import type { ICanProposeResponse } from '../types/responses/CanPropose';
@@ -70,6 +71,21 @@ class ProposalService {
     config?: AxiosRequestConfig,
   ): Promise<IProposalWithSeller> {
     return (await api.post(`/api/proposals/requests/${requestId}`, data, config)).data;
+  }
+
+  async update(
+    proposalId: string | number,
+    data: IUpdateProposalRequest,
+    config?: AxiosRequestConfig,
+  ): Promise<IProposalWithSeller> {
+    const url = ENDPOINTS.PROPOSALS.BY_ID(proposalId);
+    const raw = (await api.patch(url, data, config)).data;
+    return normalizeProposalItem(raw);
+  }
+
+  async cancel(proposalId: string | number, config?: AxiosRequestConfig): Promise<void> {
+    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/cancel`;
+    await api.post(url, {}, config);
   }
 }
 

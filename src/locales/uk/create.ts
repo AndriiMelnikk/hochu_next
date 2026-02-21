@@ -89,6 +89,32 @@ export const messages: Messages = {
   'request.detail.proposalsLoadError': 'Не вдалося завантажити пропозиції. Спробуйте пізніше.',
   'request.detail.proposalsEmpty': 'Пропозицій поки немає.',
 
+  // Request status
+  'request.status.active': 'Активний',
+  'request.status.pending': 'Очікує',
+  'request.status.closed': 'Закрито',
+  'request.status.completed': 'Виконано',
+  'request.status.cancelled': 'Скасовано',
+  'request.status.rejected': 'Відхилено',
+
+  // Request actions
+  'request.actions.menu': 'Обрати дію',
+  'request.actions.edit': 'Редагувати',
+  'request.actions.cancel': 'Скасувати замовлення',
+  'request.actions.confirm': 'Підтвердити виконання',
+  'request.actions.cancelSuccess': 'Замовлення скасовано',
+  'request.actions.cancelError': 'Не вдалося скасувати замовлення',
+  'request.actions.confirmSuccess': 'Замовлення підтверджено як виконане',
+  'request.actions.confirmError': 'Не вдалося підтвердити замовлення',
+
+  // Request edit
+  'request.edit.title': 'Редагувати замовлення',
+  'request.edit.submit': 'Зберегти зміни',
+  'request.edit.submitting': 'Зберігаємо...',
+  'request.edit.cancel': 'Скасувати',
+  'request.edit.success': 'Замовлення оновлено!',
+  'request.edit.error': 'Не вдалося оновити замовлення',
+
   // Request sidebar
   'request.sidebar.buyer': 'Замовник',
   'request.sidebar.memberSince': 'На платформі з {date} року',
@@ -162,7 +188,20 @@ export const messages: Messages = {
   'proposal.item.delivery': 'Виконання:',
   'proposal.item.warranty': 'Гарантія:',
   'proposal.item.photos': 'Фотографії до пропозиції:',
-  'proposal.item.writeButton': 'Написати',
+  'proposal.item.contactSellerButton': "Зв'язатися з виконавцем",
+  'proposal.item.selectSellerButton': 'Вибрати виконавця',
+  'proposal.item.editButton': 'Редагувати',
+  'proposal.item.cancelButton': 'Скасувати пропозицію',
+  'proposal.edit.title': 'Редагувати пропозицію',
+  'proposal.edit.submit': 'Зберегти зміни',
+  'proposal.edit.submitting': 'Зберігаємо...',
+  'proposal.edit.cancel': 'Скасувати',
+  'proposal.edit.success': 'Пропозицію оновлено!',
+  'proposal.edit.error': 'Не вдалося оновити пропозицію',
+  'proposal.cancel.success': 'Пропозицію скасовано',
+  'proposal.cancel.error': 'Не вдалося скасувати пропозицію',
+  'proposal.cancel.confirmTitle': 'Скасувати пропозицію?',
+  'proposal.cancel.confirmDescription': 'Ви впевнені, що хочете скасувати свою пропозицію? Цю дію неможливо відмінити.',
 
   // Discussions
   'discussion.role.buyer': 'Замовник',
@@ -186,12 +225,12 @@ export const messages: Messages = {
   'auth.register.benefit1.description': 'Публікуйте запити без оплати',
   'auth.register.benefit2.title': 'Геймифікація',
   'auth.register.benefit2.description': 'Досягнення та бонуси за активність',
-  'auth.register.benefit3.title': 'Прямий зв\'язок',
+  'auth.register.benefit3.title': "Прямий зв'язок",
   'auth.register.benefit3.description': 'Спілкуйтесь з виконавцями напряму',
 
   // Register Form
-  'auth.register.form.nameLabel': 'Ім\'я',
-  'auth.register.form.namePlaceholder': 'Ваше ім\'я',
+  'auth.register.form.nameLabel': "Ім'я",
+  'auth.register.form.namePlaceholder': "Ваше ім'я",
   'auth.register.form.emailLabel': 'Email',
   'auth.register.form.emailPlaceholder': 'your@email.com',
   'auth.register.form.passwordLabel': 'Пароль',
@@ -206,6 +245,11 @@ export const messages: Messages = {
   'auth.register.form.error': 'Сталася помилка при реєстрації',
   'auth.register.form.invalidData': 'Невалідні дані',
   'request.detail.cannotPropose': 'Неможливо створити пропозицію',
+  'request.detail.proposalAuthRequired.title': 'Не можна робити пропозиції',
+  'request.detail.proposalAuthRequired.description':
+    'Щоб залишати пропозиції до запитів, потрібно зареєструватися або увійти як виконавець (продавець).',
+  'request.detail.proposalAuthRequired.login': 'Увійти',
+  'request.detail.proposalAuthRequired.register': 'Зареєструватися',
   'proposal.rejection.USER_BLOCKED': 'Ви заблоковані цим користувачем',
   'proposal.rejection.REQUEST_NOT_FOUND': 'Запит не знайдено',
   'proposal.rejection.REQUEST_NOT_ACTIVE': 'Запит не активний',
@@ -214,10 +258,12 @@ export const messages: Messages = {
 
   // Create Request Auth/Role checks
   'request.create.authRequired.title': 'Потрібна авторизація',
-  'request.create.authRequired.description': 'Для того, щоб створити запит, необхідно авторизуватись.',
+  'request.create.authRequired.description':
+    'Для того, щоб створити запит, необхідно авторизуватись.',
   'request.create.authRequired.login': 'Вхід',
   'request.create.authRequired.register': 'Реєстрація',
   'request.create.buyerProfileRequired.title': 'Потрібен профіль покупця',
-  'request.create.buyerProfileRequired.description': 'Для створення запиту вам необхідно мати профіль покупця.',
+  'request.create.buyerProfileRequired.description':
+    'Для створення запиту вам необхідно мати профіль покупця.',
   'request.create.buyerProfileRequired.button': 'Створити профіль покупця',
 };

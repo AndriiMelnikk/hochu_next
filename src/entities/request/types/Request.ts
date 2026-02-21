@@ -17,9 +17,6 @@ export enum ItemCondition {
 
 export interface IRequestBuyer {
   _id: string;
-  accountId: {
-    _id: string;
-  };
   rating: number;
   memberSince: string;
   completedDeals: number;

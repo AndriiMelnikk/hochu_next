@@ -57,3 +57,21 @@ export const createRequestSchema = z.object({
   itemCondition: z.nativeEnum(ItemCondition),
   images: z.array(z.string()).optional(),
 });
+
+export const updateRequestSchema = z.object({
+  title: z.string().min(1, "Заголовок обов'язковий"),
+  description: z.string().min(10, 'Опис має бути мінімум 10 символів'),
+  category: z.string().min(1, "Категорія обов'язкова"),
+  budgetMin: z.union([
+    z.coerce.number().min(0, 'Мінімальний бюджет має бути більше 0'),
+    z.undefined(),
+  ]),
+  budgetMax: z.union([
+    z.coerce.number().min(0, 'Максимальний бюджет має бути більше 0'),
+    z.undefined(),
+  ]),
+  location: z.string().min(1, "Локація обов'язкова"),
+  urgency: z.coerce.number(),
+  itemCondition: z.nativeEnum(ItemCondition),
+  images: z.array(z.string()).optional(),
+});

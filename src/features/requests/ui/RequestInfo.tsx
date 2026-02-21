@@ -1,13 +1,46 @@
-import { Clock, Eye, MessageSquare, DollarSign, MapPin, Calendar, Package } from 'lucide-react';
+'use client';
+
+import { useState } from 'react';
+import {
+  Clock,
+  Eye,
+  MessageSquare,
+  DollarSign,
+  MapPin,
+  Calendar,
+  Package,
+  Pencil,
+  XCircle,
+  CheckCircle2,
+  ChevronDown,
+} from 'lucide-react';
 import { useLingui } from '@lingui/react';
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { Badge } from '@shared/ui/badge';
 import { Separator } from '@shared/ui/separator';
-import { IRequest, REQUEST_URGENCY_LABELS } from '@/entities/request';
+import { Button } from '@/shared/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/shared/ui/dropdown-menu';
+import {
+  IRequest,
+  REQUEST_STATUS_BADGE_VARIANT,
+  REQUEST_STATUS_LABELS,
+  REQUEST_URGENCY_LABELS,
+  RequestStatus,
+  useRequestStore,
+} from '@/entities/request';
+import { EditRequestModal } from './EditRequestModal';
 import Image from 'next/image';
 
 interface RequestInfoProps {
   request: Pick<
     IRequest,
+    | '_id'
     | 'title'
     | 'category'
     | 'description'
@@ -21,14 +54,57 @@ interface RequestInfoProps {
     | 'itemCondition'
     | 'edits'
     | 'images'
-  >;
+    | 'status'
+  > & { buyerId?: IRequest['buyerId']; images?: string[] };
   onImageClick: (images: string[], index: number) => void;
   formatTimeAgo: (date: string) => string;
+  isOwner?: boolean;
+  onActionSuccess?: () => void;
 }
 
-export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInfoProps) => {
+export const RequestInfo = ({
+  request,
+  onImageClick,
+  formatTimeAgo,
+  isOwner = false,
+  onActionSuccess,
+}: RequestInfoProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
+  const queryClient = useQueryClient();
+  const { updateRequest, updating } = useRequestStore();
+  const [editModalOpen, setEditModalOpen] = useState(false);
+
+  const handleActionSuccess = () => {
+    if (request._id) {
+      queryClient.invalidateQueries({ queryKey: ['requests', request._id] });
+    }
+    onActionSuccess?.();
+  };
+
+  const handleCancelRequest = async () => {
+    if (!request._id) return;
+    try {
+      await updateRequest(request._id, { status: RequestStatus.CANCELLED });
+      toast.success(t('request.actions.cancelSuccess'));
+      handleActionSuccess();
+    } catch {
+      toast.error(t('request.actions.cancelError'));
+    }
+  };
+
+  const handleConfirmRequest = async () => {
+    if (!request._id) return;
+    try {
+      await updateRequest(request._id, { status: RequestStatus.COMPLETED });
+      toast.success(t('request.actions.confirmSuccess'));
+      handleActionSuccess();
+    } catch {
+      toast.error(t('request.actions.confirmError'));
+    }
+  };
+
+  const isCancelled = request.status === RequestStatus.CANCELLED;
 
   const min = request.budgetMin || 0;
   const max = request.budgetMax || 0;
@@ -51,14 +127,54 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
     <div className="space-y-6">
       {/* Request Header */}
       <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex-1">
+        <div className="flex items-start justify-between mb-4 gap-4">
+          <div className="flex-1 min-w-0">
+            <Badge
+              variant={
+                REQUEST_STATUS_BADGE_VARIANT[
+                  request.status as keyof typeof REQUEST_STATUS_BADGE_VARIANT
+                ] ?? 'secondary'
+              }
+              className="mb-3"
+            >
+              {t(REQUEST_STATUS_LABELS[request.status as keyof typeof REQUEST_STATUS_LABELS])}
+            </Badge>
             <Badge variant="secondary" className="bg-accent text-accent-foreground mb-3">
               {request.category.name}
             </Badge>
             <h1 className="text-3xl font-bold mb-3 text-card-foreground">{request.title}</h1>
           </div>
+          {isOwner && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" disabled={updating}>
+                  {t('request.actions.menu')}
+                  <ChevronDown className="h-4 w-4 ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="min-w-[200px]">
+                <DropdownMenuItem onClick={() => setEditModalOpen(true)} disabled={isCancelled}>
+                  <Pencil className="h-4 w-4 mr-2 text-primary" />
+                  {t('request.actions.edit')}
+                </DropdownMenuItem>
+
+                <DropdownMenuItem onClick={handleCancelRequest}>
+                  <XCircle className="h-4 w-4 mr-2 text-destructive" />
+                  {t('request.actions.cancel')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
+
+        {isOwner && (
+          <EditRequestModal
+            request={request as IRequest}
+            open={editModalOpen}
+            onOpenChange={setEditModalOpen}
+            onSuccess={handleActionSuccess}
+          />
+        )}
 
         <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
           <span className="flex items-center">
@@ -114,7 +230,6 @@ export const RequestInfo = ({ request, onImageClick, formatTimeAgo }: RequestInf
           </div>
         </div>
       </div>
-
       {/* Description */}
       <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
         <h2 className="text-xl font-semibold mb-4">{t('request.detail.description')}</h2>
