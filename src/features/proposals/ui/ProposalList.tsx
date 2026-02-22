@@ -7,6 +7,7 @@ import { Loading } from '@shared/ui/loading';
 import { useQueryPagination } from '@shared/hooks';
 import { UniversalPagination } from '@shared/ui/universal-pagination';
 import { useMemo } from 'react';
+import { RequestStatus } from '@/entities/request';
 
 interface ProposalListProps {
   requestId: string;
@@ -16,6 +17,7 @@ interface ProposalListProps {
   onProposalSuccess?: () => void;
   status?: ProposalStatus;
   type?: 'pending' | 'rejected';
+  requestStatus?: RequestStatus;
 }
 
 export const ProposalList = ({
@@ -26,6 +28,7 @@ export const ProposalList = ({
   onProposalSuccess,
   status,
   type,
+  requestStatus,
 }: ProposalListProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
@@ -75,6 +78,7 @@ export const ProposalList = ({
           isProposalOwner={currentUserId != null && proposal.sellerId === currentUserId}
           onProposalSuccess={onProposalSuccess}
           type={type}
+          requestStatus={requestStatus}
         />
       ))}
       {totalPages > 1 && (

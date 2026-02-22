@@ -184,6 +184,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
                     onProposalSuccess={handleProposalSuccess}
                     status={ProposalStatus.PENDING}
                     type={ProposalStatus.PENDING}
+                    requestStatus={request.status}
                   />
                 </TabsContent>
 

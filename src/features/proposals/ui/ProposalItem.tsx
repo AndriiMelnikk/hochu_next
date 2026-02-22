@@ -33,6 +33,7 @@ import {
 import { useCancelProposal } from '@/entities/proposal/hooks/useCancelProposal';
 import { useRejectProposal } from '@/entities/proposal/hooks/useRejectProposal';
 import { EditProposalModal } from './EditProposalModal';
+import { RequestStatus } from '@/entities/request';
 
 interface ProposalItemProps {
   proposal: IProposalWithSeller;
@@ -41,6 +42,7 @@ interface ProposalItemProps {
   isProposalOwner?: boolean;
   onProposalSuccess?: () => void;
   type?: 'pending' | 'rejected';
+  requestStatus?: RequestStatus;
 }
 
 export const ProposalItem = ({
@@ -50,6 +52,7 @@ export const ProposalItem = ({
   isProposalOwner = false,
   onProposalSuccess,
   type = 'pending',
+  requestStatus,
 }: ProposalItemProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
@@ -210,7 +213,7 @@ export const ProposalItem = ({
           )}
 
           <div className="flex flex-wrap gap-2">
-            {isOwner && type === 'pending' && (
+            {isOwner && type === 'pending' && requestStatus === RequestStatus.PENDING && (
               <>
                 <Button variant="outline" size="sm">
                   <MessageSquare className="h-4 w-4 mr-2" />

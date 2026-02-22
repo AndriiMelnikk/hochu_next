@@ -158,7 +158,7 @@ export const RequestInfo = ({
             </Badge>
             <h1 className="text-3xl font-bold mb-3 text-card-foreground">{request.title}</h1>
           </div>
-          {isOwner && (
+          {isOwner && request.status === RequestStatus.PENDING && (
             <>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
