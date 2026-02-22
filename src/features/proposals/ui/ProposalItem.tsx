@@ -29,8 +29,6 @@ import {
   type IProposalWithSeller,
   PROPOSAL_DELIVERY_TIME_LABELS,
   PROPOSAL_WARRANTY_LABELS,
-  PROPOSAL_DELIVERY_TIME,
-  PROPOSAL_WARRANTY,
 } from '@/entities/proposal';
 import { useCancelProposal } from '@/entities/proposal/hooks/useCancelProposal';
 import { EditProposalModal } from './EditProposalModal';
@@ -41,6 +39,7 @@ interface ProposalItemProps {
   isOwner: boolean;
   isProposalOwner?: boolean;
   onProposalSuccess?: () => void;
+  type?: 'pending' | 'rejected';
 }
 
 export const ProposalItem = ({
@@ -49,6 +48,7 @@ export const ProposalItem = ({
   isOwner,
   isProposalOwner = false,
   onProposalSuccess,
+  type = 'pending',
 }: ProposalItemProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
@@ -93,6 +93,11 @@ export const ProposalItem = ({
                   <Badge variant="secondary" className="text-xs">
                     <Star className="h-3 w-3 mr-1 fill-yellow-500 text-yellow-500" />
                     {displayRating}
+                  </Badge>
+                )}
+                {type === 'rejected' && (
+                  <Badge variant="destructive" className="text-xs">
+                    {t('proposal.item.rejectedBadge')}
                   </Badge>
                 )}
               </h3>
@@ -189,7 +194,7 @@ export const ProposalItem = ({
           )}
 
           <div className="flex flex-wrap gap-2">
-            {isOwner && (
+            {isOwner && type === 'pending' && (
               <>
                 <Button variant="outline" size="sm">
                   <MessageSquare className="h-4 w-4 mr-2" />
@@ -198,6 +203,10 @@ export const ProposalItem = ({
                 <Button variant="gradient" size="sm">
                   <CheckCircle2 className="h-4 w-4 mr-2" />
                   {t('proposal.item.selectSellerButton')}
+                </Button>
+                <Button variant="destructiveOutline" size="sm">
+                  <XCircle className="h-4 w-4 mr-2" />
+                  {t('proposal.item.rejectSellerButton')}
                 </Button>
               </>
             )}
@@ -234,7 +243,9 @@ export const ProposalItem = ({
                         }}
                         className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                       >
-                        {isCancelling ? t('proposal.edit.submitting') : t('proposal.item.cancelButton')}
+                        {isCancelling
+                          ? t('proposal.edit.submitting')
+                          : t('proposal.item.cancelButton')}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>

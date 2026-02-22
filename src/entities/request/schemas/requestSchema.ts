@@ -32,6 +32,8 @@ export const requestSchema = z.object({
   images: z.array(z.string()),
   views: z.number(),
   proposalsCount: z.number(),
+  rejectedProposalsCount: z.number(),
+  pendingProposalsCount: z.number(),
   status: z.nativeEnum(RequestStatus),
   edits: z.array(z.any()),
   createdAt: z.string(),

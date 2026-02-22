@@ -68,7 +68,7 @@ export const messages: Messages = {
   'request.detail.breadcrumbs': 'Запит #{id}',
   'request.detail.tabs.proposals': 'Активні пропозиції ({count})',
   'request.detail.tabs.discussion': 'Публічні обговорення',
-  'request.detail.tabs.rejected': 'Відхилені пропозиції',
+  'request.detail.tabs.rejected': 'Відхилені пропозиції ({count})',
   'request.detail.discussion.empty':
     'Задавайте питання публічно. Автор запиту та інші виконавці можуть відповісти.',
   'request.detail.loadingError': 'Помилка завантаження запиту',
@@ -188,8 +188,10 @@ export const messages: Messages = {
   'proposal.item.delivery': 'Виконання:',
   'proposal.item.warranty': 'Гарантія:',
   'proposal.item.photos': 'Фотографії до пропозиції:',
-  'proposal.item.contactSellerButton': "Зв'язатися з виконавцем",
-  'proposal.item.selectSellerButton': 'Вибрати виконавця',
+  'proposal.item.contactSellerButton': "Зв'язатися",
+  'proposal.item.selectSellerButton': 'Вибрати пропозицію',
+  'proposal.item.rejectSellerButton': 'Відхилити',
+  'proposal.item.rejectedBadge': 'Відхилено',
   'proposal.item.editButton': 'Редагувати',
   'proposal.item.cancelButton': 'Скасувати пропозицію',
   'proposal.edit.title': 'Редагувати пропозицію',
@@ -201,7 +203,8 @@ export const messages: Messages = {
   'proposal.cancel.success': 'Пропозицію скасовано',
   'proposal.cancel.error': 'Не вдалося скасувати пропозицію',
   'proposal.cancel.confirmTitle': 'Скасувати пропозицію?',
-  'proposal.cancel.confirmDescription': 'Ви впевнені, що хочете скасувати свою пропозицію? Цю дію неможливо відмінити.',
+  'proposal.cancel.confirmDescription':
+    'Ви впевнені, що хочете скасувати свою пропозицію? Цю дію неможливо відмінити.',
 
   // Discussions
   'discussion.role.buyer': 'Замовник',

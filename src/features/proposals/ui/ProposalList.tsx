@@ -2,7 +2,7 @@
 
 import { useLingui } from '@lingui/react';
 import { ProposalItem } from './ProposalItem';
-import { useProposals, type IProposalWithSeller } from '@/entities/proposal';
+import { useProposals, type IProposalWithSeller, type ProposalStatus } from '@/entities/proposal';
 import { Loading } from '@shared/ui/loading';
 import { useQueryPagination } from '@shared/hooks';
 import { UniversalPagination } from '@shared/ui/universal-pagination';
@@ -14,6 +14,8 @@ interface ProposalListProps {
   isOwner: boolean;
   currentUserId?: string;
   onProposalSuccess?: () => void;
+  status?: ProposalStatus;
+  type?: 'pending' | 'rejected';
 }
 
 export const ProposalList = ({
@@ -22,6 +24,8 @@ export const ProposalList = ({
   isOwner,
   currentUserId,
   onProposalSuccess,
+  status,
+  type,
 }: ProposalListProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
@@ -29,7 +33,7 @@ export const ProposalList = ({
   const paginationOptions = useMemo(() => ({ pageSize: 100 }), []);
   const { page, pageSize, setPage } = useQueryPagination<Record<string, never>>(paginationOptions);
 
-  const { data, isLoading, error } = useProposals(requestId, { page, pageSize });
+  const { data, isLoading, error } = useProposals(requestId, { page, pageSize, status });
 
   if (isLoading) {
     return (
@@ -70,6 +74,7 @@ export const ProposalList = ({
           isOwner={isOwner}
           isProposalOwner={currentUserId != null && proposal.sellerId === currentUserId}
           onProposalSuccess={onProposalSuccess}
+          type={type}
         />
       ))}
       {totalPages > 1 && (

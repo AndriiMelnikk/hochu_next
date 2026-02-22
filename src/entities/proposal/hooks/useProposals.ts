@@ -5,7 +5,7 @@ import type { IGetProposalsRequest } from '../types/requests/GetProposals';
 
 export const useProposals = (requestId?: string | number, params?: IGetProposalsRequest) => {
   return useQuery({
-    queryKey: ['proposals', 'list', requestId, params?.page, params?.pageSize],
+    queryKey: ['proposals', 'list', requestId, params?.status, params?.page, params?.pageSize],
     queryFn: async () => {
       if (requestId === undefined) throw new Error('requestId is required');
       const data = await proposalService.getByRequestId(requestId, params ?? {});

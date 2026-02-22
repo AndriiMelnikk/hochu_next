@@ -18,6 +18,7 @@ const buttonVariants = cva(
         gradient: 'bg-gradient-primary text-white',
         pill: 'rounded-full whitespace-nowrap flex-shrink-0',
         hero: 'bg-primary hover:bg-primary/90 shadow-red text-white',
+        destructiveOutline: 'border border-destructive text-destructive hover:bg-destructive/10',
       },
       size: {
         default: 'h-10 px-4 py-2',

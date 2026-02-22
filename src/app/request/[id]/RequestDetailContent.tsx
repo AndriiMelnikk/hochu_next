@@ -8,7 +8,7 @@ import Footer from '@/widgets/app/Footer';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
 import { useRequest } from '@/entities/request';
 import { useMe } from '@/entities/user/hooks/useUser';
-import { useCanPropose } from '@/entities/proposal';
+import { useCanPropose, ProposalStatus } from '@/entities/proposal';
 import { RequestInfo, RequestSidebar } from '@/features/requests';
 import { CreateProposalForm, ProposalList } from '@/features/proposals';
 import { DiscussionForm, DiscussionList } from '@/features/discussions';
@@ -159,7 +159,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
               >
                 <TabsList className="w-full justify-start rounded-t-2xl rounded-b-none h-14 p-1 bg-muted/50">
                   <TabsTrigger value="proposals" className="flex-1 text-base">
-                    {t('request.detail.tabs.proposals', { count: request.proposalsCount })}
+                    {t('request.detail.tabs.proposals', { count: request.pendingProposalsCount })}
                   </TabsTrigger>
                   <TabsTrigger
                     value="discussion"
@@ -168,12 +168,8 @@ export default function RequestDetailContent({ id }: { id: string }) {
                   >
                     <span className="hidden sm:inline">{t('request.detail.tabs.discussion')}</span>
                   </TabsTrigger>
-                  <TabsTrigger
-                    value="discussion"
-                    className="flex-1 items-center gap-2 cursor-not-allowed opacity-60"
-                    disabled
-                  >
-                    <span className="hidden sm:inline">{t('request.detail.tabs.rejected')}</span>
+                  <TabsTrigger value="rejected" className="flex-1 text-base">
+                    {t('request.detail.tabs.rejected', { count: request.rejectedProposalsCount })}
                   </TabsTrigger>
                 </TabsList>
 
@@ -185,6 +181,21 @@ export default function RequestDetailContent({ id }: { id: string }) {
                     isOwner={isOwner}
                     currentUserId={user?.profile?._id}
                     onProposalSuccess={handleProposalSuccess}
+                    status={ProposalStatus.PENDING}
+                    type={ProposalStatus.PENDING}
+                  />
+                </TabsContent>
+
+                {/* Rejected Proposals Tab */}
+                <TabsContent value="rejected" className="p-6 mt-0">
+                  <ProposalList
+                    requestId={request._id}
+                    onImageClick={handleImageClick}
+                    isOwner={isOwner}
+                    currentUserId={user?.profile?._id}
+                    onProposalSuccess={handleProposalSuccess}
+                    status={ProposalStatus.REJECTED}
+                    type={ProposalStatus.REJECTED}
                   />
                 </TabsContent>
 

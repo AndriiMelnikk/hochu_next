@@ -45,6 +45,8 @@ export interface IRequest {
   images: string[];
   views: number;
   proposalsCount: number;
+  rejectedProposalsCount: number;
+  pendingProposalsCount: number;
   status: RequestStatus;
   edits: Array<{ text: string; timestamp: string }>;
   createdAt: string;
