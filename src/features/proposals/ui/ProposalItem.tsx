@@ -213,7 +213,7 @@ export const ProposalItem = ({
           )}
 
           <div className="flex flex-wrap gap-2">
-            {isOwner && type === 'pending' && requestStatus === RequestStatus.PENDING && (
+            {isOwner && type === 'pending' && requestStatus === RequestStatus.ACTIVE && (
               <>
                 <Button variant="outline" size="sm">
                   <MessageSquare className="h-4 w-4 mr-2" />
