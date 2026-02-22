@@ -106,6 +106,9 @@ export const messages: Messages = {
   'request.actions.cancelError': 'Не вдалося скасувати замовлення',
   'request.actions.confirmSuccess': 'Замовлення підтверджено як виконане',
   'request.actions.confirmError': 'Не вдалося підтвердити замовлення',
+  'request.cancel.confirmTitle': 'Скасувати замовлення?',
+  'request.cancel.confirmDescription':
+    'Ви впевнені, що хочете скасувати це замовлення? Цю дію неможливо відмінити.',
 
   // Request edit
   'request.edit.title': 'Редагувати замовлення',

@@ -107,6 +107,9 @@ export const messages: Messages = {
   'request.actions.cancelError': 'Failed to cancel order',
   'request.actions.confirmSuccess': 'Order confirmed as completed',
   'request.actions.confirmError': 'Failed to confirm order',
+  'request.cancel.confirmTitle': 'Cancel order?',
+  'request.cancel.confirmDescription':
+    'Are you sure you want to cancel this order? This action cannot be undone.',
 
   // Request edit
   'request.edit.title': 'Edit order',

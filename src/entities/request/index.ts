@@ -11,3 +11,4 @@ export * from './const';
 export { useRequest } from './hooks/useRequest';
 export { useRequests } from './hooks/useRequests';
 export { useCreateRequest } from './hooks/useCreateRequest';
+export { useCancelRequest } from './hooks/useCancelRequest';

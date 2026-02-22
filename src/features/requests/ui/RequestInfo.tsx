@@ -27,12 +27,23 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@shared/ui/alert-dialog';
+import {
   IRequest,
   REQUEST_STATUS_BADGE_VARIANT,
   REQUEST_STATUS_LABELS,
   REQUEST_URGENCY_LABELS,
   RequestStatus,
   useRequestStore,
+  useCancelRequest,
 } from '@/entities/request';
 import { EditRequestModal } from './EditRequestModal';
 import Image from 'next/image';
@@ -74,6 +85,8 @@ export const RequestInfo = ({
   const queryClient = useQueryClient();
   const { updateRequest, updating } = useRequestStore();
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+  const { mutateAsync: cancelRequest, isPending: isCancelling } = useCancelRequest();
 
   const handleActionSuccess = () => {
     if (request._id) {
@@ -85,8 +98,9 @@ export const RequestInfo = ({
   const handleCancelRequest = async () => {
     if (!request._id) return;
     try {
-      await updateRequest(request._id, { status: RequestStatus.CANCELLED });
+      await cancelRequest(request._id);
       toast.success(t('request.actions.cancelSuccess'));
+      setCancelDialogOpen(false);
       handleActionSuccess();
     } catch {
       toast.error(t('request.actions.cancelError'));
@@ -145,25 +159,50 @@ export const RequestInfo = ({
             <h1 className="text-3xl font-bold mb-3 text-card-foreground">{request.title}</h1>
           </div>
           {isOwner && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" disabled={updating}>
-                  {t('request.actions.menu')}
-                  <ChevronDown className="h-4 w-4 ml-2" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="min-w-[200px]">
-                <DropdownMenuItem onClick={() => setEditModalOpen(true)} disabled={isCancelled}>
-                  <Pencil className="h-4 w-4 mr-2 text-primary" />
-                  {t('request.actions.edit')}
-                </DropdownMenuItem>
+            <>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" disabled={updating}>
+                    {t('request.actions.menu')}
+                    <ChevronDown className="h-4 w-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="min-w-[200px]">
+                  <DropdownMenuItem onClick={() => setEditModalOpen(true)} disabled={isCancelled}>
+                    <Pencil className="h-4 w-4 mr-2 text-primary" />
+                    {t('request.actions.edit')}
+                  </DropdownMenuItem>
 
-                <DropdownMenuItem onClick={handleCancelRequest}>
-                  <XCircle className="h-4 w-4 mr-2 text-destructive" />
-                  {t('request.actions.cancel')}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <DropdownMenuItem onClick={() => setCancelDialogOpen(true)}>
+                    <XCircle className="h-4 w-4 mr-2 text-destructive" />
+                    {t('request.actions.cancel')}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <AlertDialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>{t('request.cancel.confirmTitle')}</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {t('request.cancel.confirmDescription')}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>{t('request.edit.cancel')}</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleCancelRequest();
+                      }}
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    >
+                      {isCancelling ? t('request.edit.submitting') : t('request.actions.cancel')}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </>
           )}
         </div>
 

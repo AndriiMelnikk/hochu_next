@@ -30,6 +30,11 @@ class RequestService {
     return (await api.patch(ENDPOINTS.REQUESTS.BY_ID(id), data, config)).data;
   }
 
+  async cancel(id: string | number, config?: AxiosRequestConfig): Promise<void> {
+    const url = `${ENDPOINTS.REQUESTS.BY_ID(id)}/cancel`;
+    return (await api.patch(url, {}, config)).data;
+  }
+
   async delete(id: string | number, config?: AxiosRequestConfig): Promise<void> {
     return (await api.delete(ENDPOINTS.REQUESTS.BY_ID(id), config)).data;
   }
