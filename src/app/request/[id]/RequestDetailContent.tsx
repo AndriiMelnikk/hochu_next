@@ -58,8 +58,9 @@ export default function RequestDetailContent({ id }: { id: string }) {
 
   const handleProposalSuccess = () => {
     if (request?._id) {
-      queryClient.invalidateQueries({ queryKey: ['proposals', 'canPropose', request._id] });
-      queryClient.invalidateQueries({ queryKey: ['proposals', 'list', request._id] });
+      void queryClient.invalidateQueries({ queryKey: ['proposals', 'canPropose', request._id] });
+      void queryClient.invalidateQueries({ queryKey: ['proposals', 'list', request._id] });
+      void queryClient.invalidateQueries({ queryKey: ['requests', request._id] });
     }
   };
 

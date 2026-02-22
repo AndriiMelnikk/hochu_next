@@ -8,6 +8,7 @@ export type { ICanProposeResponse } from './types/responses/CanPropose';
 export { useProposals } from './hooks/useProposals';
 export { useCreateProposal } from './hooks/useCreateProposal';
 export { useCanPropose } from './hooks/useCanPropose';
+export { useRejectProposal } from './hooks/useRejectProposal';
 export { useProposal as useProposalDetail } from './hooks/useProposal';
 export {
   proposalSchema,

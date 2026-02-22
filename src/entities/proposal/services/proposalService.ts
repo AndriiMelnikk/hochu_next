@@ -87,6 +87,11 @@ class ProposalService {
     const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/cancel`;
     await api.post(url, {}, config);
   }
+
+  async reject(proposalId: string | number, config?: AxiosRequestConfig): Promise<void> {
+    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/reject`;
+    await api.post(url, {}, config);
+  }
 }
 
 export const proposalService = new ProposalService();

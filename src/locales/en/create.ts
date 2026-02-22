@@ -206,6 +206,14 @@ export const messages: Messages = {
   'proposal.cancel.confirmDescription':
     'Are you sure you want to cancel your proposal? This action cannot be undone.',
 
+  'proposal.reject.confirmTitle': 'Reject proposal?',
+  'proposal.reject.confirmDescription':
+    'Are you sure you want to reject this proposal? This action cannot be undone.',
+  'proposal.reject.submit': 'Reject',
+  'proposal.reject.cancel': 'Cancel',
+  'proposal.reject.success': 'Proposal rejected',
+  'proposal.reject.error': 'Failed to reject proposal',
+
   // Discussions
   'discussion.role.buyer': 'Buyer',
   'discussion.role.seller': 'Seller',

@@ -206,6 +206,14 @@ export const messages: Messages = {
   'proposal.cancel.confirmDescription':
     'Ви впевнені, що хочете скасувати свою пропозицію? Цю дію неможливо відмінити.',
 
+  'proposal.reject.confirmTitle': 'Відхилити пропозицію?',
+  'proposal.reject.confirmDescription':
+    'Ви впевнені, що хочете відхилити цю пропозицію? Цю дію неможливо відмінити.',
+  'proposal.reject.submit': 'Відхилити',
+  'proposal.reject.cancel': 'Скасувати',
+  'proposal.reject.success': 'Пропозицію відхилено',
+  'proposal.reject.error': 'Не вдалося відхилити пропозицію',
+
   // Discussions
   'discussion.role.buyer': 'Замовник',
   'discussion.role.seller': 'Виконавець',
