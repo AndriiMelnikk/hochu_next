@@ -34,6 +34,7 @@ import {
 import { useCancelProposal } from '@/entities/proposal/hooks/useCancelProposal';
 import { useRejectProposal } from '@/entities/proposal/hooks/useRejectProposal';
 import { EditProposalModal } from './EditProposalModal';
+import { ContactSellerModal } from './ContactSellerModal';
 import { RequestStatus } from '@/entities/request';
 
 interface ProposalItemProps {
@@ -58,6 +59,7 @@ export const ProposalItem = ({
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const { mutateAsync: cancelProposal, isPending: isCancelling } = useCancelProposal(
@@ -220,10 +222,15 @@ export const ProposalItem = ({
           <div className="flex flex-wrap gap-2">
             {isOwner && type === 'pending' && requestStatus === RequestStatus.ACTIVE && (
               <>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={() => setContactModalOpen(true)}>
                   <MessageSquare className="h-4 w-4 mr-2" />
                   {t('proposal.item.contactSellerButton')}
                 </Button>
+                <ContactSellerModal
+                  userId={proposal.sellerId}
+                  open={contactModalOpen}
+                  onOpenChange={setContactModalOpen}
+                />
                 <Button variant="gradient" size="sm">
                   <CheckCircle2 className="h-4 w-4 mr-2" />
                   {t('proposal.item.selectSellerButton')}

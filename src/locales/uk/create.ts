@@ -218,6 +218,16 @@ export const messages: Messages = {
   'proposal.reject.cancel': 'Скасувати',
   'proposal.reject.success': 'Пропозицію відхилено',
   'proposal.reject.error': 'Не вдалося відхилити пропозицію',
+  'proposal.contact.title': "Зв'язатися з виконавцем",
+  'proposal.contact.noContacts': "Немає контактів для зв'язку",
+  'contact.channel.phone': 'Телефон',
+  'contact.channel.email': 'Email',
+  'contact.channel.telegram': 'Telegram',
+  'contact.channel.viber': 'Viber',
+  'contact.channel.whatsapp': 'WhatsApp',
+  'contact.channel.instagram': 'Instagram',
+  'contact.channel.facebook': 'Facebook',
+  'contact.channel.website': 'Веб-сайт',
 
   // Discussions
   'discussion.role.buyer': 'Замовник',

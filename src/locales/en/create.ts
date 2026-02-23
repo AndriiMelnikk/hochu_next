@@ -219,6 +219,17 @@ export const messages: Messages = {
   'proposal.reject.success': 'Proposal rejected',
   'proposal.reject.error': 'Failed to reject proposal',
 
+  'proposal.contact.title': 'Contact seller',
+  'proposal.contact.noContacts': 'No contacts to contact',
+  'contact.channel.phone': 'Phone',
+  'contact.channel.email': 'Email',
+  'contact.channel.telegram': 'Telegram',
+  'contact.channel.viber': 'Viber',
+  'contact.channel.whatsapp': 'WhatsApp',
+  'contact.channel.instagram': 'Instagram',
+  'contact.channel.facebook': 'Facebook',
+  'contact.channel.website': 'Website',
+
   // Discussions
   'discussion.role.buyer': 'Buyer',
   'discussion.role.seller': 'Seller',

@@ -7,7 +7,15 @@ export interface IAccount {
   __v?: number;
 }
 
-export type ContactChannel = 'email' | 'phone' | 'telegram' | 'viber' | 'whatsapp';
+export type ContactChannel =
+  | 'email'
+  | 'phone'
+  | 'telegram'
+  | 'viber'
+  | 'whatsapp'
+  | 'instagram'
+  | 'facebook'
+  | 'website';
 
 export interface IProfile {
   _id: string;
