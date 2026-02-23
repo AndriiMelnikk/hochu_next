@@ -209,7 +209,7 @@ export const messages: Messages = {
   'proposal.cancel.error': 'Failed to cancel proposal',
   'proposal.cancel.confirmTitle': 'Cancel proposal?',
   'proposal.cancel.confirmDescription':
-    'Are you sure you want to cancel your proposal? This action cannot be undone.',
+    'Are you sure you want to cancel your proposal? This action cannot be undone. You will not be able to submit a new proposal for this request.',
 
   'proposal.reject.confirmTitle': 'Reject proposal?',
   'proposal.reject.confirmDescription':

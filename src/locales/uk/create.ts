@@ -209,7 +209,7 @@ export const messages: Messages = {
   'proposal.cancel.error': 'Не вдалося скасувати пропозицію',
   'proposal.cancel.confirmTitle': 'Скасувати пропозицію?',
   'proposal.cancel.confirmDescription':
-    'Ви впевнені, що хочете скасувати свою пропозицію? Цю дію неможливо відмінити.',
+    'Ви впевнені, що хочете скасувати свою пропозицію? Цю дію неможливо відмінити. Ви не зможете подати нову пропозицію до цього запиту.',
 
   'proposal.reject.confirmTitle': 'Відхилити пропозицію?',
   'proposal.reject.confirmDescription':

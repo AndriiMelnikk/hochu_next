@@ -84,7 +84,7 @@ class ProposalService {
   }
 
   async cancel(proposalId: string | number, config?: AxiosRequestConfig): Promise<void> {
-    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/cancel`;
+    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/withdraw`;
     await api.post(url, {}, config);
   }
 
