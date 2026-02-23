@@ -17,24 +17,14 @@ import {
   CarouselPrevious,
 } from '@shared/ui/carousel';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@shared/ui/alert-dialog';
-import {
   type IProposalWithSeller,
   PROPOSAL_DELIVERY_TIME_LABELS,
   PROPOSAL_WARRANTY_LABELS,
 } from '@/entities/proposal';
-import { useCancelProposal } from '@/entities/proposal/hooks/useCancelProposal';
-import { useRejectProposal } from '@/entities/proposal/hooks/useRejectProposal';
 import { EditProposalModal } from './EditProposalModal';
 import { ContactSellerModal } from './ContactSellerModal';
+import { RejectProposalModal } from './RejectProposalModal';
+import { CancelProposalModal } from './CancelProposalModal';
 import { RequestStatus } from '@/entities/request';
 
 interface ProposalItemProps {
@@ -62,34 +52,6 @@ export const ProposalItem = ({
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
-  const { mutateAsync: cancelProposal, isPending: isCancelling } = useCancelProposal(
-    proposal.requestId,
-  );
-  const { mutateAsync: rejectProposal, isPending: isRejecting } = useRejectProposal(
-    proposal.requestId,
-  );
-
-  const handleCancelProposal = async () => {
-    try {
-      await cancelProposal(proposal._id);
-      toast.success(t('proposal.cancel.success'));
-      setCancelDialogOpen(false);
-      onProposalSuccess?.();
-    } catch {
-      toast.error(t('proposal.cancel.error'));
-    }
-  };
-
-  const handleRejectProposal = async () => {
-    try {
-      await rejectProposal(proposal._id);
-      toast.success(t('proposal.reject.success'));
-      setRejectDialogOpen(false);
-      onProposalSuccess?.();
-    } catch {
-      toast.error(t('proposal.reject.error'));
-    }
-  };
 
   const seller = proposal.seller;
   const displayName = seller?.name;
@@ -243,28 +205,13 @@ export const ProposalItem = ({
                   <XCircle className="h-4 w-4 mr-2" />
                   {t('proposal.item.rejectSellerButton')}
                 </Button>
-                <AlertDialog open={rejectDialogOpen} onOpenChange={setRejectDialogOpen}>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>{t('proposal.reject.confirmTitle')}</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        {t('proposal.reject.confirmDescription')}
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>{t('proposal.reject.cancel')}</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleRejectProposal();
-                        }}
-                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                      >
-                        {isRejecting ? t('proposal.edit.submitting') : t('proposal.reject.submit')}
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <RejectProposalModal
+                  requestId={proposal.requestId}
+                  proposalId={proposal._id}
+                  open={rejectDialogOpen}
+                  onOpenChange={setRejectDialogOpen}
+                  onSuccess={onProposalSuccess}
+                />
               </>
             )}
             {isProposalOwner && (
@@ -278,35 +225,17 @@ export const ProposalItem = ({
                   size="sm"
                   className="text-destructive hover:text-destructive"
                   onClick={() => setCancelDialogOpen(true)}
-                  disabled={isCancelling}
                 >
                   <XCircle className="h-4 w-4 mr-2" />
                   {t('proposal.item.cancelButton')}
                 </Button>
-                <AlertDialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>{t('proposal.cancel.confirmTitle')}</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        {t('proposal.cancel.confirmDescription')}
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>{t('proposal.edit.cancel')}</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleCancelProposal();
-                        }}
-                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                      >
-                        {isCancelling
-                          ? t('proposal.edit.submitting')
-                          : t('proposal.item.cancelButton')}
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <CancelProposalModal
+                  requestId={proposal.requestId}
+                  proposalId={proposal._id}
+                  open={cancelDialogOpen}
+                  onOpenChange={setCancelDialogOpen}
+                  onSuccess={onProposalSuccess}
+                />
               </>
             )}
           </div>
