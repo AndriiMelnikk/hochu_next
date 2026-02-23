@@ -107,18 +107,6 @@ export const RequestInfo = ({
       toast.error(t('request.actions.cancelError'));
     }
   };
-
-  const handleConfirmRequest = async () => {
-    if (!request._id) return;
-    try {
-      await updateRequest(request._id, { status: RequestStatus.COMPLETED });
-      toast.success(t('request.actions.confirmSuccess'));
-      handleActionSuccess();
-    } catch {
-      toast.error(t('request.actions.confirmError'));
-    }
-  };
-
   const isCancelled = request.status === RequestStatus.CANCELLED;
 
   const min = request.budgetMin || 0;

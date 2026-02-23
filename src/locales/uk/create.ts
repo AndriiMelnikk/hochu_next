@@ -282,4 +282,10 @@ export const messages: Messages = {
   'request.create.buyerProfileRequired.description':
     'Для створення запиту вам необхідно мати профіль покупця.',
   'request.create.buyerProfileRequired.button': 'Створити профіль покупця',
+
+  // Profile page
+  'request.profile.authRequired.title': 'Потрібна авторизація',
+  'request.profile.authRequired.description': 'Для перегляду профілю, необхідно авторизуватись.',
+  'request.profile.authRequired.login': 'Вхід',
+  'request.profile.authRequired.register': 'Реєстрація',
 };

@@ -281,4 +281,10 @@ export const messages: Messages = {
   'request.create.buyerProfileRequired.description':
     'To create a request, you need a buyer profile.',
   'request.create.buyerProfileRequired.button': 'Create Buyer Profile',
+
+  // Profile page
+  'request.profile.authRequired.title': 'Authorization required',
+  'request.profile.authRequired.description': 'To view the profile, you must be logged in.',
+  'request.profile.authRequired.login': 'Login',
+  'request.profile.authRequired.register': 'Register',
 };

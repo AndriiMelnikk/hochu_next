@@ -8,6 +8,7 @@ import { Button } from '@shared/ui/button';
 import { Badge } from '@shared/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import Image from 'next/image';
+import Link from 'next/link';
 import {
   Carousel,
   CarouselContent,
@@ -98,16 +99,20 @@ export const ProposalItem = ({
   return (
     <div className="border border-border rounded-lg p-6 hover:border-primary transition-all hover:shadow-md">
       <div className="flex items-start gap-4">
-        <Avatar className="h-16 w-16 border-2 border-primary shrink-0">
-          <AvatarImage src={displayAvatar ?? undefined} />
-          <AvatarFallback>{displayName}</AvatarFallback>
-        </Avatar>
+        <Link href={`/profile/${proposal.sellerId}`}>
+          <Avatar className="h-16 w-16 border-2 border-primary shrink-0 transition-opacity hover:opacity-80">
+            <AvatarImage src={displayAvatar ?? undefined} />
+            <AvatarFallback>{displayName}</AvatarFallback>
+          </Avatar>
+        </Link>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-3 mb-3">
             <div>
               <h3 className="font-semibold text-lg flex items-center gap-2 flex-wrap">
-                {displayName}
+                <Link href={`/profile/${proposal.sellerId}`} className="hover:underline">
+                  {displayName}
+                </Link>
                 {displayRating != null && (
                   <Badge variant="secondary" className="text-xs">
                     <Star className="h-3 w-3 mr-1 fill-yellow-500 text-yellow-500" />

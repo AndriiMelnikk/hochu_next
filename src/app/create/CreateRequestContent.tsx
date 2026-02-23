@@ -8,7 +8,8 @@ import { useMe } from '@/entities/user/hooks/useUser';
 import { Button } from '@/shared/ui/button';
 import { routes } from '@/app/router/routes';
 import Link from 'next/link';
-import { Loader2, LogIn, UserPlus, UserCircle } from 'lucide-react';
+import { Loader2, UserPlus, UserCircle } from 'lucide-react';
+import { AuthRequired } from '@/features/auth';
 
 export default function CreateRequestContent() {
   const { i18n } = useLingui();
@@ -27,29 +28,10 @@ export default function CreateRequestContent() {
 
     if (isError || !user) {
       return (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="bg-primary/10 p-6 rounded-full mb-6">
-            <UserCircle className="h-16 w-16 text-primary" />
-          </div>
-          <h2 className="text-2xl font-bold mb-4">{t('request.create.authRequired.title')}</h2>
-          <p className="text-muted-foreground mb-8 max-w-md">
-            {t('request.create.authRequired.description')}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link href={routes.REGISTER}>
-              <Button size="lg" className="w-full sm:w-auto gap-2">
-                <UserPlus className="h-5 w-5" />
-                {t('request.create.authRequired.register')}
-              </Button>
-            </Link>
-            <Link href={routes.LOGIN}>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2">
-                <LogIn className="h-5 w-5" />
-                {t('request.create.authRequired.login')}
-              </Button>
-            </Link>
-          </div>
-        </div>
+        <AuthRequired
+          title={t('request.create.authRequired.title')}
+          description={t('request.create.authRequired.description')}
+        />
       );
     }
 

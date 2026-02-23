@@ -26,6 +26,7 @@ export const profileSchema = z.object({
   isVerified: z.boolean().optional(),
   memberSince: z.string().optional(),
   location: z.string().nullable().optional(),
+  contacts: z.record(z.string()).optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
   __v: z.number().optional(),

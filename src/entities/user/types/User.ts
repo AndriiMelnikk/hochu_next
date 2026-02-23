@@ -7,6 +7,8 @@ export interface IAccount {
   __v?: number;
 }
 
+export type ContactChannel = 'email' | 'phone' | 'telegram' | 'viber' | 'whatsapp';
+
 export interface IProfile {
   _id: string;
   type: 'buyer' | 'seller';
@@ -22,6 +24,7 @@ export interface IProfile {
   isVerified?: boolean;
   memberSince?: string;
   location?: string | null;
+  contacts?: Partial<Record<ContactChannel, string>>;
   createdAt?: string;
   updatedAt?: string;
 }
