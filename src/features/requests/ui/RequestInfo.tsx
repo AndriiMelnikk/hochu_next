@@ -46,6 +46,7 @@ import {
   useCancelRequest,
 } from '@/entities/request';
 import { EditRequestModal } from './EditRequestModal';
+import { formatChange } from '../utils/formatChanges';
 import Image from 'next/image';
 
 interface RequestInfoProps {
@@ -289,9 +290,43 @@ export const RequestInfo = ({
                     <Badge variant="outline" className="text-xs">
                       {t('request.detail.clarification')}
                     </Badge>
-                    <span className="text-xs text-muted-foreground">{edit.timestamp}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {new Date(edit.timestamp).toLocaleString()}
+                    </span>
                   </div>
-                  <p className="text-sm">{edit.text}</p>
+                  {/* {edit.text && <p className="text-sm mb-2">{edit.text}</p>} */}
+                  {edit.changes && edit.changes.length > 0 && (
+                    <div className="mt-2 text-sm">
+                      <div className="space-y-1">
+                        {edit.changes.map((change, idx) => {
+                          const { label, oldValue, newValue, formatted } = formatChange(
+                            change.field,
+                            change.oldValue,
+                            change.newValue,
+                            t,
+                          );
+                          return (
+                            <div key={idx} className="flex gap-2 text-xs">
+                              <span className="font-semibold text-foreground">{label}:</span>
+                              {formatted ? (
+                                <span className="text-muted-foreground">{formatted}</span>
+                              ) : (
+                                <>
+                                  <span className="text-muted-foreground line-through">
+                                    {String(oldValue)}
+                                  </span>
+                                  <span className="text-muted-foreground">→</span>
+                                  <span className="text-primary font-medium">
+                                    {String(newValue)}
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

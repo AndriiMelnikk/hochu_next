@@ -85,6 +85,8 @@ export const messages: Messages = {
   'request.detail.condition': 'Condition',
   'request.detail.description': 'Detailed description',
   'request.detail.editHistory': 'Edit history:',
+  'request.detail.changes.categoryChanged': 'Category changed',
+  'request.detail.changes.photosUpdated': 'Photos updated',
   'request.detail.clarification': 'Clarification',
   'request.detail.photos': 'Photos ({count})',
   'request.detail.proposalsLoadError': 'Failed to load proposals. Please try again later.',

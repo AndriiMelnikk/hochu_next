@@ -163,13 +163,13 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
       const payload: IUpdateRequestRequest = {
         title: data.title,
         description: data.description,
-        category: data.category,
-        budgetMin: data.budgetMin,
-        budgetMax: data.budgetMax,
-        location: data.location,
+        category: data.category || undefined,
+        budgetMin: data.budgetMin ?? undefined,
+        budgetMax: data.budgetMax ?? undefined,
+        location: data.location || undefined,
         urgency: data.urgency,
         itemCondition: data.itemCondition,
-        images: data.images,
+        images: data.images?.length ? data.images : undefined,
       };
       await updateRequest(request._id, payload);
       toast.success(t('request.edit.success'));
@@ -194,6 +194,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
                 'budgetMax',
                 'location',
                 'urgency',
+                'itemCondition',
                 'images',
               ].includes(key)
             ) {

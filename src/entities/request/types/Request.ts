@@ -48,7 +48,10 @@ export interface IRequest {
   rejectedProposalsCount: number;
   pendingProposalsCount: number;
   status: RequestStatus;
-  edits: Array<{ text: string; timestamp: string }>;
+  edits: Array<{
+    timestamp: Date;
+    changes?: Array<{ field: string; oldValue: unknown; newValue: unknown }>;
+  }>;
   createdAt: string;
   updatedAt: string;
 }

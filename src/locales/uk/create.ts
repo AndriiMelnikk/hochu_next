@@ -84,6 +84,8 @@ export const messages: Messages = {
   'request.detail.condition': 'Стан',
   'request.detail.description': 'Детальний опис',
   'request.detail.editHistory': 'Історія редагування:',
+  'request.detail.changes.categoryChanged': 'Категорію змінено',
+  'request.detail.changes.photosUpdated': 'Фото оновлено',
   'request.detail.clarification': 'Уточнення',
   'request.detail.photos': 'Фотографії ({count})',
   'request.detail.proposalsLoadError': 'Не вдалося завантажити пропозиції. Спробуйте пізніше.',
