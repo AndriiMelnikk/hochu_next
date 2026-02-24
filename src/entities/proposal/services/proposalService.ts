@@ -92,6 +92,22 @@ class ProposalService {
     const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/reject`;
     await api.post(url, {}, config);
   }
+
+  async accept(proposalId: string | number, config?: AxiosRequestConfig): Promise<void> {
+    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/accept`;
+    await api.post(url, {}, config);
+  }
+
+  async complete(proposalId: string | number, config?: AxiosRequestConfig): Promise<void> {
+    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/complete`;
+    await api.post(url, {}, config);
+  }
+
+  /** POST proposals/:id/cancel — скасування раніше прийнятої пропозиції покупцем */
+  async cancelAccepted(proposalId: string | number, config?: AxiosRequestConfig): Promise<void> {
+    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/cancel`;
+    await api.post(url, {}, config);
+  }
 }
 
 export const proposalService = new ProposalService();

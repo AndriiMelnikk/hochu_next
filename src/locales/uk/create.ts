@@ -90,6 +90,7 @@ export const messages: Messages = {
   'request.detail.photos': 'Фотографії ({count})',
   'request.detail.proposalsLoadError': 'Не вдалося завантажити пропозиції. Спробуйте пізніше.',
   'request.detail.proposalsEmpty': 'Пропозицій поки немає.',
+  'request.detail.acceptedProposal.title': 'Обрана пропозиція',
 
   // Request status
   'request.status.active': 'Активний',
@@ -199,6 +200,10 @@ export const messages: Messages = {
   'proposal.item.rejectedBadge': 'Відхилено',
   'proposal.item.editButton': 'Редагувати',
   'proposal.item.cancelButton': 'Скасувати пропозицію',
+  'proposal.item.leaveReviewForSeller': 'Залишити відгук про продавця',
+  'proposal.item.leaveReviewForBuyer': 'Залишити відгук про замовника',
+  'proposal.item.cancelAcceptedButton': 'Скасувати вибір виконавця',
+  'proposal.item.selectedExecutorBadge': 'Вибраний виконавець',
   'proposal.edit.title': 'Редагувати пропозицію',
   'proposal.edit.submit': 'Зберегти зміни',
   'proposal.edit.submitting': 'Зберігаємо...',
@@ -218,6 +223,13 @@ export const messages: Messages = {
   'proposal.reject.cancel': 'Скасувати',
   'proposal.reject.success': 'Пропозицію відхилено',
   'proposal.reject.error': 'Не вдалося відхилити пропозицію',
+
+  'proposal.cancelAccepted.confirmTitle': 'Скасувати вибір виконавця?',
+  'proposal.cancelAccepted.confirmDescription':
+    'Ви впевнені, що хочете скасувати вибір виконавця та знову відкрити цю заявку?',
+  'proposal.cancelAccepted.submit': 'Скасувати виконавця',
+  'proposal.cancelAccepted.success': 'Вибір виконавця скасовано',
+  'proposal.cancelAccepted.error': 'Не вдалося скасувати вибір виконавця',
   'proposal.contact.title': "Зв'язатися з виконавцем",
   'proposal.contact.noContacts': "Немає контактів для зв'язку",
   'contact.channel.phone': 'Телефон',
@@ -298,4 +310,33 @@ export const messages: Messages = {
   'request.profile.authRequired.description': 'Для перегляду профілю, необхідно авторизуватись.',
   'request.profile.authRequired.login': 'Вхід',
   'request.profile.authRequired.register': 'Реєстрація',
+
+  // Proposal actions
+  'proposal.accept.success': 'Виконавця успішно обрано',
+  'proposal.accept.error': 'Не вдалося обрати виконавця',
+  'proposal.accept.confirmTitle': 'Обрати цього виконавця?',
+  'proposal.accept.confirmDescription':
+    'Ви впевнені, що хочете обрати цю пропозицію? Продавець буде позначений як виконавець для цього запиту.',
+  'proposal.accept.submit': 'Обрати',
+
+  'proposal.complete.success': 'Пропозицію успішно завершено',
+  'proposal.complete.error': 'Не вдалося завершити пропозицію',
+  'proposal.complete.confirmTitle': 'Завершити пропозицію?',
+  'proposal.complete.confirmDescription':
+    'Ви впевнені, що хочете позначити цю пропозицію як виконану? Це закриє заявку.',
+  'proposal.complete.submit': 'Завершити',
+
+  // Review
+  'review.create.title': 'Залишити відгук',
+  'review.create.description': 'Оцініть вашу співпрацю з цим продавцем',
+  'review.create.rating': 'Рейтинг',
+  'review.create.ratingRequired': 'Будь ласка, оберіть рейтинг',
+  'review.create.comment': 'Коментар',
+  'review.create.commentPlaceholder': 'Поділіться своїм досвідом...',
+  'review.create.submit': 'Надіслати відгук',
+  'review.create.success': 'Відгук успішно надіслано',
+  'review.create.error': 'Не вдалося надіслати відгук',
+
+  'common.cancel': 'Скасувати',
+  'common.submitting': 'Відправка...',
 };

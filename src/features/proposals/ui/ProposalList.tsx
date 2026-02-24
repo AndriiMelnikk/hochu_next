@@ -2,7 +2,7 @@
 
 import { useLingui } from '@lingui/react';
 import { ProposalItem } from './ProposalItem';
-import { useProposals, type IProposalWithSeller, type ProposalStatus } from '@/entities/proposal';
+import { useProposals, type IProposalWithSeller, ProposalStatus } from '@/entities/proposal';
 import { Loading } from '@shared/ui/loading';
 import { useQueryPagination } from '@shared/hooks';
 import { UniversalPagination } from '@shared/ui/universal-pagination';
@@ -15,6 +15,7 @@ interface ProposalListProps {
   isOwner: boolean;
   currentUserId?: string;
   onProposalSuccess?: () => void;
+  buyerId?: string;
   status?: ProposalStatus;
   type?: 'pending' | 'rejected';
   requestStatus?: RequestStatus;
@@ -26,6 +27,7 @@ export const ProposalList = ({
   isOwner,
   currentUserId,
   onProposalSuccess,
+  buyerId,
   status,
   type,
   requestStatus,
@@ -53,7 +55,26 @@ export const ProposalList = ({
   }
 
   const proposals = data?.results ?? [];
-  const totalCount = data?.count ?? proposals.length;
+
+  const acceptedProposal =
+    status != null
+      ? undefined
+      : proposals.find(
+          (proposal) =>
+            proposal.status === ProposalStatus.ACCEPTED ||
+            proposal.status === ProposalStatus.COMPLETED,
+        );
+
+  const visibleProposals =
+    status === ProposalStatus.REJECTED
+      ? proposals
+      : proposals.filter((proposal) => proposal.status === ProposalStatus.PENDING);
+
+  const totalCount =
+    status === ProposalStatus.REJECTED
+      ? (data?.count ?? visibleProposals.length)
+      : visibleProposals.length;
+
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
 
   const handlePageChange = (newPage: number) => {
@@ -61,7 +82,7 @@ export const ProposalList = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (proposals.length === 0) {
+  if (!acceptedProposal && visibleProposals.length === 0) {
     return (
       <p className="text-sm text-muted-foreground py-4">{t('request.detail.proposalsEmpty')}</p>
     );
@@ -69,7 +90,20 @@ export const ProposalList = ({
 
   return (
     <div className="space-y-4">
-      {proposals.map((proposal) => (
+      {acceptedProposal && status !== ProposalStatus.REJECTED && (
+        <ProposalItem
+          key={acceptedProposal._id}
+          proposal={acceptedProposal as IProposalWithSeller}
+          onImageClick={onImageClick}
+          isOwner={isOwner}
+          isProposalOwner={currentUserId != null && acceptedProposal.sellerId === currentUserId}
+          onProposalSuccess={onProposalSuccess}
+          buyerId={buyerId}
+          requestStatus={requestStatus}
+          isSelected
+        />
+      )}
+      {visibleProposals.map((proposal) => (
         <ProposalItem
           key={proposal._id}
           proposal={proposal as IProposalWithSeller}
@@ -77,6 +111,7 @@ export const ProposalList = ({
           isOwner={isOwner}
           isProposalOwner={currentUserId != null && proposal.sellerId === currentUserId}
           onProposalSuccess={onProposalSuccess}
+          buyerId={buyerId}
           type={type}
           requestStatus={requestStatus}
         />

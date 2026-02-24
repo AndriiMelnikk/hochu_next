@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { Star, Clock, Shield, MessageSquare, CheckCircle2, Pencil, XCircle } from 'lucide-react';
 import { useLingui } from '@lingui/react';
-import { toast } from 'sonner';
 import { Button } from '@shared/ui/button';
 import { Badge } from '@shared/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
@@ -20,11 +19,16 @@ import {
   type IProposalWithSeller,
   PROPOSAL_DELIVERY_TIME_LABELS,
   PROPOSAL_WARRANTY_LABELS,
+  ProposalStatus,
 } from '@/entities/proposal';
 import { EditProposalModal } from './EditProposalModal';
 import { ContactSellerModal } from './ContactSellerModal';
 import { RejectProposalModal } from './RejectProposalModal';
 import { CancelProposalModal } from './CancelProposalModal';
+import { AcceptProposalModal } from './AcceptProposalModal';
+import { CompleteProposalModal } from './CompleteProposalModal';
+import { CancelAcceptedProposalModal } from './CancelAcceptedProposalModal';
+import { CreateReviewModal } from './CreateReviewModal';
 import { RequestStatus } from '@/entities/request';
 
 interface ProposalItemProps {
@@ -35,6 +39,8 @@ interface ProposalItemProps {
   onProposalSuccess?: () => void;
   type?: 'pending' | 'rejected';
   requestStatus?: RequestStatus;
+  buyerId?: string;
+  isSelected?: boolean;
 }
 
 export const ProposalItem = ({
@@ -45,6 +51,8 @@ export const ProposalItem = ({
   onProposalSuccess,
   type = 'pending',
   requestStatus,
+  buyerId,
+  isSelected = false,
 }: ProposalItemProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
@@ -52,6 +60,11 @@ export const ProposalItem = ({
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
+  const [acceptDialogOpen, setAcceptDialogOpen] = useState(false);
+  const [completeDialogOpen, setCompleteDialogOpen] = useState(false);
+  const [cancelAcceptedDialogOpen, setCancelAcceptedDialogOpen] = useState(false);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [reviewTarget, setReviewTarget] = useState<'seller' | 'buyer' | null>(null);
 
   const seller = proposal.seller;
   const displayName = seller?.name;
@@ -60,8 +73,13 @@ export const ProposalItem = ({
   const displayCompletedDeals = seller?.completedDeals;
   const displayAvatar = seller?.avatar;
 
+  const cardBaseClasses = 'border rounded-lg p-6 transition-all';
+  const cardStateClasses = isSelected
+    ? ' border-primary bg-primary/5 shadow-md'
+    : ' border-border hover:border-primary hover:shadow-md';
+
   return (
-    <div className="border border-border rounded-lg p-6 hover:border-primary transition-all hover:shadow-md">
+    <div className={cardBaseClasses + cardStateClasses}>
       <div className="flex items-start gap-4">
         <Link href={`/profile/${proposal.sellerId}`}>
           <Avatar className="h-16 w-16 border-2 border-primary shrink-0 transition-opacity hover:opacity-80">
@@ -81,6 +99,11 @@ export const ProposalItem = ({
                   <Badge variant="secondary" className="text-xs">
                     <Star className="h-3 w-3 mr-1 fill-yellow-500 text-yellow-500" />
                     {displayRating}
+                  </Badge>
+                )}
+                {isSelected && (
+                  <Badge variant="success" className="text-xs">
+                    {t('proposal.item.selectedExecutorBadge')}
                   </Badge>
                 )}
                 {type === 'rejected' && (
@@ -193,10 +216,17 @@ export const ProposalItem = ({
                   open={contactModalOpen}
                   onOpenChange={setContactModalOpen}
                 />
-                <Button variant="gradient" size="sm">
+                <Button variant="gradient" size="sm" onClick={() => setAcceptDialogOpen(true)}>
                   <CheckCircle2 className="h-4 w-4 mr-2" />
                   {t('proposal.item.selectSellerButton')}
                 </Button>
+                <AcceptProposalModal
+                  requestId={proposal.requestId}
+                  proposalId={proposal._id}
+                  open={acceptDialogOpen}
+                  onOpenChange={setAcceptDialogOpen}
+                  onSuccess={onProposalSuccess}
+                />
                 <Button
                   variant="destructiveOutline"
                   size="sm"
@@ -214,7 +244,38 @@ export const ProposalItem = ({
                 />
               </>
             )}
-            {isProposalOwner && (
+            {isOwner &&
+              proposal.status === ProposalStatus.ACCEPTED &&
+              requestStatus === RequestStatus.CLOSED && (
+                <>
+                  <Button variant="gradient" size="sm" onClick={() => setCompleteDialogOpen(true)}>
+                    <CheckCircle2 className="h-4 w-4 mr-2" />
+                    {t('request.actions.confirm')}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCancelAcceptedDialogOpen(true)}
+                  >
+                    {t('proposal.item.cancelAcceptedButton')}
+                  </Button>
+                  <CompleteProposalModal
+                    requestId={proposal.requestId}
+                    proposalId={proposal._id}
+                    open={completeDialogOpen}
+                    onOpenChange={setCompleteDialogOpen}
+                    onSuccess={onProposalSuccess}
+                  />
+                  <CancelAcceptedProposalModal
+                    requestId={proposal.requestId}
+                    proposalId={proposal._id}
+                    open={cancelAcceptedDialogOpen}
+                    onOpenChange={setCancelAcceptedDialogOpen}
+                    onSuccess={onProposalSuccess}
+                  />
+                </>
+              )}
+            {isProposalOwner && proposal.status === ProposalStatus.PENDING && (
               <>
                 <Button variant="outline" size="sm" onClick={() => setEditModalOpen(true)}>
                   <Pencil className="h-4 w-4 mr-2" />
@@ -238,6 +299,34 @@ export const ProposalItem = ({
                 />
               </>
             )}
+            {proposal.status === ProposalStatus.COMPLETED && (
+              <>
+                {isOwner && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setReviewTarget('seller');
+                      setReviewModalOpen(true);
+                    }}
+                  >
+                    {t('proposal.item.leaveReviewForSeller')}
+                  </Button>
+                )}
+                {isProposalOwner && buyerId && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setReviewTarget('buyer');
+                      setReviewModalOpen(true);
+                    }}
+                  >
+                    {t('proposal.item.leaveReviewForBuyer')}
+                  </Button>
+                )}
+              </>
+            )}
           </div>
 
           {isProposalOwner && (
@@ -247,6 +336,24 @@ export const ProposalItem = ({
               onOpenChange={setEditModalOpen}
               onSuccess={() => {
                 onProposalSuccess?.();
+              }}
+            />
+          )}
+          {reviewTarget && (
+            <CreateReviewModal
+              targetProfileId={reviewTarget === 'seller' ? proposal.sellerId : (buyerId as string)}
+              requestId={proposal.requestId}
+              proposalId={proposal._id}
+              open={reviewModalOpen}
+              onOpenChange={(open) => {
+                setReviewModalOpen(open);
+                if (!open) {
+                  setReviewTarget(null);
+                }
+              }}
+              onSuccess={() => {
+                onProposalSuccess?.();
+                setReviewTarget(null);
               }}
             />
           )}

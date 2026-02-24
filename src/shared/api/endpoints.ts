@@ -19,6 +19,9 @@ export const ENDPOINTS = {
     BY_REQUEST_ID: (requestId: string | number) => `/api/proposals/requests/${requestId}`,
     CAN_PROPOSE: (requestId: string | number) => `/api/proposals/can-propose/${requestId}`,
   },
+  REVIEWS: {
+    BASE: '/api/reviews',
+  },
   BLOG: {
     BASE: '/api/blog',
     BY_ID: (id: string | number) => `/api/blog/${id}`,

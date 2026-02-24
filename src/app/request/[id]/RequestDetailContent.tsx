@@ -182,8 +182,8 @@ export default function RequestDetailContent({ id }: { id: string }) {
                     isOwner={isOwner}
                     currentUserId={user?.profile?._id}
                     onProposalSuccess={handleProposalSuccess}
-                    status={ProposalStatus.PENDING}
-                    type={ProposalStatus.PENDING}
+                    buyerId={buyer?._id}
+                    type="pending"
                     requestStatus={request.status}
                   />
                 </TabsContent>
@@ -196,8 +196,9 @@ export default function RequestDetailContent({ id }: { id: string }) {
                     isOwner={isOwner}
                     currentUserId={user?.profile?._id}
                     onProposalSuccess={handleProposalSuccess}
+                    buyerId={buyer?._id}
                     status={ProposalStatus.REJECTED}
-                    type={ProposalStatus.REJECTED}
+                    type="rejected"
                   />
                 </TabsContent>
 

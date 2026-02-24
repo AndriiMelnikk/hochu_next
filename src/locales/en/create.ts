@@ -91,6 +91,7 @@ export const messages: Messages = {
   'request.detail.photos': 'Photos ({count})',
   'request.detail.proposalsLoadError': 'Failed to load proposals. Please try again later.',
   'request.detail.proposalsEmpty': 'No proposals yet.',
+  'request.detail.acceptedProposal.title': 'Selected proposal',
 
   // Request status
   'request.status.completed': 'Completed',
@@ -199,6 +200,10 @@ export const messages: Messages = {
   'proposal.item.rejectedBadge': 'Rejected',
   'proposal.item.editButton': 'Edit',
   'proposal.item.cancelButton': 'Cancel proposal',
+  'proposal.item.leaveReviewForSeller': 'Leave a review about the seller',
+  'proposal.item.leaveReviewForBuyer': 'Leave a review about the buyer',
+  'proposal.item.cancelAcceptedButton': 'Cancel selected executor',
+  'proposal.item.selectedExecutorBadge': 'Selected executor',
   'proposal.edit.title': 'Edit proposal',
   'proposal.edit.submit': 'Save changes',
   'proposal.edit.submitting': 'Saving...',
@@ -218,6 +223,13 @@ export const messages: Messages = {
   'proposal.reject.cancel': 'Cancel',
   'proposal.reject.success': 'Proposal rejected',
   'proposal.reject.error': 'Failed to reject proposal',
+
+  'proposal.cancelAccepted.confirmTitle': 'Cancel selected executor?',
+  'proposal.cancelAccepted.confirmDescription':
+    'Are you sure you want to cancel the selected executor and reopen this request?',
+  'proposal.cancelAccepted.submit': 'Cancel executor',
+  'proposal.cancelAccepted.success': 'Selected executor has been cancelled',
+  'proposal.cancelAccepted.error': 'Failed to cancel selected executor',
 
   'proposal.contact.title': 'Contact seller',
   'proposal.contact.noContacts': 'No contacts to contact',
@@ -298,4 +310,33 @@ export const messages: Messages = {
   'request.profile.authRequired.description': 'To view the profile, you must be logged in.',
   'request.profile.authRequired.login': 'Login',
   'request.profile.authRequired.register': 'Register',
+
+  // Proposal actions
+  'proposal.accept.success': 'Executor selected successfully',
+  'proposal.accept.error': 'Failed to select executor',
+  'proposal.accept.confirmTitle': 'Select this executor?',
+  'proposal.accept.confirmDescription':
+    'Are you sure you want to select this proposal? The seller will be marked as the executor for this request.',
+  'proposal.accept.submit': 'Select',
+
+  'proposal.complete.success': 'Proposal completed successfully',
+  'proposal.complete.error': 'Failed to complete proposal',
+  'proposal.complete.confirmTitle': 'Complete proposal?',
+  'proposal.complete.confirmDescription':
+    'Are you sure you want to mark this proposal as completed? This will close the request.',
+  'proposal.complete.submit': 'Complete',
+
+  // Review
+  'review.create.title': 'Leave a review',
+  'review.create.description': 'Please rate your experience with this seller',
+  'review.create.rating': 'Rating',
+  'review.create.ratingRequired': 'Please select a rating',
+  'review.create.comment': 'Comment',
+  'review.create.commentPlaceholder': 'Share your experience...',
+  'review.create.submit': 'Submit review',
+  'review.create.success': 'Review submitted successfully',
+  'review.create.error': 'Failed to submit review',
+
+  'common.cancel': 'Cancel',
+  'common.submitting': 'Submitting...',
 };
