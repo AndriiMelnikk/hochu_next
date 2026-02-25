@@ -158,21 +158,25 @@ export default function RequestDetailContent({ id }: { id: string }) {
                 defaultValue="proposals"
                 className="bg-card rounded-2xl shadow-md border border-border"
               >
-                <TabsList className="w-full justify-start rounded-t-2xl rounded-b-none h-14 p-1 bg-muted/50">
-                  <TabsTrigger value="proposals" className="flex-1 text-base">
-                    {t('request.detail.tabs.proposals', { count: request.pendingProposalsCount })}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="discussion"
-                    className="flex-1 items-center gap-2 cursor-not-allowed opacity-60"
-                    disabled
-                  >
-                    <span className="hidden sm:inline">{t('request.detail.tabs.discussion')}</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="rejected" className="flex-1 text-base">
-                    {t('request.detail.tabs.rejected', { count: request.rejectedProposalsCount })}
-                  </TabsTrigger>
-                </TabsList>
+                <div className="overflow-x-auto scrollbar-none">
+                  <TabsList className="w-full min-w-max justify-start rounded-t-2xl rounded-b-none h-14 p-1 bg-muted/50 flex-nowrap">
+                    <TabsTrigger value="proposals" className="flex-1 min-w-[140px] text-base">
+                      {t('request.detail.tabs.proposals', { count: request.pendingProposalsCount })}
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="discussion"
+                      className="flex-1 min-w-[140px] items-center gap-2 cursor-not-allowed opacity-60"
+                      disabled
+                    >
+                      <span className="hidden sm:inline">
+                        {t('request.detail.tabs.discussion')}
+                      </span>
+                    </TabsTrigger>
+                    <TabsTrigger value="rejected" className="flex-1 min-w-[140px] text-base">
+                      {t('request.detail.tabs.rejected', { count: request.rejectedProposalsCount })}
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
 
                 {/* Received Proposals Tab */}
                 <TabsContent value="proposals" className="p-6 mt-0">

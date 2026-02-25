@@ -73,23 +73,23 @@ export const ProposalItem = ({
   const displayCompletedDeals = seller?.completedDeals;
   const displayAvatar = seller?.avatar;
 
-  const cardBaseClasses = 'border rounded-lg p-6 transition-all';
+  const cardBaseClasses = 'border rounded-lg p-4 sm:p-6 transition-all';
   const cardStateClasses = isSelected
     ? ' border-primary bg-primary/5 shadow-md'
     : ' border-border hover:border-primary hover:shadow-md';
 
   return (
     <div className={cardBaseClasses + cardStateClasses}>
-      <div className="flex items-start gap-4">
+      <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
         <Link href={`/profile/${proposal.sellerId}`}>
-          <Avatar className="h-16 w-16 border-2 border-primary shrink-0 transition-opacity hover:opacity-80">
+          <Avatar className="h-12 w-12 sm:h-16 sm:w-16 border-2 border-primary shrink-0 transition-opacity hover:opacity-80 mx-auto sm:mx-0">
             <AvatarImage src={displayAvatar ?? undefined} />
             <AvatarFallback>{displayName}</AvatarFallback>
           </Avatar>
         </Link>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="flex-1 min-w-0 w-full">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-6 mb-3">
             <div>
               <h3 className="font-semibold text-lg flex items-center gap-2 flex-wrap">
                 <Link href={`/profile/${proposal.sellerId}`} className="hover:underline">
@@ -128,9 +128,9 @@ export const ProposalItem = ({
                 </p>
               )}
             </div>
-            <div className="text-right shrink-0">
-              <div className="text-2xl font-bold text-primary">{proposal.price} грн</div>
-              <p className="text-xs text-muted-foreground">
+            <div className="text-left sm:text-right shrink-0">
+              <div className="text-xl sm:text-2xl font-bold text-primary">{proposal.price} грн</div>
+              <p className="text-xs text-muted-foreground mt-1 sm:mt-0">
                 {new Date(proposal.createdAt).toLocaleDateString(
                   i18n.locale === 'uk' ? 'uk-UA' : 'en-US',
                 )}
@@ -138,12 +138,12 @@ export const ProposalItem = ({
             </div>
           </div>
 
-          <h4 className="font-semibold mb-2">{proposal.title}</h4>
-          <p className="text-sm text-muted-foreground mb-4 whitespace-pre-line">
+          <h4 className="font-semibold mb-2 break-words">{proposal.title}</h4>
+          <p className="text-sm text-muted-foreground mb-4 whitespace-pre-line break-words">
             {proposal.description}
           </p>
 
-          <div className="flex flex-wrap gap-4 text-sm mb-4">
+          <div className="flex flex-wrap gap-3 sm:gap-4 text-sm mb-4">
             <span className="flex items-center gap-1">
               <Clock className="h-4 w-4 text-primary shrink-0" />
               <span className="text-muted-foreground">{t('proposal.item.delivery')}</span>
@@ -184,7 +184,7 @@ export const ProposalItem = ({
               <Carousel opts={{ align: 'start' }} className="w-full max-w-full">
                 <CarouselContent className="-ml-2">
                   {proposal.images.map((image: string, index: number) => (
-                    <CarouselItem key={index} className="pl-2 basis-1/3 sm:basis-1/3 md:basis-1/4">
+                    <CarouselItem key={index} className="pl-2 basis-1/2 xs:basis-1/3 md:basis-1/4">
                       <div
                         className="aspect-video rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer group"
                         onClick={() => onImageClick(proposal.images, index)}
