@@ -339,4 +339,47 @@ export const messages: Messages = {
 
   'common.cancel': 'Скасувати',
   'common.submitting': 'Відправка...',
+
+  // Status guide
+  'status.guide.title': 'Як працюють статуси?',
+  'status.guide.request.title': 'Статуси запиту',
+  'status.guide.request.pending.name': 'Очікує',
+  'status.guide.request.pending.desc': 'Запит створений, але ще не опублікований.',
+  'status.guide.request.pending.next':
+    'Наступний крок: Редагування або публікація (перехід в Активний).',
+  'status.guide.request.active.name': 'Активний',
+  'status.guide.request.active.desc': 'Запит опублікований. Виконавці можуть надсилати пропозиції.',
+  'status.guide.request.active.next': 'Наступний крок: Очікуйте пропозицій та оберіть виконавця.',
+  'status.guide.request.closed.name': 'Закрито',
+  'status.guide.request.closed.desc': 'Виконавця обрано. Нові пропозиції не приймаються.',
+  'status.guide.request.closed.next':
+    'Наступний крок: Виконання роботи. Ви можете скасувати вибір виконавця, щоб обрати іншого.',
+  'status.guide.request.completed.name': 'Виконано',
+  'status.guide.request.completed.desc': 'Угоду успішно завершено.',
+  'status.guide.request.completed.next': 'Фінальний стан. Ви можете залишити відгук.',
+  'status.guide.request.cancelled.name': 'Скасовано',
+  'status.guide.request.cancelled.desc': 'Запит було скасовано автором.',
+  'status.guide.request.cancelled.next': 'Запит більше не актуальний.',
+  'status.guide.request.rejected.name': 'Відхилено',
+  'status.guide.request.rejected.desc':
+    'Запит відхилено модерацією (наприклад, через порушення правил).',
+  'status.guide.request.rejected.next': 'Виправте порушення або зверніться в підтримку.',
+
+  'status.guide.proposal.title': 'Статуси пропозицій',
+  'status.guide.proposal.pending.name': 'Очікує',
+  'status.guide.proposal.pending.desc': 'Ваша пропозиція на розгляді у замовника.',
+  'status.guide.proposal.pending.next': 'Наступний крок: Замовник може прийняти або відхилити її.',
+  'status.guide.proposal.accepted.name': 'Прийнято',
+  'status.guide.proposal.accepted.desc': 'Замовник обрав вашу пропозицію!',
+  'status.guide.proposal.accepted.next':
+    'Наступний крок: Домовтеся про передачу товару. Пропозиція може бути відкликана, якщо товар не підійде.',
+  'status.guide.proposal.completed.name': 'Виконано',
+  'status.guide.proposal.completed.desc': 'Угоду успішно завершено, товар передано.',
+  'status.guide.proposal.completed.next': 'Фінальний стан. Сторони можуть залишити відгуки.',
+  'status.guide.proposal.rejected.name': 'Відхилено',
+  'status.guide.proposal.rejected.desc': 'Замовник відхилив цю пропозицію (або обрано іншу).',
+  'status.guide.proposal.rejected.next': 'Ви можете спробувати інший запит.',
+  'status.guide.proposal.withdrawn.name': 'Відкликано',
+  'status.guide.proposal.withdrawn.desc': 'Ви самостійно відкликали свою пропозицію.',
+  'status.guide.proposal.withdrawn.next': 'Ви більше не берете участі в цьому запиті.',
 };

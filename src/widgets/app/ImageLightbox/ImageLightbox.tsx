@@ -15,7 +15,9 @@ const ImageLightbox = ({ images, initialIndex = 0, open, onOpenChange }: ImageLi
 
   useEffect(() => {
     if (open) {
-      setCurrentIndex(initialIndex);
+      setTimeout(() => {
+        setCurrentIndex(initialIndex);
+      }, 100);
     }
   }, [open, initialIndex]);
 

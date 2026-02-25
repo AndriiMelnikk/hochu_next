@@ -9,7 +9,7 @@ import ImageLightbox from '@/widgets/app/ImageLightbox';
 import { useRequest } from '@/entities/request';
 import { useMe } from '@/entities/user/hooks/useUser';
 import { useCanPropose, ProposalStatus } from '@/entities/proposal';
-import { RequestInfo, RequestSidebar } from '@/features/requests';
+import { RequestInfo, RequestSidebar, StatusGuide } from '@/features/requests';
 import { CreateProposalForm, ProposalList } from '@/features/proposals';
 import { DiscussionForm, DiscussionList } from '@/features/discussions';
 import { Loading } from '@shared/ui/loading';
@@ -217,6 +217,8 @@ export default function RequestDetailContent({ id }: { id: string }) {
                   />
                 </TabsContent>
               </Tabs>
+
+              <StatusGuide />
             </div>
 
             {/* Sidebar */}

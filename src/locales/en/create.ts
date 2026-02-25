@@ -339,4 +339,49 @@ export const messages: Messages = {
 
   'common.cancel': 'Cancel',
   'common.submitting': 'Submitting...',
+
+  // Status guide
+  'status.guide.title': 'How do statuses work?',
+  'status.guide.request.title': 'Request Statuses',
+  'status.guide.request.pending.name': 'Pending',
+  'status.guide.request.pending.desc': 'The request is created but not yet published.',
+  'status.guide.request.pending.next': 'Next step: Editing or publishing (transition to Active).',
+  'status.guide.request.active.name': 'Active',
+  'status.guide.request.active.desc': 'The request is published. Performers can send proposals.',
+  'status.guide.request.active.next': 'Next step: Wait for proposals and select an executor.',
+  'status.guide.request.closed.name': 'Closed',
+  'status.guide.request.closed.desc':
+    'An executor has been selected. New proposals are not accepted.',
+  'status.guide.request.closed.next':
+    'Next step: Work execution. You can cancel the selection to choose another executor.',
+  'status.guide.request.completed.name': 'Completed',
+  'status.guide.request.completed.desc': 'The deal has been successfully completed.',
+  'status.guide.request.completed.next': 'Final state. You can leave a review.',
+  'status.guide.request.cancelled.name': 'Cancelled',
+  'status.guide.request.cancelled.desc': 'The request was cancelled by the author.',
+  'status.guide.request.cancelled.next': 'The request is no longer relevant.',
+  'status.guide.request.rejected.name': 'Rejected',
+  'status.guide.request.rejected.desc':
+    'The request was rejected by moderation (e.g., due to rule violations).',
+  'status.guide.request.rejected.next': 'Fix violations or contact support.',
+
+  'status.guide.proposal.title': 'Proposal Statuses',
+  'status.guide.proposal.pending.name': 'Pending',
+  'status.guide.proposal.pending.desc': 'Your proposal is under consideration by the customer.',
+  'status.guide.proposal.pending.next': 'Next step: The customer can accept or reject it.',
+  'status.guide.proposal.accepted.name': 'Accepted',
+  'status.guide.proposal.accepted.desc': 'The customer selected your proposal!',
+  'status.guide.proposal.accepted.next':
+    "Next step: Agree on product delivery. The proposal can be withdrawn if the product doesn't fit.",
+  'status.guide.proposal.completed.name': 'Completed',
+  'status.guide.proposal.completed.desc':
+    'The deal has been successfully completed, the product delivered.',
+  'status.guide.proposal.completed.next': 'Final state. Both parties can leave reviews.',
+  'status.guide.proposal.rejected.name': 'Rejected',
+  'status.guide.proposal.rejected.desc':
+    'The customer rejected this proposal (or another one was selected).',
+  'status.guide.proposal.rejected.next': 'You can try another request.',
+  'status.guide.proposal.withdrawn.name': 'Withdrawn',
+  'status.guide.proposal.withdrawn.desc': 'You have withdrawn your proposal.',
+  'status.guide.proposal.withdrawn.next': 'You are no longer participating in this request.',
 };
