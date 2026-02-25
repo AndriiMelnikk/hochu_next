@@ -131,20 +131,22 @@ export const RequestInfo = ({
       {/* Request Header */}
       <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
         <div className="flex items-start justify-between mb-4 gap-4">
-          <div className="flex-1 min-w-0">
-            <Badge
-              variant={
-                REQUEST_STATUS_BADGE_VARIANT[
-                  request.status as keyof typeof REQUEST_STATUS_BADGE_VARIANT
-                ] ?? 'secondary'
-              }
-              className="mb-3"
-            >
-              {t(REQUEST_STATUS_LABELS[request.status as keyof typeof REQUEST_STATUS_LABELS])}
-            </Badge>
-            <Badge variant="secondary" className="bg-accent text-accent-foreground mb-3">
-              {request.category.name}
-            </Badge>
+          <div className="flex-1 min-w-0 gap-2">
+            <div>
+              <Badge
+                variant={
+                  REQUEST_STATUS_BADGE_VARIANT[
+                    request.status as keyof typeof REQUEST_STATUS_BADGE_VARIANT
+                  ] ?? 'secondary'
+                }
+                className="mb-3"
+              >
+                {t(REQUEST_STATUS_LABELS[request.status as keyof typeof REQUEST_STATUS_LABELS])}
+              </Badge>
+              <Badge variant="secondary" className="bg-accent text-accent-foreground mb-3 ml-1">
+                {request.category.name}
+              </Badge>
+            </div>
             <h1 className="text-3xl font-bold mb-3 text-card-foreground">{request.title}</h1>
           </div>
           {isOwner && request.status === RequestStatus.ACTIVE && (

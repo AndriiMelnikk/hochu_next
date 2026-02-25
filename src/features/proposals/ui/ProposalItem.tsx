@@ -78,40 +78,47 @@ export const ProposalItem = ({
     ? ' border-primary bg-primary/5 shadow-md'
     : ' border-border hover:border-primary hover:shadow-md';
 
+  const avatar = (
+    <Link href={`/profile/${proposal.sellerId}`}>
+      <Avatar className="h-12 w-12 sm:h-16 sm:w-16 border-2 border-primary shrink-0 transition-opacity hover:opacity-80">
+        <AvatarImage src={displayAvatar ?? undefined} />
+        <AvatarFallback>{displayName}</AvatarFallback>
+      </Avatar>
+    </Link>
+  );
+
   return (
     <div className={cardBaseClasses + cardStateClasses}>
       <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
-        <Link href={`/profile/${proposal.sellerId}`}>
-          <Avatar className="h-12 w-12 sm:h-16 sm:w-16 border-2 border-primary shrink-0 transition-opacity hover:opacity-80 mx-auto sm:mx-0">
-            <AvatarImage src={displayAvatar ?? undefined} />
-            <AvatarFallback>{displayName}</AvatarFallback>
-          </Avatar>
-        </Link>
+        <div className="hidden sm:block">{avatar}</div>
 
         <div className="flex-1 min-w-0 w-full">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-6 mb-3">
             <div>
-              <h3 className="font-semibold text-lg flex items-center gap-2 flex-wrap">
-                <Link href={`/profile/${proposal.sellerId}`} className="hover:underline">
-                  {displayName}
-                </Link>
-                {displayRating != null && (
-                  <Badge variant="secondary" className="text-xs">
-                    <Star className="h-3 w-3 mr-1 fill-yellow-500 text-yellow-500" />
-                    {displayRating}
-                  </Badge>
-                )}
-                {isSelected && (
-                  <Badge variant="success" className="text-xs">
-                    {t('proposal.item.selectedExecutorBadge')}
-                  </Badge>
-                )}
-                {type === 'rejected' && (
-                  <Badge variant="destructive" className="text-xs">
-                    {t('proposal.item.rejectedBadge')}
-                  </Badge>
-                )}
-              </h3>
+              <div className="flex items-center gap-3 sm:gap-2">
+                <div className="sm:hidden">{avatar}</div>
+                <h3 className="font-semibold text-lg flex items-center gap-2 flex-wrap">
+                  <Link href={`/profile/${proposal.sellerId}`} className="hover:underline">
+                    {displayName}
+                  </Link>
+                  {displayRating != null && (
+                    <Badge variant="secondary" className="text-xs">
+                      <Star className="h-3 w-3 mr-1 fill-yellow-500 text-yellow-500" />
+                      {displayRating}
+                    </Badge>
+                  )}
+                  {isSelected && (
+                    <Badge variant="success" className="text-xs">
+                      {t('proposal.item.selectedExecutorBadge')}
+                    </Badge>
+                  )}
+                  {type === 'rejected' && (
+                    <Badge variant="destructive" className="text-xs">
+                      {t('proposal.item.rejectedBadge')}
+                    </Badge>
+                  )}
+                </h3>
+              </div>
               {(displayReviewsCount != null || displayCompletedDeals != null) && (
                 <p className="text-sm text-muted-foreground">
                   {displayCompletedDeals != null && (
@@ -128,7 +135,7 @@ export const ProposalItem = ({
                 </p>
               )}
             </div>
-            <div className="text-left sm:text-right shrink-0">
+            <div className="text-left sm:text-right shrink-0 sm:ml-auto">
               <div className="text-xl sm:text-2xl font-bold text-primary">{proposal.price} грн</div>
               <p className="text-xs text-muted-foreground mt-1 sm:mt-0">
                 {new Date(proposal.createdAt).toLocaleDateString(
