@@ -49,7 +49,13 @@ export const AcceptProposalModal = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('proposal.accept.confirmTitle')}</DialogTitle>
-          <DialogDescription>{t('proposal.accept.confirmDescription')}</DialogDescription>
+          <DialogDescription>
+            <p>{t('proposal.accept.confirmDescription_1')}</p>
+            <br />
+            <p>{t('proposal.accept.confirmDescription_2')}</p>
+            <br />
+            <p>{t('proposal.accept.confirmDescription_3')}</p>
+          </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>

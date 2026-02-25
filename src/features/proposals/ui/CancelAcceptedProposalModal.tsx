@@ -49,7 +49,11 @@ export const CancelAcceptedProposalModal = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('proposal.cancelAccepted.confirmTitle')}</DialogTitle>
-          <DialogDescription>{t('proposal.cancelAccepted.confirmDescription')}</DialogDescription>
+          <DialogDescription>
+            <p>{t('proposal.cancelAccepted.confirmDescription_1')}</p>
+            <br />
+            <p>{t('proposal.cancelAccepted.confirmDescription_2')}</p>
+          </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>

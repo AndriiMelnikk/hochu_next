@@ -162,8 +162,8 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                     className="text-base"
                     disabled={isPending}
                     value={field.value ?? ''}
-                    onChange={(e) =>
-                      field.onChange(e.target.value === '' ? 0 : Number(e.target.value))
+                    onChange={(event) =>
+                      field.onChange(event.target.value === '' ? '' : Number(event.target.value))
                     }
                   />
                 </FormControl>
@@ -183,9 +183,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                 <Select onValueChange={field.onChange} value={field.value} disabled={isPending}>
                   <FormControl>
                     <SelectTrigger className="text-base">
-                      <SelectValue
-                        placeholder={t('proposal.create.itemConditionPlaceholder')}
-                      />
+                      <SelectValue placeholder={t('proposal.create.itemConditionPlaceholder')} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

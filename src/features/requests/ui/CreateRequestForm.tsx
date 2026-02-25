@@ -304,7 +304,9 @@ export const CreateRequestForm = () => {
                     className="text-base"
                     disabled={isSubmitting}
                     value={field.value ?? ''}
-                    onChange={(event) => field.onChange(event.target.value)}
+                    onChange={(event) =>
+                      field.onChange(event.target.value === '' ? '' : Number(event.target.value))
+                    }
                   />
                 </FormControl>
               </FormItem>
@@ -325,7 +327,9 @@ export const CreateRequestForm = () => {
                     className="text-base"
                     disabled={isSubmitting}
                     value={field.value ?? ''}
-                    onChange={(event) => field.onChange(event.target.value)}
+                    onChange={(event) =>
+                      field.onChange(event.target.value === '' ? '' : Number(event.target.value))
+                    }
                   />
                 </FormControl>
               </FormItem>

@@ -225,8 +225,9 @@ export const messages: Messages = {
   'proposal.reject.error': 'Failed to reject proposal',
 
   'proposal.cancelAccepted.confirmTitle': 'Cancel selected executor?',
-  'proposal.cancelAccepted.confirmDescription':
+  'proposal.cancelAccepted.confirmDescription_1':
     'Are you sure you want to cancel the selected executor and reopen this request?',
+  'proposal.cancelAccepted.confirmDescription_2': 'The proposal will be set as rejected',
   'proposal.cancelAccepted.submit': 'Cancel executor',
   'proposal.cancelAccepted.success': 'Selected executor has been cancelled',
   'proposal.cancelAccepted.error': 'Failed to cancel selected executor',
@@ -315,15 +316,20 @@ export const messages: Messages = {
   'proposal.accept.success': 'Executor selected successfully',
   'proposal.accept.error': 'Failed to select executor',
   'proposal.accept.confirmTitle': 'Select this executor?',
-  'proposal.accept.confirmDescription':
-    'Are you sure you want to select this proposal? The seller will be marked as the executor for this request.',
+  'proposal.accept.confirmDescription_1':
+    'By selecting an executor, you choose a person who will execute your request.',
+  'proposal.accept.confirmDescription_2': 'You can cancel and change the executor at any time.',
+  'proposal.accept.confirmDescription_3':
+    'During the selected executor, you will not receive new proposals for this request.',
   'proposal.accept.submit': 'Select',
 
   'proposal.complete.success': 'Proposal completed successfully',
   'proposal.complete.error': 'Failed to complete proposal',
   'proposal.complete.confirmTitle': 'Complete proposal?',
-  'proposal.complete.confirmDescription':
+  'proposal.complete.confirmDescription_1':
     'Are you sure you want to mark this proposal as completed? This will close the request.',
+  'proposal.complete.confirmDescription_2':
+    'This also means that you have received the product from the buyer and can leave a review.',
   'proposal.complete.submit': 'Complete',
 
   // Review

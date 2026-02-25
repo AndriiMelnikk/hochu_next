@@ -49,7 +49,11 @@ export const CompleteProposalModal = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('proposal.complete.confirmTitle')}</DialogTitle>
-          <DialogDescription>{t('proposal.complete.confirmDescription')}</DialogDescription>
+          <DialogDescription>
+            <p>{t('proposal.complete.confirmDescription_1')}</p>
+            <br />
+            <p>{t('proposal.complete.confirmDescription_2')}</p>
+          </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>

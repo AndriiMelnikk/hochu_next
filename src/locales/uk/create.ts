@@ -225,8 +225,9 @@ export const messages: Messages = {
   'proposal.reject.error': 'Не вдалося відхилити пропозицію',
 
   'proposal.cancelAccepted.confirmTitle': 'Скасувати вибір виконавця?',
-  'proposal.cancelAccepted.confirmDescription':
+  'proposal.cancelAccepted.confirmDescription_1':
     'Ви впевнені, що хочете скасувати вибір виконавця та знову відкрити цю заявку?',
+  'proposal.cancelAccepted.confirmDescription_2': 'Пропозиція буде встановлена як відхилена',
   'proposal.cancelAccepted.submit': 'Скасувати виконавця',
   'proposal.cancelAccepted.success': 'Вибір виконавця скасовано',
   'proposal.cancelAccepted.error': 'Не вдалося скасувати вибір виконавця',
@@ -315,15 +316,22 @@ export const messages: Messages = {
   'proposal.accept.success': 'Виконавця успішно обрано',
   'proposal.accept.error': 'Не вдалося обрати виконавця',
   'proposal.accept.confirmTitle': 'Обрати цього виконавця?',
-  'proposal.accept.confirmDescription':
-    'Ви впевнені, що хочете обрати цю пропозицію? Продавець буде позначений як виконавець для цього запиту.',
+  'proposal.accept.confirmDescription_1':
+    'Обираючи виконавця, ви обираєте людину, яка буде виконувати ваш запит.',
+  'proposal.accept.confirmDescription_2':
+    'Ви зможете скасувати та змінити виконавця в будь-який момент',
+  'proposal.accept.confirmDescription_3':
+    'Під час обраного виконавця ви не зможете отримувати нові пропозиції до цього запиту.',
+
   'proposal.accept.submit': 'Обрати',
 
   'proposal.complete.success': 'Пропозицію успішно завершено',
   'proposal.complete.error': 'Не вдалося завершити пропозицію',
   'proposal.complete.confirmTitle': 'Завершити пропозицію?',
-  'proposal.complete.confirmDescription':
-    'Ви впевнені, що хочете позначити цю пропозицію як виконану? Це закриє заявку.',
+  'proposal.complete.confirmDescription_1':
+    'Завершивши пропозицію, ви завершуєте співпрацю з замовником та закриваєте запит.',
+  'proposal.complete.confirmDescription_2':
+    'Це також означає що ви отримали товар від замовника та можете залишити відгук.',
   'proposal.complete.submit': 'Завершити',
 
   // Review

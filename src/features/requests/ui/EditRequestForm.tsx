@@ -346,7 +346,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
                     disabled={isSubmitting}
                     value={field.value ?? ''}
                     onChange={(event) =>
-                      field.onChange(event.target.value ? Number(event.target.value) : undefined)
+                      field.onChange(event.target.value === '' ? '' : Number(event.target.value))
                     }
                   />
                 </FormControl>
@@ -369,7 +369,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
                     disabled={isSubmitting}
                     value={field.value ?? ''}
                     onChange={(event) =>
-                      field.onChange(event.target.value ? Number(event.target.value) : undefined)
+                      field.onChange(event.target.value === '' ? '' : Number(event.target.value))
                     }
                   />
                 </FormControl>
