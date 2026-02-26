@@ -5,6 +5,7 @@ import { HeroBadge } from '@shared/ui/hero-badge';
 import { CreateRequestButton } from '@/features/requests';
 import Link from 'next/link';
 import { Search, MessageSquare, CheckCircle } from 'lucide-react';
+import { routes } from '@/app/router/routes';
 
 const Hero = () => {
   return (
@@ -34,7 +35,7 @@ const Hero = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                 <CreateRequestButton />
                 <Button size="xl" variant="outline" className="border-2" asChild>
-                  <Link href="/browse">Переглянути запити</Link>
+                  <Link href={routes.REQUEST}>Переглянути запити</Link>
                 </Button>
               </div>
 

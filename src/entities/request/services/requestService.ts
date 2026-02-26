@@ -38,6 +38,31 @@ class RequestService {
   async delete(id: string | number, config?: AxiosRequestConfig): Promise<void> {
     return (await api.delete(ENDPOINTS.REQUESTS.BY_ID(id), config)).data;
   }
+
+  /**
+   * Завантажує одне зображення для запиту (POST /api/upload/post, multipart field "file").
+   * Повертає URL завантаженого файлу.
+   */
+  async uploadPostImage(file: File, requestConfig?: AxiosRequestConfig): Promise<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await api.post<{ url?: string; path?: string } | string>(
+      ENDPOINTS.UPLOAD.POST_IMAGE,
+      formData,
+      {
+        ...requestConfig,
+        headers: {
+          ...requestConfig?.headers,
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+    const data = response.data;
+    if (typeof data === 'string') return data;
+    const url = data?.url ?? data?.path;
+    if (typeof url !== 'string') throw new Error('Upload response missing url/path');
+    return url;
+  }
 }
 
 export const requestService = new RequestService();

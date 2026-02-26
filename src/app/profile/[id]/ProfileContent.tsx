@@ -17,6 +17,7 @@ import ProfileSettings from '@/widgets/app/ProfileSettings';
 import GamificationProgress from '@/widgets/app/GamificationProgress';
 import GamifiedAvatar from '@/widgets/app/GamifiedAvatar';
 import Header from '@/widgets/app/Header';
+import { routes } from '@/app/router/routes';
 
 export default function ProfileContent() {
   const params = useParams();
@@ -63,7 +64,7 @@ export default function ProfileContent() {
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
         <h1 className="text-2xl font-bold mb-4">Користувача не знайдено</h1>
         <Button asChild>
-          <Link href="/">На головну</Link>
+          <Link href={routes.HOME}>На головну</Link>
         </Button>
       </div>
     );

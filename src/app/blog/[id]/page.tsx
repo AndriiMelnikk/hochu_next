@@ -12,6 +12,8 @@ import { Error as ErrorComponent } from '@shared/ui/error';
 import { Separator } from '@shared/ui/separator';
 import { parseContentToSections } from '@/entities/blog/utils/contentParser';
 import { ArticleSection } from './ArticleSection';
+import { routes } from '@/app/router/routes';
+import Image from 'next/image';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -75,7 +77,7 @@ export default async function BlogArticlePage({ params }: Props) {
       <Header />
       <main className="container mx-auto px-4 pt-24 pb-16">
         {/* Back Button */}
-        <Link href="/blog">
+        <Link href={routes.BLOG}>
           <Button variant="ghost" className="mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Назад до блогу
@@ -85,10 +87,11 @@ export default async function BlogArticlePage({ params }: Props) {
         {/* Article Header */}
         <Card className="mb-8">
           <div className="relative h-96 w-full overflow-hidden rounded-t-lg">
-            <img
+            <Image
               src={article.image || '/placeholder.svg'}
               alt={article.title}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           </div>
           <CardContent className="p-8">

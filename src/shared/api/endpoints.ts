@@ -33,4 +33,8 @@ export const ENDPOINTS = {
   LOCATIONS: {
     CITIES: '/api/locations/cities',
   },
+  UPLOAD: {
+    /** POST multipart/form-data with field "file". UploadType.POST. */
+    POST_IMAGE: '/api/upload/post',
+  },
 } as const;

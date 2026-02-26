@@ -1,11 +1,12 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { useForm, type FieldError, type FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { toast } from 'sonner';
 import {
   FileText,
@@ -17,12 +18,15 @@ import {
   ChevronDown,
   Tag,
   Package,
+  X,
+  Loader2,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { useCategories } from '@/entities/category';
 import { useCities } from '@/entities/location';
 import { useDebounce } from '@/shared/hooks';
+import { MAX_IMAGES, ACCEPTED_IMAGE_TYPES } from '@/shared/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import {
   Command,
@@ -34,6 +38,7 @@ import {
 } from '@/shared/ui/command';
 import {
   createRequestSchema,
+  requestService,
   useRequestStore,
   ItemCondition,
   type ICreateRequestRequest,
@@ -79,6 +84,8 @@ export const CreateRequestForm = () => {
   const [locationSearch, setLocationSearch] = useState('');
   const debouncedLocationSearch = useDebounce(locationSearch, 500);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: cities = [], isLoading: isCitiesLoading } = useCities(debouncedLocationSearch);
 
@@ -93,10 +100,11 @@ export const CreateRequestForm = () => {
       location: '',
       urgency: undefined,
       itemCondition: ItemCondition.NEW,
+      images: [],
     },
   });
 
-  const { handleSubmit, setError, control } = form;
+  const { handleSubmit, setError, control, watch, setValue, getValues } = form;
 
   const categoryPlaceholder = isCategoriesLoading
     ? t('request.create.categoriesLoading')
@@ -210,6 +218,49 @@ export const CreateRequestForm = () => {
     setSelectedCategoryId(categoryId);
     const selected = categoriesById.get(categoryId);
     onChange(selected?._id ?? '');
+  };
+
+  const uploadedImages = watch('images') ?? [];
+
+  const handleFilesChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files?.length) return;
+    const current = getValues('images') ?? [];
+    if (current.length + files.length > MAX_IMAGES) {
+      toast.error(t('request.create.filesMaxError') || `Максимум ${MAX_IMAGES} фото`);
+      event.target.value = '';
+      return;
+    }
+    const toUpload = Array.from(files).filter((f) => ACCEPTED_IMAGE_TYPES.includes(f.type));
+    if (toUpload.length < files.length) {
+      toast.error(t('request.create.filesTypeError') || 'Дозволені лише JPG, PNG, WebP, GIF');
+    }
+    if (!toUpload.length) {
+      event.target.value = '';
+      return;
+    }
+    setIsUploading(true);
+    try {
+      const urls: string[] = [];
+      for (const file of toUpload) {
+        const url = await requestService.uploadPostImage(file);
+        urls.push(url);
+      }
+      setValue('images', [...current, ...urls]);
+    } catch {
+      toast.error(t('request.create.filesUploadError') || 'Помилка завантаження фото');
+    } finally {
+      setIsUploading(false);
+      event.target.value = '';
+    }
+  };
+
+  const removeImage = (index: number) => {
+    const current = getValues('images') ?? [];
+    setValue(
+      'images',
+      current.filter((_, i) => i !== index),
+    );
   };
 
   return (
@@ -468,19 +519,102 @@ export const CreateRequestForm = () => {
           )}
         />
 
-        <div className="space-y-2">
-          <Label htmlFor="files" className="text-base font-semibold flex items-center">
-            <Upload className="h-5 w-5 mr-2 text-primary" />
-            {t('request.create.filesLabel')}
-          </Label>
-          <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary transition-colors cursor-pointer">
-            <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <p className="text-muted-foreground mb-2">{t('request.create.filesHintPrimary')}</p>
-            <p className="text-sm text-muted-foreground">
-              {t('request.create.filesHintSecondary')}
-            </p>
-          </div>
-        </div>
+        <FormField
+          control={control}
+          name="images"
+          render={() => (
+            <FormItem>
+              <FormLabel className="text-base font-semibold flex items-center">
+                <Upload className="h-5 w-5 mr-2 text-primary" />
+                {t('request.create.filesLabel')}
+              </FormLabel>
+              <FormControl>
+                <>
+                  <input
+                    ref={fileInputRef}
+                    id="files"
+                    type="file"
+                    accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                    multiple
+                    className="hidden"
+                    disabled={isSubmitting || isUploading || uploadedImages.length >= MAX_IMAGES}
+                    onChange={handleFilesChange}
+                  />
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    className={cn(
+                      'border-2 border-dashed border-border rounded-lg p-8 text-center transition-colors cursor-pointer',
+                      isUploading || isSubmitting || uploadedImages.length >= MAX_IMAGES
+                        ? 'opacity-60 cursor-not-allowed'
+                        : 'hover:border-primary',
+                    )}
+                    onClick={() =>
+                      !isUploading &&
+                      !isSubmitting &&
+                      uploadedImages.length < MAX_IMAGES &&
+                      fileInputRef.current?.click()
+                    }
+                    onKeyDown={(e) =>
+                      e.key === 'Enter' &&
+                      !isUploading &&
+                      !isSubmitting &&
+                      uploadedImages.length < MAX_IMAGES &&
+                      fileInputRef.current?.click()
+                    }
+                  >
+                    {isUploading ? (
+                      <Loader2 className="h-12 w-12 text-primary mx-auto mb-4 animate-spin" />
+                    ) : (
+                      <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    )}
+                    <p className="text-muted-foreground mb-2">
+                      {isUploading
+                        ? t('request.create.filesUploading') || 'Завантаження…'
+                        : t('request.create.filesHintPrimary')}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('request.create.filesHintSecondary')}
+                    </p>
+                    {uploadedImages.length > 0 && (
+                      <p className="text-sm text-muted-foreground mt-2">
+                        {uploadedImages.length}/{MAX_IMAGES}
+                      </p>
+                    )}
+                  </div>
+                  {uploadedImages.length > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-4">
+                      {uploadedImages.map((url, index) => (
+                        <div
+                          key={`${url}-${index}`}
+                          className="relative aspect-square rounded-lg overflow-hidden border border-border bg-muted group"
+                        >
+                          <Image
+                            src={url}
+                            alt=""
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 50vw, 25vw"
+                            unoptimized
+                          />
+                          <button
+                            type="button"
+                            aria-label={t('request.create.filesRemove') || 'Видалити'}
+                            className="absolute top-1 right-1 rounded-full bg-destructive/90 text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
+                            onClick={() => removeImage(index)}
+                            disabled={isSubmitting}
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              </FormControl>
+            </FormItem>
+          )}
+        />
 
         <div className="flex flex-col sm:flex-row gap-4 pt-6">
           <Button
