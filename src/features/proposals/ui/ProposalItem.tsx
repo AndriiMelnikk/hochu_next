@@ -193,10 +193,16 @@ export const ProposalItem = ({
                   {proposal.images.map((image: string, index: number) => (
                     <CarouselItem key={index} className="pl-2 basis-1/2 xs:basis-1/3 md:basis-1/4">
                       <div
-                        className="aspect-video rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer group"
+                        className="relative aspect-video w-full rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer group"
                         onClick={() => onImageClick(proposal.images, index)}
                       >
-                        <Image width={100} height={100} src={image} alt={`Фото ${index + 1}`} />
+                        <Image
+                          fill
+                          src={image}
+                          alt={`Фото ${index + 1}`}
+                          className="object-cover"
+                          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                        />
                       </div>
                     </CarouselItem>
                   ))}

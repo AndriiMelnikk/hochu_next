@@ -37,7 +37,12 @@ export const EditProposalModal = ({
           <DialogTitle>{t('proposal.edit.title')}</DialogTitle>
         </DialogHeader>
         <div className="flex-1 overflow-hidden">
-          <EditProposalForm proposal={proposal} onSuccess={handleSuccess} onCancel={handleCancel} />
+          <EditProposalForm
+            key={proposal._id}
+            proposal={proposal}
+            onSuccess={handleSuccess}
+            onCancel={handleCancel}
+          />
         </div>
       </DialogContent>
     </Dialog>

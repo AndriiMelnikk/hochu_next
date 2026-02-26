@@ -1,7 +1,9 @@
 'use client';
 
+import { useRef, useState } from 'react';
+import Image from 'next/image';
 import { AxiosError } from 'axios';
-import { DollarSign, Send, Upload, AlertCircle, Package } from 'lucide-react';
+import { DollarSign, Send, Upload, AlertCircle, Package, X, Loader2 } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,13 +11,15 @@ import type { FieldErrors } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
 
+import { cn } from '@/lib/utils';
+import { ACCEPTED_IMAGE_TYPES } from '@/shared/utils';
 import { Button } from '@shared/ui/button';
 import { Input } from '@shared/ui/input';
 import { Textarea } from '@shared/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@shared/ui/form';
 
-import { ItemCondition } from '@/entities/request';
+import { ItemCondition, requestService } from '@/entities/request';
 import {
   createProposalSchema,
   useCreateProposal,
@@ -31,6 +35,8 @@ interface CreateProposalFormProps {
   onSuccess?: () => void;
 }
 
+const MAX_PROPOSAL_IMAGES = 5;
+
 type CreateProposalFormValues = z.infer<typeof createProposalSchema>;
 
 export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreateProposalFormProps) => {
@@ -38,6 +44,9 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
   const { mutateAsync: createProposal, isPending } = useCreateProposal(requestId);
+  const [isUploading, setIsUploading] = useState(false);
+  const [deletingUrls, setDeletingUrls] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<CreateProposalFormValues>({
     resolver: zodResolver(createProposalSchema),
@@ -48,8 +57,65 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
       estimatedTime: undefined,
       warranty: undefined,
       itemCondition: ItemCondition.NEW,
+      images: [],
     },
   });
+
+  const { control, watch, setValue, getValues, handleSubmit } = form;
+  const uploadedImages = watch('images') ?? [];
+
+  const handleFilesChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files?.length) return;
+    const current = getValues('images') ?? [];
+    if (current.length + files.length > MAX_PROPOSAL_IMAGES) {
+      toast.error(t('request.create.filesMaxError') || `Максимум ${MAX_PROPOSAL_IMAGES} фото`);
+      event.target.value = '';
+      return;
+    }
+    const toUpload = Array.from(files).filter((f) => ACCEPTED_IMAGE_TYPES.includes(f.type));
+    if (toUpload.length < files.length) {
+      toast.error(t('request.create.filesTypeError') || 'Дозволені лише JPG, PNG, WebP, GIF');
+    }
+    if (!toUpload.length) {
+      event.target.value = '';
+      return;
+    }
+    setIsUploading(true);
+    try {
+      const urls: string[] = [];
+      for (const file of toUpload) {
+        const url = await requestService.uploadPostImage(file);
+        urls.push(url);
+      }
+      setValue('images', [...current, ...urls]);
+    } catch {
+      toast.error(t('request.create.filesUploadError') || 'Помилка завантаження фото');
+    } finally {
+      setIsUploading(false);
+      event.target.value = '';
+    }
+  };
+
+  const removeImage = async (index: number) => {
+    const current = getValues('images') ?? [];
+    const urlToDelete = current[index];
+    if (!urlToDelete) return;
+
+    setDeletingUrls((prev) => [...prev, urlToDelete]);
+
+    try {
+      await requestService.deleteFile(urlToDelete);
+      setValue(
+        'images',
+        current.filter((_, i) => i !== index),
+      );
+    } catch {
+      toast.error(t('request.create.deleteFileError') || 'Помилка видалення фото');
+    } finally {
+      setDeletingUrls((prev) => prev.filter((url) => url !== urlToDelete));
+    }
+  };
 
   const onSubmit = async (data: CreateProposalFormValues) => {
     try {
@@ -60,7 +126,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
         estimatedTime: data.estimatedTime,
         warranty: data.warranty || undefined,
         itemCondition: data.itemCondition,
-        images: [],
+        images: data.images ?? [],
       });
       toast.success(t('proposal.create.success'));
       form.reset();
@@ -89,7 +155,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
         <p className="text-muted-foreground mb-6">{t('proposal.create.subtitle')}</p>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="space-y-5">
+          <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-5">
             {/* Title */}
             <FormField
               control={form.control}
@@ -255,19 +321,116 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
             </div>
 
             {/* Images */}
-            <div className="space-y-2">
-              <div className="text-base font-semibold flex items-center">
-                <Upload className="h-4 w-4 mr-1 text-primary" />
-                {t('proposal.create.imagesLabel')}
-              </div>
-              <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer">
-                <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                <p className="text-sm text-muted-foreground mb-1">
-                  {t('proposal.create.dragDrop')}
-                </p>
-                <p className="text-xs text-muted-foreground">{t('proposal.create.imagesHint')}</p>
-              </div>
-            </div>
+            <FormField
+              control={control}
+              name="images"
+              render={() => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold flex items-center">
+                    <Upload className="h-5 w-5 mr-2 text-primary" />
+                    {t('proposal.create.imagesLabel')}
+                  </FormLabel>
+                  <FormControl>
+                    <>
+                      <input
+                        ref={fileInputRef}
+                        id="proposal-files"
+                        type="file"
+                        accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                        multiple
+                        className="hidden"
+                        disabled={
+                          isPending || isUploading || uploadedImages.length >= MAX_PROPOSAL_IMAGES
+                        }
+                        onChange={handleFilesChange}
+                      />
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        className={cn(
+                          'border-2 border-dashed border-border rounded-lg p-8 text-center transition-colors cursor-pointer',
+                          isUploading || isPending || uploadedImages.length >= MAX_PROPOSAL_IMAGES
+                            ? 'opacity-60 cursor-not-allowed'
+                            : 'hover:border-primary',
+                        )}
+                        onClick={() =>
+                          !isUploading &&
+                          !isPending &&
+                          uploadedImages.length < MAX_PROPOSAL_IMAGES &&
+                          fileInputRef.current?.click()
+                        }
+                        onKeyDown={(e) =>
+                          e.key === 'Enter' &&
+                          !isUploading &&
+                          !isPending &&
+                          uploadedImages.length < MAX_PROPOSAL_IMAGES &&
+                          fileInputRef.current?.click()
+                        }
+                      >
+                        {isUploading ? (
+                          <Loader2 className="h-12 w-12 text-primary mx-auto mb-4 animate-spin" />
+                        ) : (
+                          <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                        )}
+                        <p className="text-muted-foreground mb-2">
+                          {isUploading
+                            ? t('request.create.filesUploading') || 'Завантаження…'
+                            : t('proposal.create.dragDrop')}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {t('proposal.create.imagesHint')}
+                        </p>
+                        {uploadedImages.length > 0 && (
+                          <p className="text-sm text-muted-foreground mt-2">
+                            {uploadedImages.length}/{MAX_PROPOSAL_IMAGES}
+                          </p>
+                        )}
+                      </div>
+                      {uploadedImages.length > 0 && (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-4">
+                          {uploadedImages.map((url, index) => {
+                            const isDeleting = deletingUrls.includes(url);
+                            return (
+                              <div
+                                key={`${url}-${index}`}
+                                className="relative aspect-square rounded-lg overflow-hidden border border-border bg-muted group"
+                              >
+                                <Image
+                                  src={url}
+                                  alt=""
+                                  fill
+                                  className={cn(
+                                    'object-cover transition-opacity',
+                                    isDeleting && 'opacity-50',
+                                  )}
+                                  sizes="(max-width: 640px) 50vw, 25vw"
+                                  unoptimized
+                                />
+                                {isDeleting ? (
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                                  </div>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    aria-label={t('request.create.filesRemove') || 'Видалити'}
+                                    className="absolute top-2 right-2 rounded-sm bg-destructive text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
+                                    onClick={() => removeImage(index)}
+                                    disabled={isPending}
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
             {/* Warning */}
             <div className="bg-accent/30 rounded-lg p-4 border border-accent flex items-start">
