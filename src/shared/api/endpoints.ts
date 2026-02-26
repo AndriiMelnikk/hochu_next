@@ -36,5 +36,7 @@ export const ENDPOINTS = {
   UPLOAD: {
     /** POST multipart/form-data with field "file". UploadType.POST. */
     POST_IMAGE: '/api/upload/post',
+    /** DELETE with query param "url". */
+    DELETE_FILE: '/api/upload',
   },
 } as const;

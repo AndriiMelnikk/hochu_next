@@ -63,6 +63,10 @@ class RequestService {
     if (typeof url !== 'string') throw new Error('Upload response missing url/path');
     return url;
   }
+
+  async deleteFile(url: string, config?: AxiosRequestConfig): Promise<void> {
+    return (await api.delete(ENDPOINTS.UPLOAD.DELETE_FILE, { ...config, params: { url } })).data;
+  }
 }
 
 export const requestService = new RequestService();

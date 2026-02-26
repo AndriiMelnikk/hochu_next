@@ -85,6 +85,7 @@ export const CreateRequestForm = () => {
   const debouncedLocationSearch = useDebounce(locationSearch, 500);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [deletingUrls, setDeletingUrls] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: cities = [], isLoading: isCitiesLoading } = useCities(debouncedLocationSearch);
@@ -255,12 +256,24 @@ export const CreateRequestForm = () => {
     }
   };
 
-  const removeImage = (index: number) => {
+  const removeImage = async (index: number) => {
     const current = getValues('images') ?? [];
-    setValue(
-      'images',
-      current.filter((_, i) => i !== index),
-    );
+    const urlToDelete = current[index];
+    if (!urlToDelete) return;
+
+    setDeletingUrls((prev) => [...prev, urlToDelete]);
+
+    try {
+      await requestService.deleteFile(urlToDelete);
+      setValue(
+        'images',
+        current.filter((_, i) => i !== index),
+      );
+    } catch {
+      toast.error(t('request.create.deleteFileError') || 'Помилка видалення фото');
+    } finally {
+      setDeletingUrls((prev) => prev.filter((url) => url !== urlToDelete));
+    }
   };
 
   return (
@@ -584,30 +597,42 @@ export const CreateRequestForm = () => {
                   </div>
                   {uploadedImages.length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-4">
-                      {uploadedImages.map((url, index) => (
-                        <div
-                          key={`${url}-${index}`}
-                          className="relative aspect-square rounded-lg overflow-hidden border border-border bg-muted group"
-                        >
-                          <Image
-                            src={url}
-                            alt=""
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 640px) 50vw, 25vw"
-                            unoptimized
-                          />
-                          <button
-                            type="button"
-                            aria-label={t('request.create.filesRemove') || 'Видалити'}
-                            className="absolute top-1 right-1 rounded-full bg-destructive/90 text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
-                            onClick={() => removeImage(index)}
-                            disabled={isSubmitting}
+                      {uploadedImages.map((url, index) => {
+                        const isDeleting = deletingUrls.includes(url);
+                        return (
+                          <div
+                            key={`${url}-${index}`}
+                            className="relative aspect-square rounded-lg overflow-hidden border border-border bg-muted group"
                           >
-                            <X className="h-4 w-4" />
-                          </button>
-                        </div>
-                      ))}
+                            <Image
+                              src={url}
+                              alt=""
+                              fill
+                              className={cn(
+                                'object-cover transition-opacity',
+                                isDeleting && 'opacity-50',
+                              )}
+                              sizes="(max-width: 640px) 50vw, 25vw"
+                              unoptimized
+                            />
+                            {isDeleting ? (
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                              </div>
+                            ) : (
+                              <button
+                                type="button"
+                                aria-label={t('request.create.filesRemove') || 'Видалити'}
+                                className="absolute top-1 right-1 rounded-full bg-destructive/90 text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
+                                onClick={() => removeImage(index)}
+                                disabled={isSubmitting}
+                              >
+                                <X className="h-4 w-4" />
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
                 </>
