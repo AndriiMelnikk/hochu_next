@@ -37,7 +37,12 @@ export const EditRequestModal = ({
           <DialogTitle>{t('request.edit.title')}</DialogTitle>
         </DialogHeader>
         <div className="flex-1 overflow-hidden">
-          <EditRequestForm request={request} onSuccess={handleSuccess} onCancel={handleCancel} />
+          <EditRequestForm
+            key={request._id}
+            request={request}
+            onSuccess={handleSuccess}
+            onCancel={handleCancel}
+          />
         </div>
       </DialogContent>
     </Dialog>

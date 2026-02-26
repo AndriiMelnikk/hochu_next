@@ -11,7 +11,6 @@ import {
   Package,
   Pencil,
   XCircle,
-  CheckCircle2,
   ChevronDown,
 } from 'lucide-react';
 import { useLingui } from '@lingui/react';

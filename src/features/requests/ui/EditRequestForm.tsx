@@ -1,10 +1,11 @@
 'use client';
 
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import { useLingui } from '@lingui/react';
 import { useForm, useWatch, type FieldError, type FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
+import Image from 'next/image';
 import { toast } from 'sonner';
 import {
   FileText,
@@ -16,7 +17,10 @@ import {
   ChevronDown,
   Tag,
   Package,
+  X,
 } from 'lucide-react';
+
+import { MAX_IMAGES, ACCEPTED_IMAGE_TYPES } from '@/shared/utils';
 
 import { cn } from '@/lib/utils';
 import { useCategories } from '@/entities/category';
@@ -33,6 +37,7 @@ import {
 } from '@/shared/ui/command';
 import {
   updateRequestSchema,
+  requestService,
   useRequestStore,
   ItemCondition,
   type IUpdateRequestRequest,
@@ -42,7 +47,6 @@ import {
 } from '@/entities/request';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
-import { Label } from '@/shared/ui/label';
 import { Textarea } from '@/shared/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { CascadingSelect, type CascadingSelectItem } from '@/shared/ui/cascading-select';
@@ -92,6 +96,9 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
   const [locationSearch, setLocationSearch] = useState('');
   const debouncedLocationSearch = useDebounce(locationSearch, 500);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [urlsToDelete, setUrlsToDelete] = useState<string[]>([]);
+  const [newFiles, setNewFiles] = useState<{ file: File; previewUrl: string }[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: cities = [], isLoading: isCitiesLoading } = useCities(debouncedLocationSearch);
 
@@ -127,6 +134,28 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
   const { handleSubmit, setError, control } = form;
   const selectedCategoryId = (useWatch({ control, name: 'category' }) as string) ?? '';
 
+  const keptExistingUrls = useMemo(
+    () => (request.images ?? []).filter((url) => !urlsToDelete.includes(url)),
+    [request.images, urlsToDelete],
+  );
+  const displayItems = useMemo(
+    () => [
+      ...keptExistingUrls.map((url) => ({ type: 'existing' as const, url })),
+      ...newFiles.map(({ previewUrl }) => ({ type: 'new' as const, url: previewUrl })),
+    ],
+    [keptExistingUrls, newFiles],
+  );
+
+  const newFilesRef = useRef(newFiles);
+  useEffect(() => {
+    newFilesRef.current = newFiles;
+  }, [newFiles]);
+  useEffect(() => {
+    return () => {
+      newFilesRef.current.forEach(({ previewUrl }) => URL.revokeObjectURL(previewUrl));
+    };
+  }, []);
+
   const categoryPlaceholder = isCategoriesLoading
     ? t('request.create.categoriesLoading')
     : t('request.create.categoryPlaceholder');
@@ -158,8 +187,57 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
     }));
   }, [sortedActiveCategories]);
 
+  const handleFilesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files?.length) return;
+    const currentCount = keptExistingUrls.length + newFiles.length;
+    if (currentCount + files.length > MAX_IMAGES) {
+      toast.error(t('request.create.filesMaxError') || `Максимум ${MAX_IMAGES} фото`);
+      event.target.value = '';
+      return;
+    }
+    const toAdd = Array.from(files).filter((f) => ACCEPTED_IMAGE_TYPES.includes(f.type));
+    if (toAdd.length < files.length) {
+      toast.error(t('request.create.filesTypeError') || 'Дозволені лише JPG, PNG, WebP, GIF');
+    }
+    if (!toAdd.length) {
+      event.target.value = '';
+      return;
+    }
+    const withPreviews = toAdd.map((file) => ({
+      file,
+      previewUrl: URL.createObjectURL(file),
+    }));
+    setNewFiles((prev) => [...prev, ...withPreviews]);
+    event.target.value = '';
+  };
+
+  const removeImage = (index: number) => {
+    if (index < keptExistingUrls.length) {
+      const url = keptExistingUrls[index];
+      setUrlsToDelete((prev) => [...prev, url]);
+    } else {
+      const fileIndex = index - keptExistingUrls.length;
+      setNewFiles((prev) => {
+        const next = [...prev];
+        const removed = next.splice(fileIndex, 1)[0];
+        if (removed) URL.revokeObjectURL(removed.previewUrl);
+        return next;
+      });
+    }
+  };
+
   const onSubmit = async (data: EditRequestFormValues) => {
     try {
+      const newUrls: string[] = [];
+      if (newFiles.length > 0) {
+        for (const { file } of newFiles) {
+          const url = await requestService.uploadPostImage(file);
+          newUrls.push(url);
+        }
+      }
+      const finalImages = [...keptExistingUrls, ...newUrls];
+
       const payload: IUpdateRequestRequest = {
         title: data.title,
         description: data.description,
@@ -169,9 +247,14 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
         location: data.location || undefined,
         urgency: data.urgency,
         itemCondition: data.itemCondition,
-        images: data.images?.length ? data.images : undefined,
+        images: finalImages.length ? finalImages : undefined,
       };
       await updateRequest(request._id, payload);
+
+      if (urlsToDelete.length > 0) {
+        await Promise.all(urlsToDelete.map((url) => requestService.deleteFile(url)));
+      }
+
       toast.success(t('request.edit.success'));
       onSuccess();
     } catch (err: unknown) {
@@ -509,19 +592,94 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
           )}
         />
 
-        <div className="space-y-2">
-          <Label htmlFor="files" className="text-base font-semibold flex items-center">
-            <Upload className="h-5 w-5 mr-2 text-primary" />
-            {t('request.create.filesLabel')}
-          </Label>
-          <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary transition-colors cursor-pointer">
-            <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <p className="text-muted-foreground mb-2">{t('request.create.filesHintPrimary')}</p>
-            <p className="text-sm text-muted-foreground">
-              {t('request.create.filesHintSecondary')}
-            </p>
-          </div>
-        </div>
+        <FormField
+          control={control}
+          name="images"
+          render={() => (
+            <FormItem>
+              <FormLabel className="text-base font-semibold flex items-center">
+                <Upload className="h-5 w-5 mr-2 text-primary" />
+                {t('request.create.filesLabel')}
+              </FormLabel>
+              <FormControl>
+                <>
+                  <input
+                    ref={fileInputRef}
+                    id="files"
+                    type="file"
+                    accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                    multiple
+                    className="hidden"
+                    disabled={isSubmitting || displayItems.length >= MAX_IMAGES}
+                    onChange={handleFilesChange}
+                  />
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    className={cn(
+                      'border-2 border-dashed border-border rounded-lg p-8 text-center transition-colors cursor-pointer',
+                      isSubmitting || displayItems.length >= MAX_IMAGES
+                        ? 'opacity-60 cursor-not-allowed'
+                        : 'hover:border-primary',
+                    )}
+                    onClick={() =>
+                      !isSubmitting &&
+                      displayItems.length < MAX_IMAGES &&
+                      fileInputRef.current?.click()
+                    }
+                    onKeyDown={(e) =>
+                      e.key === 'Enter' &&
+                      !isSubmitting &&
+                      displayItems.length < MAX_IMAGES &&
+                      fileInputRef.current?.click()
+                    }
+                  >
+                    <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-muted-foreground mb-2">
+                      {t('request.create.filesHintPrimary')}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('request.create.filesHintSecondary')}
+                    </p>
+                    {displayItems.length > 0 && (
+                      <p className="text-sm text-muted-foreground mt-2">
+                        {displayItems.length}/{MAX_IMAGES}
+                      </p>
+                    )}
+                  </div>
+                  {displayItems.length > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-4">
+                      {displayItems.map((item, index) => (
+                        <div
+                          key={item.type === 'existing' ? item.url : `${item.url}-${index}`}
+                          className="relative aspect-square rounded-lg overflow-hidden border border-border bg-muted group"
+                        >
+                          <Image
+                            src={item.url}
+                            alt=""
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 50vw, 25vw"
+                            unoptimized
+                          />
+                          <button
+                            type="button"
+                            aria-label={t('request.create.filesRemove') || 'Видалити'}
+                            className="absolute top-2 right-2 rounded-sm bg-destructive text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
+                            onClick={() => removeImage(index)}
+                            disabled={isSubmitting}
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              </FormControl>
+            </FormItem>
+          )}
+        />
 
         <div className="flex flex-col sm:flex-row gap-4 pt-6">
           <Button
