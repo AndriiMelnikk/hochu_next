@@ -623,11 +623,11 @@ export const CreateRequestForm = () => {
                               <button
                                 type="button"
                                 aria-label={t('request.create.filesRemove') || 'Видалити'}
-                                className="absolute top-1 right-1 rounded-full bg-destructive/90 text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
+                                className="absolute top-2 right-2 rounded-sm bg-destructive text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
                                 onClick={() => removeImage(index)}
                                 disabled={isSubmitting}
                               >
-                                <X className="h-4 w-4" />
+                                <X className="h-4 w-4 " />
                               </button>
                             )}
                           </div>
