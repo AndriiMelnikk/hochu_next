@@ -228,13 +228,13 @@ export const CreateRequestForm = () => {
     if (!files?.length) return;
     const current = getValues('images') ?? [];
     if (current.length + files.length > MAX_IMAGES) {
-      toast.error(t('request.create.filesMaxError') || `Максимум ${MAX_IMAGES} фото`);
+      toast.error(t('request.create.filesMaxError'));
       event.target.value = '';
       return;
     }
     const toUpload = Array.from(files).filter((f) => ACCEPTED_IMAGE_TYPES.includes(f.type));
     if (toUpload.length < files.length) {
-      toast.error(t('request.create.filesTypeError') || 'Дозволені лише JPG, PNG, WebP, GIF');
+      toast.error(t('request.create.filesTypeError'));
     }
     if (!toUpload.length) {
       event.target.value = '';
@@ -249,7 +249,7 @@ export const CreateRequestForm = () => {
       }
       setValue('images', [...current, ...urls]);
     } catch {
-      toast.error(t('request.create.filesUploadError') || 'Помилка завантаження фото');
+      toast.error(t('request.create.filesUploadError'));
     } finally {
       setIsUploading(false);
       event.target.value = '';
@@ -270,7 +270,7 @@ export const CreateRequestForm = () => {
         current.filter((_, i) => i !== index),
       );
     } catch {
-      toast.error(t('request.create.deleteFileError') || 'Помилка видалення фото');
+      toast.error(t('request.create.deleteFileError'));
     } finally {
       setDeletingUrls((prev) => prev.filter((url) => url !== urlToDelete));
     }
@@ -583,7 +583,7 @@ export const CreateRequestForm = () => {
                     )}
                     <p className="text-muted-foreground mb-2">
                       {isUploading
-                        ? t('request.create.filesUploading') || 'Завантаження…'
+                        ? t('request.create.filesUploading')
                         : t('request.create.filesHintPrimary')}
                     </p>
                     <p className="text-sm text-muted-foreground">
@@ -622,7 +622,7 @@ export const CreateRequestForm = () => {
                             ) : (
                               <button
                                 type="button"
-                                aria-label={t('request.create.filesRemove') || 'Видалити'}
+                                aria-label={t('request.create.filesRemove')}
                                 className="absolute top-2 right-2 rounded-sm bg-destructive text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
                                 onClick={() => removeImage(index)}
                                 disabled={isSubmitting}

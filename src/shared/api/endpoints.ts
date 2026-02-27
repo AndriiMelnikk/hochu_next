@@ -18,6 +18,11 @@ export const ENDPOINTS = {
     BY_ID: (id: string | number) => `/api/proposals/${id}`,
     BY_REQUEST_ID: (requestId: string | number) => `/api/proposals/requests/${requestId}`,
     CAN_PROPOSE: (requestId: string | number) => `/api/proposals/can-propose/${requestId}`,
+    WITHDRAW: (proposalId: string | number) => `/api/proposals/${proposalId}/withdraw`,
+    REJECT: (proposalId: string | number) => `/api/proposals/${proposalId}/reject`,
+    ACCEPT: (proposalId: string | number) => `/api/proposals/${proposalId}/accept`,
+    COMPLETE: (proposalId: string | number) => `/api/proposals/${proposalId}/complete`,
+    CANCEL: (proposalId: string | number) => `/api/proposals/${proposalId}/cancel`,
   },
   REVIEWS: {
     BASE: '/api/reviews',

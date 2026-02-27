@@ -42,11 +42,9 @@ interface EditProposalFormProps {
 export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposalFormProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
-  const { mutateAsync: updateProposal, isPending } = useUpdateProposal(
-    proposal.requestId,
-    proposal._id,
-  );
+  const { mutateAsync: updateProposal } = useUpdateProposal(proposal.requestId, proposal._id);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [urlsToDelete, setUrlsToDelete] = useState<string[]>([]);
   const [newFiles, setNewFiles] = useState<{ file: File; previewUrl: string }[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -103,9 +101,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
     if (!files?.length) return;
     const currentCount = keptExistingUrls.length + newFiles.length;
     if (currentCount + files.length > MAX_PROPOSAL_IMAGES) {
-      toast.error(
-        t('request.create.filesMaxError') || `Максимум ${MAX_PROPOSAL_IMAGES} фото`,
-      );
+      toast.error(t('request.create.filesMaxError') || `Максимум ${MAX_PROPOSAL_IMAGES} фото`);
       event.target.value = '';
       return;
     }
@@ -141,6 +137,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
   };
 
   const onSubmit = async (data: EditProposalFormValues) => {
+    setIsSubmitting(true);
     try {
       const newUrls: string[] = [];
       if (newFiles.length > 0) {
@@ -174,6 +171,8 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
       } else {
         toast.error(t('proposal.edit.error'));
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -200,7 +199,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                 <Input
                   placeholder={t('proposal.create.proposalTitlePlaceholder')}
                   className="text-base"
-                  disabled={isPending}
+                  disabled={isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -221,7 +220,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                   placeholder={t('proposal.create.descriptionPlaceholder')}
                   rows={6}
                   className="text-base"
-                  disabled={isPending}
+                  disabled={isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -246,7 +245,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                   <Input
                     type="number"
                     className="text-base"
-                    disabled={isPending}
+                    disabled={isSubmitting}
                     value={field.value ?? ''}
                     onChange={(event) =>
                       field.onChange(event.target.value === '' ? '' : Number(event.target.value))
@@ -266,7 +265,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                   <Package className="h-4 w-4 mr-1 text-primary" />
                   {t('proposal.create.itemConditionLabel')}
                 </FormLabel>
-                <Select onValueChange={field.onChange} value={field.value} disabled={isPending}>
+                <Select onValueChange={field.onChange} value={field.value} disabled={isSubmitting}>
                   <FormControl>
                     <SelectTrigger className="text-base">
                       <SelectValue placeholder={t('proposal.create.itemConditionPlaceholder')} />
@@ -298,7 +297,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                 <Select
                   onValueChange={(val) => field.onChange(Number(val))}
                   value={field.value?.toString()}
-                  disabled={isPending}
+                  disabled={isSubmitting}
                 >
                   <FormControl>
                     <SelectTrigger className="text-base">
@@ -328,7 +327,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                 <Select
                   onValueChange={(val) => field.onChange(Number(val))}
                   value={field.value?.toString()}
-                  disabled={isPending}
+                  disabled={isSubmitting}
                 >
                   <FormControl>
                     <SelectTrigger className="text-base">
@@ -366,7 +365,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                     accept={ACCEPTED_IMAGE_TYPES.join(',')}
                     multiple
                     className="hidden"
-                    disabled={isPending || displayItems.length >= MAX_PROPOSAL_IMAGES}
+                    disabled={isSubmitting || displayItems.length >= MAX_PROPOSAL_IMAGES}
                     onChange={handleFilesChange}
                   />
                   <div
@@ -374,18 +373,18 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                     tabIndex={0}
                     className={cn(
                       'border-2 border-dashed border-border rounded-lg p-6 text-center transition-colors cursor-pointer',
-                      isPending || displayItems.length >= MAX_PROPOSAL_IMAGES
+                      isSubmitting || displayItems.length >= MAX_PROPOSAL_IMAGES
                         ? 'opacity-60 cursor-not-allowed'
                         : 'hover:border-primary',
                     )}
                     onClick={() =>
-                      !isPending &&
+                      !isSubmitting &&
                       displayItems.length < MAX_PROPOSAL_IMAGES &&
                       fileInputRef.current?.click()
                     }
                     onKeyDown={(e) =>
                       e.key === 'Enter' &&
-                      !isPending &&
+                      !isSubmitting &&
                       displayItems.length < MAX_PROPOSAL_IMAGES &&
                       fileInputRef.current?.click()
                     }
@@ -394,7 +393,9 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                     <p className="text-sm text-muted-foreground mb-1">
                       {t('proposal.create.dragDrop')}
                     </p>
-                    <p className="text-xs text-muted-foreground">{t('proposal.create.imagesHint')}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {t('proposal.create.imagesHint')}
+                    </p>
                     {displayItems.length > 0 && (
                       <p className="text-sm text-muted-foreground mt-2">
                         {displayItems.length}/{MAX_PROPOSAL_IMAGES}
@@ -421,7 +422,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                             aria-label={t('request.create.filesRemove') || 'Видалити'}
                             className="absolute top-2 right-2 rounded-sm bg-destructive text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
                             onClick={() => removeImage(index)}
-                            disabled={isPending}
+                            disabled={isSubmitting}
                           >
                             <X className="h-4 w-4" />
                           </button>
@@ -441,9 +442,9 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
             size="lg"
             variant="gradient"
             className="text-lg shadow-glow flex-1"
-            disabled={isPending}
+            disabled={isSubmitting}
           >
-            {isPending ? t('proposal.edit.submitting') : t('proposal.edit.submit')}
+            {isSubmitting ? t('proposal.edit.submitting') : t('proposal.edit.submit')}
           </Button>
           {onCancel && (
             <Button
@@ -451,7 +452,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
               size="lg"
               variant="outline"
               className="flex-1"
-              disabled={isPending}
+              disabled={isSubmitting}
               onClick={onCancel}
             >
               {t('proposal.edit.cancel')}

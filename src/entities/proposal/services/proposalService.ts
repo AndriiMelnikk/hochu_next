@@ -53,7 +53,8 @@ class ProposalService {
   }
 
   async getOne(id: string | number, config?: AxiosRequestConfig): Promise<IProposalWithSeller> {
-    return (await api.get(`/api/proposals/${id}`, config)).data;
+    const url = ENDPOINTS.PROPOSALS.BY_ID(id);
+    return (await api.get(url, config)).data;
   }
 
   /** GET proposals/can-propose/:requestId — чи може поточний користувач створити пропозицію */
@@ -70,7 +71,8 @@ class ProposalService {
     data: Omit<ICreateProposalRequest, 'requestId'>,
     config?: AxiosRequestConfig,
   ): Promise<IProposalWithSeller> {
-    return (await api.post(`/api/proposals/requests/${requestId}`, data, config)).data;
+    const url = ENDPOINTS.PROPOSALS.BY_REQUEST_ID(requestId);
+    return (await api.post(url, data, config)).data;
   }
 
   async update(
@@ -84,28 +86,28 @@ class ProposalService {
   }
 
   async cancel(proposalId: string | number, config?: AxiosRequestConfig): Promise<void> {
-    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/withdraw`;
+    const url = ENDPOINTS.PROPOSALS.WITHDRAW(proposalId);
     await api.post(url, {}, config);
   }
 
   async reject(proposalId: string | number, config?: AxiosRequestConfig): Promise<void> {
-    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/reject`;
+    const url = ENDPOINTS.PROPOSALS.REJECT(proposalId);
     await api.post(url, {}, config);
   }
 
   async accept(proposalId: string | number, config?: AxiosRequestConfig): Promise<void> {
-    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/accept`;
+    const url = ENDPOINTS.PROPOSALS.ACCEPT(proposalId);
     await api.post(url, {}, config);
   }
 
   async complete(proposalId: string | number, config?: AxiosRequestConfig): Promise<void> {
-    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/complete`;
+    const url = ENDPOINTS.PROPOSALS.COMPLETE(proposalId);
     await api.post(url, {}, config);
   }
 
   /** POST proposals/:id/cancel — скасування раніше прийнятої пропозиції покупцем */
   async cancelAccepted(proposalId: string | number, config?: AxiosRequestConfig): Promise<void> {
-    const url = `${ENDPOINTS.PROPOSALS.BY_ID(proposalId)}/cancel`;
+    const url = ENDPOINTS.PROPOSALS.CANCEL(proposalId);
     await api.post(url, {}, config);
   }
 }

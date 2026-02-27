@@ -33,7 +33,7 @@ export const messages: Messages = {
   'request.create.filesHintPrimary': 'Перетягніть файли сюди або натисніть для вибору',
   'request.create.filesHintSecondary': 'Фото, документи (до 5 файлів, макс. 10MB кожен)',
   'request.create.filesLabel': 'Додати файли',
-  'request.create.filesMaxError': 'Максимум 10 фото',
+  'request.create.filesMaxError': 'Максимум 5 фото',
   'request.create.filesTypeError': 'Дозволені лише JPG, PNG, WebP, GIF',
   'request.create.filesUploadError': 'Помилка завантаження фото',
   'request.create.filesUploading': 'Завантаження…',

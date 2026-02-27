@@ -4,9 +4,9 @@ export interface ICreateRequestRequest {
   title: string;
   description: string;
   category: string;
-  budgetMin: number;
+  budgetMin?: number;
   budgetMax: number;
-  location: string;
+  location?: string;
   urgency: number;
   itemCondition: ItemCondition;
   images?: string[];

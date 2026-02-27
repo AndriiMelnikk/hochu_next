@@ -85,7 +85,9 @@ type EditRequestFormValues = IUpdateRequestRequest & {
 export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFormProps) => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-  const { updateRequest, updating: isSubmitting } = useRequestStore();
+  const { updateRequest } = useRequestStore();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     data: categories = [],
@@ -192,13 +194,13 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
     if (!files?.length) return;
     const currentCount = keptExistingUrls.length + newFiles.length;
     if (currentCount + files.length > MAX_IMAGES) {
-      toast.error(t('request.create.filesMaxError') || `Максимум ${MAX_IMAGES} фото`);
+      toast.error(t('request.create.filesMaxError'));
       event.target.value = '';
       return;
     }
     const toAdd = Array.from(files).filter((f) => ACCEPTED_IMAGE_TYPES.includes(f.type));
     if (toAdd.length < files.length) {
-      toast.error(t('request.create.filesTypeError') || 'Дозволені лише JPG, PNG, WebP, GIF');
+      toast.error(t('request.create.filesTypeError'));
     }
     if (!toAdd.length) {
       event.target.value = '';
@@ -228,6 +230,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
   };
 
   const onSubmit = async (data: EditRequestFormValues) => {
+    setIsSubmitting(true);
     try {
       const newUrls: string[] = [];
       if (newFiles.length > 0) {
@@ -312,6 +315,8 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
       } else if (!handledAsFieldError) {
         toast.error(t('request.edit.error'));
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -664,7 +669,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
                           />
                           <button
                             type="button"
-                            aria-label={t('request.create.filesRemove') || 'Видалити'}
+                            aria-label={t('request.create.filesRemove')}
                             className="absolute top-2 right-2 rounded-sm bg-destructive text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
                             onClick={() => removeImage(index)}
                             disabled={isSubmitting}
