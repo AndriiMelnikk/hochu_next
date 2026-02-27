@@ -234,7 +234,7 @@ export const RequestInfo = ({
             <MapPin className="h-5 w-5 text-primary mr-2 mt-0.5" />
             <div>
               <p className="text-sm text-muted-foreground">{t('request.detail.location')}</p>
-              <p className="font-semibold">{request.location}</p>
+              <p className="font-semibold">{request.location || '-'}</p>
             </div>
           </div>
           <div className="flex items-start">
