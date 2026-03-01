@@ -48,4 +48,5 @@ export interface IUpdateProfileRequest {
   lastName?: string | null;
   location?: string | null;
   avatar?: string | null;
+  contacts?: Partial<Record<ContactChannel, string>>;
 }

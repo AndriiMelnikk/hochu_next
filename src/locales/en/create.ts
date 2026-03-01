@@ -399,6 +399,8 @@ export const messages: Messages = {
   'status.guide.proposal.withdrawn.next': 'You are no longer participating in this request.',
 
   // Profile edit
+  'profile.edit.title': 'Personal information',
+  'profile.edit.description': 'Update your personal details and contact info',
   'profile.edit.nameLabel': 'First Name',
   'profile.edit.lastNameLabel': 'Last Name',
   'profile.edit.locationLabel': 'Location',
@@ -412,4 +414,26 @@ export const messages: Messages = {
   'profile.edit.submitting': 'Saving...',
   'profile.edit.success': 'Profile updated successfully',
   'profile.edit.error': 'An error occurred while updating profile',
+
+  // Profile contacts
+  'profile.contacts.title': 'Contact Channels',
+  'profile.contacts.description': 'Set up ways for other users to contact you',
+  'profile.contacts.submit': 'Save contacts',
+  'profile.contacts.submitting': 'Saving...',
+  'profile.contacts.success': 'Contact details updated successfully',
+  'profile.contacts.error': 'An error occurred while updating contacts',
+  'contact.channel.phone.placeholder': '+380...',
+  'contact.channel.email.placeholder': 'example@mail.com',
+  'contact.channel.telegram.placeholder': '@username',
+  'contact.channel.viber.placeholder': '+380...',
+  'contact.channel.whatsapp.placeholder': '+380...',
+  'contact.channel.instagram.placeholder': '@username',
+  'contact.channel.facebook.placeholder': 'username or ID',
+  'contact.channel.website.placeholder': 'https://...',
+  'profile.verification.title': 'Account verification',
+  'profile.notifications.title': 'Notifications',
+  'profile.security.title': 'Privacy and security',
+  'profile.security.description': 'Manage your data and security settings',
+  'profile.security.changePassword': 'Change password',
+  'common.availableLater': 'Will be available later',
 };

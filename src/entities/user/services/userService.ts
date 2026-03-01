@@ -15,6 +15,14 @@ class UserService {
     return (await api.patch('/api/users/me', data, config)).data;
   }
 
+  async updateContacts(
+    id: string,
+    contacts: Partial<Record<ContactChannel, string>>,
+    config?: AxiosRequestConfig,
+  ): Promise<IProfile> {
+    return (await api.patch(`/api/users/${id}/contacts`, contacts, config)).data;
+  }
+
   async getContacts(
     id: string | number,
     config?: AxiosRequestConfig,

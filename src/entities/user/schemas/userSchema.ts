@@ -43,4 +43,9 @@ export const updateProfileSchema = z.object({
   lastName: z.string().min(2, 'Прізвище має бути не менше 2 символів').optional().nullable(),
   location: z.string().optional().nullable(),
   avatar: z.string().optional().nullable(),
+  contacts: z.record(z.string()).optional(),
+});
+
+export const updateContactsSchema = z.object({
+  contacts: z.record(z.string().optional().nullable()).optional(),
 });

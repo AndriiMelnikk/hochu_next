@@ -399,6 +399,8 @@ export const messages: Messages = {
   'status.guide.proposal.withdrawn.next': 'Ви більше не берете участі в цьому запиті.',
 
   // Profile edit
+  'profile.edit.title': 'Особиста інформація',
+  'profile.edit.description': 'Оновіть свої особисті дані та контактну інформацію',
   'profile.edit.nameLabel': "Ім'я",
   'profile.edit.lastNameLabel': 'Прізвище',
   'profile.edit.locationLabel': 'Місто',
@@ -412,4 +414,27 @@ export const messages: Messages = {
   'profile.edit.submitting': 'Збереження...',
   'profile.edit.success': 'Профіль успішно оновлено',
   'profile.edit.error': 'Сталася помилка при оновленні профілю',
+
+  // Profile contacts
+  'profile.contacts.title': "Канали зв'язку",
+  'profile.contacts.description':
+    "Налаштуйте способи, за якими інші користувачі зможуть з вами зв'язатися",
+  'profile.contacts.submit': 'Зберегти контакти',
+  'profile.contacts.submitting': 'Збереження...',
+  'profile.contacts.success': 'Контактні дані успішно оновлено',
+  'profile.contacts.error': 'Сталася помилка при оновленні контактів',
+  'contact.channel.phone.placeholder': '+380...',
+  'contact.channel.email.placeholder': 'example@mail.com',
+  'contact.channel.telegram.placeholder': '@username',
+  'contact.channel.viber.placeholder': '+380...',
+  'contact.channel.whatsapp.placeholder': '+380...',
+  'contact.channel.instagram.placeholder': '@username',
+  'contact.channel.facebook.placeholder': 'username або ID',
+  'contact.channel.website.placeholder': 'https://...',
+  'profile.verification.title': 'Верифікація акаунту',
+  'profile.notifications.title': 'Сповіщення',
+  'profile.security.title': 'Конфіденційність та безпека',
+  'profile.security.description': 'Керуйте своїми даними та налаштуваннями безпеки',
+  'profile.security.changePassword': 'Змінити пароль',
+  'common.availableLater': 'Буде доступно пізніше',
 };

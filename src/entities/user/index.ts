@@ -6,4 +6,5 @@ export {
   profileSchema,
   userSchema,
   updateProfileSchema,
+  updateContactsSchema,
 } from './schemas/userSchema';
