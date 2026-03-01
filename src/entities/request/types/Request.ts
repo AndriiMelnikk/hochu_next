@@ -23,6 +23,7 @@ export interface IRequestBuyer {
   location: string | null;
   xp: number;
   name: string;
+  lastName: string | null;
   avatar: string | null;
   reviewsCount?: number;
   isVerified?: boolean;

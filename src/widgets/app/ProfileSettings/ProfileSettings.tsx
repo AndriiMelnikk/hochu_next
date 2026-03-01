@@ -8,7 +8,7 @@ import { Textarea } from '@shared/ui/textarea';
 import { useToast } from '@shared/ui/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
 import { Badge } from '@shared/ui/badge';
-import { Shield, AlertCircle } from 'lucide-react';
+import { Shield, AlertCircle, Lock } from 'lucide-react';
 
 const ProfileSettings = () => {
   const { toast } = useToast();
@@ -84,136 +84,27 @@ const ProfileSettings = () => {
       </Card>
 
       {/* Verification Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Верифікація акаунту</CardTitle>
-          <CardDescription>Підтвердіть свій номер телефону для підвищення довіри</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between p-4 border border-border rounded-lg bg-muted/30">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <Shield className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="font-medium">Статус верифікації</p>
-                <p className="text-sm text-muted-foreground">+380 67 123 4567</p>
-              </div>
-            </div>
-            <Badge
-              variant="outline"
-              className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20"
-            >
-              Не підтверджено
-            </Badge>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="verifyPhone">Номер телефону для верифікації</Label>
-            <div className="flex gap-2">
-              <Input
-                id="verifyPhone"
-                type="tel"
-                placeholder="+380 XX XXX XXXX"
-                defaultValue="+380 67 123 4567"
-              />
-              <Button
-                onClick={() => {
-                  toast({
-                    title: 'Код відправлено',
-                    description: 'Перевірте SMS повідомлення',
-                  });
-                }}
-              >
-                Надіслати код
-              </Button>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="verifyCode">Код підтвердження</Label>
-            <div className="flex gap-2">
-              <Input
-                id="verifyCode"
-                type="text"
-                placeholder="Введіть 6-значний код"
-                maxLength={6}
-              />
-              <Button
-                variant="default"
-                onClick={() => {
-                  toast({
-                    title: 'Номер підтверджено!',
-                    description: 'Ваш акаунт успішно верифіковано',
-                  });
-                }}
-              >
-                Підтвердити
-              </Button>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-2 p-3 bg-primary/5 border border-primary/20 rounded-lg">
-            <AlertCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-            <p className="text-xs text-muted-foreground">
-              Верифіковані користувачі отримують значок довіри в профілі та мають перевагу при
-              виборі виконавців.
+      <Card className="relative overflow-hidden">
+        <CardHeader className="opacity-50">
+          <CardTitle>
+            <p className="flex items-center gap-2">
+              <Lock className="h-5 w-5 text-muted-foreground" /> Верифікація акаунту
             </p>
-          </div>
-        </CardContent>
+          </CardTitle>
+          <CardDescription>Буде доступно пізніше</CardDescription>
+        </CardHeader>
       </Card>
 
       {/* Налаштування сповіщень */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Сповіщення</CardTitle>
-          <CardDescription>Налаштуйте, як ви хочете отримувати сповіщення</CardDescription>
+      <Card className="relative overflow-hidden">
+        <CardHeader className="opacity-50">
+          <CardTitle>
+            <p className="flex items-center gap-2">
+              <Lock className="h-5 w-5 text-muted-foreground" /> Сповіщення
+            </p>
+          </CardTitle>
+          <CardDescription>Буде доступно пізніше</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="emailNotif">Email сповіщення</Label>
-              <p className="text-sm text-muted-foreground">Отримувати сповіщення на email</p>
-            </div>
-            <Switch id="emailNotif" defaultChecked />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="pushNotif">Push-сповіщення</Label>
-              <p className="text-sm text-muted-foreground">Отримувати сповіщення в браузері</p>
-            </div>
-            <Switch id="pushNotif" defaultChecked />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="newProposal">Нові пропозиції</Label>
-              <p className="text-sm text-muted-foreground">
-                Сповіщення про нові відповіді на запити
-              </p>
-            </div>
-            <Switch id="newProposal" defaultChecked />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="messages">Повідомлення</Label>
-              <p className="text-sm text-muted-foreground">Сповіщення про нові повідомлення</p>
-            </div>
-            <Switch id="messages" defaultChecked />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="newsletter">Новини платформи</Label>
-              <p className="text-sm text-muted-foreground">Отримувати новини та оновлення</p>
-            </div>
-            <Switch id="newsletter" />
-          </div>
-
-          <Button onClick={handleSaveNotifications}>Зберегти налаштування</Button>
-        </CardContent>
       </Card>
 
       {/* Конфіденційність */}
@@ -223,41 +114,8 @@ const ProfileSettings = () => {
           <CardDescription>Керуйте своїми даними та налаштуваннями безпеки</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="profileVisible">Публічний профіль</Label>
-              <p className="text-sm text-muted-foreground">
-                Зробити профіль видимим для інших користувачів
-              </p>
-            </div>
-            <Switch id="profileVisible" defaultChecked />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="showRating">Показувати рейтинг</Label>
-              <p className="text-sm text-muted-foreground">Відображати ваш рейтинг у профілі</p>
-            </div>
-            <Switch id="showRating" defaultChecked />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="privacy">Хто може бачити вашу активність</Label>
-            <Select defaultValue="all">
-              <SelectTrigger id="privacy">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Всі користувачі</SelectItem>
-                <SelectItem value="verified">Тільки верифіковані</SelectItem>
-                <SelectItem value="none">Ніхто</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
           <div className="pt-4 space-y-4">
             <Button variant="outline">Змінити пароль</Button>
-            <Button variant="destructive">Видалити акаунт</Button>
           </div>
         </CardContent>
       </Card>

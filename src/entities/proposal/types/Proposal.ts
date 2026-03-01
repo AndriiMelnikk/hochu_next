@@ -24,6 +24,7 @@ export interface IProposalSeller {
   completedDeals?: number;
   isVerified?: boolean;
   location?: string | null;
+  lastName?: string | null;
   memberSince?: string;
   xp?: number;
 }

@@ -26,6 +26,7 @@ export interface IProfile {
   accountId?: string;
   avatar?: string | null;
   name?: string;
+  lastName?: string | null;
   isBlocked?: boolean;
   blockedUntil?: string | null;
   reviewsCount?: number;

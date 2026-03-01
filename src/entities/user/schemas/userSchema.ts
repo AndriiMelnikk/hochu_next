@@ -20,6 +20,7 @@ export const profileSchema = z.object({
   accountId: z.string().optional(),
   avatar: z.string().optional().nullable(),
   name: z.string().optional(),
+  lastName: z.string().optional(),
   isBlocked: z.boolean().optional(),
   blockedUntil: z.string().nullable().optional(),
   reviewsCount: z.number().optional(),

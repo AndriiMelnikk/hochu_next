@@ -7,6 +7,7 @@ export const requestBuyerSchema = z.object({
   rating: z.number(),
   memberSince: z.string(),
   completedDeals: z.number(),
+  lastName: z.string().nullable(),
   location: z.string().nullable(),
   xp: z.number(),
   name: z.string(),

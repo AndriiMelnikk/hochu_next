@@ -11,6 +11,7 @@ const proposalSellerSchema = z
     rating: z.number().optional(),
     reviewsCount: z.number().optional(),
     completedDeals: z.number().optional(),
+    lastName: z.string().nullable().optional(),
     isVerified: z.boolean().optional(),
     location: z.string().nullable().optional(),
     memberSince: z.string().optional(),
@@ -60,7 +61,10 @@ export const updateProposalSchema = z.object({
   title: z.string().min(1, 'proposal.create.validation.title'),
   description: z.string().min(10, 'proposal.create.validation.description'),
   estimatedTime: z.coerce.number().min(1, 'proposal.create.validation.deliveryTime'),
-  warranty: z.preprocess((val) => (val === '' ? undefined : val), z.coerce.number().nullable().optional()),
+  warranty: z.preprocess(
+    (val) => (val === '' ? undefined : val),
+    z.coerce.number().nullable().optional(),
+  ),
   itemCondition: z.nativeEnum(ItemCondition, {
     required_error: 'proposal.create.validation.itemCondition',
   }),

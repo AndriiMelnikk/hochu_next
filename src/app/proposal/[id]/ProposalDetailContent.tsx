@@ -205,7 +205,9 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                       </Avatar>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <h3 className="font-semibold text-lg">{request.buyerId.name}</h3>
+                          <h3 className="font-semibold text-lg">
+                            {request.buyerId.name} {request.buyerId.lastName}
+                          </h3>
                           {request.buyerId.isVerified && (
                             <Shield className="h-4 w-4 text-primary" />
                           )}
@@ -275,7 +277,9 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                     </Avatar>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-lg">{proposal.seller.name}</h3>
+                        <h3 className="font-semibold text-lg">
+                          {proposal.seller.name} {proposal.seller.lastName}
+                        </h3>
                         {proposal.seller.isVerified && <Shield className="h-4 w-4 text-primary" />}
                       </div>
                       <p className="text-sm text-muted-foreground flex items-center">

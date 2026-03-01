@@ -15,6 +15,7 @@ export const registerSchema = z.object({
   email: z.string().email('Невірний формат email'),
   password: z.string().min(6, 'Пароль має бути мінімум 6 символів'),
   name: z.string().min(2, "Ім'я має бути мінімум 2 символи"),
+  lastName: z.string().optional(),
   type: z.enum(UserRoleEnum as [string, ...string[]]),
 });
 

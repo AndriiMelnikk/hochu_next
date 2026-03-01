@@ -67,7 +67,7 @@ export const ProposalItem = ({
   const [reviewTarget, setReviewTarget] = useState<'seller' | 'buyer' | null>(null);
 
   const seller = proposal.seller;
-  const displayName = seller?.name;
+  const displayName = seller?.name + ' ' + seller?.lastName;
   const displayRating = seller?.rating;
   const displayReviewsCount = seller?.reviewsCount;
   const displayCompletedDeals = seller?.completedDeals;

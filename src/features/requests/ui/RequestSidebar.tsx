@@ -35,7 +35,9 @@ export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) =
           </Avatar>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-semibold text-lg">{buyer.name}</h3>
+              <h3 className="font-semibold text-lg">
+                {buyer.name} {buyer.lastName}
+              </h3>
               {buyer.isVerified && <Shield className="h-4 w-4 text-primary" />}
             </div>
             <p className="text-sm text-muted-foreground">

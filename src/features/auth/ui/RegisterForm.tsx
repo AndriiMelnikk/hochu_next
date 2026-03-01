@@ -22,6 +22,7 @@ export const RegisterForm = () => {
     resolver: zodResolver(registerSchema),
     defaultValues: {
       name: '',
+      lastName: '',
       email: '',
       password: '',
       type: 'buyer',
@@ -44,7 +45,7 @@ export const RegisterForm = () => {
         if (typeof serverErrors === 'object') {
           Object.keys(serverErrors).forEach((key) => {
             // Перевіряємо, чи це поле є у нашій формі
-            if (['email', 'name', 'password', 'type'].includes(key)) {
+            if (['email', 'name', 'lastName', 'password', 'type'].includes(key)) {
               const message = Array.isArray(serverErrors[key])
                 ? serverErrors[key][0]
                 : serverErrors[key];
@@ -84,22 +85,41 @@ export const RegisterForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-4">
-        <FormField
-          control={control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('auth.register.form.nameLabel')}</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={t('auth.register.form.namePlaceholder')}
-                  {...field}
-                  disabled={isLoading}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormField
+            control={control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('auth.register.form.nameLabel')}</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={t('auth.register.form.namePlaceholder')}
+                    {...field}
+                    disabled={isLoading}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('auth.register.form.lastNameLabel')}</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={t('auth.register.form.lastNamePlaceholder')}
+                    {...field}
+                    disabled={isLoading}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={control}

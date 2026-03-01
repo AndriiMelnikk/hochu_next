@@ -275,6 +275,8 @@ export const messages: Messages = {
   // Register Form
   'auth.register.form.nameLabel': "Ім'я",
   'auth.register.form.namePlaceholder': "Ваше ім'я",
+  'auth.register.form.lastNameLabel': 'Прізвище',
+  'auth.register.form.lastNamePlaceholder': 'Ваше прізвище',
   'auth.register.form.emailLabel': 'Email',
   'auth.register.form.emailPlaceholder': 'your@email.com',
   'auth.register.form.passwordLabel': 'Пароль',

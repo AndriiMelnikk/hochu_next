@@ -378,7 +378,7 @@ export default function AdminContent() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>ID</TableHead>
-                      <TableHead>Ім'я</TableHead>
+                      <TableHead>Ім&apos;я</TableHead>
                       <TableHead>Email</TableHead>
                       <TableHead>Скарги</TableHead>
                       <TableHead>Причина</TableHead>
