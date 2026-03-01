@@ -126,41 +126,37 @@ export default function ProfileContent() {
 
         {/* Вкладки */}
         <Tabs value={activeTab} onValueChange={handleTabChange}>
-          <TabsList className="grid w-full grid-cols-6 mb-6">
+          <TabsList className="grid w-full grid-cols-3 mb-3">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">Огляд</span>
             </TabsTrigger>
 
             {/* Show these only if feature is ready or if owner */}
-            <TabsTrigger
+            {/* <TabsTrigger
               value="gamification"
               className={`flex items-center gap-2 ${!isOwner ? 'hidden' : ''} opacity-60 cursor-not-allowed`}
               disabled
             >
               <span className="hidden sm:inline">Досягнення</span>
-            </TabsTrigger>
-            <TabsTrigger
+            </TabsTrigger> */}
+            {/* <TabsTrigger
               value="analytics"
               className={`flex items-center gap-2 ${!isOwner ? 'hidden' : ''} opacity-60 cursor-not-allowed`}
               disabled
             >
               <span className="hidden sm:inline">Аналітика</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="reviews"
-              className="flex items-center gap-2 cursor-not-allowed opacity-60"
-              disabled
-            >
+            </TabsTrigger> */}
+            <TabsTrigger value="reviews" className="flex items-center gap-2 ">
               <span className="hidden sm:inline">Відгуки</span>
             </TabsTrigger>
-            <TabsTrigger
+            {/* <TabsTrigger
               value="messages"
               className={`flex items-center gap-2 ${!isOwner ? 'hidden' : ''} opacity-60 cursor-not-allowed`}
               disabled
             >
               <span className="hidden sm:inline">Повідомлення</span>
-            </TabsTrigger>
+            </TabsTrigger> */}
 
             {isOwner && (
               <TabsTrigger value="settings" className="flex items-center gap-2">

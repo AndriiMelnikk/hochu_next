@@ -37,3 +37,10 @@ export const userSchema = z.object({
   account: accountSchema,
   profile: profileSchema,
 });
+
+export const updateProfileSchema = z.object({
+  name: z.string().min(2, "Ім'я має бути не менше 2 символів"),
+  lastName: z.string().min(2, 'Прізвище має бути не менше 2 символів').optional().nullable(),
+  location: z.string().optional().nullable(),
+  avatar: z.string().optional().nullable(),
+});

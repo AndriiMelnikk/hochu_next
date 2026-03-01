@@ -1,4 +1,9 @@
 export { userService } from './services/userService';
-export type { IAccount, IProfile, IUser } from './types/User';
+export type { IAccount, IProfile, IUser, IUpdateProfileRequest } from './types/User';
 export { useUser, useMe } from './hooks/useUser';
-export { accountSchema, profileSchema, userSchema } from './schemas/userSchema';
+export {
+  accountSchema,
+  profileSchema,
+  userSchema,
+  updateProfileSchema,
+} from './schemas/userSchema';

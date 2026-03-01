@@ -397,4 +397,19 @@ export const messages: Messages = {
   'status.guide.proposal.withdrawn.name': 'Відкликано',
   'status.guide.proposal.withdrawn.desc': 'Ви самостійно відкликали свою пропозицію.',
   'status.guide.proposal.withdrawn.next': 'Ви більше не берете участі в цьому запиті.',
+
+  // Profile edit
+  'profile.edit.nameLabel': "Ім'я",
+  'profile.edit.lastNameLabel': 'Прізвище',
+  'profile.edit.locationLabel': 'Місто',
+  'profile.edit.locationPlaceholder': 'Оберіть місто',
+  'profile.edit.locationSearch': 'Пошук міста...',
+  'profile.edit.locationSearching': 'Пошук...',
+  'profile.edit.locationNotFound': 'Місто не знайдено',
+  'profile.edit.avatarHint': 'Натисніть на іконку, щоб завантажити фото',
+  'profile.edit.avatarTypeError': 'Дозволені лише JPG, PNG, WebP, GIF',
+  'profile.edit.submit': 'Зберегти зміни',
+  'profile.edit.submitting': 'Збереження...',
+  'profile.edit.success': 'Профіль успішно оновлено',
+  'profile.edit.error': 'Сталася помилка при оновленні профілю',
 };

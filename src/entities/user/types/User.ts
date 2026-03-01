@@ -42,3 +42,10 @@ export interface IUser {
   account: IAccount;
   profile: IProfile;
 }
+
+export interface IUpdateProfileRequest {
+  name?: string;
+  lastName?: string | null;
+  location?: string | null;
+  avatar?: string | null;
+}

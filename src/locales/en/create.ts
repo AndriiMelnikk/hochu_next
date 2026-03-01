@@ -397,4 +397,19 @@ export const messages: Messages = {
   'status.guide.proposal.withdrawn.name': 'Withdrawn',
   'status.guide.proposal.withdrawn.desc': 'You have withdrawn your proposal.',
   'status.guide.proposal.withdrawn.next': 'You are no longer participating in this request.',
+
+  // Profile edit
+  'profile.edit.nameLabel': 'First Name',
+  'profile.edit.lastNameLabel': 'Last Name',
+  'profile.edit.locationLabel': 'Location',
+  'profile.edit.locationPlaceholder': 'Select city',
+  'profile.edit.locationSearch': 'Search city...',
+  'profile.edit.locationSearching': 'Searching...',
+  'profile.edit.locationNotFound': 'City not found',
+  'profile.edit.avatarHint': 'Click the icon to upload a photo',
+  'profile.edit.avatarTypeError': 'Only JPG, PNG, WebP, GIF are allowed',
+  'profile.edit.submit': 'Save changes',
+  'profile.edit.submitting': 'Saving...',
+  'profile.edit.success': 'Profile updated successfully',
+  'profile.edit.error': 'An error occurred while updating profile',
 };

@@ -1,36 +1,28 @@
-import { useState } from 'react';
+import { useMe } from '@entities/user';
+import { EditProfileForm } from '@features/user';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Input } from '@shared/ui/input';
-import { Label } from '@shared/ui/label';
 import { Button } from '@shared/ui/button';
-import { Switch } from '@shared/ui/switch';
-import { Textarea } from '@shared/ui/textarea';
-import { useToast } from '@shared/ui/use-toast';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
-import { Badge } from '@shared/ui/badge';
-import { Shield, AlertCircle, Lock } from 'lucide-react';
+
+import { Lock, Loader2 } from 'lucide-react';
 
 const ProfileSettings = () => {
-  const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
+  const { data: user, isLoading, error } = useMe();
 
-  const handleSaveProfile = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      toast({
-        title: 'Профіль оновлено',
-        description: 'Ваші зміни успішно збережені',
-      });
-    }, 1000);
-  };
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
-  const handleSaveNotifications = () => {
-    toast({
-      title: 'Налаштування збережені',
-      description: 'Ваші налаштування сповіщень оновлені',
-    });
-  };
+  if (error || !user) {
+    return (
+      <div className="p-8 text-center text-destructive">
+        Сталася помилка при завантаженні даних профілю
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -40,46 +32,8 @@ const ProfileSettings = () => {
           <CardTitle>Особиста інформація</CardTitle>
           <CardDescription>Оновіть свої особисті дані та контактну інформацію</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="firstName">Ім&apos;я</Label>
-              <Input id="firstName" defaultValue="Олександр" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="lastName">Прізвище</Label>
-              <Input id="lastName" defaultValue="Коваленко" />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" defaultValue="oleksandr@example.com" />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="phone">Телефон</Label>
-            <Input id="phone" type="tel" defaultValue="+380 67 123 4567" />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="location">Місто</Label>
-            <Input id="location" defaultValue="Київ" />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="bio">Про себе</Label>
-            <Textarea
-              id="bio"
-              placeholder="Розкажіть трохи про себе..."
-              defaultValue="Шукаю якісну техніку за доступними цінами. Надійний покупець з гарною історією угод."
-              rows={4}
-            />
-          </div>
-
-          <Button onClick={handleSaveProfile} disabled={loading}>
-            {loading ? 'Збереження...' : 'Зберегти зміни'}
-          </Button>
+        <CardContent>
+          <EditProfileForm user={user} />
         </CardContent>
       </Card>
 

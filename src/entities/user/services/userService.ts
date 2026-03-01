@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { api } from '@shared/api/api';
-import type { IUser, IProfile, ContactChannel } from '../types/User';
+import type { IUser, IProfile, ContactChannel, IUpdateProfileRequest } from '../types/User';
 
 class UserService {
   async get(id: string | number, config?: AxiosRequestConfig): Promise<IProfile> {
@@ -11,11 +11,28 @@ class UserService {
     return (await api.get('/api/users/me', config)).data;
   }
 
+  async updateMe(data: IUpdateProfileRequest, config?: AxiosRequestConfig): Promise<IUser> {
+    return (await api.patch('/api/users/me', data, config)).data;
+  }
+
   async getContacts(
     id: string | number,
     config?: AxiosRequestConfig,
   ): Promise<Partial<Record<ContactChannel, string>>> {
     return (await api.get(`/api/users/${id}/contacts`, config)).data;
+  }
+
+  async uploadAvatar(file: File): Promise<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const { data } = await api.post('/api/upload/avatar', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    return data.url;
   }
 }
 
