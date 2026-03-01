@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useUser } from '@/entities/user';
+import { useMe, useUser } from '@/entities/user';
 import { useAuthStore } from '@/entities/auth';
 import { Loader2, Settings, User } from 'lucide-react';
 import { Button } from '@shared/ui/button';
@@ -23,8 +23,10 @@ export default function ProfileContent() {
   const params = useParams();
   const id = params?.id as string;
   const { data: user, isLoading, error } = useUser(id);
+
   const { user: currentUser } = useAuthStore();
   const isOwner = currentUser?.profile?._id === id;
+  const userEmail = currentUser?.account.email || '-';
 
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -72,12 +74,12 @@ export default function ProfileContent() {
 
   // Map fetched user data to component structure if needed, or use directly
   const displayUser = {
-    name: user.name || 'User',
-    email: 'Приховано', // Email is not in public profile usually
+    name: user.name + ' ' + user.lastName,
+    email: userEmail || '-', // Email is not in public profile usually
     avatar: user.avatar || '',
     role: user.type,
     joinDate: user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A',
-    location: user.location || 'Не вказано',
+    location: user.location || '-',
     verified: user.isVerified || false,
     rating: user.rating || 0,
     xp: user.xp || 0,
