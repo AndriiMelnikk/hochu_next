@@ -19,6 +19,7 @@ interface RequestState {
 
 interface RequestActions {
   fetchRequests: (params?: IGetRequestsRequest) => Promise<void>;
+  fetchRequestsByProposals: (profileId: string, params?: IGetRequestsRequest) => Promise<void>;
   createRequest: (data: ICreateRequestRequest) => Promise<IRequest>;
   updateRequest: (id: string, data: IUpdateRequestRequest) => Promise<IRequest>;
 }
@@ -39,6 +40,24 @@ export const useRequestStore = create<RequestState & RequestActions>()(
       });
       try {
         const data = await requestService.get(params);
+        set((state) => {
+          state.requests = data;
+          state.loading = false;
+        });
+      } catch (error) {
+        set((state) => {
+          state.loading = false;
+          state.error = 'Failed to fetch requests';
+        });
+      }
+    },
+    fetchRequestsByProposals: async (profileId, params) => {
+      set((state) => {
+        state.loading = true;
+        state.error = null;
+      });
+      try {
+        const data = await requestService.getByProposals(profileId, params);
         set((state) => {
           state.requests = data;
           state.loading = false;

@@ -13,6 +13,7 @@ export const ENDPOINTS = {
     BASE: '/api/requests',
     BY_ID: (id: string | number) => `/api/requests/${id}`,
     FEED: (id: string | number) => `/api/requests/feed/${id}`,
+    PROPOSALS: (profileId: string) => `/api/requests/proposals/${profileId}`,
   },
   PROPOSALS: {
     BASE: '/api/proposals',

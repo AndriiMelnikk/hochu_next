@@ -1,5 +1,3 @@
-'use client';
-
 import { useMemo, useEffect, useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { useRequestStore, REQUEST_STATUS_LABELS } from '@/entities/request';
@@ -14,12 +12,14 @@ import { Search } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { RequestStatus } from '@/entities/request/types/Request';
 import { RequestCard } from '@/features/requests';
+import { useAuth, useAuthStore } from '@/entities/auth';
 
 interface UserRequestsListProps {
   userId: string;
 }
 
 export default function UserRequestsList({ userId }: UserRequestsListProps) {
+  const { user: currentUser } = useAuth();
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
 
@@ -66,18 +66,24 @@ export default function UserRequestsList({ userId }: UserRequestsListProps) {
     loading: isRequestsLoading,
     error: requestsError,
     fetchRequests,
+    fetchRequestsByProposals,
   } = useRequestStore();
 
   useEffect(() => {
-    fetchRequests({
+    const fetchParams = {
       page,
       pageSize,
       category: filters.category || undefined,
       search: filters.search || undefined,
       status: filters.status || undefined,
-      buyerId: userId,
-    });
-  }, [page, pageSize, filters, fetchRequests, userId]);
+    };
+
+    if (currentUser?.profile._id === userId) {
+      fetchRequests({ ...fetchParams, buyerId: userId });
+    } else {
+      fetchRequestsByProposals(userId, fetchParams);
+    }
+  }, [page, pageSize, filters, fetchRequests, userId, currentUser, fetchRequestsByProposals]);
 
   const requestResults = requests?.results || [];
   const totalCount = requests?.count ?? 0;

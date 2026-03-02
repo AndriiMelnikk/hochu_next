@@ -40,24 +40,38 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
 
   return (
     <Tabs value={activeTab} onValueChange={handleTabChange}>
-      <TabsList className="grid w-full grid-cols-3 mb-3">
-        <TabsTrigger value="overview" className="flex items-center gap-2">
-          <User className="h-4 w-4" />
-          <span className="hidden sm:inline">Огляд</span>
-        </TabsTrigger>
-
-        <TabsTrigger value="reviews" className="flex items-center gap-2">
-          <Star className="h-4 w-4" />
-          <span className="hidden sm:inline">Відгуки</span>
-        </TabsTrigger>
-
-        {isOwner && (
-          <TabsTrigger value="settings" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            <span className="hidden sm:inline">Налаштування</span>
+      {isOwner ? (
+        <TabsList className="grid w-full grid-cols-3 mb-3">
+          <TabsTrigger value="overview" className="flex items-center gap-2">
+            <User className="h-4 w-4" />
+            <span className="hidden sm:inline">Огляд</span>
           </TabsTrigger>
-        )}
-      </TabsList>
+
+          <TabsTrigger value="reviews" className="flex items-center gap-2">
+            <Star className="h-4 w-4" />
+            <span className="hidden sm:inline">Відгуки</span>
+          </TabsTrigger>
+
+          {isOwner && (
+            <TabsTrigger value="settings" className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              <span className="hidden sm:inline">Налаштування</span>
+            </TabsTrigger>
+          )}
+        </TabsList>
+      ) : (
+        <TabsList className="grid w-full grid-cols-2 mb-2">
+          <TabsTrigger value="overview" className="flex items-center gap-2">
+            <User className="h-4 w-4" />
+            <span className="hidden sm:inline">Огляд</span>
+          </TabsTrigger>
+
+          <TabsTrigger value="reviews" className="flex items-center gap-2">
+            <Star className="h-4 w-4" />
+            <span className="hidden sm:inline">Відгуки</span>
+          </TabsTrigger>
+        </TabsList>
+      )}
 
       <TabsContent value="gamification">
         <GamificationProgress
@@ -75,21 +89,17 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
         <ProfileReviews profileId={user.id} />
       </TabsContent>
 
-      {isOwner && (
-        <>
-          <TabsContent value="analytics">
-            <ProfileStats />
-          </TabsContent>
+      <TabsContent value="analytics">
+        <ProfileStats />
+      </TabsContent>
 
-          <TabsContent value="messages">
-            <Chat />
-          </TabsContent>
+      <TabsContent value="messages">
+        <Chat />
+      </TabsContent>
 
-          <TabsContent value="settings">
-            <ProfileSettings />
-          </TabsContent>
-        </>
-      )}
+      <TabsContent value="settings">
+        <ProfileSettings />
+      </TabsContent>
     </Tabs>
   );
 }

@@ -27,6 +27,15 @@ class RequestService {
     return (await api.get(endpoint, { params: searchParams, ...config })).data;
   }
 
+  async getByProposals(
+    profileId: string,
+    searchParams: Omit<IGetRequestsRequest, 'buyerId'> = {},
+    config?: AxiosRequestConfig,
+  ): Promise<IGetRequestsResponse> {
+    const endpoint = ENDPOINTS.REQUESTS.PROPOSALS(profileId);
+    return (await api.get(endpoint, { params: searchParams, ...config })).data;
+  }
+
   async getOne(id: string | number, config?: AxiosRequestConfig): Promise<IRequestWithBuyer> {
     return (await api.get(ENDPOINTS.REQUESTS.BY_ID(id), config)).data;
   }
