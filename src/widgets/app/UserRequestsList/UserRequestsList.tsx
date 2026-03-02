@@ -2,7 +2,7 @@
 
 import { useMemo, useEffect, useState } from 'react';
 import { useLingui } from '@lingui/react';
-import { useRequestStore } from '@/entities/request';
+import { useRequestStore, REQUEST_STATUS_LABELS } from '@/entities/request';
 import { useCategories } from '@/entities/category';
 import { useDebounce, useQueryPagination } from '@shared/hooks';
 import { CascadingSelect, type CascadingSelectItem } from '@shared/ui/cascading-select';
@@ -142,7 +142,7 @@ export default function UserRequestsList({ userId }: UserRequestsListProps) {
                 <SelectItem value="all">Всі статуси</SelectItem>
                 {Object.values(RequestStatus).map((status) => (
                   <SelectItem key={status} value={status}>
-                    {status}
+                    {t(REQUEST_STATUS_LABELS[status as keyof typeof REQUEST_STATUS_LABELS])}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -179,6 +179,7 @@ export default function UserRequestsList({ userId }: UserRequestsListProps) {
               key={request._id.toString()}
               request={request}
               categoryName={request.category.name}
+              status={request.status as RequestStatus}
             />
           ))}
         </div>

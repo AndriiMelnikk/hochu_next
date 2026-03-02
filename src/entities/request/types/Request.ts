@@ -1,7 +1,4 @@
-import { IUser } from '@/entities/user';
-
 export enum RequestStatus {
-  IN_PROGRESS = 'in_progress',
   COMPLETED = 'completed',
   CANCELLED = 'cancelled',
   ACTIVE = 'active',
