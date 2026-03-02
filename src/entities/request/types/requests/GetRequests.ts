@@ -6,4 +6,6 @@ export interface IGetRequestsRequest {
   location?: string;
   minPrice?: number;
   maxPrice?: number;
+  status?: string;
+  buyerId?: string;
 }

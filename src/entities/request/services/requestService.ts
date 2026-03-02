@@ -11,7 +11,20 @@ class RequestService {
     searchParams: IGetRequestsRequest = {},
     config?: AxiosRequestConfig,
   ): Promise<IGetRequestsResponse> {
-    return (await api.get(ENDPOINTS.REQUESTS.BASE, { params: searchParams, ...config })).data;
+    const { buyerId, ...params } = searchParams;
+    if (buyerId) {
+      return this.getByBuyer(buyerId, params, config);
+    }
+    return (await api.get(ENDPOINTS.REQUESTS.BASE, { params, ...config })).data;
+  }
+
+  async getByBuyer(
+    buyerId: string,
+    searchParams: Omit<IGetRequestsRequest, 'buyerId'> = {},
+    config?: AxiosRequestConfig,
+  ): Promise<IGetRequestsResponse> {
+    const endpoint = ENDPOINTS.REQUESTS.FEED(buyerId);
+    return (await api.get(endpoint, { params: searchParams, ...config })).data;
   }
 
   async getOne(id: string | number, config?: AxiosRequestConfig): Promise<IRequestWithBuyer> {
