@@ -30,6 +30,7 @@ import { CompleteProposalModal } from './CompleteProposalModal';
 import { CancelAcceptedProposalModal } from './CancelAcceptedProposalModal';
 import { CreateReviewModal } from './CreateReviewModal';
 import { RequestStatus } from '@/entities/request';
+import { routes } from '@/app/router/routes';
 
 interface ProposalItemProps {
   proposal: IProposalWithSeller;
@@ -67,7 +68,7 @@ export const ProposalItem = ({
   const [reviewTarget, setReviewTarget] = useState<'seller' | 'buyer' | null>(null);
 
   const seller = proposal.seller;
-  const displayName = seller?.name + ' ' + seller?.lastName;
+  const displayName = seller?.name + ' ' + (seller?.lastName || '');
   const displayRating = seller?.rating;
   const displayReviewsCount = seller?.reviewsCount;
   const displayCompletedDeals = seller?.completedDeals;
@@ -79,7 +80,7 @@ export const ProposalItem = ({
     : ' border-border hover:border-primary hover:shadow-md';
 
   const avatar = (
-    <Link href={`/profile/${proposal.sellerId}`}>
+    <Link href={routes.PROFILE_BY_ID(proposal.sellerId)}>
       <Avatar className="h-12 w-12 sm:h-16 sm:w-16 border-2 border-primary shrink-0 transition-opacity hover:opacity-80">
         <AvatarImage src={displayAvatar ?? undefined} />
         <AvatarFallback>{displayName}</AvatarFallback>
@@ -98,7 +99,7 @@ export const ProposalItem = ({
               <div className="flex items-center gap-3 sm:gap-2">
                 <div className="sm:hidden">{avatar}</div>
                 <h3 className="font-semibold text-lg flex items-center gap-2 flex-wrap">
-                  <Link href={`/profile/${proposal.sellerId}`} className="hover:underline">
+                  <Link href={routes.PROFILE_BY_ID(proposal.sellerId)} className="hover:underline">
                     {displayName}
                   </Link>
                   {displayRating != null && (

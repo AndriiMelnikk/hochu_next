@@ -66,7 +66,7 @@ export const EditProfileForm = ({ user, onSuccess }: EditProfileFormProps) => {
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {
       name: user.profile.name ?? '',
-      lastName: user.profile.lastName ?? '',
+      lastName: user.profile.lastName || '',
       location: user.profile.location ?? '',
       avatar: user.profile.avatar ?? '',
     },
@@ -116,7 +116,7 @@ export const EditProfileForm = ({ user, onSuccess }: EditProfileFormProps) => {
 
       const payload: IUpdateProfileRequest = {
         name: data.name,
-        lastName: data.lastName,
+        lastName: data.lastName || '',
         location: data.location,
         avatar: avatarUrl,
       };

@@ -7,7 +7,7 @@ import { Badge } from '@shared/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import { Separator } from '@shared/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/card';
-import Reviews from '@/widgets/app/Reviews';
+import { ProfileReviews } from '@/widgets/app/Reviews';
 import { Breadcrumbs } from '@shared/ui/breadcrumbs';
 import {
   Star,
@@ -206,7 +206,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
                           <h3 className="font-semibold text-lg">
-                            {request.buyerId.name} {request.buyerId.lastName}
+                            {request.buyerId.name} {request.buyerId.lastName || ''}
                           </h3>
                           {request.buyerId.isVerified && (
                             <Shield className="h-4 w-4 text-primary" />
@@ -258,7 +258,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                   <CardTitle>Відгуки про продавця</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <Reviews />
+                  <ProfileReviews profileId={proposal.seller._id} />
                 </CardContent>
               </Card>
             </div>
@@ -278,7 +278,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-semibold text-lg">
-                          {proposal.seller.name} {proposal.seller.lastName}
+                          {proposal.seller.name} {proposal.seller.lastName || ''}
                         </h3>
                         {proposal.seller.isVerified && <Shield className="h-4 w-4 text-primary" />}
                       </div>

@@ -5,6 +5,8 @@ import { uk, enUS } from 'date-fns/locale';
 import { Separator } from '@shared/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import { IRequestBuyer } from '@/entities/request/types/Request';
+import { routes } from '@/app/router/routes';
+import Link from 'next/link';
 
 interface RequestSidebarProps {
   buyer?: IRequestBuyer;
@@ -29,14 +31,18 @@ export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) =
         <h2 className="text-xl font-semibold mb-4">{t('request.sidebar.buyer')}</h2>
 
         <div className="flex items-start mb-4">
-          <Avatar className="h-16 w-16 mr-4">
-            <AvatarImage src={buyer.avatar || undefined} />
-            <AvatarFallback>{buyer.name}</AvatarFallback>
-          </Avatar>
+          <Link href={routes.PROFILE_BY_ID(buyer._id)}>
+            <Avatar className="h-16 w-16 mr-4">
+              <AvatarImage src={buyer.avatar || undefined} />
+              <AvatarFallback>{buyer.name}</AvatarFallback>
+            </Avatar>
+          </Link>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <h3 className="font-semibold text-lg">
-                {buyer.name} {buyer.lastName}
+                <Link href={routes.PROFILE_BY_ID(buyer._id)} className="hover:underline">
+                  {buyer.name} {buyer.lastName || ''}
+                </Link>
               </h3>
               {buyer.isVerified && <Shield className="h-4 w-4 text-primary" />}
             </div>

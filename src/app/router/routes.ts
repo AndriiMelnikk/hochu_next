@@ -7,6 +7,7 @@ export const routes = {
   REQUEST_ID: (id: string) => `/request/${id}`,
   PROPOSAL_ID: (id: string) => `/proposal/${id}`,
   PROFILE: '/profile',
+  PROFILE_BY_ID: (id: string) => `/profile/${id}`,
   LOGIN: '/login',
   REGISTER: '/register',
   PRICING: '/pricing',

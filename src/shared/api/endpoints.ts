@@ -27,6 +27,8 @@ export const ENDPOINTS = {
   },
   REVIEWS: {
     BASE: '/api/reviews',
+    STATS: (profileId: string) => `/api/reviews/stats/${profileId}`,
+    BY_PROFILE_ID: (profileId: string) => `/api/reviews/profiles/${profileId}`,
   },
   BLOG: {
     BASE: '/api/blog',

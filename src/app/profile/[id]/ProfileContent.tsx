@@ -40,7 +40,7 @@ export default function ProfileContent() {
 
   const displayUser = {
     id: user._id,
-    name: `${user.name} ${user.lastName}`,
+    name: `${user.name} ${user.lastName || ''}`,
     email: currentUser?.account.email || '-',
     avatar: user.avatar || '',
     role: user.type,

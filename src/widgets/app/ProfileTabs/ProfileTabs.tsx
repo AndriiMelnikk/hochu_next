@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Settings, User } from 'lucide-react';
+import { Settings, Star, User } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
-import Reviews from '@/widgets/app/Reviews';
+import { ProfileReviews } from '@/widgets/app/Reviews';
 import Chat from '@/widgets/app/Chat';
 import ProfileSettings from '@/widgets/app/ProfileSettings';
 import GamificationProgress from '@/widgets/app/GamificationProgress';
@@ -47,6 +47,7 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
         </TabsTrigger>
 
         <TabsTrigger value="reviews" className="flex items-center gap-2">
+          <Star className="h-4 w-4" />
           <span className="hidden sm:inline">Відгуки</span>
         </TabsTrigger>
 
@@ -70,14 +71,14 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
         <UserRequestsList userId={user.id} />
       </TabsContent>
 
+      <TabsContent value="reviews">
+        <ProfileReviews profileId={user.id} />
+      </TabsContent>
+
       {isOwner && (
         <>
           <TabsContent value="analytics">
             <ProfileStats />
-          </TabsContent>
-
-          <TabsContent value="reviews">
-            <Reviews />
           </TabsContent>
 
           <TabsContent value="messages">
