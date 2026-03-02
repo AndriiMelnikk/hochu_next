@@ -16,7 +16,7 @@ interface ProfileHeaderProps {
     verified: boolean;
     rating: number;
     xp: number;
-    topAchievements: [];
+    topAchievements: string[];
   };
   isOwner: boolean;
 }

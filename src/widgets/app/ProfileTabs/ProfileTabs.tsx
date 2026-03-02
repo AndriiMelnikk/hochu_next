@@ -15,7 +15,7 @@ interface ProfileTabsProps {
     id: string;
     xp: number;
     role: string;
-    unlockedAchievements: [];
+    unlockedAchievements: string[];
   };
   isOwner: boolean;
 }
