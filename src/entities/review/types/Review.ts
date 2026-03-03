@@ -18,7 +18,7 @@ export interface IReview {
     lastName?: string;
     avatar: string | null;
   };
-  requestId: string | null;
+  requestId: { _id: string; title: string } | null;
   proposalId: {
     _id: string;
     requestId?: {

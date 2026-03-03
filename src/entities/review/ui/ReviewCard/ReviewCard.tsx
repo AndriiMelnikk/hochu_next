@@ -29,8 +29,20 @@ const renderStars = (rating: number) => {
 export const ReviewCard: FC<ReviewCardProps> = ({ review }) => {
   const author = review.authorProfileId;
   const requestFromProposal = review.proposalId?.requestId;
-  const requestId = review.requestId ?? requestFromProposal?._id;
-  const requestTitle = requestFromProposal?.title;
+
+  // requestId can be a string (ID) or a populated object
+  const populatedRequest =
+    typeof review.requestId === 'object' && review.requestId !== null ? review.requestId : null;
+
+  const requestId =
+    populatedRequest?._id ??
+    (review.requestId as unknown as { _id: string } | null)?._id ??
+    requestFromProposal?._id;
+
+  const requestTitle =
+    typeof populatedRequest === 'object' && populatedRequest !== null
+      ? populatedRequest.title
+      : requestFromProposal?.title;
 
   return (
     <Card>

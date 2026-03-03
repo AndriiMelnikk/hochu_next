@@ -21,7 +21,6 @@ interface UserRequestsListProps {
 }
 
 export default function UserRequestsList({ userId, userType }: UserRequestsListProps) {
-  const { user: currentUser } = useAuth();
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
 

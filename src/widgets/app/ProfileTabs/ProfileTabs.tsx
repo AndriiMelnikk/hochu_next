@@ -23,6 +23,8 @@ interface ProfileTabsProps {
 export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
   const [activeTab, setActiveTab] = useState('overview');
 
+  console.log(user);
+
   const lockedTabsForGuest = ['gamification', 'analytics', 'settings', 'messages'];
   const originallyLockedTabs = ['gamification', 'analytics', 'reviews', 'messages'];
 
