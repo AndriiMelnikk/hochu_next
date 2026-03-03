@@ -1,10 +1,10 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { Card, CardContent } from '@shared/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 import { Star } from 'lucide-react';
 import { useReviewStats } from '@entities/review';
 import { Skeleton } from '@shared/ui/skeleton';
-import { ReviewsList } from '@widgets/app/ReviewsList';
+import { ReviewsList } from '@entities/review/ui/ReviewsList/ReviewsList';
 
 interface ProfileReviewsProps {
   profileId: string;
@@ -27,6 +27,7 @@ const renderStars = (rating: number) => {
 
 export const ProfileReviews: FC<ProfileReviewsProps> = ({ profileId }) => {
   const { data: reviewStats, isLoading } = useReviewStats(profileId);
+  const [activeTab, setActiveTab] = useState('about-me');
 
   const avgRating = useMemo(() => {
     if (!reviewStats || reviewStats.total === 0) return 0;
@@ -37,6 +38,13 @@ export const ProfileReviews: FC<ProfileReviewsProps> = ({ profileId }) => {
     );
     return totalRating / reviewStats.total;
   }, [reviewStats]);
+
+  const reviewsParams = useMemo(() => {
+    if (activeTab === 'about-me') {
+      return { targetProfileId: profileId };
+    }
+    return { authorProfileId: profileId };
+  }, [activeTab, profileId]);
 
   if (isLoading) {
     return (
@@ -109,18 +117,18 @@ export const ProfileReviews: FC<ProfileReviewsProps> = ({ profileId }) => {
         </CardContent>
       </Card>
 
-      <Tabs defaultValue="about-me" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="about-me">Відгуки про мене</TabsTrigger>
           <TabsTrigger value="my-reviews">Мої відгуки</TabsTrigger>
         </TabsList>
 
         <TabsContent value="about-me" className="mt-6">
-          <ReviewsList targetUserId={profileId} />
+          <ReviewsList params={reviewsParams} />
         </TabsContent>
 
         <TabsContent value="my-reviews" className="mt-6">
-          <ReviewsList authorId={profileId} />
+          <ReviewsList params={reviewsParams} />
         </TabsContent>
       </Tabs>
     </div>

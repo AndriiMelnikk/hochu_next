@@ -82,7 +82,7 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
       </TabsContent>
 
       <TabsContent value="overview">
-        <UserRequestsList userId={user.id} />
+        <UserRequestsList userId={user.id} userType={user.role as 'buyer' | 'seller'} />
       </TabsContent>
 
       <TabsContent value="reviews">

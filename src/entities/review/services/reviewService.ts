@@ -3,7 +3,7 @@ import { ENDPOINTS } from '@shared/api/endpoints';
 import { IReview } from '../types/Review';
 import { ICreateReviewRequest } from '../types/requests/CreateReview';
 import { IReviewStatsResponse } from '../types/responses/GetReviewStats';
-import { IGetReviewsRequest } from '../types/requests/GetReviews';
+import { IGetReviewsRequest, IGetReviewsResponse } from '../types';
 
 class ReviewService {
   async create(data: ICreateReviewRequest): Promise<IReview> {
@@ -16,14 +16,10 @@ class ReviewService {
     return (await api.get(url)).data;
   }
 
-  async get(params: IGetReviewsRequest): Promise<IReview[]> {
-    const { targetUserId } = params;
-    if (!targetUserId) {
-      // should not happen due to 'enabled' in useReviews
-      return [];
-    }
-    const url = ENDPOINTS.REVIEWS.BY_PROFILE_ID(targetUserId);
-    return (await api.get(url, { params })).data;
+  async get(params: IGetReviewsRequest): Promise<IGetReviewsResponse> {
+    const url = ENDPOINTS.REVIEWS.BASE;
+    const response = await api.get<IGetReviewsResponse>(url, { params });
+    return response.data;
   }
 }
 

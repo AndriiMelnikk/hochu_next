@@ -17,9 +17,11 @@ export type ContactChannel =
   | 'facebook'
   | 'website';
 
+export type ProfileType = 'buyer' | 'seller';
+
 export interface IProfile {
   _id: string;
-  type: 'buyer' | 'seller';
+  type: ProfileType;
   rating: number;
   xp: number;
   completedDeals: number;

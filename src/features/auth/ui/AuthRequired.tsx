@@ -18,14 +18,12 @@ export function AuthRequired({ title, description, icon, className }: AuthRequir
   const t = (id: string) => i18n._(id);
 
   return (
-    <div className={cn("flex flex-col items-center justify-center py-16 text-center", className)}>
+    <div className={cn('flex flex-col items-center justify-center py-16 text-center', className)}>
       <div className="bg-primary/10 p-6 rounded-full mb-6">
         {icon || <UserCircle className="h-16 w-16 text-primary" />}
       </div>
       <h2 className="text-2xl font-bold mb-4">{title}</h2>
-      <p className="text-muted-foreground mb-8 max-w-md">
-        {description}
-      </p>
+      <p className="text-muted-foreground mb-8 max-w-md">{description}</p>
       <div className="flex flex-col sm:flex-row gap-4">
         <Link href={routes.REGISTER}>
           <Button size="lg" className="w-full sm:w-auto gap-2">

@@ -1,4 +1,8 @@
 export interface IGetReviewsRequest {
-  targetUserId?: string;
-  authorId?: string;
+  targetProfileId?: string;
+  authorProfileId?: string;
+  requestId?: string;
+  proposalId?: string;
+  page?: number;
+  pageSize?: number;
 }

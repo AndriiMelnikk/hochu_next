@@ -47,7 +47,7 @@ export const CreateReviewModal = ({
 }: CreateReviewModalProps) => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-  
+
   const { mutateAsync: createReview, isPending } = useCreateReview();
 
   const {
@@ -94,7 +94,7 @@ export const CreateReviewModal = ({
           <DialogTitle>{t('review.create.title')}</DialogTitle>
           <DialogDescription>{t('review.create.description')}</DialogDescription>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
           <div className="space-y-2">
             <Label>{t('review.create.rating')}</Label>
@@ -110,10 +110,10 @@ export const CreateReviewModal = ({
                 >
                   <Star
                     className={cn(
-                      "h-8 w-8 transition-colors",
+                      'h-8 w-8 transition-colors',
                       (hoverRating ? star <= hoverRating : star <= rating)
-                        ? "fill-yellow-500 text-yellow-500"
-                        : "text-muted-foreground"
+                        ? 'fill-yellow-500 text-yellow-500'
+                        : 'text-muted-foreground',
                     )}
                   />
                 </button>
@@ -132,9 +132,7 @@ export const CreateReviewModal = ({
               className="resize-none"
               {...register('comment')}
             />
-            {errors.comment && (
-              <p className="text-sm text-destructive">{errors.comment.message}</p>
-            )}
+            {errors.comment && <p className="text-sm text-destructive">{errors.comment.message}</p>}
           </div>
 
           <DialogFooter>

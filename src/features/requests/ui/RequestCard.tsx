@@ -13,7 +13,7 @@ import { useLingui } from '@lingui/react';
 interface RequestCardProps {
   request: IRequest;
   categoryName?: string;
-  status: RequestStatus;
+  status?: RequestStatus;
 }
 
 export const RequestCard = ({ request, categoryName, status }: RequestCardProps) => {

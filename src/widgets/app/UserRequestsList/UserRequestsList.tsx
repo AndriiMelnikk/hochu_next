@@ -13,12 +13,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { RequestStatus } from '@/entities/request/types/Request';
 import { RequestCard } from '@/features/requests';
 import { useAuth, useAuthStore } from '@/entities/auth';
+import { es } from 'date-fns/locale';
 
 interface UserRequestsListProps {
   userId: string;
+  userType: 'buyer' | 'seller';
 }
 
-export default function UserRequestsList({ userId }: UserRequestsListProps) {
+export default function UserRequestsList({ userId, userType }: UserRequestsListProps) {
   const { user: currentUser } = useAuth();
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
@@ -61,13 +63,11 @@ export default function UserRequestsList({ userId }: UserRequestsListProps) {
     }));
   }, [categories]);
 
-  const {
-    requests,
-    loading: isRequestsLoading,
-    error: requestsError,
-    fetchRequests,
-    fetchRequestsByProposals,
-  } = useRequestStore();
+  const requests = useRequestStore((state) => state.requests);
+  const isRequestsLoading = useRequestStore((state) => state.loading);
+  const requestsError = useRequestStore((state) => state.error);
+  const fetchRequests = useRequestStore((state) => state.fetchRequests);
+  const fetchRequestsByProposals = useRequestStore((state) => state.fetchRequestsByProposals);
 
   useEffect(() => {
     const fetchParams = {
@@ -78,12 +78,22 @@ export default function UserRequestsList({ userId }: UserRequestsListProps) {
       status: filters.status || undefined,
     };
 
-    if (currentUser?.profile._id === userId) {
-      fetchRequests({ ...fetchParams, buyerId: userId });
-    } else {
+    if (userType === 'seller') {
       fetchRequestsByProposals(userId, fetchParams);
+    } else {
+      fetchRequests({ ...fetchParams, buyerId: userId });
     }
-  }, [page, pageSize, filters, fetchRequests, userId, currentUser, fetchRequestsByProposals]);
+  }, [
+    page,
+    pageSize,
+    filters.category,
+    filters.search,
+    filters.status,
+    userId,
+    userType,
+    fetchRequests,
+    fetchRequestsByProposals,
+  ]);
 
   const requestResults = requests?.results || [];
   const totalCount = requests?.count ?? 0;
@@ -165,9 +175,9 @@ export default function UserRequestsList({ userId }: UserRequestsListProps) {
             <Error variant="inline" message={t('request.list.loadingError')} />
           ) : (
             <>
-              {t('request.list.foundPrefix')}{' '}
-              <span className="font-semibold text-foreground">{totalCount}</span>{' '}
-              {t('request.list.foundSuffix')}
+              {userType === 'buyer'
+                ? `Усі запити: ${totalCount}`
+                : `Зроблені пропозиції: ${totalCount}`}
             </>
           )}
         </p>
