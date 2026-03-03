@@ -61,9 +61,7 @@ export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) =
             <div className="flex items-center">
               <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 mr-1" />
               <span className="font-semibold">{buyer.rating}</span>
-              <span className="text-sm text-muted-foreground ml-1">
-                ({buyer.reviewsCount || 0})
-              </span>
+              <span className="text-sm text-muted-foreground ml-1">({buyer.xp || 0})</span>
             </div>
           </div>
           <div className="flex items-center justify-between text-sm">

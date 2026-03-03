@@ -69,7 +69,8 @@ export const ProposalItem = ({
 
   const seller = proposal.seller;
   const displayName = seller?.name + ' ' + (seller?.lastName || '');
-  const displayRating = seller?.rating;
+  const displayRating = seller?.rating || 0;
+  const displayXp = seller?.xp || 0;
   const displayReviewsCount = seller?.reviewsCount;
   const displayCompletedDeals = seller?.completedDeals;
   const displayAvatar = seller?.avatar;
@@ -105,7 +106,7 @@ export const ProposalItem = ({
                   {displayRating != null && (
                     <Badge variant="secondary" className="text-xs">
                       <Star className="h-3 w-3 mr-1 fill-yellow-500 text-yellow-500" />
-                      {displayRating}
+                      {displayRating} ({displayXp})
                     </Badge>
                   )}
                   {isSelected && (
@@ -289,30 +290,32 @@ export const ProposalItem = ({
                   />
                 </>
               )}
-            {isProposalOwner && proposal.status === ProposalStatus.PENDING && (
-              <>
-                <Button variant="outline" size="sm" onClick={() => setEditModalOpen(true)}>
-                  <Pencil className="h-4 w-4 mr-2" />
-                  {t('proposal.item.editButton')}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-destructive hover:text-destructive"
-                  onClick={() => setCancelDialogOpen(true)}
-                >
-                  <XCircle className="h-4 w-4 mr-2" />
-                  {t('proposal.item.cancelButton')}
-                </Button>
-                <CancelProposalModal
-                  requestId={proposal.requestId}
-                  proposalId={proposal._id}
-                  open={cancelDialogOpen}
-                  onOpenChange={setCancelDialogOpen}
-                  onSuccess={onProposalSuccess}
-                />
-              </>
-            )}
+            {isProposalOwner &&
+              proposal.status === ProposalStatus.PENDING &&
+              requestStatus === RequestStatus.ACTIVE && (
+                <>
+                  <Button variant="outline" size="sm" onClick={() => setEditModalOpen(true)}>
+                    <Pencil className="h-4 w-4 mr-2" />
+                    {t('proposal.item.editButton')}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-destructive hover:text-destructive"
+                    onClick={() => setCancelDialogOpen(true)}
+                  >
+                    <XCircle className="h-4 w-4 mr-2" />
+                    {t('proposal.item.cancelButton')}
+                  </Button>
+                  <CancelProposalModal
+                    requestId={proposal.requestId}
+                    proposalId={proposal._id}
+                    open={cancelDialogOpen}
+                    onOpenChange={setCancelDialogOpen}
+                    onSuccess={onProposalSuccess}
+                  />
+                </>
+              )}
             {proposal.status === ProposalStatus.COMPLETED && (
               <>
                 {isOwner && (

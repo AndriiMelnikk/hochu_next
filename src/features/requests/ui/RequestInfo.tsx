@@ -47,6 +47,7 @@ import {
 import { EditRequestModal } from './EditRequestModal';
 import { formatChange } from '../utils/formatChanges';
 import Image from 'next/image';
+import { CreateReviewModal } from '@/features/proposals/ui/CreateReviewModal';
 
 interface RequestInfoProps {
   request: Pick<
@@ -71,6 +72,10 @@ interface RequestInfoProps {
   formatTimeAgo: (date: string) => string;
   isOwner?: boolean;
   onActionSuccess?: () => void;
+  executorReviewProps?: {
+    targetProfileId: string;
+    proposalId: string;
+  };
 }
 
 export const RequestInfo = ({
@@ -79,6 +84,7 @@ export const RequestInfo = ({
   formatTimeAgo,
   isOwner = false,
   onActionSuccess,
+  executorReviewProps,
 }: RequestInfoProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
@@ -87,6 +93,7 @@ export const RequestInfo = ({
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const { mutateAsync: cancelRequest, isPending: isCancelling } = useCancelRequest();
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
 
   const handleActionSuccess = () => {
     if (request._id) {
@@ -148,52 +155,76 @@ export const RequestInfo = ({
             </div>
             <h1 className="text-3xl font-bold mb-3 text-card-foreground">{request.title}</h1>
           </div>
-          {isOwner && request.status === RequestStatus.ACTIVE && (
-            <>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" disabled={updating}>
-                    {t('request.actions.menu')}
-                    <ChevronDown className="h-4 w-4 ml-2" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="min-w-[200px]">
-                  <DropdownMenuItem onClick={() => setEditModalOpen(true)} disabled={isCancelled}>
-                    <Pencil className="h-4 w-4 mr-2 text-primary" />
-                    {t('request.actions.edit')}
-                  </DropdownMenuItem>
+          <div className="flex flex-col items-end gap-2">
+            {isOwner && request.status === RequestStatus.ACTIVE && (
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" disabled={updating}>
+                      {t('request.actions.menu')}
+                      <ChevronDown className="h-4 w-4 ml-2" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="min-w-[200px]">
+                    <DropdownMenuItem onClick={() => setEditModalOpen(true)} disabled={isCancelled}>
+                      <Pencil className="h-4 w-4 mr-2 text-primary" />
+                      {t('request.actions.edit')}
+                    </DropdownMenuItem>
 
-                  <DropdownMenuItem onClick={() => setCancelDialogOpen(true)}>
-                    <XCircle className="h-4 w-4 mr-2 text-destructive" />
-                    {t('request.actions.cancel')}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    <DropdownMenuItem onClick={() => setCancelDialogOpen(true)}>
+                      <XCircle className="h-4 w-4 mr-2 text-destructive" />
+                      {t('request.actions.cancel')}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
 
-              <AlertDialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>{t('request.cancel.confirmTitle')}</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      {t('request.cancel.confirmDescription')}
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>{t('request.edit.cancel')}</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleCancelRequest();
-                      }}
-                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                    >
-                      {isCancelling ? t('request.edit.submitting') : t('request.actions.cancel')}
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </>
-          )}
+                <AlertDialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>{t('request.cancel.confirmTitle')}</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {t('request.cancel.confirmDescription')}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>{t('request.edit.cancel')}</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleCancelRequest();
+                        }}
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                      >
+                        {isCancelling ? t('request.edit.submitting') : t('request.actions.cancel')}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
+            )}
+
+            {executorReviewProps && (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setReviewModalOpen(true);
+                  }}
+                >
+                  {t('proposal.item.leaveReviewForBuyer')}
+                </Button>
+                <CreateReviewModal
+                  targetProfileId={executorReviewProps.targetProfileId}
+                  requestId={request._id}
+                  proposalId={executorReviewProps.proposalId}
+                  open={reviewModalOpen}
+                  onOpenChange={setReviewModalOpen}
+                  onSuccess={handleActionSuccess}
+                />
+              </>
+            )}
+          </div>
         </div>
 
         {isOwner && (

@@ -15,6 +15,7 @@ const proposalSellerSchema = z
     isVerified: z.boolean().optional(),
     location: z.string().nullable().optional(),
     memberSince: z.string().optional(),
+    xp: z.number().optional(),
   })
   .optional();
 

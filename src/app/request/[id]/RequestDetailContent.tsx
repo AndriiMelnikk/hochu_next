@@ -6,9 +6,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
-import { useRequest } from '@/entities/request';
+import { RequestStatus, useRequest } from '@/entities/request';
 import { useMe } from '@/entities/user/hooks/useUser';
-import { useCanPropose, ProposalStatus } from '@/entities/proposal';
+import { ProposalStatus, useCanPropose, useProposals } from '@/entities/proposal';
 import { RequestInfo, RequestSidebar, StatusGuide } from '@/features/requests';
 import { CreateProposalForm, ProposalList } from '@/features/proposals';
 import { DiscussionForm, DiscussionList } from '@/features/discussions';
@@ -30,6 +30,11 @@ export default function RequestDetailContent({ id }: { id: string }) {
   const { data: request, isLoading, error } = useRequest(id);
   const { data: canProposeData } = useCanPropose(request?._id);
   const { data: user } = useMe();
+  const { data: completedProposals } = useProposals(id, {
+    status: ProposalStatus.COMPLETED,
+    page: 1,
+    pageSize: 100,
+  });
 
   const isOwner = !!request && !!user && request.buyerId?._id === user.profile?._id;
 
@@ -80,6 +85,11 @@ export default function RequestDetailContent({ id }: { id: string }) {
   }
 
   const buyer = request.buyerId;
+  const executorCompletedProposalForCurrentUser = completedProposals?.results.find(
+    (proposal) => proposal.sellerId === user?.profile?._id,
+  );
+  const canCurrentUserReviewBuyer =
+    !!executorCompletedProposalForCurrentUser && request.status === RequestStatus.COMPLETED;
 
   const budget =
     request.budgetMin && request.budgetMax
@@ -106,6 +116,14 @@ export default function RequestDetailContent({ id }: { id: string }) {
                 onImageClick={handleImageClick}
                 formatTimeAgo={formatTimeAgo}
                 isOwner={isOwner}
+                executorReviewProps={
+                  canCurrentUserReviewBuyer && buyer?._id && executorCompletedProposalForCurrentUser
+                    ? {
+                        targetProfileId: buyer._id,
+                        proposalId: executorCompletedProposalForCurrentUser._id,
+                      }
+                    : undefined
+                }
                 onActionSuccess={() => {
                   queryClient.invalidateQueries({ queryKey: ['requests', request._id] });
                 }}
