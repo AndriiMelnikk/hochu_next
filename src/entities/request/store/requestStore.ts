@@ -22,6 +22,7 @@ interface RequestActions {
   fetchRequestsByProposals: (profileId: string, params?: IGetRequestsRequest) => Promise<void>;
   createRequest: (data: ICreateRequestRequest) => Promise<IRequest>;
   updateRequest: (id: string, data: IUpdateRequestRequest) => Promise<IRequest>;
+  reset: () => void;
 }
 
 export const useRequestStore = create<RequestState & RequestActions>()(
@@ -106,6 +107,17 @@ export const useRequestStore = create<RequestState & RequestActions>()(
         });
         throw error;
       }
+    },
+    reset: () => {
+      set({
+        requests: null,
+        loading: false,
+        error: null,
+        creating: false,
+        createError: null,
+        updating: false,
+        updateError: null,
+      });
     },
   })),
 );

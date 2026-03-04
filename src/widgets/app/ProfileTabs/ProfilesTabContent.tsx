@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import { routes } from '@/app/router/routes';
 import { useAuthStore } from '@/entities/auth';
+import { useRequestStore } from '@/entities/request';
 import { useProfiles } from '@/entities/user';
 import type { IProfile, ProfileType } from '@/entities/user';
 import { CreateProfileModal } from '@features/user';
@@ -24,6 +26,8 @@ const PROFILE_TYPE_ICONS: Record<ProfileType, typeof ShoppingCart> = {
 
 export default function ProfilesTabContent() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const resetRequestStore = useRequestStore((s) => s.reset);
   const { user, currentProfileId, switchProfile } = useAuthStore();
   const { data: profiles = [], isLoading, error, refetch } = useProfiles();
   const [createModalType, setCreateModalType] = useState<ProfileType | null>(null);
@@ -40,6 +44,8 @@ export default function ProfilesTabContent() {
     if (profileId === activeProfileId) return;
     try {
       await switchProfile(profileId);
+      queryClient.clear();
+      resetRequestStore();
       router.push(routes.PROFILE_BY_ID(profileId));
       toast.success('Профіль успішно перемкнено');
     } catch {
