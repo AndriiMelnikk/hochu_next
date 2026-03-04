@@ -52,3 +52,9 @@ export interface IUpdateProfileRequest {
   avatar?: string | null;
   contacts?: Partial<Record<ContactChannel, string>>;
 }
+
+export interface ICreateProfileRequest {
+  name: string;
+  lastName?: string;
+  type: ProfileType;
+}

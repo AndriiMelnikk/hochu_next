@@ -1,6 +1,12 @@
 import { AxiosRequestConfig } from 'axios';
-import { api } from '@shared/api/api';
-import type { IUser, IProfile, ContactChannel, IUpdateProfileRequest } from '../types/User';
+import { api, ENDPOINTS } from '@shared/api';
+import type {
+  IUser,
+  IProfile,
+  ContactChannel,
+  IUpdateProfileRequest,
+  ICreateProfileRequest,
+} from '../types/User';
 
 class UserService {
   async get(id: string | number, config?: AxiosRequestConfig): Promise<IProfile> {
@@ -8,7 +14,20 @@ class UserService {
   }
 
   async getMe(config?: AxiosRequestConfig): Promise<IUser> {
-    return (await api.get('/api/users/me', config)).data;
+    return (await api.get(ENDPOINTS.USER.ME, config)).data;
+  }
+
+  async getMyProfiles(config?: AxiosRequestConfig): Promise<IProfile[]> {
+    const { data } = await api.get(ENDPOINTS.USER.ME_PROFILES, config);
+    return Array.isArray(data) ? data : (data?.profiles ?? data?.results ?? []);
+  }
+
+  async createProfile(
+    payload: ICreateProfileRequest,
+    config?: AxiosRequestConfig,
+  ): Promise<IProfile> {
+    const { data } = await api.post(ENDPOINTS.USER.PROFILE, payload, config);
+    return data;
   }
 
   async updateMe(data: IUpdateProfileRequest, config?: AxiosRequestConfig): Promise<IUser> {

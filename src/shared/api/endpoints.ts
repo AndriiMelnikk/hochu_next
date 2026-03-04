@@ -4,9 +4,12 @@ export const ENDPOINTS = {
     REGISTER: '/api/auth/register',
     LOGOUT: '/api/auth/logout',
     REFRESH: '/api/auth/refresh',
+    SWITCH_PROFILE: '/api/auth/switch-profile',
   },
   USER: {
     ME: '/api/users/me',
+    ME_PROFILES: '/api/users/me/profiles',
+    PROFILE: '/api/users/profile',
     BY_ID: (id: string | number) => `/api/users/${id}`,
   },
   REQUESTS: {

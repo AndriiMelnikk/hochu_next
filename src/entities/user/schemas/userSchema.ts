@@ -49,3 +49,15 @@ export const updateProfileSchema = z.object({
 export const updateContactsSchema = z.object({
   contacts: z.record(z.string().optional().nullable()).optional(),
 });
+
+export const createProfileSchema = z.object({
+  name: z
+    .string()
+    .min(2, "Ім'я має бути не менше 2 символів")
+    .max(255, "Ім'я має бути не більше 255 символів"),
+  lastName: z
+    .union([z.string().max(255, 'Прізвище має бути не більше 255 символів'), z.literal('')])
+    .optional()
+    .transform((val) => (val === '' || val === undefined ? undefined : val)),
+  type: z.enum(UserRoleEnum as [string, ...string[]]),
+});

@@ -61,6 +61,20 @@ class AuthService {
     return response.data;
   }
 
+  async switchProfile(profileId: string, config?: AxiosRequestConfig): Promise<IAuthResponse> {
+    const response = await api.post<IAuthResponse>(
+      ENDPOINTS.AUTH.SWITCH_PROFILE,
+      { profileId },
+      config,
+    );
+    const data = authResponseSchema.parse(response.data);
+    if (data.access_token && typeof window !== 'undefined') {
+      localStorage.setItem(LS_KEYS.ACCESS_TOKEN, data.access_token);
+      localStorage.setItem(LS_KEYS.REFRESH_TOKEN, data.refresh_token);
+    }
+    return data;
+  }
+
   getToken(): string | null {
     if (typeof window === 'undefined') return null;
     return localStorage.getItem(LS_KEYS.ACCESS_TOKEN);

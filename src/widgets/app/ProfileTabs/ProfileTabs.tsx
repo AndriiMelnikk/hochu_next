@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Settings, Star, User } from 'lucide-react';
+import { Settings, Star, User, Users } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { ProfileReviews } from '@/widgets/app/Reviews';
 import Chat from '@/widgets/app/Chat';
 import ProfileSettings from '@/widgets/app/ProfileSettings';
+import ProfilesTabContent from './ProfilesTabContent';
 import GamificationProgress from '@/widgets/app/GamificationProgress';
 import ProfileStats from '@/widgets/app/ProfileStats';
 import UserRequestsList from '@/widgets/app/UserRequestsList';
@@ -25,7 +26,7 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
 
   console.log(user);
 
-  const lockedTabsForGuest = ['gamification', 'analytics', 'settings', 'messages'];
+  const lockedTabsForGuest = ['gamification', 'analytics', 'settings', 'messages', 'profiles'];
   const originallyLockedTabs = ['gamification', 'analytics', 'reviews', 'messages'];
 
   const handleTabChange = (value: string) => {
@@ -43,10 +44,15 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
   return (
     <Tabs value={activeTab} onValueChange={handleTabChange}>
       {isOwner ? (
-        <TabsList className="grid w-full grid-cols-3 mb-3">
+        <TabsList className="grid w-full grid-cols-4 mb-3">
           <TabsTrigger value="overview" className="flex items-center gap-2">
             <User className="h-4 w-4" />
             <span className="hidden sm:inline">Огляд</span>
+          </TabsTrigger>
+
+          <TabsTrigger value="profiles" className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            <span className="hidden sm:inline">Профілі</span>
           </TabsTrigger>
 
           <TabsTrigger value="reviews" className="flex items-center gap-2">
@@ -54,12 +60,10 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
             <span className="hidden sm:inline">Відгуки</span>
           </TabsTrigger>
 
-          {isOwner && (
-            <TabsTrigger value="settings" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              <span className="hidden sm:inline">Налаштування</span>
-            </TabsTrigger>
-          )}
+          <TabsTrigger value="settings" className="flex items-center gap-2">
+            <Settings className="h-4 w-4" />
+            <span className="hidden sm:inline">Налаштування</span>
+          </TabsTrigger>
         </TabsList>
       ) : (
         <TabsList className="grid w-full grid-cols-2 mb-2">
@@ -85,6 +89,10 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
 
       <TabsContent value="overview">
         <UserRequestsList userId={user.id} userType={user.role as 'buyer' | 'seller'} />
+      </TabsContent>
+
+      <TabsContent value="profiles">
+        <ProfilesTabContent />
       </TabsContent>
 
       <TabsContent value="reviews">
