@@ -436,4 +436,9 @@ export const messages: Messages = {
   'profile.security.description': 'Manage your data and security settings',
   'profile.security.changePassword': 'Change password',
   'common.availableLater': 'Will be available later',
+
+  // Profile settings
+  'auth.loggingOut': 'Logging out...',
+  'auth.logout': 'Logout',
+  'auth.logoutSuccess': 'You have been logged out successfully',
 };

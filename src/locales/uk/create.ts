@@ -437,4 +437,9 @@ export const messages: Messages = {
   'profile.security.description': 'Керуйте своїми даними та налаштуваннями безпеки',
   'profile.security.changePassword': 'Змінити пароль',
   'common.availableLater': 'Буде доступно пізніше',
+
+  // Profile settings
+  'auth.loggingOut': 'Вихід...',
+  'auth.logout': 'Вийти з акаунту',
+  'auth.logoutSuccess': 'Ви успішно вийшли з акаунту',
 };

@@ -79,7 +79,8 @@ api.interceptors.response.use(
     // 1. Обробка помилки авторизації (401)
     const isAuthRequest =
       originalRequest.url?.includes('/auth/login') ||
-      originalRequest.url?.includes('/auth/register');
+      originalRequest.url?.includes('/auth/register') ||
+      originalRequest.url?.includes('/auth/logout');
 
     if (error.response?.status === 401 && !originalRequest._retry && !isAuthRequest) {
       if (typeof window !== 'undefined') {

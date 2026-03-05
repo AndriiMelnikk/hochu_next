@@ -10,7 +10,7 @@ interface AuthContextType {
   user: IUser | null;
   login: (data: ILoginRequest) => Promise<void>;
   register: (data: IRegisterRequest) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

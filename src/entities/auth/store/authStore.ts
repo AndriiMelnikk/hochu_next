@@ -40,7 +40,7 @@ interface AuthState {
 interface AuthActions {
   register: (data: IRegisterRequest) => Promise<void>;
   login: (data: ILoginRequest) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   switchProfile: (profileId: string) => Promise<void>;
   setAuth: (isAuth: boolean) => void;
   setUser: (user: IUser | null) => void;
@@ -108,8 +108,8 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       }
     },
 
-    logout: () => {
-      authService.logout();
+    logout: async () => {
+      await authService.logout();
       set({
         user: null,
         profiles: [],

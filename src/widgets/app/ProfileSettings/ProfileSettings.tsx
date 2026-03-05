@@ -1,15 +1,42 @@
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import { useMe } from '@entities/user';
+import { useAuthStore } from '@entities/auth';
+import { useRequestStore } from '@entities/request';
 import { useLingui } from '@lingui/react';
 import { EditProfileForm, EditContactChannelsForm } from '@features/user';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
 import { Button } from '@shared/ui/button';
+import { routes } from '@/app/router/routes';
+import { toast } from 'sonner';
 
-import { Lock, Loader2 } from 'lucide-react';
+import { Lock, Loader2, LogOut } from 'lucide-react';
 
 const ProfileSettings = () => {
+  const router = useRouter();
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const { data: user, isLoading, error } = useMe();
+  const queryClient = useQueryClient();
+  const resetRequestStore = useRequestStore((s) => s.reset);
+  const logout = useAuthStore((s) => s.logout);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await logout();
+      queryClient.clear();
+      resetRequestStore();
+      router.push(routes.HOME);
+      toast.success(t('auth.logoutSuccess') || 'Ви успішно вийшли з акаунту');
+    } catch {
+      toast.error(t('auth.logoutError') || 'Не вдалося вийти');
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -91,9 +118,17 @@ const ProfileSettings = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="pt-4 space-y-4">
+          <div className="pt-4 flex gap-2">
             <Button variant="outline">
               {t('profile.security.changePassword') || 'Змінити пароль'}
+            </Button>
+            <Button
+              variant="outline"
+              className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+            >
+              {t('auth.logout') || 'Вийти з акаунту'}
             </Button>
           </div>
         </CardContent>

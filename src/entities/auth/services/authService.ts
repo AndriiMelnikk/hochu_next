@@ -44,10 +44,18 @@ class AuthService {
     }
   }
 
-  async logout(): Promise<void> {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem(LS_KEYS.ACCESS_TOKEN);
-      localStorage.removeItem(LS_KEYS.REFRESH_TOKEN);
+  async logout(config?: AxiosRequestConfig): Promise<void> {
+    const refreshToken =
+      typeof window !== 'undefined' ? localStorage.getItem(LS_KEYS.REFRESH_TOKEN) : null;
+    try {
+      await api.post(ENDPOINTS.AUTH.LOGOUT, { refresh_token: refreshToken ?? undefined }, config);
+    } catch {
+      // Ignore API errors - always clear local state
+    } finally {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem(LS_KEYS.ACCESS_TOKEN);
+        localStorage.removeItem(LS_KEYS.REFRESH_TOKEN);
+      }
     }
   }
 
