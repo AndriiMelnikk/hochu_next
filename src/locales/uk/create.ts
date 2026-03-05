@@ -354,6 +354,8 @@ export const messages: Messages = {
 
   'common.cancel': 'Скасувати',
   'common.submitting': 'Відправка...',
+  'common.save': 'Зберегти',
+  'common.saving': 'Збереження...',
 
   // Status guide
   'status.guide.title': 'Як працюють статуси?',
@@ -442,4 +444,7 @@ export const messages: Messages = {
   'auth.loggingOut': 'Вихід...',
   'auth.logout': 'Вийти з акаунту',
   'auth.logoutSuccess': 'Ви успішно вийшли з акаунту',
+  'profile.security.changePasswordDescription': 'Змініть пароль для свого акаунту',
+  'auth.oldPassword': 'Старий пароль',
+  'auth.newPassword': 'Новий пароль',
 };

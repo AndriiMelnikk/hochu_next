@@ -352,6 +352,8 @@ export const messages: Messages = {
 
   'common.cancel': 'Cancel',
   'common.submitting': 'Submitting...',
+  'common.save': 'Save',
+  'common.saving': 'Saving...',
 
   // Status guide
   'status.guide.title': 'How do statuses work?',
@@ -441,4 +443,7 @@ export const messages: Messages = {
   'auth.loggingOut': 'Logging out...',
   'auth.logout': 'Logout',
   'auth.logoutSuccess': 'You have been logged out successfully',
+  'profile.security.changePasswordDescription': 'Change password for your account',
+  'auth.oldPassword': 'Old password',
+  'auth.newPassword': 'New password',
 };

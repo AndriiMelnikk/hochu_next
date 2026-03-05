@@ -6,6 +6,7 @@ import { useAuthStore } from '@entities/auth';
 import { useRequestStore } from '@entities/request';
 import { useLingui } from '@lingui/react';
 import { EditProfileForm, EditContactChannelsForm } from '@features/user';
+import { ChangePasswordModal } from '@features/auth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
 import { Button } from '@shared/ui/button';
 import { routes } from '@/app/router/routes';
@@ -22,6 +23,7 @@ const ProfileSettings = () => {
   const resetRequestStore = useRequestStore((s) => s.reset);
   const logout = useAuthStore((s) => s.logout);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -119,7 +121,7 @@ const ProfileSettings = () => {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="pt-4 flex gap-2">
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => setIsChangePasswordOpen(true)}>
               {t('profile.security.changePassword') || 'Змінити пароль'}
             </Button>
             <Button
@@ -133,6 +135,8 @@ const ProfileSettings = () => {
           </div>
         </CardContent>
       </Card>
+
+      <ChangePasswordModal open={isChangePasswordOpen} onOpenChange={setIsChangePasswordOpen} />
     </div>
   );
 };

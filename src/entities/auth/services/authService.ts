@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import { api, ENDPOINTS } from '@shared/api';
 import type { ILoginRequest } from '../types/requests/LoginRequest';
 import type { IRegisterRequest } from '../types/requests/RegisterRequest';
+import type { IChangePasswordRequest } from '../types/requests/ChangePasswordRequest';
 import type { IAuthResponse } from '../types/responses/AuthResponse';
 import { authResponseSchema } from '../schemas/authSchema';
 import { LS_KEYS } from '../const';
@@ -81,6 +82,10 @@ class AuthService {
       localStorage.setItem(LS_KEYS.REFRESH_TOKEN, data.refresh_token);
     }
     return data;
+  }
+
+  async changePassword(data: IChangePasswordRequest, config?: AxiosRequestConfig): Promise<void> {
+    await api.patch(ENDPOINTS.AUTH.CHANGE_PASSWORD, data, config);
   }
 
   getToken(): string | null {

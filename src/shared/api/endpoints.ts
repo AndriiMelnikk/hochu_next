@@ -5,6 +5,7 @@ export const ENDPOINTS = {
     LOGOUT: '/api/auth/logout',
     REFRESH: '/api/auth/refresh',
     SWITCH_PROFILE: '/api/auth/switch-profile',
+    CHANGE_PASSWORD: '/api/auth/change-password',
   },
   USER: {
     ME: '/api/users/me',

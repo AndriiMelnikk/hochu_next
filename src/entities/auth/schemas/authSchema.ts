@@ -19,6 +19,11 @@ export const registerSchema = z.object({
   type: z.enum(UserRoleEnum as [string, ...string[]]),
 });
 
+export const changePasswordSchema = z.object({
+  oldPassword: z.string().min(1, "Старий пароль обов'язковий"),
+  newPassword: z.string().min(6, 'Новий пароль має бути мінімум 6 символів'),
+});
+
 export const authResponseSchema = z.object({
   access_token: z.string(),
   refresh_token: z.string(),
