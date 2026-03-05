@@ -1,7 +1,9 @@
+import { Suspense } from 'react';
 import { getLocaleFromHeaders } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import RequestContent from './RequestContent';
 import { routes } from '../router/routes';
+import { Loading } from '@/shared/ui/loading';
 
 export async function generateMetadata() {
   const locale = await getLocaleFromHeaders();
@@ -9,5 +11,9 @@ export async function generateMetadata() {
 }
 
 export default function RequestPage() {
-  return <RequestContent />;
+  return (
+    <Suspense fallback={<Loading variant="block" />}>
+      <RequestContent />
+    </Suspense>
+  );
 }

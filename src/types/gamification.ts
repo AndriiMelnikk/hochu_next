@@ -1,4 +1,5 @@
 import { UserRole } from '@/entities/user/schemas/userSchema';
+export type { UserRole };
 
 export interface Achievement {
   id: string;

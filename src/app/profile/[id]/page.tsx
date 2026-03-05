@@ -1,6 +1,8 @@
+import { Suspense } from 'react';
 import { getLocaleFromHeaders } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import ProfileContent from './ProfileContent';
+import { Loading } from '@/shared/ui/loading';
 
 export async function generateMetadata() {
   const locale = await getLocaleFromHeaders();
@@ -9,5 +11,9 @@ export async function generateMetadata() {
 }
 
 export default function ProfileIdPage() {
-  return <ProfileContent />;
+  return (
+    <Suspense fallback={<Loading variant="block" />}>
+      <ProfileContent />
+    </Suspense>
+  );
 }

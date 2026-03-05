@@ -4,13 +4,14 @@ import { Badge } from '@/shared/ui/badge';
 import { Card, CardContent } from '@/shared/ui/card';
 import GamifiedAvatar from '@/widgets/app/GamifiedAvatar';
 import { User } from 'lucide-react';
+import type { UserRole } from '@/types/gamification';
 
 interface ProfileHeaderProps {
   user: {
     name: string;
     email: string;
     avatar: string;
-    role: string;
+    role: UserRole;
     joinDate: string;
     location: string;
     verified: boolean;

@@ -1,7 +1,9 @@
+import { Suspense } from 'react';
 import { getLocaleFromHeaders } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import RequestDetailContent from './RequestDetailContent';
 import { requestService } from '@/entities/request';
+import { Loading } from '@/shared/ui/loading';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -34,5 +36,9 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function RequestDetailPage({ params }: Props) {
   const { id } = await params;
-  return <RequestDetailContent id={id} />;
+  return (
+    <Suspense fallback={<Loading variant="block" />}>
+      <RequestDetailContent id={id} />
+    </Suspense>
+  );
 }

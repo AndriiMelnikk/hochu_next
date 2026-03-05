@@ -10,12 +10,13 @@ import ProfilesTabContent from './ProfilesTabContent';
 import GamificationProgress from '@/widgets/app/GamificationProgress';
 import ProfileStats from '@/widgets/app/ProfileStats';
 import UserRequestsList from '@/widgets/app/UserRequestsList';
+import type { UserRole } from '@/types/gamification';
 
 interface ProfileTabsProps {
   user: {
     id: string;
     xp: number;
-    role: string;
+    role: UserRole;
     unlockedAchievements: string[];
   };
   isOwner: boolean;

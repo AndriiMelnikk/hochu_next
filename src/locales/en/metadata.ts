@@ -12,7 +12,6 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
   ADMIN: { title: 'Admin | Hochu', description: 'Admin for administrators' },
   BLOG: { title: 'Blog | Hochu', description: 'Blog for publications' },
   BLOG_ID: { title: 'Blog Post | Hochu', description: 'Blog post for the blog' },
-  BROWSE: { title: 'Browse | Hochu', description: 'Browse requests' },
   CONTACT: { title: 'Contact | Hochu', description: 'Contact for communication' },
   CREATE: { title: 'Create | Hochu', description: 'Create request' },
   HOW_IT_WORKS: {
@@ -23,6 +22,7 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
   PRICING: { title: 'Pricing | Hochu', description: 'Pricing for users' },
   PRIVACY: { title: 'Privacy Policy | Hochu', description: 'Privacy policy for users' },
   PROFILE: { title: 'Profile | Hochu', description: 'Profile for the user' },
+  PROFILE_BY_ID: { title: 'Profile | Hochu', description: 'Profile for the user' },
   PROPOSAL_ID: { title: 'Proposal | Hochu', description: 'Proposal for the request' },
   REGISTER: { title: 'Register | Hochu', description: 'Register for the user' },
   REQUEST_ID: { title: 'Request | Hochu', description: 'Request for the proposal' },
