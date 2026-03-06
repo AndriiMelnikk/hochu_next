@@ -13,6 +13,7 @@ export enum ProposalRejectionReason {
   REQUEST_NOT_ACTIVE = 'REQUEST_NOT_ACTIVE',
   OWN_REQUEST = 'OWN_REQUEST',
   ALREADY_PROPOSED = 'ALREADY_PROPOSED',
+  NOT_SELLER = 'NOT_SELLER',
 }
 
 export interface IProposalSeller {

@@ -6,7 +6,6 @@ import { useAuthStore } from '@/entities/auth';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@shared/ui/button';
 import Link from 'next/link';
-import Header from '@/widgets/app/Header';
 import { routes } from '@/app/router/routes';
 import ProfileHeader from '@/widgets/app/ProfileHeader';
 import ProfileTabs from '@/widgets/app/ProfileTabs';
@@ -21,7 +20,7 @@ export default function ProfileContent() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-[50vh]">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
@@ -29,7 +28,7 @@ export default function ProfileContent() {
 
   if (error || !user) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <div className="flex flex-col items-center justify-center p-4 min-h-[50vh]">
         <h1 className="text-2xl font-bold mb-4">Користувача не знайдено</h1>
         <Button asChild>
           <Link href={routes.HOME}>На головну</Link>
@@ -54,12 +53,9 @@ export default function ProfileContent() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <div className="container mx-auto px-4 pt-24 pb-16">
-        <ProfileHeader user={displayUser} isOwner={isOwner} />
-        <ProfileTabs user={displayUser} isOwner={isOwner} />
-      </div>
+    <div className="container mx-auto px-4 pb-16">
+      <ProfileHeader user={displayUser} isOwner={isOwner} />
+      <ProfileTabs user={displayUser} isOwner={isOwner} />
     </div>
   );
 }

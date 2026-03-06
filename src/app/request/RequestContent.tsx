@@ -1,7 +1,5 @@
 'use client';
 
-import Header from '@/widgets/app/Header';
-import Footer from '@/widgets/app/Footer';
 import { Input } from '@shared/ui/input';
 import { Loading } from '@shared/ui/loading';
 import { Error } from '@shared/ui/error';
@@ -76,113 +74,105 @@ export default function RequestContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <div className="container mx-auto px-4">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold mb-4">
+          {t('request.list.titlePrefix')}{' '}
+          <span className="bg-gradient-primary bg-clip-text text-transparent">
+            {t('request.list.titleEmphasis')}
+          </span>
+        </h1>
+        <p className="text-xl text-muted-foreground">{t('request.list.subtitle')}</p>
+      </div>
 
-      <main className="flex-1 pt-24 pb-12">
-        <div className="container mx-auto px-4">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-4">
-              {t('request.list.titlePrefix')}{' '}
-              <span className="bg-gradient-primary bg-clip-text text-transparent">
-                {t('request.list.titleEmphasis')}
-              </span>
-            </h1>
-            <p className="text-xl text-muted-foreground">{t('request.list.subtitle')}</p>
-          </div>
-
-          {/* Search and Filters */}
-          <div className="bg-card rounded-2xl shadow-md p-6 mb-8 border border-border">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Search Bar */}
-              <div className="mb-4 grid gap-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-                  <Input
-                    placeholder={t('request.list.searchPlaceholder')}
-                    className="pl-10"
-                    value={searchQuery}
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Category Tags */}
-              <div className="mb-4 grid gap-4">
-                <CascadingSelect
-                  items={cascadingCategories}
-                  value={filters.category || ''}
-                  onValueChange={(id) => {
-                    setFilter('category', id || '');
-                  }}
-                  placeholder={
-                    isCategoriesLoading
-                      ? t('request.create.categoriesLoading')
-                      : t('request.create.categoryPlaceholder')
-                  }
-                  disabled={isCategoriesLoading || isCategoriesError}
-                  emptyLabel={
-                    isCategoriesError
-                      ? t('request.create.categoriesError')
-                      : t('request.create.categoriesEmpty')
-                  }
-                  backLabel={t('request.create.categoryBackLabel')}
-                  moreLabel={t('request.create.categoryMoreLabel')}
-                  clearable
-                />
-              </div>
+      {/* Search and Filters */}
+      <div className="bg-card rounded-2xl shadow-md p-6 mb-8 border border-border">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Search Bar */}
+          <div className="mb-4 grid gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+              <Input
+                placeholder={t('request.list.searchPlaceholder')}
+                className="pl-10"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                }}
+              />
             </div>
           </div>
-          <div className="mb-6 flex items-center justify-between">
-            <p className="text-muted-foreground">
-              {loading ? (
-                <Loading variant="inline" />
-              ) : error ? (
-                <Error variant="inline" message={t('request.list.loadingError')} />
-              ) : (
-                <>
-                  {t('request.list.foundPrefix')}{' '}
-                  <span className="font-semibold text-foreground">{requests?.count || 0}</span>{' '}
-                  {t('request.list.foundSuffix')}
-                </>
-              )}
-            </p>
-          </div>
 
-          {/* Requests Grid */}
-          {loading ? (
-            <Loading variant="block" />
-          ) : error ? (
-            <Error variant="block" message={t('request.list.requestsError')} />
-          ) : (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-              {requestResults.map((request) => {
-                return (
-                  <RequestCard
-                    key={request._id.toString()}
-                    request={request}
-                    categoryName={request.category.name}
-                  />
-                );
-              })}
-            </div>
-          )}
-
-          {!loading && !error && totalPages > 1 && (
-            <UniversalPagination
-              currentPage={page}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-              className="mt-8"
+          {/* Category Tags */}
+          <div className="mb-4 grid gap-4">
+            <CascadingSelect
+              items={cascadingCategories}
+              value={filters.category || ''}
+              onValueChange={(id) => {
+                setFilter('category', id || '');
+              }}
+              placeholder={
+                isCategoriesLoading
+                  ? t('request.create.categoriesLoading')
+                  : t('request.create.categoryPlaceholder')
+              }
+              disabled={isCategoriesLoading || isCategoriesError}
+              emptyLabel={
+                isCategoriesError
+                  ? t('request.create.categoriesError')
+                  : t('request.create.categoriesEmpty')
+              }
+              backLabel={t('request.create.categoryBackLabel')}
+              moreLabel={t('request.create.categoryMoreLabel')}
+              clearable
             />
-          )}
+          </div>
         </div>
-      </main>
+      </div>
+      <div className="mb-6 flex items-center justify-between">
+        <p className="text-muted-foreground">
+          {loading ? (
+            <Loading variant="inline" />
+          ) : error ? (
+            <Error variant="inline" message={t('request.list.loadingError')} />
+          ) : (
+            <>
+              {t('request.list.foundPrefix')}{' '}
+              <span className="font-semibold text-foreground">{requests?.count || 0}</span>{' '}
+              {t('request.list.foundSuffix')}
+            </>
+          )}
+        </p>
+      </div>
 
-      <Footer />
+      {/* Requests Grid */}
+      {loading ? (
+        <Loading variant="block" />
+      ) : error ? (
+        <Error variant="block" message={t('request.list.requestsError')} />
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+          {requestResults.map((request) => {
+            return (
+              <RequestCard
+                key={request._id.toString()}
+                request={request}
+                categoryName={request.category.name}
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {!loading && !error && totalPages > 1 && (
+        <UniversalPagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          className="mt-8"
+        />
+      )}
     </div>
   );
 }

@@ -56,9 +56,7 @@ const Header = () => {
             </Link>
             {isAuth ? (
               <Link href={routes.PROFILE}>
-                <Button variant="ghost" size="sm">
-                  <User className="h-4 w-4" />
-                </Button>
+                <User className="h-4 w-4" />
               </Link>
             ) : (
               <>

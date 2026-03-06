@@ -1,8 +1,6 @@
 'use client';
 
 import { useLingui } from '@lingui/react';
-import Header from '@/widgets/app/Header';
-import Footer from '@/widgets/app/Footer';
 import { CreateRequestForm } from '@/features/requests';
 import { useMe } from '@/entities/user/hooks/useUser';
 import { Button } from '@/shared/ui/button';
@@ -71,28 +69,20 @@ export default function CreateRequestContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <div className="container mx-auto px-4 max-w-4xl">
+      {/* Header */}
+      <div className="mb-8 text-center">
+        <h1 className="text-4xl font-bold mb-4">
+          {t('request.create.titlePrefix')}{' '}
+          <span className="bg-gradient-primary bg-clip-text text-transparent">
+            {t('request.create.titleEmphasis')}
+          </span>
+        </h1>
+        <p className="text-xl text-muted-foreground">{t('request.create.subtitle')}</p>
+      </div>
 
-      <main className="flex-1 pt-24 pb-12">
-        <div className="container mx-auto px-4 max-w-4xl">
-          {/* Header */}
-          <div className="mb-8 text-center">
-            <h1 className="text-4xl font-bold mb-4">
-              {t('request.create.titlePrefix')}{' '}
-              <span className="bg-gradient-primary bg-clip-text text-transparent">
-                {t('request.create.titleEmphasis')}
-              </span>
-            </h1>
-            <p className="text-xl text-muted-foreground">{t('request.create.subtitle')}</p>
-          </div>
-
-          {/* Content */}
-          {renderContent()}
-        </div>
-      </main>
-
-      <Footer />
+      {/* Content */}
+      {renderContent()}
     </div>
   );
 }

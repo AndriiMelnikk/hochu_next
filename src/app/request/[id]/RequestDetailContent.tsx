@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { useQueryClient } from '@tanstack/react-query';
-import Header from '@/widgets/app/Header';
-import Footer from '@/widgets/app/Footer';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
 import { RequestStatus, useRequest } from '@/entities/request';
 import { useMe } from '@/entities/user/hooks/useUser';
@@ -70,18 +68,11 @@ export default function RequestDetailContent({ id }: { id: string }) {
   };
 
   if (isLoading) {
-    return <Loading variant="full-page" HeaderComponent={Header} FooterComponent={Footer} />;
+    return <Loading variant="full-page" />;
   }
 
   if (error || !request) {
-    return (
-      <Error
-        variant="full-page"
-        message={t('request.detail.loadingError')}
-        HeaderComponent={Header}
-        FooterComponent={Footer}
-      />
-    );
+    return <Error variant="full-page" message={t('request.detail.loadingError')} />;
   }
 
   const buyer = request.buyerId;
@@ -96,169 +87,161 @@ export default function RequestDetailContent({ id }: { id: string }) {
       ? `${request.budgetMin}-${request.budgetMax} грн`
       : t('request.detail.budgetNotSpecified');
 
-  return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+  const lightboxImages =
+    activeLightboxImages.length > 0 ? activeLightboxImages : request.images || [];
 
-      <main className="flex-1 pt-24 pb-12">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <Breadcrumbs
-            dynamicLabels={{
-              [`/request/${request._id}`]: t('request.detail.breadcrumbs', { id: request._id }),
+  return (
+    <div className="container mx-auto px-4 max-w-7xl">
+      <Breadcrumbs
+        dynamicLabels={{
+          [`/request/${request._id}`]: t('request.detail.breadcrumbs', { id: request._id }),
+        }}
+      />
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Main Content */}
+        <div className="lg:col-span-2 space-y-6">
+          <RequestInfo
+            request={request}
+            onImageClick={handleImageClick}
+            formatTimeAgo={formatTimeAgo}
+            isOwner={isOwner}
+            executorReviewProps={
+              canCurrentUserReviewBuyer && buyer?._id && executorCompletedProposalForCurrentUser
+                ? {
+                    targetProfileId: buyer._id,
+                    proposalId: executorCompletedProposalForCurrentUser._id,
+                  }
+                : undefined
+            }
+            onActionSuccess={() => {
+              queryClient.invalidateQueries({ queryKey: ['requests', request._id] });
             }}
           />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-6">
-              <RequestInfo
-                request={request}
-                onImageClick={handleImageClick}
-                formatTimeAgo={formatTimeAgo}
-                isOwner={isOwner}
-                executorReviewProps={
-                  canCurrentUserReviewBuyer && buyer?._id && executorCompletedProposalForCurrentUser
-                    ? {
-                        targetProfileId: buyer._id,
-                        proposalId: executorCompletedProposalForCurrentUser._id,
-                      }
-                    : undefined
-                }
-                onActionSuccess={() => {
-                  queryClient.invalidateQueries({ queryKey: ['requests', request._id] });
-                }}
-              />
+          {canProposeData?.canPropose && (
+            <CreateProposalForm
+              budget={budget}
+              requestId={request._id}
+              onSuccess={handleProposalSuccess}
+            />
+          )}
 
-              {canProposeData?.canPropose && (
-                <CreateProposalForm
-                  budget={budget}
-                  requestId={request._id}
-                  onSuccess={handleProposalSuccess}
-                />
-              )}
+          {!canProposeData?.canPropose && canProposeData?.reason && (
+            <Alert variant="amber">
+              <Ban className="h-4 w-4" />
+              <AlertTitle>{t('request.detail.cannotPropose')}</AlertTitle>
+              <AlertDescription>
+                {t(`proposal.rejection.${canProposeData.reason}`)}
+              </AlertDescription>
+            </Alert>
+          )}
 
-              {!canProposeData?.canPropose && canProposeData?.reason && (
-                <Alert variant="amber">
-                  <Ban className="h-4 w-4" />
-                  <AlertTitle>{t('request.detail.cannotPropose')}</AlertTitle>
-                  <AlertDescription>
-                    {t(`proposal.rejection.${canProposeData.reason}`)}
-                  </AlertDescription>
-                </Alert>
-              )}
-
-              {!user && (
-                <Alert variant="amber">
-                  <UserPlus className="h-4 w-4 text-amber-600" />
-                  <AlertTitle>{t('request.detail.proposalAuthRequired.title')}</AlertTitle>
-                  <AlertDescription className="flex flex-col gap-3">
-                    <span>{t('request.detail.proposalAuthRequired.description')}</span>
-                    <div className="flex flex-wrap gap-2 pt-1">
-                      <Link href={routes.REGISTER}>
-                        <Button size="sm" className="gap-1.5">
-                          <UserPlus className="h-3.5 w-3.5" />
-                          {t('request.detail.proposalAuthRequired.register')}
-                        </Button>
-                      </Link>
-                      <Link href={routes.LOGIN}>
-                        <Button size="sm" variant="outline" className="gap-1.5">
-                          <LogIn className="h-3.5 w-3.5" />
-                          {t('request.detail.proposalAuthRequired.login')}
-                        </Button>
-                      </Link>
-                    </div>
-                  </AlertDescription>
-                </Alert>
-              )}
-
-              {/* Tabs for Proposals and Discussion */}
-              <Tabs
-                defaultValue="proposals"
-                className="bg-card rounded-2xl shadow-md border border-border"
-              >
-                <div className="overflow-x-auto scrollbar-none">
-                  <TabsList className="w-full min-w-max justify-start rounded-t-2xl rounded-b-none h-14 p-1 bg-muted/50 flex-nowrap">
-                    <TabsTrigger value="proposals" className="flex-1 min-w-[140px] text-base">
-                      {t('request.detail.tabs.proposals', { count: request.pendingProposalsCount })}
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="discussion"
-                      className="flex-1 min-w-[140px] items-center gap-2 cursor-not-allowed opacity-60"
-                      disabled
-                    >
-                      <span className="hidden sm:inline">
-                        {t('request.detail.tabs.discussion')}
-                      </span>
-                    </TabsTrigger>
-                    <TabsTrigger value="rejected" className="flex-1 min-w-[140px] text-base">
-                      {t('request.detail.tabs.rejected', { count: request.rejectedProposalsCount })}
-                    </TabsTrigger>
-                  </TabsList>
+          {!user && (
+            <Alert variant="amber">
+              <UserPlus className="h-4 w-4 text-amber-600" />
+              <AlertTitle>{t('request.detail.proposalAuthRequired.title')}</AlertTitle>
+              <AlertDescription className="flex flex-col gap-3">
+                <span>{t('request.detail.proposalAuthRequired.description')}</span>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <Link href={routes.REGISTER}>
+                    <Button size="sm" className="gap-1.5">
+                      <UserPlus className="h-3.5 w-3.5" />
+                      {t('request.detail.proposalAuthRequired.register')}
+                    </Button>
+                  </Link>
+                  <Link href={routes.LOGIN}>
+                    <Button size="sm" variant="outline" className="gap-1.5">
+                      <LogIn className="h-3.5 w-3.5" />
+                      {t('request.detail.proposalAuthRequired.login')}
+                    </Button>
+                  </Link>
                 </div>
+              </AlertDescription>
+            </Alert>
+          )}
 
-                {/* Received Proposals Tab */}
-                <TabsContent value="proposals" className="p-6 mt-0">
-                  <ProposalList
-                    requestId={request._id}
-                    onImageClick={handleImageClick}
-                    isOwner={isOwner}
-                    currentUserId={user?.profile?._id}
-                    onProposalSuccess={handleProposalSuccess}
-                    buyerId={buyer?._id}
-                    type="pending"
-                    requestStatus={request.status}
-                  />
-                </TabsContent>
-
-                {/* Rejected Proposals Tab */}
-                <TabsContent value="rejected" className="p-6 mt-0">
-                  <ProposalList
-                    requestId={request._id}
-                    onImageClick={handleImageClick}
-                    isOwner={isOwner}
-                    currentUserId={user?.profile?._id}
-                    onProposalSuccess={handleProposalSuccess}
-                    buyerId={buyer?._id}
-                    status={ProposalStatus.REJECTED}
-                    type="rejected"
-                  />
-                </TabsContent>
-
-                {/* Public Discussion Tab */}
-                <TabsContent value="discussion" className="p-6 mt-0">
-                  <p className="text-sm text-muted-foreground mb-6">
-                    {t('request.detail.discussion.empty')}
-                  </p>
-
-                  <DiscussionList />
-
-                  <DiscussionForm
-                    replyTo={replyTo}
-                    onCancelReply={() => setReplyTo(null)}
-                    onSubmit={handleDiscussionSubmit}
-                  />
-                </TabsContent>
-              </Tabs>
-
-              <StatusGuide />
+          {/* Tabs for Proposals and Discussion */}
+          <Tabs
+            defaultValue="proposals"
+            className="bg-card rounded-2xl shadow-md border border-border"
+          >
+            <div className="overflow-x-auto scrollbar-none">
+              <TabsList className="w-full min-w-max justify-start rounded-t-2xl rounded-b-none h-14 p-1 bg-muted/50 flex-nowrap">
+                <TabsTrigger value="proposals" className="flex-1 min-w-[140px] text-base">
+                  {t('request.detail.tabs.proposals', { count: request.pendingProposalsCount })}
+                </TabsTrigger>
+                <TabsTrigger
+                  value="discussion"
+                  className="flex-1 min-w-[140px] items-center gap-2 cursor-not-allowed opacity-60"
+                  disabled
+                >
+                  <span className="hidden sm:inline">{t('request.detail.tabs.discussion')}</span>
+                </TabsTrigger>
+                <TabsTrigger value="rejected" className="flex-1 min-w-[140px] text-base">
+                  {t('request.detail.tabs.rejected', { count: request.rejectedProposalsCount })}
+                </TabsTrigger>
+              </TabsList>
             </div>
 
-            {/* Sidebar */}
-            <div className="space-y-6">
-              <RequestSidebar buyer={buyer} proposalsCount={request.proposalsCount} />
-            </div>
-          </div>
+            {/* Received Proposals Tab */}
+            <TabsContent value="proposals" className="p-6 mt-0">
+              <ProposalList
+                requestId={request._id}
+                onImageClick={handleImageClick}
+                isOwner={isOwner}
+                currentUserId={user?.profile?._id}
+                onProposalSuccess={handleProposalSuccess}
+                buyerId={buyer?._id}
+                type="pending"
+                requestStatus={request.status}
+              />
+            </TabsContent>
+
+            {/* Rejected Proposals Tab */}
+            <TabsContent value="rejected" className="p-6 mt-0">
+              <ProposalList
+                requestId={request._id}
+                onImageClick={handleImageClick}
+                isOwner={isOwner}
+                currentUserId={user?.profile?._id}
+                onProposalSuccess={handleProposalSuccess}
+                buyerId={buyer?._id}
+                status={ProposalStatus.REJECTED}
+                type="rejected"
+              />
+            </TabsContent>
+
+            {/* Public Discussion Tab */}
+            <TabsContent value="discussion" className="p-6 mt-0">
+              <p className="text-sm text-muted-foreground mb-6">
+                {t('request.detail.discussion.empty')}
+              </p>
+
+              <DiscussionList />
+
+              <DiscussionForm
+                replyTo={replyTo}
+                onCancelReply={() => setReplyTo(null)}
+                onSubmit={handleDiscussionSubmit}
+              />
+            </TabsContent>
+          </Tabs>
+
+          <StatusGuide />
         </div>
-      </main>
 
+        {/* Sidebar */}
+        <div className="space-y-6">
+          <RequestSidebar buyer={buyer} proposalsCount={request.proposalsCount} />
+        </div>
+      </div>
       <ImageLightbox
-        images={activeLightboxImages.length > 0 ? activeLightboxImages : request.images || []}
+        images={lightboxImages}
         initialIndex={lightboxIndex}
         open={lightboxOpen}
         onOpenChange={setLightboxOpen}
       />
-
-      <Footer />
     </div>
   );
 }

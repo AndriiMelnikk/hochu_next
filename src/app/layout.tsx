@@ -6,6 +6,8 @@ import { defaultMetadata as enMetadata } from '@/locales/en/metadata';
 import { defaultMetadata as ukMetadata } from '@/locales/uk/metadata';
 import { messages as enMessages } from '@/locales/en/create';
 import { messages as ukMessages } from '@/locales/uk/create';
+import Header from '@/widgets/app/Header';
+import Footer from '@/widgets/app/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -36,7 +38,11 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={inter.className}>
         <Providers locale={locale} messages={messages}>
-          {children}
+          <div className="min-h-screen flex flex-col">
+            <Header />
+            <main className="flex-1 pt-24 pb-12">{children}</main>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>

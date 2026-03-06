@@ -1,5 +1,3 @@
-import Header from '@/widgets/app/Header';
-import Footer from '@/widgets/app/Footer';
 import { getLocaleFromHeaders } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 
@@ -101,62 +99,53 @@ export default function TermsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <Header />
+    <div className="bg-background">
+      {/* Hero Section */}
+      <section className="py-16 px-4 bg-muted/30">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+            Умови використання
+          </h1>
+          <p className="text-lg text-muted-foreground">Останнє оновлення: 14 листопада 2025</p>
+        </div>
+      </section>
 
-      <main className="flex-1 pt-20">
-        {/* Hero Section */}
-        <section className="py-16 px-4 bg-muted/30">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
-              Умови використання
-            </h1>
-            <p className="text-lg text-muted-foreground">Останнє оновлення: 14 листопада 2025</p>
-          </div>
-        </section>
+      {/* Content */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="prose prose-lg max-w-none">
+            <p className="text-lg text-muted-foreground mb-12">
+              Будь ласка, уважно прочитайте ці умови перед використанням платформи Hochu.
+              Використовуючи наш сервіс, ви погоджуєтесь дотримуватися цих умов.
+            </p>
 
-        {/* Content */}
-        <section className="py-16 px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="prose prose-lg max-w-none">
-              <p className="text-lg text-muted-foreground mb-12">
-                Будь ласка, уважно прочитайте ці умови перед використанням платформи Hochu.
-                Використовуючи наш сервіс, ви погоджуєтесь дотримуватися цих умов.
+            <div className="space-y-12">
+              {sections.map((section, index) => (
+                <div key={index} className="bg-card rounded-2xl p-8 shadow-sm border border-border">
+                  <h2 className="text-2xl font-bold mb-6">{section.title}</h2>
+                  <ul className="space-y-4">
+                    {section.content.map((item, itemIndex) => (
+                      <li key={itemIndex} className="text-muted-foreground leading-relaxed flex">
+                        <span className="text-primary mr-3 flex-shrink-0">•</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-12 p-8 bg-muted/50 rounded-2xl border border-border">
+              <h3 className="text-xl font-semibold mb-4">Важлива інформація</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Ці умови використання регулюються законодавством України. Будь-які суперечки будуть
+                вирішуватися у судах України. Якщо якась частина цих умов буде визнана недійсною,
+                решта умов залишаються в силі.
               </p>
-
-              <div className="space-y-12">
-                {sections.map((section, index) => (
-                  <div
-                    key={index}
-                    className="bg-card rounded-2xl p-8 shadow-sm border border-border"
-                  >
-                    <h2 className="text-2xl font-bold mb-6">{section.title}</h2>
-                    <ul className="space-y-4">
-                      {section.content.map((item, itemIndex) => (
-                        <li key={itemIndex} className="text-muted-foreground leading-relaxed flex">
-                          <span className="text-primary mr-3 flex-shrink-0">•</span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-12 p-8 bg-muted/50 rounded-2xl border border-border">
-                <h3 className="text-xl font-semibold mb-4">Важлива інформація</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Ці умови використання регулюються законодавством України. Будь-які суперечки
-                  будуть вирішуватися у судах України. Якщо якась частина цих умов буде визнана
-                  недійсною, решта умов залишаються в силі.
-                </p>
-              </div>
             </div>
           </div>
-        </section>
-      </main>
-
-      <Footer />
+        </div>
+      </section>
     </div>
   );
 }

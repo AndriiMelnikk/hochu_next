@@ -301,6 +301,7 @@ export const messages: Messages = {
   'proposal.rejection.REQUEST_NOT_ACTIVE': 'Запит не активний',
   'proposal.rejection.OWN_REQUEST': 'Ви не можете залишати пропозиції до власного запиту',
   'proposal.rejection.ALREADY_PROPOSED': 'Ви вже залишили пропозицію до цього запиту',
+  'proposal.rejection.NOT_SELLER': 'Ви не є виконавцем (продавцем)',
 
   // Create Request Auth/Role checks
   'request.create.authRequired.title': 'Потрібна авторизація',
