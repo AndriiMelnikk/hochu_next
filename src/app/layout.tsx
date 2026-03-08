@@ -8,6 +8,7 @@ import { messages as enMessages } from '@/locales/en/create';
 import { messages as ukMessages } from '@/locales/uk/create';
 import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -44,6 +45,7 @@ export default async function RootLayout({
             <Footer />
           </div>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
