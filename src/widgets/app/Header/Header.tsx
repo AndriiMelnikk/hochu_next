@@ -161,14 +161,18 @@ const Header = () => {
               </div>
             )}
             <div className="pt-2">
-              <select
+              <Select
                 value={currentLocale}
-                onChange={(e) => handleLocaleChange(e.target.value as Locale)}
-                className="h-9 w-full rounded-md border bg-background px-2 text-sm text-foreground"
+                onValueChange={(value) => handleLocaleChange(value as Locale)}
               >
-                <option value="uk">Українська</option>
-                <option value="en">English</option>
-              </select>
+                <SelectTrigger className="h-8  rounded-md border bg-background px-2 text-xs text-foreground">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="uk">UA</SelectItem>
+                  <SelectItem value="en">EN</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         )}
