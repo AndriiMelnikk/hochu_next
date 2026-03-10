@@ -8,16 +8,46 @@ import { useState, useEffect } from 'react';
 import { routes } from '@app/router/routes';
 import { HeroBadge } from '@/shared/ui/hero-badge';
 import { useAuthStore } from '@/entities/auth/store/authStore';
+import { useLingui } from '@lingui/react';
+import type { Locale } from '@/locales/locale';
+import { LS_KEYS } from '@shared/config/envVars';
+import { messages as enMessages } from '@/locales/en/create';
+import { messages as ukMessages } from '@/locales/uk/create';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
 
 const Header = () => {
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [currentLocale, setCurrentLocale] = useState<Locale>('uk');
   const { isAuth } = useAuthStore();
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
+
+  const messagesByLocale = {
+    en: enMessages,
+    uk: ukMessages,
+  } as const;
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
+    setCurrentLocale((i18n.locale as Locale) || 'uk');
   }, []);
+
+  const handleLocaleChange = (locale: Locale) => {
+    if (locale === currentLocale) return;
+
+    setCurrentLocale(locale);
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(LS_KEYS.LOCALE, locale);
+      // Зберігаємо також у cookie, щоб сервер міг визначити локаль при наступних навігаціях/рендерах
+      document.cookie = `locale=${locale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+    }
+
+    i18n.load(locale, messagesByLocale[locale]);
+    i18n.activate(locale);
+  };
 
   if (!mounted) return null;
 
@@ -31,7 +61,7 @@ const Header = () => {
                 Hochu
               </div>
             </Link>
-            <HeroBadge>Бета-версія</HeroBadge>
+            <HeroBadge>{t('common.hero.betaBadge')}</HeroBadge>
           </div>
 
           {/* Desktop Navigation */}
@@ -40,34 +70,46 @@ const Header = () => {
               href={routes.REQUEST}
               className="text-foreground hover:text-primary transition-colors"
             >
-              Переглянути запити
+              {t('common.nav.viewRequests')}
             </Link>
             <Link
               href={routes.CREATE}
               className="text-foreground hover:text-primary transition-colors"
             >
-              Створити запит
+              {t('common.nav.createRequest')}
             </Link>
             <Link
               href={routes.HOW_IT_WORKS}
               className="text-foreground hover:text-primary transition-colors"
             >
-              Як це працює
+              {t('common.nav.howItWorks')}
             </Link>
             {isAuth ? (
               <Link href={routes.PROFILE}>
                 <User className="h-4 w-4" />
               </Link>
             ) : (
-              <>
+              <div className="flex items-center space-x-2">
                 <Link href={routes.LOGIN}>
                   <Button variant="outline" size="sm">
-                    Увійти
+                    {t('common.nav.login')}
                   </Button>
                 </Link>
                 <RegisterButton size="sm" onClick={() => setIsOpen(false)} />
-              </>
+              </div>
             )}
+            <Select
+              value={currentLocale}
+              onValueChange={(value) => handleLocaleChange(value as Locale)}
+            >
+              <SelectTrigger className="ml-4 h-8 w-[80px] rounded-md border bg-background px-2 text-xs text-foreground">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="uk">UA</SelectItem>
+                <SelectItem value="en">EN</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Mobile menu button */}
@@ -84,21 +126,21 @@ const Header = () => {
               className="block text-foreground hover:text-primary transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Переглянути запити
+              {t('common.nav.viewRequests')}
             </Link>
             <Link
               href={routes.CREATE}
               className="block text-foreground hover:text-primary transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Створити запит
+              {t('common.nav.createRequest')}
             </Link>
             <Link
               href={routes.HOW_IT_WORKS}
               className="block text-foreground hover:text-primary transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Як це працює
+              {t('common.nav.howItWorks')}
             </Link>
             {isAuth ? (
               <Link
@@ -106,20 +148,28 @@ const Header = () => {
                 className="block text-foreground hover:text-primary transition-colors"
                 onClick={() => setIsOpen(false)}
               >
-                Профіль
+                {t('common.nav.profile')}
               </Link>
             ) : (
-              <>
-                <div className="flex flex-col space-y-2 pt-4">
-                  <Link href={routes.LOGIN} onClick={() => setIsOpen(false)}>
-                    <Button variant="outline" size="sm" className="w-full">
-                      Увійти
-                    </Button>
-                  </Link>
-                  <RegisterButton size="sm" fullWidth onClick={() => setIsOpen(false)} />
-                </div>
-              </>
+              <div className="flex flex-col space-y-2 pt-4">
+                <Link href={routes.LOGIN} onClick={() => setIsOpen(false)}>
+                  <Button variant="outline" size="sm" className="w-full">
+                    {t('common.nav.login')}
+                  </Button>
+                </Link>
+                <RegisterButton size="sm" fullWidth onClick={() => setIsOpen(false)} />
+              </div>
             )}
+            <div className="pt-2">
+              <select
+                value={currentLocale}
+                onChange={(e) => handleLocaleChange(e.target.value as Locale)}
+                className="h-9 w-full rounded-md border bg-background px-2 text-sm text-foreground"
+              >
+                <option value="uk">Українська</option>
+                <option value="en">English</option>
+              </select>
+            </div>
           </div>
         )}
       </div>

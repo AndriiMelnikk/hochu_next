@@ -1,4 +1,4 @@
-import { headers } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 
 export type Locale = 'en' | 'uk';
 
@@ -27,6 +27,14 @@ export function resolveLocale(acceptLanguageHeader?: string): Locale {
 
 export async function getLocaleFromHeaders(): Promise<Locale> {
   try {
+    // 1) Спробувати прочитати локаль з cookies (встановлюється на клієнті при перемиканні мови)
+    const cookieStore = await cookies();
+    const cookieLocale = cookieStore.get('locale')?.value as Locale | undefined;
+    if (cookieLocale === 'uk' || cookieLocale === 'en') {
+      return cookieLocale;
+    }
+
+    // 2) Якщо немає cookie — fallback на Accept-Language
     const acceptLanguage = (await headers()).get('accept-language') ?? '';
     return resolveLocale(acceptLanguage);
   } catch {

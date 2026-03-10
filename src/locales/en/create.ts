@@ -463,7 +463,8 @@ export const messages: Messages = {
   'auth.newPassword': 'New password',
   // Profiles
   'profile.profiles.title': 'My Profiles',
-  'profile.profiles.description': 'Switch between buyer and seller profiles. The current profile determines your rights on the platform.',
+  'profile.profiles.description':
+    'Switch between buyer and seller profiles. The current profile determines your rights on the platform.',
   'profile.profiles.createBuyer': 'Create a buyer profile',
   'profile.profiles.createSeller': 'Create a seller profile',
   'profile.profiles.switchSuccess': 'Profile switched successfully',
@@ -483,4 +484,75 @@ export const messages: Messages = {
   'profile.tabs.settings': 'Settings',
   'profile.userNotFound': 'User not found',
   'profile.backToHome': 'Back to Home',
+
+  // Common navigation & header
+  'common.hero.betaBadge': 'Beta',
+  'common.nav.viewRequests': 'View requests',
+  'common.nav.createRequest': 'Create request',
+  'common.nav.howItWorks': 'How it works',
+  'common.nav.login': 'Log in',
+  'common.nav.profile': 'Profile',
+
+  // Home - Hero section
+  'common.home.hero.badge': 'Reverse trading platform',
+  'common.home.hero.title.prefix': "Don't search —",
+  'common.home.hero.title.emphasis': 'say what you want',
+  'common.home.hero.subtitle':
+    'Create a request for what you need. Sellers will find you and offer their options. Choose the best one!',
+  'common.home.hero.benefit.free': 'Free',
+  'common.home.hero.benefit.fast': 'Fast',
+  'common.home.hero.benefit.safe': 'Safe',
+  'common.home.hero.stats.createTime.value': '5 min',
+  'common.home.hero.stats.createTime.label': 'Request creation',
+  'common.home.hero.stats.proposals.value': '10+',
+  'common.home.hero.stats.proposals.label': 'Proposals per request',
+  'common.home.hero.stats.successRate.value': '95%',
+  'common.home.hero.stats.successRate.label': 'Successful deals',
+  'common.home.hero.stats.users.value': '1000+',
+  'common.home.hero.stats.users.label': 'Active users',
+
+  // Home - Features section
+  'common.home.features.title.prefix': 'Why',
+  'common.home.features.subtitle': 'We change the traditional approach to buying and selling',
+  'common.home.features.buyers.title': 'For buyers',
+  'common.home.features.buyers.description':
+    'Create a request in 5 minutes, get dozens of proposals and choose the best one',
+  'common.home.features.sellers.title': 'For sellers',
+  'common.home.features.sellers.description':
+    'Find clients actively — see what people need and offer your services',
+  'common.home.features.fastSimple.title': 'Fast and simple',
+  'common.home.features.fastSimple.description':
+    'No endless searching — a fast match between demand and supply',
+  'common.home.features.safe.title': 'Safe',
+  'common.home.features.safe.description':
+    'Ratings, reviews, user verification and fraud protection',
+
+  // Home - How it works section
+  'common.home.howItWorks.title.prefix': 'How does it',
+  'common.home.howItWorks.title.emphasis': 'work',
+  'common.home.howItWorks.subtitle': 'Just 4 simple steps to your goal',
+  'common.home.howItWorks.step1.title': 'Create a request',
+  'common.home.howItWorks.step1.description':
+    'Describe what you need: product, service, specify budget and deadlines',
+  'common.home.howItWorks.step2.title': 'Get proposals',
+  'common.home.howItWorks.step2.description':
+    'Sellers will find your request and offer their options',
+  'common.home.howItWorks.step3.title': 'Discuss details',
+  'common.home.howItWorks.step3.description': 'Communicate via built-in chat, compare proposals',
+  'common.home.howItWorks.step4.title': 'Close the deal',
+  'common.home.howItWorks.step4.description':
+    'Choose the best proposal and leave a review after completion',
+
+  // Footer
+  'common.footer.brandDescription':
+    'A platform of wishes and opportunities. Say what you want, and those who can provide it will find you.',
+  'common.footer.section.platform': 'Platform',
+  'common.footer.section.company': 'Company',
+  'common.footer.section.legal': 'Legal',
+  'common.footer.about': 'About us',
+  'common.footer.contact': 'Contacts',
+  'common.footer.terms': 'Terms of use',
+  'common.footer.privacy': 'Privacy policy',
+  'common.footer.support': 'Support',
+  'common.footer.copyright': '© 2026 Hochu. All rights reserved.',
 };

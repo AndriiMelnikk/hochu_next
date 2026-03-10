@@ -1,42 +1,49 @@
+'use client';
+
 import { FileText, Users2, MessageCircle, Handshake } from 'lucide-react';
+import { useLingui } from '@lingui/react';
 
 const steps = [
   {
     icon: FileText,
     number: '01',
-    title: 'Створіть запит',
-    description: 'Опишіть що вам потрібно: товар, послугу, вкажіть бюджет та терміни',
+    titleKey: 'common.home.howItWorks.step1.title',
+    descriptionKey: 'common.home.howItWorks.step1.description',
   },
   {
     icon: Users2,
     number: '02',
-    title: 'Отримайте пропозиції',
-    description: 'Продавці самі знайдуть ваш запит та запропонують свої варіанти',
+    titleKey: 'common.home.howItWorks.step2.title',
+    descriptionKey: 'common.home.howItWorks.step2.description',
   },
   {
     icon: MessageCircle,
     number: '03',
-    title: 'Обговоріть деталі',
-    description: 'Спілкуйтесь через вбудований чат, порівнюйте пропозиції',
+    titleKey: 'common.home.howItWorks.step3.title',
+    descriptionKey: 'common.home.howItWorks.step3.description',
   },
   {
     icon: Handshake,
     number: '04',
-    title: 'Закрийте угоду',
-    description: 'Оберіть найкращу пропозицію та залиште відгук після виконання',
+    titleKey: 'common.home.howItWorks.step4.title',
+    descriptionKey: 'common.home.howItWorks.step4.description',
   },
 ];
 
 const HowItWorks = () => {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
+
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Як це <span className="text-primary">працює</span>?
+            {t('common.home.howItWorks.title.prefix')}{' '}
+            <span className="text-primary">{t('common.home.howItWorks.title.emphasis')}</span>?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Всього 4 простих кроки до вашої мети
+            {t('common.home.howItWorks.subtitle')}
           </p>
         </div>
 
@@ -62,9 +69,11 @@ const HowItWorks = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-bold mb-2 text-card-foreground group-hover:text-primary transition-colors">
-                        {step.title}
+                        {t(step.titleKey)}
                       </h3>
-                      <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {t(step.descriptionKey)}
+                      </p>
                     </div>
                   </div>
                 </div>

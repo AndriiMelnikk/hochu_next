@@ -485,4 +485,76 @@ export const messages: Messages = {
   'profile.tabs.settings': 'Налаштування',
   'profile.userNotFound': 'Користувача не знайдено',
   'profile.backToHome': 'На головну',
+
+  // Common navigation & header
+  'common.hero.betaBadge': 'Бета-версія',
+  'common.nav.viewRequests': 'Переглянути запити',
+  'common.nav.createRequest': 'Створити запит',
+  'common.nav.howItWorks': 'Як це працює',
+  'common.nav.login': 'Увійти',
+  'common.nav.profile': 'Профіль',
+
+  // Home - Hero section
+  'common.home.hero.badge': 'Реверсна платформа торгівлі',
+  'common.home.hero.title.prefix': 'Не шукай —',
+  'common.home.hero.title.emphasis': 'скажи що хочеш',
+  'common.home.hero.subtitle':
+    'Створи запит на те, що потрібно. Продавці самі знайдуть тебе та запропонують свої варіанти. Обери найкращий!',
+  'common.home.hero.benefit.free': 'Безкоштовно',
+  'common.home.hero.benefit.fast': 'Швидко',
+  'common.home.hero.benefit.safe': 'Безпечно',
+  'common.home.hero.stats.createTime.value': '5 хв',
+  'common.home.hero.stats.createTime.label': 'Створення запиту',
+  'common.home.hero.stats.proposals.value': '10+',
+  'common.home.hero.stats.proposals.label': 'Пропозицій на запит',
+  'common.home.hero.stats.successRate.value': '95%',
+  'common.home.hero.stats.successRate.label': 'Успішних угод',
+  'common.home.hero.stats.users.value': '1000+',
+  'common.home.hero.stats.users.label': 'Активних користувачів',
+
+  // Home - Features section
+  'common.home.features.title.prefix': 'Чому',
+  'common.home.features.subtitle': 'Ми змінюємо традиційний підхід до купівлі-продажу',
+  'common.home.features.buyers.title': 'Для покупців',
+  'common.home.features.buyers.description':
+    'Створіть запит за 5 хвилин, отримайте десятки пропозицій і оберіть найкращу',
+  'common.home.features.sellers.title': 'Для продавців',
+  'common.home.features.sellers.description':
+    'Знаходьте клієнтів активно — бачте що людям потрібно і пропонуйте свої послуги',
+  'common.home.features.fastSimple.title': 'Швидко і просто',
+  'common.home.features.fastSimple.description':
+    'Без нескінченних пошуків — швидке поєднання попиту та пропозиції',
+  'common.home.features.safe.title': 'Безпечно',
+  'common.home.features.safe.description':
+    'Рейтинги, відгуки, верифікація користувачів та захист від шахрайства',
+
+  // Home - How it works section
+  'common.home.howItWorks.title.prefix': 'Як це',
+  'common.home.howItWorks.title.emphasis': 'працює',
+  'common.home.howItWorks.subtitle': 'Всього 4 простих кроки до вашої мети',
+  'common.home.howItWorks.step1.title': 'Створіть запит',
+  'common.home.howItWorks.step1.description':
+    'Опишіть що вам потрібно: товар, послугу, вкажіть бюджет та терміни',
+  'common.home.howItWorks.step2.title': 'Отримайте пропозиції',
+  'common.home.howItWorks.step2.description':
+    'Продавці самі знайдуть ваш запит та запропонують свої варіанти',
+  'common.home.howItWorks.step3.title': 'Обговоріть деталі',
+  'common.home.howItWorks.step3.description':
+    'Спілкуйтесь через вбудований чат, порівнюйте пропозиції',
+  'common.home.howItWorks.step4.title': 'Закрийте угоду',
+  'common.home.howItWorks.step4.description':
+    'Оберіть найкращу пропозицію та залиште відгук після виконання',
+
+  // Footer
+  'common.footer.brandDescription':
+    'Платформа бажань і можливостей. Скажи що хочеш, і ті хто може це дати, самі тебе знайдуть.',
+  'common.footer.section.platform': 'Платформа',
+  'common.footer.section.company': 'Компанія',
+  'common.footer.section.legal': 'Правова інформація',
+  'common.footer.about': 'Про нас',
+  'common.footer.contact': 'Контакти',
+  'common.footer.terms': 'Умови використання',
+  'common.footer.privacy': 'Політика конфіденційності',
+  'common.footer.support': 'Підтримка',
+  'common.footer.copyright': '© 2026 Hochu. Всі права захищені.',
 };
