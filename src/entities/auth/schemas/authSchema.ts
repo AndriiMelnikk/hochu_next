@@ -32,7 +32,7 @@ export const authResponseSchema = z.object({
     z.object({
       id: z.string(),
       name: z.string().optional(),
-      lastName: z.string().optional(),
+      lastName: z.string().optional().nullable(),
       type: z.enum(UserRoleEnum as [string, ...string[]]),
       rating: z.number(),
       xp: z.number(),

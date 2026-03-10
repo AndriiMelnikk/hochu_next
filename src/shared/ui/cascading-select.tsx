@@ -169,14 +169,14 @@ export function CascadingSelect({
         <Button
           variant="outline"
           className={cn(
-            'w-full justify-between text-base font-normal',
+            'w-full justify-between text-base font-normal min-w-0',
             !displayValue && 'text-muted-foreground',
             className,
           )}
           disabled={disabled}
         >
-          <span className="truncate">{displayValue || placeholder}</span>
-          <div className="flex items-center">
+          <span className="truncate flex-1 text-left">{displayValue || placeholder}</span>
+          <div className="flex items-center shrink-0">
             {clearable && value && (
               <Button
                 variant="ghost"
