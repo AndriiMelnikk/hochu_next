@@ -1,11 +1,11 @@
 import { FC, useMemo } from 'react';
 import { useReviews, IGetReviewsRequest } from '@entities/review';
-import { Skeleton } from '@shared/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@shared/ui/alert';
 import { Terminal } from 'lucide-react';
 import { ReviewCard } from '../ReviewCard/ReviewCard';
 import { UniversalPagination } from '@shared/ui/universal-pagination';
 import { useQueryPagination } from '@shared/hooks';
+import { Loading } from '@/shared/ui/loading';
 
 interface ReviewsListProps {
   params: Omit<IGetReviewsRequest, 'page' | 'pageSize'>;
@@ -20,13 +20,7 @@ export const ReviewsList: FC<ReviewsListProps> = ({ params }) => {
   const { data: reviewsResponse, isLoading, isError, isSuccess } = useReviews(queryParams);
 
   if (isLoading) {
-    return (
-      <div className="space-y-4">
-        {[...Array(3)].map((_, i) => (
-          <Skeleton key={i} className="h-24 w-full" />
-        ))}
-      </div>
-    );
+    return <Loading variant="full-page" />;
   }
 
   if (isError) {

@@ -11,8 +11,9 @@ import type { IProfile, ProfileType } from '@/entities/user';
 import { CreateProfileModal } from '@features/user';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
 import { Button } from '@shared/ui/button';
-import { Loader2, Plus, ShoppingCart, Store } from 'lucide-react';
+import { Plus, ShoppingCart, Store } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { Loading } from '@/shared/ui/loading';
 
 const PROFILE_TYPE_LABELS: Record<ProfileType, string> = {
   buyer: 'Покупець',
@@ -37,6 +38,8 @@ export default function ProfilesTabContent() {
   const hasBuyer = profiles.some((p) => p.type === 'buyer');
   const hasSeller = profiles.some((p) => p.type === 'seller');
 
+  console.log(profiles);
+
   const canCreateBuyer = !hasBuyer;
   const canCreateSeller = !hasSeller;
 
@@ -57,11 +60,7 @@ export default function ProfilesTabContent() {
   const handleCloseCreateModal = () => setCreateModalType(null);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+    return <Loading variant="full-page" />;
   }
 
   if (error) {

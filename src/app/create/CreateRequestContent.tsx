@@ -8,6 +8,7 @@ import { routes } from '@/app/router/routes';
 import Link from 'next/link';
 import { Loader2, UserPlus, UserCircle } from 'lucide-react';
 import { AuthRequired } from '@/features/auth';
+import { Loading } from '@/shared/ui/loading';
 
 export default function CreateRequestContent() {
   const { i18n } = useLingui();
@@ -16,12 +17,7 @@ export default function CreateRequestContent() {
 
   const renderContent = () => {
     if (isLoading) {
-      return (
-        <div className="flex flex-col items-center justify-center py-24">
-          <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
-          <p className="text-muted-foreground">{t('request.create.categoriesLoading')}</p>
-        </div>
-      );
+      return <Loading variant="full-page" />;
     }
 
     if (isError || !user) {

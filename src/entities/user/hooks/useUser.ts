@@ -22,5 +22,10 @@ export const useMe = () => {
       const data = await userService.getMe();
       return userSchema.parse(data) as IUser;
     },
+    retry: (failureCount, error) => {
+      const status = (error as { response?: { status?: number } })?.response?.status;
+      if (status === 401) return false;
+      return failureCount < 1;
+    },
   });
 };

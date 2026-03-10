@@ -12,7 +12,8 @@ import { Button } from '@shared/ui/button';
 import { routes } from '@/app/router/routes';
 import { toast } from 'sonner';
 
-import { Lock, Loader2, LogOut } from 'lucide-react';
+import { Lock } from 'lucide-react';
+import { Loading } from '@/shared/ui/loading';
 
 const ProfileSettings = () => {
   const router = useRouter();
@@ -41,11 +42,7 @@ const ProfileSettings = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+    return <Loading variant="full-page" />;
   }
 
   if (error || !user) {

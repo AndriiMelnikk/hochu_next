@@ -3,8 +3,8 @@ import { Card, CardContent } from '@shared/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 import { Star } from 'lucide-react';
 import { useReviewStats } from '@entities/review';
-import { Skeleton } from '@shared/ui/skeleton';
 import { ReviewsList } from '@entities/review/ui/ReviewsList/ReviewsList';
+import { Loading } from '@/shared/ui/loading';
 
 interface ProfileReviewsProps {
   profileId: string;
@@ -47,28 +47,7 @@ export const ProfileReviews: FC<ProfileReviewsProps> = ({ profileId }) => {
   }, [activeTab, profileId]);
 
   if (isLoading) {
-    return (
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex items-center gap-8">
-            <div className="text-center">
-              <Skeleton className="h-12 w-24 mb-2" />
-              <Skeleton className="h-4 w-32 mb-2" />
-              <Skeleton className="h-4 w-40" />
-            </div>
-            <div className="flex-1 space-y-2">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <Skeleton className="h-4 w-20" />
-                  <Skeleton className="h-2 flex-1" />
-                  <Skeleton className="h-4 w-12" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
+    return <Loading variant="full-page" />;
   }
 
   if (!reviewStats) {

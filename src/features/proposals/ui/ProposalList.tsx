@@ -41,11 +41,7 @@ export const ProposalList = ({
   const { data, isLoading, error } = useProposals(requestId, { page, pageSize, status });
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <Loading variant="inline" />
-      </div>
-    );
+    return <Loading variant="full-page" />;
   }
 
   if (error) {

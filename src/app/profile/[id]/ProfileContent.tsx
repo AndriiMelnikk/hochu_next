@@ -3,12 +3,12 @@
 import { useParams } from 'next/navigation';
 import { useUser } from '@/entities/user';
 import { useAuthStore } from '@/entities/auth';
-import { Loader2 } from 'lucide-react';
 import { Button } from '@shared/ui/button';
 import Link from 'next/link';
 import { routes } from '@/app/router/routes';
 import ProfileHeader from '@/widgets/app/ProfileHeader';
 import ProfileTabs from '@/widgets/app/ProfileTabs';
+import { Loading } from '@/shared/ui/loading';
 
 export default function ProfileContent() {
   const params = useParams();
@@ -19,11 +19,7 @@ export default function ProfileContent() {
   const isOwner = currentUser?.profile?._id === id;
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
+    return <Loading variant="full-page" />;
   }
 
   if (error || !user) {

@@ -171,13 +171,7 @@ export default function RequestDetailContent({ id }: { id: string }) {
                 <TabsTrigger value="proposals" className="flex-1 min-w-[140px] text-base">
                   {t('request.detail.tabs.proposals', { count: request.pendingProposalsCount })}
                 </TabsTrigger>
-                <TabsTrigger
-                  value="discussion"
-                  className="flex-1 min-w-[140px] items-center gap-2 cursor-not-allowed opacity-60"
-                  disabled
-                >
-                  <span className="hidden sm:inline">{t('request.detail.tabs.discussion')}</span>
-                </TabsTrigger>
+
                 <TabsTrigger value="rejected" className="flex-1 min-w-[140px] text-base">
                   {t('request.detail.tabs.rejected', { count: request.rejectedProposalsCount })}
                 </TabsTrigger>
