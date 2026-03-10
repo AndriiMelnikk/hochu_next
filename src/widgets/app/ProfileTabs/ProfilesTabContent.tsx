@@ -82,7 +82,7 @@ export default function ProfilesTabContent() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {profiles.map((profile) => (
               <ProfileCard
                 key={profile._id}
@@ -142,7 +142,7 @@ function ProfileCard({ profile, isActive, onSelect }: ProfileCardProps) {
       type="button"
       onClick={onSelect}
       className={`
-        flex items-center gap-4 rounded-lg border p-4 text-left transition-colors
+        flex w-full min-w-0 items-center gap-4 rounded-lg border p-4 text-left transition-colors
         hover:bg-accent/50
         ${isActive ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'border-border'}
       `}
@@ -156,8 +156,8 @@ function ProfileCard({ profile, isActive, onSelect }: ProfileCardProps) {
       </div>
       <div className="min-w-0 flex-1">
         <p className="font-medium truncate">{displayName}</p>
-        <p className="text-sm text-muted-foreground">{label}</p>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-sm text-muted-foreground truncate">{label}</p>
+        <p className="text-xs text-muted-foreground line-clamp-2">
           Рейтинг: {profile.rating} • XP: {profile.xp} • Угод: {profile.completedDeals}
         </p>
       </div>
