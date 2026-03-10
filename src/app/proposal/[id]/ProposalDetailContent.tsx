@@ -30,8 +30,12 @@ import { useRequest } from '@/entities/request/hooks/useRequest';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { ItemCondition } from '@/entities/request';
+import { useLingui } from '@lingui/react';
 
 export default function ProposalDetailContent({ id }: { id: string }) {
+  const { i18n } = useLingui();
+  const t = (key: string, values?: Record<string, unknown>) => i18n._(key, values);
+
   const { data: proposal, isLoading: isProposalLoading, error: proposalError } = useProposal(id);
   const { data: request, isLoading: isRequestLoading } = useRequest(proposal?.requestId, {
     enabled: !!proposal?.requestId,
@@ -52,15 +56,13 @@ export default function ProposalDetailContent({ id }: { id: string }) {
           <CardHeader>
             <CardTitle className="text-destructive flex items-center gap-2">
               <XCircle className="h-5 w-5" />
-              Помилка завантаження
+              {t('proposal.detail.errorTitle')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">
-              Не вдалося завантажити дані пропозиції. Спробуйте оновити сторінку пізніше.
-            </p>
+            <p className="text-muted-foreground">{t('proposal.detail.errorDescription')}</p>
             <Button className="w-full mt-4" onClick={() => window.location.reload()}>
-              Оновити сторінку
+              {t('proposal.detail.errorRetry')}
             </Button>
           </CardContent>
         </Card>
@@ -69,15 +71,15 @@ export default function ProposalDetailContent({ id }: { id: string }) {
   }
 
   const conditionMap: Record<ItemCondition, string> = {
-    [ItemCondition.NEW]: 'Нове',
-    [ItemCondition.USED]: 'Вживане',
+    [ItemCondition.NEW]: t('proposal.detail.itemCondition.new'),
+    [ItemCondition.USED]: t('proposal.detail.itemCondition.used'),
   };
 
   return (
     <div className="container mx-auto px-4 max-w-7xl">
       <Breadcrumbs
         dynamicLabels={{
-          [`/proposal/${id}`]: `Пропозиція #${id}`,
+          [`/proposal/${id}`]: t('proposal.detail.breadcrumb', { id }),
         }}
       />
 
@@ -91,11 +93,15 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                 <h1 className="text-3xl font-bold mb-2 text-card-foreground">{proposal.title}</h1>
                 <p className="text-muted-foreground flex items-center">
                   <Clock className="h-4 w-4 mr-1" />
-                  Створено {format(new Date(proposal.createdAt), 'd MMMM yyyy', { locale: uk })}
+                  {t('proposal.detail.createdAt', {
+                    date: format(new Date(proposal.createdAt), 'd MMMM yyyy', { locale: uk }),
+                  })}
                 </p>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-bold text-primary">{proposal.price} грн</div>
+                <div className="text-3xl font-bold text-primary">
+                  {t('proposal.detail.price', { price: proposal.price })}
+                </div>
               </div>
             </div>
 
@@ -122,7 +128,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
           {/* Images Gallery */}
           {proposal.images && proposal.images.length > 0 && (
             <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-              <h2 className="text-xl font-semibold mb-4">Фотографії</h2>
+              <h2 className="text-xl font-semibold mb-4">{t('proposal.detail.images.title')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {proposal.images.map((image, index) => (
                   <div
@@ -131,7 +137,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                   >
                     <img
                       src={image}
-                      alt={`Фото ${index + 1}`}
+                      alt={t('proposal.detail.images.alt', { index: index + 1 })}
                       className="w-full h-full object-cover hover:scale-105 transition-transform"
                     />
                   </div>
@@ -142,7 +148,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
 
           {/* Description */}
           <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-            <h2 className="text-xl font-semibold mb-4">Детальний опис</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('proposal.detail.description.title')}</h2>
             <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
               {proposal.description}
             </div>
@@ -153,20 +159,27 @@ export default function ProposalDetailContent({ id }: { id: string }) {
             <div className="bg-muted/30 rounded-2xl p-6 border border-border">
               <h3 className="text-lg font-semibold mb-3 flex items-center">
                 <Calendar className="h-5 w-5 mr-2 text-primary" />
-                Оригінальний запит
+                {t('proposal.detail.originalRequest.title')}
               </h3>
               <div className="space-y-2">
                 <p className="font-medium">{request.title}</p>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <span className="flex items-center">
                     <DollarSign className="h-4 w-4 mr-1" />
-                    Бюджет: {request.budgetMin}-{request.budgetMax} грн
+                    {t('proposal.detail.originalRequest.budget', {
+                      min: request.budgetMin,
+                      max: request.budgetMax,
+                    })}
                   </span>
                   <span className="flex items-center">
                     <Eye className="h-4 w-4 mr-1" />
-                    {request.views} переглядів
+                    {t('proposal.detail.originalRequest.views', { count: request.views })}
                   </span>
-                  <span>{request.proposalsCount} пропозицій</span>
+                  <span>
+                    {t('proposal.detail.originalRequest.proposals', {
+                      count: request.proposalsCount,
+                    })}
+                  </span>
                 </div>
               </div>
             </div>
@@ -178,7 +191,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5 text-primary" />
-                  Замовник (Покупець)
+                  {t('proposal.detail.buyer.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -196,33 +209,42 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                     </div>
                     <p className="text-sm text-muted-foreground flex items-center mb-3">
                       <MapPin className="h-3 w-3 mr-1" />
-                      {request.buyerId.location || 'Місцезнаходження не вказано'}
+                      {request.buyerId.location || t('proposal.detail.buyer.locationUnknown')}
                     </p>
 
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <span className="text-muted-foreground">Рейтинг: </span>
+                        <span className="text-muted-foreground">
+                          {t('proposal.detail.buyer.ratingLabel')}
+                        </span>
                         <div className="flex items-center gap-1">
                           <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
                           <span className="font-semibold">{request.buyerId.rating || 0}</span>
                           <span className="text-muted-foreground">
-                            ({request.buyerId.reviewsCount || 0} відгуків)
+                            {t('proposal.detail.buyer.reviewsCount', {
+                              count: request.buyerId.reviewsCount || 0,
+                            })}
                           </span>
                         </div>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">Завершено угод: </span>
+                        <span className="text-muted-foreground">
+                          {t('proposal.detail.buyer.completedDeals')}
+                        </span>
                         <span className="font-semibold">{request.buyerId.completedDeals || 0}</span>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">На платформі з: </span>
+                        <span className="text-muted-foreground">
+                          {t('proposal.detail.seller.memberSince', {
+                            date: '',
+                          }).replace(/\s*$/, '')}
+                        </span>
                         <span className="font-semibold">
                           {request.buyerId.memberSince
                             ? format(new Date(request.buyerId.memberSince), 'd MMMM yyyy', {
                                 locale: uk,
                               })
-                            : '-'}{' '}
-                          року
+                            : '-'}
                         </span>
                       </div>
                     </div>
@@ -235,7 +257,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
           {/* Full Reviews Section */}
           <Card>
             <CardHeader>
-              <CardTitle>Відгуки про продавця</CardTitle>
+              <CardTitle>{t('proposal.detail.reviews.title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <ProfileReviews profileId={proposal.seller._id} />
@@ -248,7 +270,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
           {/* Seller Card */}
           {proposal.seller && (
             <div className="bg-card rounded-2xl p-6 shadow-md border border-border sticky top-24">
-              <h2 className="text-xl font-semibold mb-4">Продавець</h2>
+              <h2 className="text-xl font-semibold mb-4">{t('proposal.detail.seller.title')}</h2>
 
               <div className="flex items-start mb-4">
                 <Avatar className="h-16 w-16 mr-4">
@@ -264,7 +286,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                   </div>
                   <p className="text-sm text-muted-foreground flex items-center">
                     <MapPin className="h-3 w-3 mr-1" />
-                    {proposal.seller.location || 'Місцезнаходження не вказано'}
+                    {proposal.seller.location || t('proposal.detail.seller.locationUnknown')}
                   </p>
                 </div>
               </div>
@@ -273,7 +295,9 @@ export default function ProposalDetailContent({ id }: { id: string }) {
 
               {/* Rating */}
               <div className="flex items-center justify-between mb-3">
-                <span className="text-sm text-muted-foreground">Рейтинг</span>
+                <span className="text-sm text-muted-foreground">
+                  {t('proposal.detail.seller.rating')}
+                </span>
                 <div className="flex items-center">
                   <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 mr-1" />
                   <span className="font-semibold">{proposal.seller.rating || 0}</span>
@@ -286,18 +310,23 @@ export default function ProposalDetailContent({ id }: { id: string }) {
               {/* Stats */}
               <div className="space-y-3 mb-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Виконаних угод</span>
+                  <span className="text-muted-foreground">
+                    {t('proposal.detail.seller.completedDeals')}
+                  </span>
                   <span className="font-semibold">{proposal.seller.completedDeals || 0}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">На платформі з</span>
+                  <span className="text-muted-foreground">
+                    {t('proposal.detail.seller.memberSince', {
+                      date: '',
+                    }).replace(/\s*$/, '')}
+                  </span>
                   <span className="font-semibold">
                     {proposal.seller.memberSince
                       ? format(new Date(proposal.seller.memberSince), 'd MMMM yyyy', {
                           locale: uk,
                         })
-                      : '-'}{' '}
-                    року
+                      : '-'}
                   </span>
                 </div>
               </div>
@@ -308,12 +337,12 @@ export default function ProposalDetailContent({ id }: { id: string }) {
               <div className="space-y-3">
                 <Button variant="gradient" className="w-full shadow-glow" size="lg">
                   <CheckCircle className="mr-2 h-5 w-5" />
-                  Прийняти пропозицію
+                  {t('proposal.detail.actions.accept')}
                 </Button>
 
                 <Button variant="outline" className="w-full" size="lg">
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  Написати повідомлення
+                  {t('proposal.detail.actions.message')}
                 </Button>
 
                 <Button
@@ -321,15 +350,14 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                   className="w-full text-destructive hover:bg-destructive hover:text-destructive-foreground"
                 >
                   <XCircle className="mr-2 h-5 w-5" />
-                  Відхилити
+                  {t('proposal.detail.actions.reject')}
                 </Button>
               </div>
 
               {/* Warning */}
               <div className="mt-4 p-3 bg-accent/30 rounded-lg border border-accent">
                 <p className="text-xs text-accent-foreground">
-                  <strong>Порада:</strong> Обов&apos;язково обговоріть всі деталі в чаті перед
-                  прийняттям рішення. Перевірте рейтинг та відгуки продавця.
+                  <strong>{t('proposal.detail.tip.title')}</strong> {t('proposal.detail.tip.text')}
                 </p>
               </div>
             </div>
@@ -338,20 +366,20 @@ export default function ProposalDetailContent({ id }: { id: string }) {
           {/* Quick Stats */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Статистика пропозиції</CardTitle>
+              <CardTitle className="text-lg">{t('proposal.detail.stats.title')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground flex items-center">
                   <Eye className="h-4 w-4 mr-1" />
-                  Переглядів
+                  {t('proposal.detail.stats.views')}
                 </span>
                 <span className="font-semibold">{request?.views || 0}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground flex items-center">
                   <Star className="h-4 w-4 mr-1" />
-                  Відгуків про продавця
+                  {t('proposal.detail.stats.sellerReviews')}
                 </span>
                 <span className="font-semibold">{proposal.seller?.reviewsCount || 0}</span>
               </div>

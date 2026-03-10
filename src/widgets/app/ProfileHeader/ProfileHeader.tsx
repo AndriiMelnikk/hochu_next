@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/shared/ui/card';
 import GamifiedAvatar from '@/widgets/app/GamifiedAvatar';
 import { User } from 'lucide-react';
 import type { UserRole } from '@/types/gamification';
+import { useLingui } from '@lingui/react';
 
 interface ProfileHeaderProps {
   user: {
@@ -23,6 +24,9 @@ interface ProfileHeaderProps {
 }
 
 export default function ProfileHeader({ user, isOwner }: ProfileHeaderProps) {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
+
   return (
     <Card className="mb-6">
       <CardContent className="pt-6">
@@ -41,17 +45,17 @@ export default function ProfileHeader({ user, isOwner }: ProfileHeaderProps) {
           <div className="flex-1 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
               <h1 className="text-3xl font-bold">{user.name}</h1>
-              {user.verified && <Badge className="bg-primary">Верифікований</Badge>}
+              {user.verified && <Badge className="bg-primary">{t('profile.header.verified')}</Badge>}
             </div>
             {isOwner && <p className="text-muted-foreground mb-2">{user.email}</p>}
             <div className="flex flex-wrap gap-4 justify-center md:justify-start text-sm">
               <span className="flex items-center gap-1">
                 <User className="h-4 w-4" />
-                {user.role === 'buyer' ? 'Покупець' : 'Продавець'}
+                {user.role === 'buyer' ? t('profile.type.buyer') : t('profile.type.seller')}
               </span>
               <span>📍 {user.location}</span>
               <span>⭐ {user.rating}/5.0</span>
-              <span>📅 На платформі з {user.joinDate}</span>
+              <span>📅 {t('profile.header.joined').replace('{date}', user.joinDate)}</span>
             </div>
           </div>
         </div>

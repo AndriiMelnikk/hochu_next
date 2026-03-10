@@ -16,9 +16,9 @@ export const messages: Messages = {
   'pagination.of': 'з',
 
   // Request create page
-  'request.create.budgetMaxLabel': 'Бюджет до (грн)',
+  'request.create.budgetMaxLabel': 'Бюджет до (₴)',
   'request.create.budgetMaxPlaceholder': '10000',
-  'request.create.budgetMinLabel': 'Бюджет від (грн)',
+  'request.create.budgetMinLabel': 'Бюджет від (₴)',
   'request.create.budgetMinPlaceholder': '0',
   'request.create.categoriesEmpty': 'Категорії відсутні',
   'request.create.categoriesError': 'Не вдалося завантажити категорії',
@@ -69,6 +69,14 @@ export const messages: Messages = {
   'request.create.itemConditionNew': 'Новий',
   'request.create.itemConditionUsed': 'Вживаний',
 
+  // Validation
+  'validation.title.required': "Заголовок обов'язковий",
+  'validation.description.min': 'Опис має бути мінімум 10 символів',
+  'validation.category.required': "Категорія обов'язкова",
+  'validation.budget.min': 'Бюджет має бути більше 0',
+  'validation.location.required': "Локація обов'язкова",
+  'validation.urgency.required': "Терміновість обов'язкова",
+
   // Request detail page
   'request.detail.breadcrumbs': 'Запит #{id}',
   'request.detail.tabs.proposals': 'Активні пропозиції ({count})',
@@ -78,8 +86,8 @@ export const messages: Messages = {
     'Задавайте питання публічно. Автор запиту та інші виконавці можуть відповісти.',
   'request.detail.loadingError': 'Помилка завантаження запиту',
   'request.detail.unknownUser': 'Невідомий користувач',
-  'request.budget.from': 'від {amount} грн',
-  'request.budget.to': 'до {amount} грн',
+  'request.budget.from': 'від {amount} ₴',
+  'request.budget.to': 'до {amount} ₴',
   'request.detail.budgetNotSpecified': 'Не вказано',
   'request.detail.views': 'переглядів',
   'request.detail.proposals': 'пропозицій',
@@ -147,7 +155,7 @@ export const messages: Messages = {
   // Proposals
   'proposal.create.title': 'Створити пропозицію',
   'proposal.create.subtitle': 'Запропонуйте своє рішення та виграйте цей запит',
-  'proposal.create.priceLabel': 'Ваша ціна (грн)',
+  'proposal.create.priceLabel': 'Ваша ціна (₴)',
   'proposal.create.budgetPlaceholder': 'Бюджет замовника: {budget}',
   'proposal.create.proposalTitleLabel': 'Заголовок пропозиції',
   'proposal.create.proposalTitlePlaceholder':
@@ -358,6 +366,12 @@ export const messages: Messages = {
   'common.save': 'Зберегти',
   'common.saving': 'Збереження...',
 
+  // Not found page
+  'common.notFound.code': '404',
+  'common.notFound.title': 'Ой! Сторінку не знайдено',
+  'common.notFound.description': 'Сторінка, яку ви шукаєте, не існує.',
+  'common.notFound.backToHome': 'Повернутися на головну',
+
   // Status guide
   'status.guide.title': 'Як працюють статуси?',
   'status.guide.request.title': 'Статуси запиту',
@@ -448,4 +462,27 @@ export const messages: Messages = {
   'profile.security.changePasswordDescription': 'Змініть пароль для свого акаунту',
   'auth.oldPassword': 'Старий пароль',
   'auth.newPassword': 'Новий пароль',
+  // Profiles
+  'profile.profiles.title': 'Мої профілі',
+  'profile.profiles.description':
+    'Перемикайтеся між профілями покупця та продавця. Поточний профіль визначає ваші права на платформі.',
+  'profile.profiles.createBuyer': 'Створити профіль покупця',
+  'profile.profiles.createSeller': 'Створити профіль продавця',
+  'profile.profiles.switchSuccess': 'Профіль успішно перемкнено',
+  'profile.profiles.switchError': 'Не вдалося перемкнути профіль',
+  'profile.profiles.loadingError': 'Сталася помилка при завантаженні профілів',
+  'profile.profiles.currentBadge': 'Поточний',
+  'profile.profiles.stats': 'Рейтинг: {rating} • XP: {xp} • Угод: {deals}',
+  'profile.type.buyer': 'Покупець',
+  'profile.type.seller': 'Продавець',
+
+  // Profile Header & Tabs
+  'profile.header.verified': 'Верифікований',
+  'profile.header.joined': 'На платформі з {date}',
+  'profile.tabs.overview': 'Огляд',
+  'profile.tabs.profiles': 'Профілі',
+  'profile.tabs.reviews': 'Відгуки',
+  'profile.tabs.settings': 'Налаштування',
+  'profile.userNotFound': 'Користувача не знайдено',
+  'profile.backToHome': 'На головну',
 };

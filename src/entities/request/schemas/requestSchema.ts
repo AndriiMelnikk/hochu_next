@@ -50,14 +50,14 @@ export const getRequestsResponseSchema = z.object({
 });
 
 export const createRequestSchema = z.object({
-  title: z.string().min(1, "Заголовок обов'язковий"),
-  description: z.string().min(10, 'Опис має бути мінімум 10 символів'),
-  category: z.string().min(1, "Категорія обов'язкова"),
+  title: z.string().min(1, 'validation.title.required'),
+  description: z.string().min(10, 'validation.description.min'),
+  category: z.string().min(1, 'validation.category.required'),
   budgetMin: z.union([
-    z.coerce.number().min(0, 'Мінімальний бюджет має бути більше 0'),
+    z.coerce.number().min(0, 'validation.budget.min'),
     z.undefined(),
   ]),
-  budgetMax: z.coerce.number().min(0, 'Максимальний бюджет має бути більше 0'),
+  budgetMax: z.coerce.number().min(0, 'validation.budget.min'),
   location: z.string().optional(),
   urgency: z.coerce.number(),
   itemCondition: z.nativeEnum(ItemCondition),
@@ -65,14 +65,14 @@ export const createRequestSchema = z.object({
 });
 
 export const updateRequestSchema = z.object({
-  title: z.string().min(1, "Заголовок обов'язковий"),
-  description: z.string().min(10, 'Опис має бути мінімум 10 символів'),
-  category: z.string().min(1, "Категорія обов'язкова"),
+  title: z.string().min(1, 'validation.title.required'),
+  description: z.string().min(10, 'validation.description.min'),
+  category: z.string().min(1, 'validation.category.required'),
   budgetMin: z.union([
-    z.coerce.number().min(0, 'Мінімальний бюджет має бути більше 0'),
+    z.coerce.number().min(0, 'validation.budget.min'),
     z.undefined(),
   ]),
-  budgetMax: z.coerce.number().min(0, 'Максимальний бюджет має бути більше 0'),
+  budgetMax: z.coerce.number().min(0, 'validation.budget.min'),
   location: z.string().optional(),
   urgency: z.coerce.number(),
   itemCondition: z.nativeEnum(ItemCondition),

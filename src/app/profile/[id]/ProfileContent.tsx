@@ -9,8 +9,12 @@ import { routes } from '@/app/router/routes';
 import ProfileHeader from '@/widgets/app/ProfileHeader';
 import ProfileTabs from '@/widgets/app/ProfileTabs';
 import { Loading } from '@/shared/ui/loading';
+import { useLingui } from '@lingui/react';
 
 export default function ProfileContent() {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
+
   const params = useParams();
   const id = params?.id as string;
   const { data: user, isLoading, error } = useUser(id);
@@ -25,9 +29,9 @@ export default function ProfileContent() {
   if (error || !user) {
     return (
       <div className="flex flex-col items-center justify-center p-4 min-h-[50vh]">
-        <h1 className="text-2xl font-bold mb-4">Користувача не знайдено</h1>
+        <h1 className="text-2xl font-bold mb-4">{t('profile.userNotFound')}</h1>
         <Button asChild>
-          <Link href={routes.HOME}>На головну</Link>
+          <Link href={routes.HOME}>{t('profile.backToHome')}</Link>
         </Button>
       </div>
     );

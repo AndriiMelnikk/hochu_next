@@ -70,6 +70,14 @@ export const messages: Messages = {
   'request.create.itemConditionNew': 'New',
   'request.create.itemConditionUsed': 'Used',
 
+  // Validation
+  'validation.title.required': 'Title is required',
+  'validation.description.min': 'Description must be at least 10 characters',
+  'validation.category.required': 'Category is required',
+  'validation.budget.min': 'Budget must be greater than 0',
+  'validation.location.required': 'Location is required',
+  'validation.urgency.required': 'Urgency is required',
+
   // Request detail page
   'request.detail.breadcrumbs': 'Request #{id}',
   'request.detail.tabs.proposals': 'Active proposals ({count})',
@@ -356,6 +364,12 @@ export const messages: Messages = {
   'common.save': 'Save',
   'common.saving': 'Saving...',
 
+  // Not found page
+  'common.notFound.code': '404',
+  'common.notFound.title': 'Oops! Page not found',
+  'common.notFound.description': 'The page you are looking for does not exist.',
+  'common.notFound.backToHome': 'Back to Home',
+
   // Status guide
   'status.guide.title': 'How do statuses work?',
   'status.guide.request.title': 'Request Statuses',
@@ -447,4 +461,26 @@ export const messages: Messages = {
   'profile.security.changePasswordDescription': 'Change password for your account',
   'auth.oldPassword': 'Old password',
   'auth.newPassword': 'New password',
+  // Profiles
+  'profile.profiles.title': 'My Profiles',
+  'profile.profiles.description': 'Switch between buyer and seller profiles. The current profile determines your rights on the platform.',
+  'profile.profiles.createBuyer': 'Create a buyer profile',
+  'profile.profiles.createSeller': 'Create a seller profile',
+  'profile.profiles.switchSuccess': 'Profile switched successfully',
+  'profile.profiles.switchError': 'Failed to switch profile',
+  'profile.profiles.loadingError': 'An error occurred while loading profiles',
+  'profile.profiles.currentBadge': 'Current',
+  'profile.profiles.stats': 'Rating: {rating} • XP: {xp} • Deals: {deals}',
+  'profile.type.buyer': 'Buyer',
+  'profile.type.seller': 'Seller',
+
+  // Profile Header & Tabs
+  'profile.header.verified': 'Verified',
+  'profile.header.joined': 'Joined on {date}',
+  'profile.tabs.overview': 'Overview',
+  'profile.tabs.profiles': 'Profiles',
+  'profile.tabs.reviews': 'Reviews',
+  'profile.tabs.settings': 'Settings',
+  'profile.userNotFound': 'User not found',
+  'profile.backToHome': 'Back to Home',
 };

@@ -6,71 +6,69 @@ import { Button } from '@shared/ui/button';
 import Link from 'next/link';
 import { routes } from '@/app/router/routes';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@shared/ui/accordion';
+import { useLingui } from '@lingui/react';
 
 export default function SupportContent() {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
+
   const categories = [
     {
       icon: BookOpen,
-      title: 'Початок роботи',
-      description: 'Як створити акаунт та почати використовувати Hochu',
+      title: t('support.categories.gettingStarted.title'),
+      description: t('support.categories.gettingStarted.description'),
       articles: 12,
     },
     {
       icon: MessageCircle,
-      title: 'Замовлення та пропозиції',
-      description: 'Як створювати запити та надсилати пропозиції',
+      title: t('support.categories.orders.title'),
+      description: t('support.categories.orders.description'),
       articles: 8,
     },
     {
       icon: HelpCircle,
-      title: 'Оплата та розрахунки',
-      description: 'Інформація про платежі та фінансові операції',
+      title: t('support.categories.payments.title'),
+      description: t('support.categories.payments.description'),
       articles: 6,
     },
     {
       icon: FileText,
-      title: 'Профіль та налаштування',
-      description: 'Керування вашим профілем та параметрами',
+      title: t('support.categories.profile.title'),
+      description: t('support.categories.profile.description'),
       articles: 10,
     },
     {
       icon: Video,
-      title: 'Відеоінструкції',
-      description: 'Навчальні відео для швидкого старту',
+      title: t('support.categories.video.title'),
+      description: t('support.categories.video.description'),
       articles: 5,
     },
   ];
 
   const faqs = [
     {
-      question: 'Як створити запит на послугу?',
-      answer:
-        "Натисніть кнопку 'Створити запит' у верхній навігації, заповніть форму з описом потрібної послуги, вкажіть бюджет та локацію. Після публікації виконавці зможуть надсилати свої пропозиції.",
+      question: t('support.faq.items.1.question'),
+      answer: t('support.faq.items.1.answer'),
     },
     {
-      question: 'Як надіслати пропозицію на виконання?',
-      answer:
-        "Перегляньте доступні запити в розділі 'Огляд', оберіть той, що вас цікавить, та натисніть 'Запропонувати'. Опишіть свої послуги, вкажіть ціну та терміни виконання.",
+      question: t('support.faq.items.2.question'),
+      answer: t('support.faq.items.2.answer'),
     },
     {
-      question: 'Як працює система оплати?',
-      answer:
-        "Оплата здійснюється безпосередньо між замовником та виконавцем після узгодження умов. Hochu не приймає оплату, а лише надає платформу для зв'язку.",
+      question: t('support.faq.items.3.question'),
+      answer: t('support.faq.items.3.answer'),
     },
     {
-      question: 'Що робити, якщо виникла проблема з виконавцем?',
-      answer:
-        "Ви можете звернутися до нашої служби підтримки через розділ 'Контакти'. Ми допоможемо вирішити конфлікт та захистимо ваші права як користувача платформи.",
+      question: t('support.faq.items.4.question'),
+      answer: t('support.faq.items.4.answer'),
     },
     {
-      question: 'Чи безпечно використовувати платформу?',
-      answer:
-        "Так, ми використовуємо захищене з'єднання та перевіряємо користувачів. Система відгуків допомагає оцінити надійність виконавців перед початком співпраці.",
+      question: t('support.faq.items.5.question'),
+      answer: t('support.faq.items.5.answer'),
     },
     {
-      question: 'Як підвищити свій рейтинг?',
-      answer:
-        "Виконуйте замовлення якісно та вчасно, підтримуйте зв'язок із клієнтами, збирайте позитивні відгуки. Активні та надійні користувачі отримують вищий рейтинг та більше замовлень.",
+      question: t('support.faq.items.6.question'),
+      answer: t('support.faq.items.6.answer'),
     },
   ];
 
@@ -124,7 +122,7 @@ export default function SupportContent() {
       {/* FAQ Section */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Часті питання</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">{t('support.faq.title')}</h2>
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem
@@ -147,21 +145,19 @@ export default function SupportContent() {
       {/* Contact Support */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Не знайшли відповідь?</h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Наша команда підтримки готова допомогти вам
-          </p>
+          <h2 className="text-3xl font-bold mb-4">{t('support.contact.title')}</h2>
+          <p className="text-xl text-muted-foreground mb-8">{t('support.contact.subtitle')}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
               <Link href={routes.CONTACT}>
                 <MessageCircle className="w-5 h-5 mr-2" />
-                Зв'язатися з підтримкою
+                {t('support.contact.button.chat')}
               </Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link href={routes.CONTACT}>
                 <Mail className="w-5 h-5 mr-2" />
-                Написати Email
+                {t('support.contact.button.email')}
               </Link>
             </Button>
           </div>

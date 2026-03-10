@@ -15,17 +15,22 @@ import { Plus, ShoppingCart, Store } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { Loading } from '@/shared/ui/loading';
 
-const PROFILE_TYPE_LABELS: Record<ProfileType, string> = {
-  buyer: 'Покупець',
-  seller: 'Продавець',
-};
-
 const PROFILE_TYPE_ICONS: Record<ProfileType, typeof ShoppingCart> = {
   buyer: ShoppingCart,
   seller: Store,
 };
 
+import { useLingui } from '@lingui/react';
+
 export default function ProfilesTabContent() {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
+
+  const PROFILE_TYPE_LABELS: Record<ProfileType, string> = {
+    buyer: t('profile.type.buyer'),
+    seller: t('profile.type.seller'),
+  };
+
   const router = useRouter();
   const queryClient = useQueryClient();
   const resetRequestStore = useRequestStore((s) => s.reset);
@@ -38,8 +43,6 @@ export default function ProfilesTabContent() {
   const hasBuyer = profiles.some((p) => p.type === 'buyer');
   const hasSeller = profiles.some((p) => p.type === 'seller');
 
-  console.log(profiles);
-
   const canCreateBuyer = !hasBuyer;
   const canCreateSeller = !hasSeller;
 
@@ -50,9 +53,9 @@ export default function ProfilesTabContent() {
       queryClient.clear();
       resetRequestStore();
       router.push(routes.PROFILE_BY_ID(profileId));
-      toast.success('Профіль успішно перемкнено');
+      toast.success(t('profile.profiles.switchSuccess'));
     } catch {
-      toast.error('Не вдалося перемкнути профіль');
+      toast.error(t('profile.profiles.switchError'));
     }
   };
 
@@ -66,7 +69,7 @@ export default function ProfilesTabContent() {
   if (error) {
     return (
       <div className="p-8 text-center text-destructive">
-        Сталася помилка при завантаженні профілів
+        {t('profile.profiles.loadingError')}
       </div>
     );
   }
@@ -75,10 +78,9 @@ export default function ProfilesTabContent() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Мої профілі</CardTitle>
+          <CardTitle>{t('profile.profiles.title')}</CardTitle>
           <CardDescription>
-            Перемикайтеся між профілями покупця та продавця. Поточний профіль визначає ваші права на
-            платформі.
+            {t('profile.profiles.description')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -89,6 +91,7 @@ export default function ProfilesTabContent() {
                 profile={profile}
                 isActive={profile._id === activeProfileId}
                 onSelect={() => handleSwitchProfile(profile._id)}
+                labels={PROFILE_TYPE_LABELS}
               />
             ))}
           </div>
@@ -98,13 +101,13 @@ export default function ProfilesTabContent() {
               {canCreateBuyer && (
                 <Button variant="outline" onClick={() => handleOpenCreateModal('buyer')}>
                   <Plus className="h-4 w-4 mr-2" />
-                  Створити профіль покупця
+                  {t('profile.profiles.createBuyer')}
                 </Button>
               )}
               {canCreateSeller && (
                 <Button variant="outline" onClick={() => handleOpenCreateModal('seller')}>
                   <Plus className="h-4 w-4 mr-2" />
-                  Створити профіль продавця
+                  {t('profile.profiles.createSeller')}
                 </Button>
               )}
             </div>
@@ -130,11 +133,15 @@ interface ProfileCardProps {
   profile: IProfile;
   isActive: boolean;
   onSelect: () => void;
+  labels: Record<ProfileType, string>;
 }
 
-function ProfileCard({ profile, isActive, onSelect }: ProfileCardProps) {
+function ProfileCard({ profile, isActive, onSelect, labels }: ProfileCardProps) {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
+  
   const Icon = PROFILE_TYPE_ICONS[profile.type];
-  const label = PROFILE_TYPE_LABELS[profile.type];
+  const label = labels[profile.type];
   const displayName = [profile.name, profile.lastName].filter(Boolean).join(' ') || label;
 
   return (
@@ -158,12 +165,15 @@ function ProfileCard({ profile, isActive, onSelect }: ProfileCardProps) {
         <p className="font-medium truncate">{displayName}</p>
         <p className="text-sm text-muted-foreground truncate">{label}</p>
         <p className="text-xs text-muted-foreground line-clamp-2">
-          Рейтинг: {profile.rating} • XP: {profile.xp} • Угод: {profile.completedDeals}
+          {t('profile.profiles.stats')
+            .replace('{rating}', profile.rating.toString())
+            .replace('{xp}', profile.xp.toString())
+            .replace('{deals}', profile.completedDeals.toString())}
         </p>
       </div>
       {isActive && (
         <span className="shrink-0 rounded-full bg-primary px-2 py-0.5 text-xs text-primary-foreground">
-          Поточний
+          {t('profile.profiles.currentBadge')}
         </span>
       )}
     </button>

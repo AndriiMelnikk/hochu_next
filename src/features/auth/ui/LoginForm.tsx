@@ -12,10 +12,13 @@ import { ILoginRequest } from '@/entities/auth';
 import { routes } from '@/app/router/routes';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { AxiosError } from 'axios';
+import { useLingui } from '@lingui/react';
 
 export const LoginForm = () => {
   const router = useRouter();
   const { login: loginUser, isLoading } = useAuthStore();
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
 
   const form = useForm<ILoginRequest>({
     resolver: zodResolver(loginSchema),
@@ -30,12 +33,10 @@ export const LoginForm = () => {
   const onSubmit = async (data: ILoginRequest) => {
     try {
       await loginUser(data);
-      toast.success('Вхід успішний!');
+      toast.success(t('auth.login.messages.success'));
       router.push(routes.HOME);
     } catch (err: unknown) {
       let handledAsFieldError = false;
-
-      console.log('err', err);
 
       // Обробка помилок полів від сервера
       if (
@@ -51,7 +52,8 @@ export const LoginForm = () => {
               const message = Array.isArray(serverErrors[key])
                 ? serverErrors[key][0]
                 : serverErrors[key];
-              const errorMessage = typeof message === 'string' ? message : 'Невалідні дані';
+              const errorMessage =
+                typeof message === 'string' ? message : t('auth.login.messages.invalidData');
               setError(key as keyof ILoginRequest, {
                 type: 'server',
                 message: errorMessage,
@@ -78,7 +80,7 @@ export const LoginForm = () => {
       if (friendlyMessage && !handledAsFieldError) {
         toast.error(friendlyMessage);
       } else if (!handledAsFieldError) {
-        toast.error('Сталася помилка при вході');
+        toast.error(t('auth.login.messages.error'));
       }
     }
   };
@@ -99,10 +101,16 @@ export const LoginForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('auth.login.form.email.label')}</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="your@email.com" {...field} disabled={isLoading} />
+                <Input
+                  type="email"
+                  placeholder={t('auth.login.form.email.placeholder')}
+                  {...field}
+                  disabled={isLoading}
+                />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -112,16 +120,22 @@ export const LoginForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Пароль</FormLabel>
+              <FormLabel>{t('auth.login.form.password.label')}</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
+                <Input
+                  type="password"
+                  placeholder={t('auth.login.form.password.placeholder')}
+                  {...field}
+                  disabled={isLoading}
+                />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
 
         <Button type="submit" variant="gradient" className="w-full" disabled={isLoading}>
-          {isLoading ? 'Вхід...' : 'Увійти'}
+          {isLoading ? t('auth.login.form.submit.loading') : t('auth.login.form.submit.default')}
         </Button>
       </form>
     </Form>

@@ -4,45 +4,56 @@ import { Check } from 'lucide-react';
 import { Button } from '@shared/ui/button';
 import Link from 'next/link';
 import { routes } from '@/app/router/routes';
+import { useLingui } from '@lingui/react';
 
 export default function PricingContent() {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
+
   const plans = [
     {
-      name: 'Free',
-      price: '0',
-      period: 'назавжди',
-      description: 'Ідеально для початку роботи',
+      name: t('pricing.plans.free.name'),
+      price: t('pricing.plans.free.price'),
+      period: t('pricing.plans.free.period'),
+      currency: t('pricing.plans.free.currency'),
+      description: t('pricing.plans.free.description'),
       features: [
-        'До 3 пропозицій на місяць',
-        'Базовий профіль',
-        'Перегляд запитів',
-        'Чат з користувачами',
-        'Базова підтримка',
+        t('pricing.plans.free.features.1'),
+        t('pricing.plans.free.features.2'),
+        t('pricing.plans.free.features.3'),
+        t('pricing.plans.free.features.4'),
+        t('pricing.plans.free.features.5'),
       ],
-      limitations: ['Без статистики', 'Без аналітики', 'Обмежена кількість пропозицій'],
-      buttonText: 'Почати безкоштовно',
+      limitations: [
+        t('pricing.plans.free.limitations.1'),
+        t('pricing.plans.free.limitations.2'),
+        t('pricing.plans.free.limitations.3'),
+      ],
+      buttonText: t('pricing.plans.free.buttonText'),
       buttonVariant: 'outline' as const,
       popular: false,
     },
     {
-      name: 'Pro',
-      price: '199',
-      period: 'на місяць',
-      description: 'Для професіоналів та бізнесу',
+      name: t('pricing.plans.pro.name'),
+      price: t('pricing.plans.pro.price'),
+      period: t('pricing.plans.pro.period'),
+      currency: t('pricing.plans.pro.currency'),
+      description: t('pricing.plans.pro.description'),
       features: [
-        'До 50 пропозицій на місяць',
-        'Розширена аналітика',
-        'Детальна статистика',
-        'Пріоритетна підтримка',
-        'Просування пропозицій',
-        'Розширений профіль',
-        'Бейджі верифікації',
-        'Експорт даних',
+        t('pricing.plans.pro.features.1'),
+        t('pricing.plans.pro.features.2'),
+        t('pricing.plans.pro.features.3'),
+        t('pricing.plans.pro.features.4'),
+        t('pricing.plans.pro.features.5'),
+        t('pricing.plans.pro.features.6'),
+        t('pricing.plans.pro.features.7'),
+        t('pricing.plans.pro.features.8'),
       ],
       limitations: [],
-      buttonText: 'Оформити підписку',
+      buttonText: t('pricing.plans.pro.buttonText'),
       buttonVariant: 'default' as const,
       popular: true,
+      popularBadge: t('pricing.plans.pro.popularBadge'),
     },
   ];
 
@@ -52,10 +63,10 @@ export default function PricingContent() {
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
-            Прості та зрозумілі тарифи
+            {t('pricing.hero.title')}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Оберіть план, який підходить саме вам. Без прихованих платежів.
+            {t('pricing.hero.subtitle')}
           </p>
         </div>
       </section>
@@ -72,7 +83,7 @@ export default function PricingContent() {
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">
-                  Популярний вибір
+                  {plan.popularBadge}
                 </div>
               )}
 
@@ -81,7 +92,9 @@ export default function PricingContent() {
                 <p className="text-muted-foreground mb-4">{plan.description}</p>
                 <div className="flex items-baseline justify-center gap-2">
                   <span className="text-5xl font-bold">{plan.price}</span>
-                  {plan.price !== '0' && <span className="text-muted-foreground">грн</span>}
+                  {plan.price !== '0' && (
+                    <span className="text-muted-foreground">{plan.currency}</span>
+                  )}
                 </div>
                 <p className="text-muted-foreground mt-1">{plan.period}</p>
               </div>
@@ -114,26 +127,19 @@ export default function PricingContent() {
       {/* FAQ Section */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Часті питання</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">{t('pricing.faq.title')}</h2>
           <div className="space-y-6">
             <div className="bg-card rounded-2xl p-6 shadow-sm">
-              <h3 className="font-semibold text-lg mb-2">Чи можу я змінити план пізніше?</h3>
-              <p className="text-muted-foreground">
-                Так, ви можете в будь-який момент перейти на Pro план або повернутися до Free.
-              </p>
+              <h3 className="font-semibold text-lg mb-2">{t('pricing.faq.q1.question')}</h3>
+              <p className="text-muted-foreground">{t('pricing.faq.q1.answer')}</p>
             </div>
             <div className="bg-card rounded-2xl p-6 shadow-sm">
-              <h3 className="font-semibold text-lg mb-2">Які способи оплати доступні?</h3>
-              <p className="text-muted-foreground">
-                Ми приймаємо всі банківські картки (Visa, Mastercard), а також Google Pay та Apple
-                Pay.
-              </p>
+              <h3 className="font-semibold text-lg mb-2">{t('pricing.faq.q2.question')}</h3>
+              <p className="text-muted-foreground">{t('pricing.faq.q2.answer')}</p>
             </div>
             <div className="bg-card rounded-2xl p-6 shadow-sm">
-              <h3 className="font-semibold text-lg mb-2">Чи є пробний період для Pro?</h3>
-              <p className="text-muted-foreground">
-                Так, всі нові користувачі отримують 7 днів безкоштовного доступу до Pro функцій.
-              </p>
+              <h3 className="font-semibold text-lg mb-2">{t('pricing.faq.q3.question')}</h3>
+              <p className="text-muted-foreground">{t('pricing.faq.q3.answer')}</p>
             </div>
           </div>
         </div>

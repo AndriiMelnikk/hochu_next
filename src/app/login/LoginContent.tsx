@@ -5,7 +5,12 @@ import { routes } from '@/app/router/routes';
 import { LoginForm } from '@/features/auth/ui/LoginForm';
 import { toast } from 'sonner';
 
+import { useLingui } from '@lingui/react';
+
 export default function LoginContent() {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
+
   // const router = useRouter();
   // const { login } = useAuth();
   // const { register, handleSubmit, formState: { errors } } = useForm({
@@ -54,14 +59,14 @@ export default function LoginContent() {
         {/* Left Section - Form */}
         <div className="p-8 lg:p-12">
           <div className="space-y-2 mb-8">
-            <h1 className="text-3xl font-bold text-card-foreground">Вхід</h1>
-            <p className="text-muted-foreground">Введіть свої дані для входу в акаунт</p>
+            <h1 className="text-3xl font-bold text-card-foreground">{t('auth.login.title')}</h1>
+            <p className="text-muted-foreground">{t('auth.login.subtitle')}</p>
           </div>
           <LoginForm />
           <div className="mt-6 text-center text-sm">
-            <span className="text-muted-foreground">Ще не маєте акаунту? </span>
+            <span className="text-muted-foreground">{t('auth.login.noAccount')}</span>
             <Link href={routes.REGISTER} className="text-primary hover:underline font-medium">
-              Зареєструватись
+              {t('auth.login.registerLink')}
             </Link>
           </div>
         </div>
@@ -70,8 +75,8 @@ export default function LoginContent() {
         <div className="bg-gradient-primary p-8 lg:p-12 text-white flex flex-col justify-center">
           <div className="space-y-6">
             <div className="space-y-3">
-              <h2 className="text-3xl font-bold">Ласкаво просимо!</h2>
-              <p className="text-white/90 text-lg">Платформа для пошуку виконавців та замовників</p>
+              <h2 className="text-3xl font-bold">{t('auth.login.info.title')}</h2>
+              <p className="text-white/90 text-lg">{t('auth.login.info.subtitle')}</p>
             </div>
 
             <div className="space-y-4 pt-6">
@@ -87,8 +92,10 @@ export default function LoginContent() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg">Безпечні угоди</h3>
-                  <p className="text-white/80 text-sm">Захист ваших інтересів на кожному етапі</p>
+                  <h3 className="font-semibold text-lg">
+                    {t('auth.login.features.security.title')}
+                  </h3>
+                  <p className="text-white/80 text-sm">{t('auth.login.features.security.desc')}</p>
                 </div>
               </div>
 
@@ -104,8 +111,10 @@ export default function LoginContent() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg">Перевірені виконавці</h3>
-                  <p className="text-white/80 text-sm">Працюйте з професіоналами з рейтингом</p>
+                  <h3 className="font-semibold text-lg">
+                    {t('auth.login.features.verified.title')}
+                  </h3>
+                  <p className="text-white/80 text-sm">{t('auth.login.features.verified.desc')}</p>
                 </div>
               </div>
 
@@ -121,8 +130,8 @@ export default function LoginContent() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg">Швидкий пошук</h3>
-                  <p className="text-white/80 text-sm">Знаходьте виконавців за лічені хвилини</p>
+                  <h3 className="font-semibold text-lg">{t('auth.login.features.fast.title')}</h3>
+                  <p className="text-white/80 text-sm">{t('auth.login.features.fast.desc')}</p>
                 </div>
               </div>
             </div>

@@ -35,7 +35,12 @@ import {
   Eye,
 } from 'lucide-react';
 
+import { useLingui } from '@lingui/react';
+
 export default function AdminContent() {
+  const { i18n } = useLingui();
+  const t = (id: string, values?) => i18n._(id, values);
+
   const [activeTab, setActiveTab] = useState('analytics');
 
   // Макетні дані аналітики
@@ -91,12 +96,12 @@ export default function AdminContent() {
     <div className="container mx-auto px-4 pb-16">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Адміністративна панель</h1>
-          <p className="text-muted-foreground">Управління платформою та модерація контенту</p>
+          <h1 className="text-3xl font-bold mb-2">{t('admin.title')}</h1>
+          <p className="text-muted-foreground">{t('admin.description')}</p>
         </div>
         <Badge variant="destructive" className="text-lg px-4 py-2">
           <Shield className="h-5 w-5 mr-2" />
-          Адміністратор
+          {t('admin.badge.admin')}
         </Badge>
       </div>
 
@@ -104,19 +109,19 @@ export default function AdminContent() {
         <TabsList className="grid w-full grid-cols-4 mb-6">
           <TabsTrigger value="analytics" className="flex items-center gap-2">
             <BarChart className="h-4 w-4" />
-            Аналітика
+            {t('admin.tabs.analytics')}
           </TabsTrigger>
           <TabsTrigger value="requests" className="flex items-center gap-2">
             <FileText className="h-4 w-4" />
-            Запити
+            {t('admin.tabs.requests')}
           </TabsTrigger>
           <TabsTrigger value="proposals" className="flex items-center gap-2">
             <MessageSquare className="h-4 w-4" />
-            Пропозиції
+            {t('admin.tabs.proposals')}
           </TabsTrigger>
           <TabsTrigger value="users" className="flex items-center gap-2">
             <Users className="h-4 w-4" />
-            Користувачі
+            {t('admin.tabs.users')}
           </TabsTrigger>
         </TabsList>
 
@@ -127,48 +132,56 @@ export default function AdminContent() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Всього користувачів
+                  {t('admin.analytics.totalUsers')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold">{analytics.totalUsers}</div>
-                <p className="text-sm text-green-500 mt-1">{analytics.growth} за місяць</p>
+                <p className="text-sm text-green-500 mt-1">
+                  {t('admin.analytics.growthMonth', { growth: analytics.growth })}
+                </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Активні запити
+                  {t('admin.analytics.activeRequests')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold">{analytics.activeRequests}</div>
-                <p className="text-sm text-muted-foreground mt-1">Потребують відповіді</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {t('admin.analytics.needResponse')}
+                </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Всього пропозицій
+                  {t('admin.analytics.totalProposals')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold">{analytics.totalProposals}</div>
-                <p className="text-sm text-muted-foreground mt-1">За весь час</p>
+                <p className="text-sm text-muted-foreground mt-1">{t('admin.analytics.allTime')}</p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Дохід платформи
+                  {t('admin.analytics.revenue')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold">{analytics.revenue} грн</div>
-                <p className="text-sm text-green-500 mt-1">{analytics.growth} за місяць</p>
+                <div className="text-3xl font-bold">
+                  {analytics.revenue} {t('admin.analytics.revenueCurrency')}
+                </div>
+                <p className="text-sm text-green-500 mt-1">
+                  {t('admin.analytics.growthMonth', { growth: analytics.growth })}
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -177,24 +190,24 @@ export default function AdminContent() {
           <div className="grid md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Активність користувачів</CardTitle>
-                <CardDescription>Реєстрації за останні 30 днів</CardDescription>
+                <CardTitle>{t('admin.analytics.userActivity')}</CardTitle>
+                <CardDescription>{t('admin.analytics.registrations30d')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="h-64 flex items-center justify-center text-muted-foreground">
-                  [Графік активності - інтеграція з бібліотекою графіків]
+                  {t('admin.analytics.chartActivityPlaceholder')}
                 </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Розподіл за категоріями</CardTitle>
-                <CardDescription>Популярні категорії запитів</CardDescription>
+                <CardTitle>{t('admin.analytics.categoryDistribution')}</CardTitle>
+                <CardDescription>{t('admin.analytics.popularCategories')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="h-64 flex items-center justify-center text-muted-foreground">
-                  [Кругова діаграма категорій - інтеграція з бібліотекою графіків]
+                  {t('admin.analytics.chartCategoriesPlaceholder')}
                 </div>
               </CardContent>
             </Card>
@@ -205,26 +218,26 @@ export default function AdminContent() {
         <TabsContent value="requests" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Запити на модерацію</CardTitle>
-              <CardDescription>Перегляньте та затвердіть нові запити</CardDescription>
+              <CardTitle>{t('admin.requests.title')}</CardTitle>
+              <CardDescription>{t('admin.requests.description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="mb-4">
                 <div className="relative">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Пошук запитів..." className="pl-10" />
+                  <Input placeholder={t('admin.requests.searchPlaceholder')} className="pl-10" />
                 </div>
               </div>
 
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>ID</TableHead>
-                    <TableHead>Назва</TableHead>
-                    <TableHead>Автор</TableHead>
-                    <TableHead>Дата</TableHead>
-                    <TableHead>Статус</TableHead>
-                    <TableHead>Дії</TableHead>
+                    <TableHead>{t('admin.requests.table.id')}</TableHead>
+                    <TableHead>{t('admin.requests.table.title')}</TableHead>
+                    <TableHead>{t('admin.requests.table.author')}</TableHead>
+                    <TableHead>{t('admin.requests.table.date')}</TableHead>
+                    <TableHead>{t('admin.requests.table.status')}</TableHead>
+                    <TableHead>{t('admin.requests.table.actions')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -235,7 +248,7 @@ export default function AdminContent() {
                       <TableCell>{request.author}</TableCell>
                       <TableCell>{request.date}</TableCell>
                       <TableCell>
-                        <Badge variant="secondary">На розгляді</Badge>
+                        <Badge variant="secondary">{t('admin.requests.status.pending')}</Badge>
                       </TableCell>
                       <TableCell>
                         <div className="flex gap-2">
@@ -250,15 +263,20 @@ export default function AdminContent() {
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>Затвердити запит?</AlertDialogTitle>
+                                <AlertDialogTitle>
+                                  {t('admin.requests.approve.title')}
+                                </AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  Запит буде опублікований та доступний для перегляду іншим
-                                  користувачам.
+                                  {t('admin.requests.approve.description')}
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
-                                <AlertDialogCancel>Скасувати</AlertDialogCancel>
-                                <AlertDialogAction>Затвердити</AlertDialogAction>
+                                <AlertDialogCancel>
+                                  {t('admin.requests.approve.cancel')}
+                                </AlertDialogCancel>
+                                <AlertDialogAction>
+                                  {t('admin.requests.approve.confirm')}
+                                </AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
                           </AlertDialog>
@@ -270,20 +288,26 @@ export default function AdminContent() {
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>Відхилити запит?</AlertDialogTitle>
+                                <AlertDialogTitle>
+                                  {t('admin.requests.reject.title')}
+                                </AlertDialogTitle>
                                 <AlertDialogDescription>
                                   <div className="space-y-4 mt-4">
                                     <div>
-                                      <Label>Причина відхилення</Label>
-                                      <Textarea placeholder="Вкажіть причину..." />
+                                      <Label>{t('admin.requests.reject.reasonLabel')}</Label>
+                                      <Textarea
+                                        placeholder={t('admin.requests.reject.reasonPlaceholder')}
+                                      />
                                     </div>
                                   </div>
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
-                                <AlertDialogCancel>Скасувати</AlertDialogCancel>
+                                <AlertDialogCancel>
+                                  {t('admin.requests.reject.cancel')}
+                                </AlertDialogCancel>
                                 <AlertDialogAction className="bg-red-500">
-                                  Відхилити
+                                  {t('admin.requests.reject.confirm')}
                                 </AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
@@ -302,19 +326,19 @@ export default function AdminContent() {
         <TabsContent value="proposals" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Пропозиції на модерацію</CardTitle>
-              <CardDescription>Перегляньте та затвердіть нові пропозиції</CardDescription>
+              <CardTitle>{t('admin.proposals.title')}</CardTitle>
+              <CardDescription>{t('admin.proposals.description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>ID</TableHead>
-                    <TableHead>ID Запиту</TableHead>
-                    <TableHead>Виконавець</TableHead>
-                    <TableHead>Ціна</TableHead>
-                    <TableHead>Дата</TableHead>
-                    <TableHead>Дії</TableHead>
+                    <TableHead>{t('admin.proposals.table.id')}</TableHead>
+                    <TableHead>{t('admin.proposals.table.requestId')}</TableHead>
+                    <TableHead>{t('admin.proposals.table.author')}</TableHead>
+                    <TableHead>{t('admin.proposals.table.price')}</TableHead>
+                    <TableHead>{t('admin.proposals.table.date')}</TableHead>
+                    <TableHead>{t('admin.proposals.table.actions')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -323,7 +347,9 @@ export default function AdminContent() {
                       <TableCell>#{proposal.id}</TableCell>
                       <TableCell>#{proposal.requestId}</TableCell>
                       <TableCell>{proposal.author}</TableCell>
-                      <TableCell className="font-medium">{proposal.price} грн</TableCell>
+                      <TableCell className="font-medium">
+                        {proposal.price} {t('admin.analytics.revenueCurrency')}
+                      </TableCell>
                       <TableCell>{proposal.date}</TableCell>
                       <TableCell>
                         <div className="flex gap-2">
@@ -350,23 +376,23 @@ export default function AdminContent() {
         <TabsContent value="users" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Управління користувачами</CardTitle>
-              <CardDescription>Скарги та блокування користувачів</CardDescription>
+              <CardTitle>{t('admin.users.title')}</CardTitle>
+              <CardDescription>{t('admin.users.description')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="mb-4 flex gap-4">
                 <div className="flex-1 relative">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Пошук користувачів..." className="pl-10" />
+                  <Input placeholder={t('admin.users.searchPlaceholder')} className="pl-10" />
                 </div>
                 <Select defaultValue="all">
                   <SelectTrigger className="w-48">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Всі користувачі</SelectItem>
-                    <SelectItem value="reported">Зі скаргами</SelectItem>
-                    <SelectItem value="blocked">Заблоковані</SelectItem>
+                    <SelectItem value="all">{t('admin.users.filter.all')}</SelectItem>
+                    <SelectItem value="reported">{t('admin.users.filter.reported')}</SelectItem>
+                    <SelectItem value="blocked">{t('admin.users.filter.blocked')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -374,13 +400,13 @@ export default function AdminContent() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>ID</TableHead>
-                    <TableHead>Ім&apos;я</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Скарги</TableHead>
-                    <TableHead>Причина</TableHead>
-                    <TableHead>Статус</TableHead>
-                    <TableHead>Дії</TableHead>
+                    <TableHead>{t('admin.users.table.id')}</TableHead>
+                    <TableHead>{t('admin.users.table.name')}</TableHead>
+                    <TableHead>{t('admin.users.table.email')}</TableHead>
+                    <TableHead>{t('admin.users.table.reports')}</TableHead>
+                    <TableHead>{t('admin.users.table.reason')}</TableHead>
+                    <TableHead>{t('admin.users.table.status')}</TableHead>
+                    <TableHead>{t('admin.users.table.actions')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -395,7 +421,9 @@ export default function AdminContent() {
                       <TableCell className="max-w-xs truncate">{user.reason}</TableCell>
                       <TableCell>
                         <Badge variant={user.status === 'active' ? 'default' : 'destructive'}>
-                          {user.status === 'active' ? 'Активний' : 'Заблокований'}
+                          {user.status === 'active'
+                            ? t('admin.users.status.active')
+                            : t('admin.users.status.blocked')}
                         </Badge>
                       </TableCell>
                       <TableCell>
@@ -411,27 +439,37 @@ export default function AdminContent() {
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>Заблокувати користувача?</AlertDialogTitle>
+                                <AlertDialogTitle>{t('admin.users.ban.title')}</AlertDialogTitle>
                                 <AlertDialogDescription>
                                   <div className="space-y-4 mt-4">
                                     <p>
-                                      Користувач: <strong>{user.name}</strong>
+                                      {t('admin.users.ban.userLabel')} <strong>{user.name}</strong>
                                     </p>
                                     <div>
-                                      <Label>Причина блокування</Label>
-                                      <Textarea placeholder="Вкажіть причину..." />
+                                      <Label>{t('admin.users.ban.reasonLabel')}</Label>
+                                      <Textarea
+                                        placeholder={t('admin.users.ban.reasonPlaceholder')}
+                                      />
                                     </div>
                                     <div>
-                                      <Label>Тривалість блокування</Label>
+                                      <Label>{t('admin.users.ban.durationLabel')}</Label>
                                       <Select defaultValue="permanent">
                                         <SelectTrigger>
                                           <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
-                                          <SelectItem value="24h">24 години</SelectItem>
-                                          <SelectItem value="7d">7 днів</SelectItem>
-                                          <SelectItem value="30d">30 днів</SelectItem>
-                                          <SelectItem value="permanent">Назавжди</SelectItem>
+                                          <SelectItem value="24h">
+                                            {t('admin.users.ban.duration.24h')}
+                                          </SelectItem>
+                                          <SelectItem value="7d">
+                                            {t('admin.users.ban.duration.7d')}
+                                          </SelectItem>
+                                          <SelectItem value="30d">
+                                            {t('admin.users.ban.duration.30d')}
+                                          </SelectItem>
+                                          <SelectItem value="permanent">
+                                            {t('admin.users.ban.duration.permanent')}
+                                          </SelectItem>
                                         </SelectContent>
                                       </Select>
                                     </div>
@@ -439,9 +477,9 @@ export default function AdminContent() {
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
-                                <AlertDialogCancel>Скасувати</AlertDialogCancel>
+                                <AlertDialogCancel>{t('admin.users.ban.cancel')}</AlertDialogCancel>
                                 <AlertDialogAction className="bg-red-500">
-                                  Заблокувати
+                                  {t('admin.users.ban.confirm')}
                                 </AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>

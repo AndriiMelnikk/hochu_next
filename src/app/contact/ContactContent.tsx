@@ -2,12 +2,16 @@
 
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import { Button } from '@shared/ui/button';
 import { Input } from '@shared/ui/input';
 import { Textarea } from '@shared/ui/textarea';
 import { useToast } from '@shared/ui/use-toast';
 
+import { useLingui } from '@lingui/react';
+
 export default function ContactContent() {
+  const { i18n } = useLingui();
+  const t = (id: string, values?: Record<string, unknown>) => i18n._(id, values);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,8 +23,8 @@ export default function ContactContent() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: 'Повідомлення відправлено!',
-      description: "Ми зв'яжемося з вами найближчим часом.",
+      title: t('contact.success.title'),
+      description: t('contact.success.description'),
     });
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
@@ -28,20 +32,20 @@ export default function ContactContent() {
   const contactInfo = [
     {
       icon: Mail,
-      title: 'Email',
+      title: t('contact.info.email'),
       value: 'support@hochu.com',
       link: 'mailto:support@hochu.com',
     },
     {
       icon: Phone,
-      title: 'Телефон',
+      title: t('contact.info.phone'),
       value: '+380 (44) 123-45-67',
       link: 'tel:+380441234567',
     },
     {
       icon: MapPin,
-      title: 'Адреса',
-      value: 'вул. Хрещатик, 1, Київ, Україна',
+      title: t('contact.info.address'),
+      value: t('contact.info.addressValue'),
       link: null,
     },
   ];
@@ -52,11 +56,9 @@ export default function ContactContent() {
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
-            Зв&apos;яжіться з нами
+            {t('contact.title')}
           </h1>
-          <p className="text-xl text-muted-foreground">
-            Маєте питання або пропозиції? Ми завжди раді вас вислухати!
-          </p>
+          <p className="text-xl text-muted-foreground">{t('contact.subtitle')}</p>
         </div>
       </section>
 
@@ -99,16 +101,16 @@ export default function ContactContent() {
       <section className="py-16 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="bg-card rounded-3xl p-8 md:p-12 shadow-lg border border-border">
-            <h2 className="text-2xl font-bold mb-6 text-center">Надіслати повідомлення</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">{t('contact.form.title')}</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">
-                  Ім&apos;я
+                  {t('contact.form.nameLabel')}
                 </label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="Ваше ім'я"
+                  placeholder={t('contact.form.namePlaceholder')}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
@@ -117,12 +119,12 @@ export default function ContactContent() {
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  Email
+                  {t('contact.form.emailLabel')}
                 </label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder={t('contact.form.emailPlaceholder')}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
@@ -131,12 +133,12 @@ export default function ContactContent() {
 
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                  Тема
+                  {t('contact.form.subjectLabel')}
                 </label>
                 <Input
                   id="subject"
                   type="text"
-                  placeholder="Тема звернення"
+                  placeholder={t('contact.form.subjectPlaceholder')}
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                   required
@@ -145,11 +147,11 @@ export default function ContactContent() {
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Повідомлення
+                  {t('contact.form.messageLabel')}
                 </label>
                 <Textarea
                   id="message"
-                  placeholder="Ваше повідомлення..."
+                  placeholder={t('contact.form.messagePlaceholder')}
                   rows={6}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -157,10 +159,10 @@ export default function ContactContent() {
                 />
               </div>
 
-              <Button type="submit" className="w-full" size="lg">
+              {/* <Button type="submit" className="w-full" size="lg">
                 <Send className="w-4 h-4 mr-2" />
-                Відправити повідомлення
-              </Button>
+                {t('contact.form.submit')}
+              </Button> */}
             </form>
           </div>
         </div>

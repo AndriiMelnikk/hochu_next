@@ -11,6 +11,7 @@ import GamificationProgress from '@/widgets/app/GamificationProgress';
 import ProfileStats from '@/widgets/app/ProfileStats';
 import UserRequestsList from '@/widgets/app/UserRequestsList';
 import type { UserRole } from '@/types/gamification';
+import { useLingui } from '@lingui/react';
 
 interface ProfileTabsProps {
   user: {
@@ -23,6 +24,9 @@ interface ProfileTabsProps {
 }
 
 export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
+  
   const [activeTab, setActiveTab] = useState('overview');
 
   const lockedTabsForGuest = ['gamification', 'analytics', 'settings', 'messages', 'profiles'];
@@ -46,34 +50,34 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
         <TabsList className="grid w-full grid-cols-4 mb-3">
           <TabsTrigger value="overview" className="flex items-center gap-2">
             <User className="h-4 w-4" />
-            <span className="hidden sm:inline">Огляд</span>
+            <span className="hidden sm:inline">{t('profile.tabs.overview')}</span>
           </TabsTrigger>
 
           <TabsTrigger value="profiles" className="flex items-center gap-2">
             <Users className="h-4 w-4" />
-            <span className="hidden sm:inline">Профілі</span>
+            <span className="hidden sm:inline">{t('profile.tabs.profiles')}</span>
           </TabsTrigger>
 
           <TabsTrigger value="reviews" className="flex items-center gap-2">
             <Star className="h-4 w-4" />
-            <span className="hidden sm:inline">Відгуки</span>
+            <span className="hidden sm:inline">{t('profile.tabs.reviews')}</span>
           </TabsTrigger>
 
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings className="h-4 w-4" />
-            <span className="hidden sm:inline">Налаштування</span>
+            <span className="hidden sm:inline">{t('profile.tabs.settings')}</span>
           </TabsTrigger>
         </TabsList>
       ) : (
         <TabsList className="grid w-full grid-cols-2 mb-2">
           <TabsTrigger value="overview" className="flex items-center gap-2">
             <User className="h-4 w-4" />
-            <span className="hidden sm:inline">Огляд</span>
+            <span className="hidden sm:inline">{t('profile.tabs.overview')}</span>
           </TabsTrigger>
 
           <TabsTrigger value="reviews" className="flex items-center gap-2">
             <Star className="h-4 w-4" />
-            <span className="hidden sm:inline">Відгуки</span>
+            <span className="hidden sm:inline">{t('profile.tabs.reviews')}</span>
           </TabsTrigger>
         </TabsList>
       )}

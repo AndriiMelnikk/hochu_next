@@ -1,0 +1,46 @@
+import type { Messages } from '@lingui/core';
+
+export const messages: Messages = {
+  'pricing.hero.title': 'Simple and transparent pricing',
+  'pricing.hero.subtitle': 'Choose the plan that suits you best. No hidden fees.',
+
+  'pricing.plans.free.name': 'Free',
+  'pricing.plans.free.price': '0',
+  'pricing.plans.free.period': 'forever',
+  'pricing.plans.free.currency': '',
+  'pricing.plans.free.description': 'Ideal for getting started',
+  'pricing.plans.free.buttonText': 'Start for free',
+  'pricing.plans.free.features.1': 'Up to 3 proposals per month',
+  'pricing.plans.free.features.2': 'Basic profile',
+  'pricing.plans.free.features.3': 'View requests',
+  'pricing.plans.free.features.4': 'Chat with users',
+  'pricing.plans.free.features.5': 'Basic support',
+  'pricing.plans.free.limitations.1': 'No statistics',
+  'pricing.plans.free.limitations.2': 'No analytics',
+  'pricing.plans.free.limitations.3': 'Limited number of proposals',
+
+  'pricing.plans.pro.name': 'Pro',
+  'pricing.plans.pro.price': '199',
+  'pricing.plans.pro.period': 'per month',
+  'pricing.plans.pro.currency': 'UAH',
+  'pricing.plans.pro.description': 'For professionals and business',
+  'pricing.plans.pro.buttonText': 'Subscribe',
+  'pricing.plans.pro.popularBadge': 'Popular choice',
+  'pricing.plans.pro.features.1': 'Up to 50 proposals per month',
+  'pricing.plans.pro.features.2': 'Advanced analytics',
+  'pricing.plans.pro.features.3': 'Detailed statistics',
+  'pricing.plans.pro.features.4': 'Priority support',
+  'pricing.plans.pro.features.5': 'Promotion of proposals',
+  'pricing.plans.pro.features.6': 'Extended profile',
+  'pricing.plans.pro.features.7': 'Verification badges',
+  'pricing.plans.pro.features.8': 'Data export',
+
+  'pricing.faq.title': 'Frequently Asked Questions',
+  'pricing.faq.q1.question': 'Can I change my plan later?',
+  'pricing.faq.q1.answer': 'Yes, you can upgrade to the Pro plan or downgrade to Free at any time.',
+  'pricing.faq.q2.question': 'What payment methods are available?',
+  'pricing.faq.q2.answer':
+    'We accept all bank cards (Visa, Mastercard), as well as Google Pay and Apple Pay.',
+  'pricing.faq.q3.question': 'Is there a trial period for Pro?',
+  'pricing.faq.q3.answer': 'Yes, all new users get 7 days of free access to Pro features.',
+};
