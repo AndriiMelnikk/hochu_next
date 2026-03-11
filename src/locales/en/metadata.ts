@@ -19,6 +19,14 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
     description: 'How it works on the Hochu platform',
   },
   LOGIN: { title: 'Login | Hochu', description: 'Login to the Hochu platform' },
+  FORGOT_PASSWORD: {
+    title: 'Forgot password | Hochu',
+    description: 'Reset your password',
+  },
+  RESET_PASSWORD: {
+    title: 'Reset password | Hochu',
+    description: 'Set a new password',
+  },
   PRICING: { title: 'Pricing | Hochu', description: 'Pricing for users' },
   PRIVACY: { title: 'Privacy Policy | Hochu', description: 'Privacy policy for users' },
   PROFILE: { title: 'Profile | Hochu', description: 'Profile for the user' },

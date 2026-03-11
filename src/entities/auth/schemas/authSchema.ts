@@ -24,6 +24,21 @@ export const changePasswordSchema = z.object({
   newPassword: z.string().min(6, 'Новий пароль має бути мінімум 6 символів'),
 });
 
+export const forgotPasswordSchema = z.object({
+  email: z.string().email('Невірний формат email'),
+});
+
+export const resetPasswordSchema = z
+  .object({
+    token: z.string().min(1, 'Токен обовʼязковий'),
+    newPassword: z.string().min(6, 'Пароль має бути мінімум 6 символів'),
+    confirmPassword: z.string().min(1, 'Підтвердіть пароль'),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: 'Паролі не співпадають',
+    path: ['confirmPassword'],
+  });
+
 export const authResponseSchema = z.object({
   access_token: z.string(),
   refresh_token: z.string(),

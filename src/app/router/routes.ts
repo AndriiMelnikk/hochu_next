@@ -10,6 +10,8 @@ export const routes = {
   PROFILE_BY_ID: (id: string) => `/profile/${id}`,
   LOGIN: '/login',
   REGISTER: '/register',
+  FORGOT_PASSWORD: '/forgot-password',
+  RESET_PASSWORD: '/auth/reset-password',
   PRICING: '/pricing',
   ABOUT: '/about',
   CONTACT: '/contact',

@@ -16,6 +16,14 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
   CREATE: { title: 'Створити | Hochu', description: 'Створити запит' },
   HOW_IT_WORKS: { title: 'Як це працює | Hochu', description: 'Як це працює на платформі Hochu' },
   LOGIN: { title: 'Вхід | Hochu', description: 'Вхід на платформу Hochu' },
+  FORGOT_PASSWORD: {
+    title: 'Відновлення пароля | Hochu',
+    description: 'Скидання пароля',
+  },
+  RESET_PASSWORD: {
+    title: 'Новий пароль | Hochu',
+    description: 'Встановлення нового пароля',
+  },
   PRICING: { title: 'Тарифи | Hochu', description: 'Тарифи для користувачів' },
   PRIVACY: {
     title: 'Політика конфіденційності | Hochu',

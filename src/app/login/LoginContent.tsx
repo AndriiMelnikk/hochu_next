@@ -63,6 +63,14 @@ export default function LoginContent() {
             <p className="text-muted-foreground">{t('auth.login.subtitle')}</p>
           </div>
           <LoginForm />
+          <div className="mt-4 text-center text-sm">
+            <Link
+              href={routes.FORGOT_PASSWORD}
+              className="text-primary hover:underline font-medium"
+            >
+              {t('auth.login.forgotPassword')}
+            </Link>
+          </div>
           <div className="mt-6 text-center text-sm">
             <span className="text-muted-foreground">{t('auth.login.noAccount')}</span>
             <Link href={routes.REGISTER} className="text-primary hover:underline font-medium">
