@@ -491,6 +491,7 @@ export const messages: Messages = {
   'common.nav.createRequest': 'Create request',
   'common.nav.howItWorks': 'How it works',
   'common.nav.login': 'Log in',
+  'common.nav.register': 'Registration',
   'common.nav.profile': 'Profile',
 
   // Home - Hero section

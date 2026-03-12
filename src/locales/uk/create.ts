@@ -492,6 +492,7 @@ export const messages: Messages = {
   'common.nav.createRequest': 'Створити запит',
   'common.nav.howItWorks': 'Як це працює',
   'common.nav.login': 'Увійти',
+  'common.nav.register': 'Реєстрація',
   'common.nav.profile': 'Профіль',
 
   // Home - Hero section
