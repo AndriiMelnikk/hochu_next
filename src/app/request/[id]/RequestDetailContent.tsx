@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
-import { RequestStatus, useRequest } from '@/entities/request';
+import { RequestStatus, useRequest, IRequest } from '@/entities/request';
 import { useMe } from '@/entities/user/hooks/useUser';
 import { ProposalStatus, useCanPropose, useProposals } from '@/entities/proposal';
 import { RequestInfo, RequestSidebar, StatusGuide } from '@/features/requests';
@@ -20,12 +20,25 @@ import { Ban, LogIn, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { routes } from '@/app/router/routes';
 
-export default function RequestDetailContent({ id }: { id: string }) {
+export default function RequestDetailContent({
+  id,
+  initialData,
+}: {
+  id: string;
+  initialData?: IRequest | null;
+}) {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
   const queryClient = useQueryClient();
 
-  const { data: request, isLoading, error } = useRequest(id);
+  const {
+    data: request,
+    isLoading,
+    error,
+  } = useRequest(id, {
+    initialData: initialData ?? undefined,
+    staleTime: 60_000,
+  });
   const { data: canProposeData } = useCanPropose(request?._id);
   const { data: user } = useMe();
   const { data: completedProposals } = useProposals(id, {
