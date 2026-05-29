@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props) {
     if (proposal) {
       return {
         ...baseMetadata,
-        title: `${proposal.seller.name} | Hochu`,
+        title: `${proposal.seller.name} | Shukayu`,
         description: proposal.description?.slice(0, 160),
         openGraph: {
           title: proposal.seller.name,

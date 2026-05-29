@@ -557,5 +557,5 @@ export const messages: Messages = {
   'common.footer.terms': 'Умови використання',
   'common.footer.privacy': 'Політика конфіденційності',
   'common.footer.support': 'Підтримка',
-  'common.footer.copyright': '© 2026 Hochu. Всі права захищені.',
+  'common.footer.copyright': '© 2026 Shukayu. Всі права захищені.',
 };

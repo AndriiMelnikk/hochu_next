@@ -16,7 +16,7 @@ export const messages: Messages = {
   'privacy.principles.control.desc': 'You have full control over your personal data',
 
   'privacy.intro':
-    'At Hochu, we take the protection of your privacy seriously. This policy explains what data we collect, how we use it, and how we protect it.',
+    'At Shukayu, we take the protection of your privacy seriously. This policy explains what data we collect, how we use it, and how we protect it.',
 
   'privacy.section1.title': '1. What data we collect',
   'privacy.section1.item1': 'Personal information: first name, last name, email, phone number',
@@ -59,5 +59,6 @@ export const messages: Messages = {
   'privacy.contact.title': 'Privacy Contact',
   'privacy.contact.desc':
     'If you have any questions about this privacy policy or would like to exercise your rights, please contact us:',
-  'privacy.contact.info': 'Email: privacy@hochu.com<br/>Address: 1 Khreshchatyk St, Kyiv, Ukraine',
+  'privacy.contact.info':
+    'Email: privacy@shukayu.com<br/>Address: 1 Khreshchatyk St, Kyiv, Ukraine',
 };

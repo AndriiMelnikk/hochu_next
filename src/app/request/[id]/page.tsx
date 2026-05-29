@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props) {
   if (request) {
     return {
       ...baseMetadata,
-      title: `${request.title} | Hochu`,
+      title: `${request.title} | Shukayu`,
       description: request.description?.slice(0, 160),
       openGraph: {
         title: request.title,

@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
     if (post) {
       return {
         ...baseMetadata,
-        title: `${post.title} | Hochu Blog`,
+        title: `${post.title} | Shukayu Blog`,
         description: post.content?.slice(0, 160).replace(/<[^>]*>/g, ''),
         openGraph: {
           title: post.title,
@@ -53,11 +53,7 @@ export default async function BlogArticlePage({ params }: Props) {
     return (
       <ErrorComponent
         variant="full-page"
-        message={
-          locale === 'en'
-            ? 'Failed to load article'
-            : 'Не вдалося завантажити статтю'
-        }
+        message={locale === 'en' ? 'Failed to load article' : 'Не вдалося завантажити статтю'}
       />
     );
   }

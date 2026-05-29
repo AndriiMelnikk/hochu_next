@@ -11,7 +11,7 @@ export const messages: Messages = {
     "Browse available requests in the 'Overview' section, choose the one you like and click 'Propose'. Describe your services, specify the price and delivery time.",
   'support.faq.items.3.question': 'How does the payment system work?',
   'support.faq.items.3.answer':
-    'Payment is made directly between the customer and the performer after you agree on the terms. Hochu does not process payments, it only provides a platform for communication.',
+    'Payment is made directly between the customer and the performer after you agree on the terms. Shukayu does not process payments, it only provides a platform for communication.',
   'support.faq.items.4.question': 'What should I do if I have a problem with a performer?',
   'support.faq.items.4.answer':
     "You can contact our support team via the 'Contacts' section. We will help you resolve the conflict and protect your rights as a platform user.",
@@ -24,7 +24,8 @@ export const messages: Messages = {
 
   // Categories (currently used in commented sections)
   'support.categories.gettingStarted.title': 'Getting started',
-  'support.categories.gettingStarted.description': 'How to create an account and start using Hochu',
+  'support.categories.gettingStarted.description':
+    'How to create an account and start using Shukayu',
   'support.categories.orders.title': 'Orders and proposals',
   'support.categories.orders.description': 'How to create requests and send proposals',
   'support.categories.payments.title': 'Payments and billing',

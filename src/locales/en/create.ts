@@ -555,5 +555,5 @@ export const messages: Messages = {
   'common.footer.terms': 'Terms of use',
   'common.footer.privacy': 'Privacy policy',
   'common.footer.support': 'Support',
-  'common.footer.copyright': '© 2026 Hochu. All rights reserved.',
+  'common.footer.copyright': '© 2026 Shukayu. All rights reserved.',
 };

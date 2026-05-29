@@ -7,11 +7,11 @@ export const messages: Messages = {
 
   // Intro
   'terms.intro':
-    'Please read these terms carefully before using the Hochu platform. By using our service, you agree to comply with these terms.',
+    'Please read these terms carefully before using the Shukayu platform. By using our service, you agree to comply with these terms.',
 
   // Sections
   'terms.sections.1.title': '1. Acceptance of Terms',
-  'terms.sections.1.item1': 'By using the Hochu platform, you agree to these Terms of Use.',
+  'terms.sections.1.item1': 'By using the Shukayu platform, you agree to these Terms of Use.',
   'terms.sections.1.item2':
     'If you do not agree with any part of the terms, you may not use our services.',
   'terms.sections.1.item3': 'We reserve the right to change these terms at any time.',
@@ -33,7 +33,7 @@ export const messages: Messages = {
     'You may not create multiple accounts or transfer your account to other persons.',
 
   'terms.sections.4.title': '4. Services and Transactions',
-  'terms.sections.4.item1': 'Hochu acts as an intermediary between customers and performers.',
+  'terms.sections.4.item1': 'Shukayu acts as an intermediary between customers and performers.',
   'terms.sections.4.item2':
     'We are not responsible for the quality of the services provided or the performance of obligations.',
   'terms.sections.4.item3': 'All financial settlements are carried out directly between users.',
@@ -79,7 +79,7 @@ export const messages: Messages = {
 
   'terms.sections.10.title': '10. Contact Information',
   'terms.sections.10.item1':
-    'For questions regarding the terms of use, contact us at: legal@hochu.com',
+    'For questions regarding the terms of use, contact us at: legal@shukayu.com',
   'terms.sections.10.item2': "For general questions, use the 'Contacts' section on our website.",
   'terms.sections.10.item3': 'We aim to respond to all inquiries within 48 hours.',
 

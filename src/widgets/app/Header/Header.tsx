@@ -58,7 +58,7 @@ const Header = () => {
           <div className="flex items-center space-x-2">
             <Link href={routes.HOME} className="flex items-center space-x-2">
               <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Hochu
+                Shukayu
               </div>
             </Link>
             <HeroBadge>{t('common.hero.betaBadge')}</HeroBadge>

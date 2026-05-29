@@ -15,7 +15,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4">
-              Hochu
+              Shukayu
             </div>
             <p className="text-muted-foreground text-sm">{t('common.footer.brandDescription')}</p>
           </div>

@@ -53,10 +53,7 @@ export const createRequestSchema = z.object({
   title: z.string().min(1, 'validation.title.required'),
   description: z.string().min(10, 'validation.description.min'),
   category: z.string().min(1, 'validation.category.required'),
-  budgetMin: z.union([
-    z.coerce.number().min(0, 'validation.budget.min'),
-    z.undefined(),
-  ]),
+  budgetMin: z.union([z.coerce.number().min(0, 'validation.budget.min'), z.undefined()]),
   budgetMax: z.coerce.number().min(0, 'validation.budget.min'),
   location: z.string().optional(),
   urgency: z.coerce.number(),
@@ -68,10 +65,7 @@ export const updateRequestSchema = z.object({
   title: z.string().min(1, 'validation.title.required'),
   description: z.string().min(10, 'validation.description.min'),
   category: z.string().min(1, 'validation.category.required'),
-  budgetMin: z.union([
-    z.coerce.number().min(0, 'validation.budget.min'),
-    z.undefined(),
-  ]),
+  budgetMin: z.union([z.coerce.number().min(0, 'validation.budget.min'), z.undefined()]),
   budgetMax: z.coerce.number().min(0, 'validation.budget.min'),
   location: z.string().optional(),
   urgency: z.coerce.number(),

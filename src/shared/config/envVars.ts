@@ -1,4 +1,4 @@
-export const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://hochu-nest.vercel.app';
+export const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://shukayu-nest.vercel.app';
 
 export const LS_KEYS = {
   ACCESS_TOKEN: 'access_token',

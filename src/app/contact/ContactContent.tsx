@@ -33,8 +33,8 @@ export default function ContactContent() {
     {
       icon: Mail,
       title: t('contact.info.email'),
-      value: 'support@hochu.com',
-      link: 'mailto:support@hochu.com',
+      value: 'support@shukayu.com',
+      link: 'mailto:support@shukayu.com',
     },
     {
       icon: Phone,
