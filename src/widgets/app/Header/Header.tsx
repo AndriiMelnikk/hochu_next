@@ -61,7 +61,7 @@ const Header = () => {
                 Shukayu
               </div>
             </Link>
-            <HeroBadge>{t('common.hero.betaBadge')}</HeroBadge>
+            {/* <HeroBadge>{t('common.hero.betaBadge')}</HeroBadge> */}
           </div>
 
           {/* Desktop Navigation */}

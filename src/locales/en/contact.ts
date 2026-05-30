@@ -14,9 +14,12 @@ export const messages: Messages = {
   'contact.form.messageLabel': 'Message',
   'contact.form.messagePlaceholder': 'Your message...',
   'contact.form.submit': 'Send message',
+  'contact.form.submitting': 'Sending...',
 
   'contact.success.title': 'Message sent!',
   'contact.success.description': 'We will contact you shortly.',
+
+  'contact.error.default': 'Failed to send the message. Please try again later.',
 
   'contact.info.email': 'Email',
   'contact.info.phone': 'Phone',

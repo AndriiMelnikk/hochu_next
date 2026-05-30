@@ -506,12 +506,12 @@ export const messages: Messages = {
   'common.home.hero.benefit.safe': 'Безпечно',
   'common.home.hero.stats.createTime.value': '5 хв',
   'common.home.hero.stats.createTime.label': 'Створення запиту',
-  'common.home.hero.stats.proposals.value': '10+',
-  'common.home.hero.stats.proposals.label': 'Пропозицій на запит',
-  'common.home.hero.stats.successRate.value': '95%',
-  'common.home.hero.stats.successRate.label': 'Успішних угод',
-  'common.home.hero.stats.users.value': '1000+',
-  'common.home.hero.stats.users.label': 'Активних користувачів',
+  'common.home.hero.stats.proposals.value': '24/7',
+  'common.home.hero.stats.proposals.label': 'Сервіс працює цілодобово',
+  'common.home.hero.stats.successRate.value': '0 грн ',
+  'common.home.hero.stats.successRate.label': 'Розміщення запиту',
+  'common.home.hero.stats.users.value': '2 ролі',
+  'common.home.hero.stats.users.label': 'Покупець та продавець',
 
   // Home - Features section
   'common.home.features.title.prefix': 'Чому',

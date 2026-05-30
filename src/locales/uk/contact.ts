@@ -14,9 +14,12 @@ export const messages: Messages = {
   'contact.form.messageLabel': 'Повідомлення',
   'contact.form.messagePlaceholder': 'Ваше повідомлення...',
   'contact.form.submit': 'Відправити повідомлення',
+  'contact.form.submitting': 'Відправлення...',
 
   'contact.success.title': 'Повідомлення відправлено!',
   'contact.success.description': "Ми зв'яжемося з вами найближчим часом.",
+
+  'contact.error.default': 'Не вдалося надіслати повідомлення. Спробуйте пізніше.',
 
   'contact.info.email': 'Email',
   'contact.info.phone': 'Телефон',

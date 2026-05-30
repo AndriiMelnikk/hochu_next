@@ -505,12 +505,12 @@ export const messages: Messages = {
   'common.home.hero.benefit.safe': 'Safe',
   'common.home.hero.stats.createTime.value': '5 min',
   'common.home.hero.stats.createTime.label': 'Request creation',
-  'common.home.hero.stats.proposals.value': '10+',
-  'common.home.hero.stats.proposals.label': 'Proposals per request',
-  'common.home.hero.stats.successRate.value': '95%',
-  'common.home.hero.stats.successRate.label': 'Successful deals',
-  'common.home.hero.stats.users.value': '1000+',
-  'common.home.hero.stats.users.label': 'Active users',
+  'common.home.hero.stats.proposals.value': '24/7',
+  'common.home.hero.stats.proposals.label': 'Service works 24/7',
+  'common.home.hero.stats.successRate.value': '0',
+  'common.home.hero.stats.successRate.label': 'Request placement',
+  'common.home.hero.stats.users.value': '2 roles',
+  'common.home.hero.stats.users.label': 'Buyer and seller',
 
   // Home - Features section
   'common.home.features.title.prefix': 'Why',

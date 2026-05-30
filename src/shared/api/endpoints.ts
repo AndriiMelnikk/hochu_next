@@ -54,4 +54,7 @@ export const ENDPOINTS = {
     /** DELETE with query param "url". */
     DELETE_FILE: '/api/upload',
   },
+  CONTACT: {
+    BASE: '/api/contact',
+  },
 } as const;

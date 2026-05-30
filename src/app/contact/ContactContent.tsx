@@ -4,29 +4,40 @@ import { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { Input } from '@shared/ui/input';
 import { Textarea } from '@shared/ui/textarea';
-import { useToast } from '@shared/ui/use-toast';
+import { contactService, type IContactRequest } from '@entities/contact';
+import { toast } from 'sonner';
 
 import { useLingui } from '@lingui/react';
+import { Button } from '@/shared/ui/button';
 
 export default function ContactContent() {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, unknown>) => i18n._(id, values);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<IContactRequest>({
     name: '',
     email: '',
     subject: '',
     message: '',
   });
-  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: t('contact.success.title'),
-      description: t('contact.success.description'),
-    });
-    setFormData({ name: '', email: '', subject: '', message: '' });
+
+    setIsSubmitting(true);
+    try {
+      await contactService.submit(formData);
+      toast.success(t('contact.success.title'), {
+        description: t('contact.success.description'),
+      });
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (err) {
+      const friendlyMessage = (err as { friendlyMessage?: string }).friendlyMessage;
+      toast.error(friendlyMessage || t('contact.error.default'));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -113,6 +124,9 @@ export default function ContactContent() {
                   placeholder={t('contact.form.namePlaceholder')}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  minLength={2}
+                  maxLength={255}
+                  disabled={isSubmitting}
                   required
                 />
               </div>
@@ -127,6 +141,7 @@ export default function ContactContent() {
                   placeholder={t('contact.form.emailPlaceholder')}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  disabled={isSubmitting}
                   required
                 />
               </div>
@@ -141,6 +156,9 @@ export default function ContactContent() {
                   placeholder={t('contact.form.subjectPlaceholder')}
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                  minLength={3}
+                  maxLength={255}
+                  disabled={isSubmitting}
                   required
                 />
               </div>
@@ -155,14 +173,17 @@ export default function ContactContent() {
                   rows={6}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  minLength={10}
+                  maxLength={5000}
+                  disabled={isSubmitting}
                   required
                 />
               </div>
 
-              {/* <Button type="submit" className="w-full" size="lg">
+              <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
                 <Send className="w-4 h-4 mr-2" />
-                {t('contact.form.submit')}
-              </Button> */}
+                {isSubmitting ? t('contact.form.submitting') : t('contact.form.submit')}
+              </Button>
             </form>
           </div>
         </div>
