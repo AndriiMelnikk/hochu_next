@@ -71,7 +71,12 @@ export function Breadcrumbs({ categoryId, currentLabel, className, backHref }: B
   };
 
   return (
-    <div className={cn('mb-6 flex flex-wrap items-center gap-2', className)}>
+    <div
+      className={cn(
+        'mb-6 flex flex-wrap flex-col items-start md:items-center md:flex-row  gap-2',
+        className,
+      )}
+    >
       {backHref ? (
         <Button variant="link" size="sm" className="h-8 shrink-0 px-2" asChild>
           <Link href={backHref}>
