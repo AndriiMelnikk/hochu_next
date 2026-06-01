@@ -1,3 +1,5 @@
+export const HOME_LATEST_REQUESTS_LIMIT = 6;
+
 export const REQUEST_URGENCY = {
   FLEXIBLE: 1,
   WEEK: 2,

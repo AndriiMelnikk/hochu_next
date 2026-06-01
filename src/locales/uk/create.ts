@@ -529,6 +529,13 @@ export const messages: Messages = {
   'common.home.features.safe.description':
     'Рейтинги, відгуки, верифікація користувачів та захист від шахрайства',
 
+  // Home - Latest requests section
+  'common.home.latestRequests.title.prefix': 'Останні',
+  'common.home.latestRequests.title.emphasis': 'запити',
+  'common.home.latestRequests.subtitle': 'Перегляньте нещодавно опубліковані запити від покупців',
+  'common.home.latestRequests.viewAll': 'Усі запити',
+  'common.home.latestRequests.empty': 'Поки що немає опублікованих запитів',
+
   // Home - How it works section
   'common.home.howItWorks.title.prefix': 'Як це',
   'common.home.howItWorks.title.emphasis': 'працює',

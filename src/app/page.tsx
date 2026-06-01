@@ -1,4 +1,5 @@
 import Hero from '@/widgets/app/Hero';
+import LatestRequests from '@/widgets/app/LatestRequests';
 import Features from '@/widgets/app/Features';
 import HowItWorks from '@/widgets/app/HowItWorks';
 import { getLocaleFromHeaders } from '@/locales/locale';
@@ -13,6 +14,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <LatestRequests />
       <Features />
       <HowItWorks />
     </>

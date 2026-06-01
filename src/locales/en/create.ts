@@ -528,6 +528,13 @@ export const messages: Messages = {
   'common.home.features.safe.description':
     'Ratings, reviews, user verification and fraud protection',
 
+  // Home - Latest requests section
+  'common.home.latestRequests.title.prefix': 'Latest',
+  'common.home.latestRequests.title.emphasis': 'requests',
+  'common.home.latestRequests.subtitle': 'Browse recently published requests from buyers',
+  'common.home.latestRequests.viewAll': 'All requests',
+  'common.home.latestRequests.empty': 'No published requests yet',
+
   // Home - How it works section
   'common.home.howItWorks.title.prefix': 'How does it',
   'common.home.howItWorks.title.emphasis': 'work',
