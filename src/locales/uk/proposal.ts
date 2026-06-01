@@ -8,7 +8,7 @@ export const messages: Messages = {
   'proposal.detail.errorRetry': 'Оновити сторінку',
   'proposal.detail.breadcrumb': 'Пропозиція #{id}',
   'proposal.detail.createdAt': 'Створено {date}',
-  'proposal.detail.price': '{price} ₴',
+  'proposal.detail.price': '{price} грн.',
   'proposal.detail.itemCondition.new': 'Нове',
   'proposal.detail.itemCondition.used': 'Вживане',
 
@@ -18,7 +18,7 @@ export const messages: Messages = {
   'proposal.detail.description.title': 'Детальний опис',
 
   'proposal.detail.originalRequest.title': 'Оригінальний запит',
-  'proposal.detail.originalRequest.budget': 'Бюджет: {min}-{max} ₴',
+  'proposal.detail.originalRequest.budget': 'Бюджет: {min}-{max} грн.',
   'proposal.detail.originalRequest.views': '{count} переглядів',
   'proposal.detail.originalRequest.proposals': '{count} пропозицій',
 

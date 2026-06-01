@@ -5,7 +5,7 @@ import {
   Clock,
   Eye,
   MessageSquare,
-  DollarSign,
+  Wallet,
   MapPin,
   Calendar,
   Package,
@@ -255,7 +255,7 @@ export const RequestInfo = ({
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
           <div className="flex items-start">
-            <DollarSign className="h-5 w-5 text-primary mr-2 mt-0.5" />
+            <Wallet className="h-5 w-5 text-primary mr-2 mt-0.5" />
             <div>
               <p className="text-sm text-muted-foreground">{t('request.detail.budget')}</p>
               <p className="font-semibold">{budget}</p>

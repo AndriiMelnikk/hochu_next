@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { toast } from 'sonner';
 import {
   FileText,
-  DollarSign,
+  Wallet,
   MapPin,
   Clock,
   Upload,
@@ -357,7 +357,7 @@ export const CreateRequestForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-base font-semibold flex items-center">
-                  <DollarSign className="h-5 w-5 mr-2 text-primary" />
+                  <Wallet className="h-5 w-5 mr-2 text-primary" />
                   {t('request.create.budgetMinLabel')}
                 </FormLabel>
                 <FormControl>

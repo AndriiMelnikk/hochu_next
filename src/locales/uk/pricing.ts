@@ -22,7 +22,7 @@ export const messages: Messages = {
   'pricing.plans.pro.name': 'Pro',
   'pricing.plans.pro.price': '199',
   'pricing.plans.pro.period': 'на місяць',
-  'pricing.plans.pro.currency': '₴',
+  'pricing.plans.pro.currency': 'грн.',
   'pricing.plans.pro.description': 'Для професіоналів та бізнесу',
   'pricing.plans.pro.buttonText': 'Оформити підписку',
   'pricing.plans.pro.popularBadge': 'Популярний вибір',

@@ -105,11 +105,7 @@ export default function RequestDetailContent({
 
   return (
     <div className="container mx-auto px-4 max-w-7xl">
-      <Breadcrumbs
-        dynamicLabels={{
-          [`/request/${request._id}`]: t('request.detail.breadcrumbs', { id: request._id }),
-        }}
-      />
+      <Breadcrumbs categoryId={request.category.id} currentLabel={request.title} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content */}

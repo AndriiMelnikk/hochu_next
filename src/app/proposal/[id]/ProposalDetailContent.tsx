@@ -11,7 +11,7 @@ import {
   Star,
   MapPin,
   Clock,
-  DollarSign,
+  Wallet,
   MessageCircle,
   CheckCircle,
   XCircle,
@@ -24,13 +24,13 @@ import {
   User,
   Loader2,
 } from 'lucide-react';
-import { Textarea } from '@shared/ui/textarea';
 import { useProposal } from '@/entities/proposal/hooks/useProposal';
 import { useRequest } from '@/entities/request/hooks/useRequest';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { ItemCondition } from '@/entities/request';
 import { useLingui } from '@lingui/react';
+import { routes } from '@/app/router/routes';
 
 export default function ProposalDetailContent({ id }: { id: string }) {
   const { i18n } = useLingui();
@@ -78,9 +78,9 @@ export default function ProposalDetailContent({ id }: { id: string }) {
   return (
     <div className="container mx-auto px-4 max-w-7xl">
       <Breadcrumbs
-        dynamicLabels={{
-          [`/proposal/${id}`]: t('proposal.detail.breadcrumb', { id }),
-        }}
+        categoryId={request?.category.id}
+        currentLabel={proposal.title}
+        backHref={request ? routes.REQUEST_ID(request._id) : undefined}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -165,7 +165,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                 <p className="font-medium">{request.title}</p>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <span className="flex items-center">
-                    <DollarSign className="h-4 w-4 mr-1" />
+                    <Wallet className="h-4 w-4 mr-1" />
                     {t('proposal.detail.originalRequest.budget', {
                       min: request.budgetMin,
                       max: request.budgetMax,

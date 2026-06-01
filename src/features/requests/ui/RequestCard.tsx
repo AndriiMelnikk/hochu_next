@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Badge } from '@shared/ui/badge';
-import { Clock, DollarSign, MapPin } from 'lucide-react';
+import { Clock, Wallet, MapPin } from 'lucide-react';
 import { routes } from '@/app/router/routes';
 import {
   IRequest,
@@ -65,7 +65,7 @@ export const RequestCard = ({ request, categoryName, status }: RequestCardProps)
 
         <div className="space-y-2 text-sm">
           <div className="flex items-center text-muted-foreground">
-            <DollarSign className="h-4 w-4 mr-2 text-primary" />
+            <Wallet className="h-4 w-4 mr-2 text-primary" />
             <span className="font-medium text-foreground">{budget}</span>
           </div>
 

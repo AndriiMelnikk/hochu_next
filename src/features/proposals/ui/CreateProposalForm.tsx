@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { AxiosError } from 'axios';
-import { DollarSign, Send, Upload, AlertCircle, Package, X, Loader2 } from 'lucide-react';
+import { Wallet, Send, Upload, AlertCircle, Package, X, Loader2 } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -184,7 +184,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-base font-semibold flex items-center">
-                      <DollarSign className="h-4 w-4 mr-1 text-primary" />
+                      <Wallet className="h-4 w-4 mr-1 text-primary" />
                       {t('proposal.create.priceLabel')}
                     </FormLabel>
                     <FormControl>

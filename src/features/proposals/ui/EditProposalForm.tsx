@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { AxiosError } from 'axios';
-import { DollarSign, Upload, Package, X } from 'lucide-react';
+import { Wallet, Upload, Package, X } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { useForm, type FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -238,7 +238,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-base font-semibold flex items-center">
-                  <DollarSign className="h-4 w-4 mr-1 text-primary" />
+                  <Wallet className="h-4 w-4 mr-1 text-primary" />
                   {t('proposal.create.priceLabel')}
                 </FormLabel>
                 <FormControl>

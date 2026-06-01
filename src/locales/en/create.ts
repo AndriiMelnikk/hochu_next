@@ -359,6 +359,9 @@ export const messages: Messages = {
   'review.create.success': 'Review submitted successfully',
   'review.create.error': 'Failed to submit review',
 
+  'common.breadcrumbs.home': 'Home',
+  'common.breadcrumbs.back': 'Back',
+
   'common.cancel': 'Cancel',
   'common.submitting': 'Submitting...',
   'common.save': 'Save',

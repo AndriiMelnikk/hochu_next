@@ -17,7 +17,7 @@ export const messages: Messages = {
   'admin.analytics.totalProposals': 'Всього пропозицій',
   'admin.analytics.allTime': 'За весь час',
   'admin.analytics.revenue': 'Дохід платформи',
-  'admin.analytics.revenueCurrency': '₴',
+  'admin.analytics.revenueCurrency': 'грн.',
   'admin.analytics.userActivity': 'Активність користувачів',
   'admin.analytics.registrations30d': 'Реєстрації за останні 30 днів',
   'admin.analytics.chartActivityPlaceholder':

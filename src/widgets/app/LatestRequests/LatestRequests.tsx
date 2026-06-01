@@ -21,22 +21,14 @@ const LatestRequests = () => {
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
-        <div className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {t('common.home.latestRequests.title.prefix')}{' '}
-              <span className="text-primary">{t('common.home.latestRequests.title.emphasis')}</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl">
-              {t('common.home.latestRequests.subtitle')}
-            </p>
-          </div>
-          <Button variant="outline" className="border-2 shrink-0 hidden md:flex" asChild>
-            <Link href={routes.REQUEST}>
-              {t('common.home.latestRequests.viewAll')}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            {t('common.home.latestRequests.title.prefix')}{' '}
+            <span className="text-primary">{t('common.home.latestRequests.title.emphasis')}</span>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            {t('common.home.latestRequests.subtitle')}
+          </p>
         </div>
 
         {isLoading ? (

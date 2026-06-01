@@ -16,9 +16,9 @@ export const messages: Messages = {
   'pagination.of': 'з',
 
   // Request create page
-  'request.create.budgetMaxLabel': 'Бюджет до (₴)',
+  'request.create.budgetMaxLabel': 'Бюджет до (грн.)',
   'request.create.budgetMaxPlaceholder': '10000',
-  'request.create.budgetMinLabel': 'Бюджет від (₴)',
+  'request.create.budgetMinLabel': 'Бюджет від (грн.)',
   'request.create.budgetMinPlaceholder': '0',
   'request.create.categoriesEmpty': 'Категорії відсутні',
   'request.create.categoriesError': 'Не вдалося завантажити категорії',
@@ -86,8 +86,8 @@ export const messages: Messages = {
     'Задавайте питання публічно. Автор запиту та інші виконавці можуть відповісти.',
   'request.detail.loadingError': 'Помилка завантаження запиту',
   'request.detail.unknownUser': 'Невідомий користувач',
-  'request.budget.from': 'від {amount} ₴',
-  'request.budget.to': 'до {amount} ₴',
+  'request.budget.from': 'від {amount} грн.',
+  'request.budget.to': 'до {amount} грн.',
   'request.detail.budgetNotSpecified': 'Не вказано',
   'request.detail.views': 'переглядів',
   'request.detail.proposals': 'пропозицій',
@@ -155,7 +155,7 @@ export const messages: Messages = {
   // Proposals
   'proposal.create.title': 'Створити пропозицію',
   'proposal.create.subtitle': 'Запропонуйте своє рішення та виграйте цей запит',
-  'proposal.create.priceLabel': 'Ваша ціна (₴)',
+  'proposal.create.priceLabel': 'Ваша ціна (грн.)',
   'proposal.create.budgetPlaceholder': 'Бюджет замовника: {budget}',
   'proposal.create.proposalTitleLabel': 'Заголовок пропозиції',
   'proposal.create.proposalTitlePlaceholder':
@@ -360,6 +360,9 @@ export const messages: Messages = {
   'review.create.submit': 'Надіслати відгук',
   'review.create.success': 'Відгук успішно надіслано',
   'review.create.error': 'Не вдалося надіслати відгук',
+
+  'common.breadcrumbs.home': 'Головна',
+  'common.breadcrumbs.back': 'Назад',
 
   'common.cancel': 'Скасувати',
   'common.submitting': 'Відправка...',

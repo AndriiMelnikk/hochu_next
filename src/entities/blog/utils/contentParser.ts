@@ -1,7 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 import {
   Target,
-  DollarSign,
+  Wallet,
   Image as ImageIcon,
   FileText,
   Info,
@@ -21,7 +21,7 @@ export type ArticleSectionData =
 // Мапінг назв іконок до компонентів
 const iconMap: Record<string, LucideIcon> = {
   Target,
-  DollarSign,
+  Wallet,
   ImageIcon,
   FileText,
   Info,
@@ -99,7 +99,7 @@ export function createDefaultSections(): ArticleSectionData[] {
       title: '2. Вкажіть бюджет',
       content:
         'Прозоре зазначення бюджету допомагає виконавцям оцінити реалістичність проєкту та запропонувати адекватні умови. Не бійтеся вказувати діапазон, якщо точна сума ще не визначена.',
-      icon: 'DollarSign',
+      icon: 'Wallet',
     },
     {
       type: 'info',
