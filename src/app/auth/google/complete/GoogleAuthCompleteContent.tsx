@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/entities/auth';
@@ -15,10 +15,16 @@ export default function GoogleAuthCompleteContent() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
 
+  const handledRef = useRef(false);
+
   useEffect(() => {
+    // Уникаємо повторного виконання ефекту (StrictMode dev + зміна сесії після signOut)
+    if (handledRef.current) return;
+
     if (status === 'loading') return;
 
     if (status === 'authenticated' && session?.backendAuth) {
+      handledRef.current = true;
       loginWithGoogleFromSession(session.backendAuth);
       toast.success(t('auth.google.messages.success'));
       signOut({ redirect: false }).finally(() => {
@@ -28,7 +34,9 @@ export default function GoogleAuthCompleteContent() {
     }
 
     if (status === 'unauthenticated' || !session?.backendAuth) {
-      toast.error(t('auth.google.messages.error'));
+      handledRef.current = true;
+      // Якщо дійсно сталася помилка Google-логіну, ми вже потрапимо на /login з параметром ?error
+      // і покажемо тост там. Тут просто перенаправляємо.
       router.replace(routes.LOGIN);
     }
   }, [status, session, loginWithGoogleFromSession, router, t]);
