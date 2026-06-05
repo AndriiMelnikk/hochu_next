@@ -12,6 +12,7 @@ export const routes = {
   REGISTER: '/register',
   FORGOT_PASSWORD: '/forgot-password',
   RESET_PASSWORD: '/auth/reset-password',
+  GOOGLE_AUTH_COMPLETE: '/auth/google/complete',
   PRICING: '/pricing',
   ABOUT: '/about',
   CONTACT: '/contact',

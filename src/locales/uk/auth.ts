@@ -31,6 +31,12 @@ export const messages: Messages = {
   'auth.login.messages.invalidData': 'Невалідні дані',
   'auth.login.messages.error': 'Сталася помилка при вході',
 
+  'auth.google.button': 'Увійти через Google',
+  'auth.google.divider': 'або',
+  'auth.google.messages.success': 'Вхід через Google успішний!',
+  'auth.google.messages.error': 'Не вдалося увійти через Google',
+  'auth.google.messages.loading': 'Завершуємо вхід через Google...',
+
   // Forgot password
   'auth.forgotPassword.title': 'Відновлення пароля',
   'auth.forgotPassword.subtitle': 'Введіть email, щоб отримати посилання для скидання пароля',

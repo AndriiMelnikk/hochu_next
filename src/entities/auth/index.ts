@@ -4,6 +4,7 @@ export type { IRegisterRequest } from './types/requests/RegisterRequest';
 export type { IChangePasswordRequest } from './types/requests/ChangePasswordRequest';
 export type { IForgotPasswordRequest } from './types/requests/ForgotPasswordRequest';
 export type { IResetPasswordRequest } from './types/requests/ResetPasswordRequest';
+export type { IGoogleAuthRequest } from './types/requests/GoogleAuthRequest';
 export type { IAuthResponse } from './types/responses/AuthResponse';
 export {
   loginSchema,

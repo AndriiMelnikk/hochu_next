@@ -1,6 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { routes } from '@/app/router/routes';
 import { LoginForm } from '@/features/auth/ui/LoginForm';
 import { toast } from 'sonner';
@@ -10,6 +12,14 @@ import { useLingui } from '@lingui/react';
 export default function LoginContent() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const error = searchParams.get('error');
+    if (error) {
+      toast.error(t('auth.google.messages.error'));
+    }
+  }, [searchParams, t]);
 
   // const router = useRouter();
   // const { login } = useAuth();

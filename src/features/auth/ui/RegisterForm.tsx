@@ -11,6 +11,8 @@ import { routes } from '@/app/router/routes';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { useLingui } from '@lingui/react';
+import { GoogleSignInButton } from './GoogleSignInButton';
+import { Separator } from '@shared/ui/separator';
 
 export const RegisterForm = () => {
   const { i18n } = useLingui();
@@ -83,108 +85,121 @@ export const RegisterForm = () => {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            control={control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('auth.register.form.nameLabel')}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t('auth.register.form.namePlaceholder')}
-                    {...field}
-                    disabled={isLoading}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+    <div className="space-y-4">
+      <GoogleSignInButton disabled={isLoading} />
 
-          <FormField
-            control={control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('auth.register.form.lastNameLabel')}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t('auth.register.form.lastNamePlaceholder')}
-                    {...field}
-                    disabled={isLoading}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <Separator />
         </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-card px-2 text-muted-foreground">{t('auth.google.divider')}</span>
+        </div>
+      </div>
 
-        <FormField
-          control={control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('auth.register.form.emailLabel')}</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder={t('auth.register.form.emailPlaceholder')}
-                  {...field}
-                  disabled={isLoading}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+      <Form {...form}>
+        <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('auth.register.form.nameLabel')}</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t('auth.register.form.namePlaceholder')}
+                      {...field}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('auth.register.form.passwordLabel')}</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder={t('auth.register.form.passwordPlaceholder')}
-                  {...field}
-                  disabled={isLoading}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('auth.register.form.roleLabel')}</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-                disabled={isLoading}
-              >
+            <FormField
+              control={control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('auth.register.form.lastNameLabel')}</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t('auth.register.form.lastNamePlaceholder')}
+                      {...field}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('auth.register.form.emailLabel')}</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder={t('auth.register.form.rolePlaceholder')} />
-                  </SelectTrigger>
+                  <Input
+                    type="email"
+                    placeholder={t('auth.register.form.emailPlaceholder')}
+                    {...field}
+                    disabled={isLoading}
+                  />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="buyer">{t('auth.register.form.roleBuyer')}</SelectItem>
-                  <SelectItem value="seller">{t('auth.register.form.roleSeller')}</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormItem>
-          )}
-        />
+              </FormItem>
+            )}
+          />
 
-        <Button type="submit" variant="gradient" className="w-full" disabled={isLoading}>
-          {isLoading ? t('auth.register.form.submitting') : t('auth.register.form.submit')}
-        </Button>
-      </form>
-    </Form>
+          <FormField
+            control={control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('auth.register.form.passwordLabel')}</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder={t('auth.register.form.passwordPlaceholder')}
+                    {...field}
+                    disabled={isLoading}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('auth.register.form.roleLabel')}</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={isLoading}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder={t('auth.register.form.rolePlaceholder')} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="buyer">{t('auth.register.form.roleBuyer')}</SelectItem>
+                    <SelectItem value="seller">{t('auth.register.form.roleSeller')}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" variant="gradient" className="w-full" disabled={isLoading}>
+            {isLoading ? t('auth.register.form.submitting') : t('auth.register.form.submit')}
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
 };

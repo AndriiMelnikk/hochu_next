@@ -27,6 +27,10 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
     title: 'Reset password | Shukayu',
     description: 'Set a new password',
   },
+  GOOGLE_AUTH_COMPLETE: {
+    title: 'Google sign-in | Shukayu',
+    description: 'Completing Google sign-in',
+  },
   PRICING: { title: 'Pricing | Shukayu', description: 'Pricing for users' },
   PRIVACY: { title: 'Privacy Policy | Shukayu', description: 'Privacy policy for users' },
   PROFILE: { title: 'Profile | Shukayu', description: 'Profile for the user' },

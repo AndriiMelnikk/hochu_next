@@ -6,6 +6,14 @@ import { ILoginRequest } from '../types/requests/LoginRequest';
 import { IUser, type IProfile } from '@entities/user';
 import type { IAuthResponse } from '../types/responses/AuthResponse';
 import { AxiosError } from 'axios';
+import { LS_KEYS } from '../const';
+
+function persistAuthTokens(accessToken: string, refreshToken: string) {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(LS_KEYS.ACCESS_TOKEN, accessToken);
+    localStorage.setItem(LS_KEYS.REFRESH_TOKEN, refreshToken);
+  }
+}
 
 function buildUserFromAuthResponse(
   account: IAuthResponse['account'],
@@ -28,6 +36,22 @@ function buildUserFromAuthResponse(
   return { account: account as IUser['account'], profile };
 }
 
+function buildAuthStateFromResponse(response: IAuthResponse) {
+  const user = buildUserFromAuthResponse(
+    response.account,
+    response.profiles,
+    response.currentProfileId,
+  );
+  return {
+    user,
+    profiles: response.profiles,
+    currentProfileId: response.currentProfileId,
+    isAuth: true,
+    isLoading: false,
+    error: null,
+  };
+}
+
 interface AuthState {
   user: IUser | null;
   profiles: IAuthResponse['profiles'];
@@ -40,6 +64,7 @@ interface AuthState {
 interface AuthActions {
   register: (data: IRegisterRequest) => Promise<void>;
   login: (data: ILoginRequest) => Promise<void>;
+  loginWithGoogleFromSession: (response: IAuthResponse) => void;
   logout: () => Promise<void>;
   switchProfile: (profileId: string) => Promise<void>;
   setAuth: (isAuth: boolean) => void;
@@ -62,15 +87,8 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       set({ isLoading: true, error: null });
       try {
         const response = await authService.register(data);
-        const { access_token, refresh_token, account, profiles, currentProfileId } = response;
-        const user = buildUserFromAuthResponse(account, profiles, currentProfileId);
-        set({
-          user,
-          profiles,
-          currentProfileId,
-          isAuth: true,
-          isLoading: false,
-        });
+        persistAuthTokens(response.access_token, response.refresh_token);
+        set(buildAuthStateFromResponse(response));
       } catch (error: unknown) {
         if (error instanceof AxiosError) {
           const errorMessage = error.response?.data?.friendlyMessage || 'Помилка при реєстрації';
@@ -87,15 +105,8 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       set({ isLoading: true, error: null });
       try {
         const response = await authService.login(data);
-        const { access_token, refresh_token, account, profiles, currentProfileId } = response;
-        const user = buildUserFromAuthResponse(account, profiles, currentProfileId);
-        set({
-          user,
-          profiles,
-          currentProfileId,
-          isAuth: true,
-          isLoading: false,
-        });
+        persistAuthTokens(response.access_token, response.refresh_token);
+        set(buildAuthStateFromResponse(response));
       } catch (error: unknown) {
         if (error instanceof AxiosError) {
           const errorMessage = error.response?.data?.friendlyMessage || 'Помилка при вході';
@@ -106,6 +117,11 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           throw error;
         }
       }
+    },
+
+    loginWithGoogleFromSession: (response: IAuthResponse) => {
+      persistAuthTokens(response.access_token, response.refresh_token);
+      set(buildAuthStateFromResponse(response));
     },
 
     logout: async () => {

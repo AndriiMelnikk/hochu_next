@@ -5,6 +5,7 @@ import type { IRegisterRequest } from '../types/requests/RegisterRequest';
 import type { IChangePasswordRequest } from '../types/requests/ChangePasswordRequest';
 import type { IForgotPasswordRequest } from '../types/requests/ForgotPasswordRequest';
 import type { IResetPasswordRequest } from '../types/requests/ResetPasswordRequest';
+import type { IGoogleAuthRequest } from '../types/requests/GoogleAuthRequest';
 import type { IAuthResponse } from '../types/responses/AuthResponse';
 import { authResponseSchema } from '../schemas/authSchema';
 import { LS_KEYS } from '../const';
@@ -25,6 +26,26 @@ class AuthService {
       return validatedData;
     } catch (error) {
       console.error('Zod validation error:', error);
+      throw error;
+    }
+  }
+
+  async loginWithGoogle(
+    data: IGoogleAuthRequest,
+    config?: AxiosRequestConfig,
+  ): Promise<IAuthResponse> {
+    const response = await api.post<IAuthResponse>(ENDPOINTS.AUTH.GOOGLE, data, config);
+
+    try {
+      const validatedData = authResponseSchema.parse(response.data);
+
+      if (validatedData.access_token && typeof window !== 'undefined') {
+        localStorage.setItem(LS_KEYS.ACCESS_TOKEN, validatedData.access_token);
+        localStorage.setItem(LS_KEYS.REFRESH_TOKEN, validatedData.refresh_token);
+      }
+      return validatedData;
+    } catch (error) {
+      console.error('Zod validation error during Google login:', error);
       throw error;
     }
   }

@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { getLocaleFromHeaders } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import LoginContent from './LoginContent';
@@ -8,5 +9,9 @@ export async function generateMetadata() {
 }
 
 export default function LoginPage() {
-  return <LoginContent />;
+  return (
+    <Suspense fallback={null}>
+      <LoginContent />
+    </Suspense>
+  );
 }

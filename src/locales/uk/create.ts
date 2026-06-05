@@ -298,6 +298,12 @@ export const messages: Messages = {
   'auth.register.form.success': 'Реєстрація успішна!',
   'auth.register.form.error': 'Сталася помилка при реєстрації',
   'auth.register.form.invalidData': 'Невалідні дані',
+
+  'auth.google.button': 'Увійти через Google',
+  'auth.google.divider': 'або',
+  'auth.google.messages.success': 'Вхід через Google успішний!',
+  'auth.google.messages.error': 'Не вдалося увійти через Google',
+  'auth.google.messages.loading': 'Завершуємо вхід через Google...',
   'request.detail.cannotPropose': 'Неможливо створити пропозицію',
   'request.detail.proposalAuthRequired.title': 'Не можна робити пропозиції',
   'request.detail.proposalAuthRequired.description':

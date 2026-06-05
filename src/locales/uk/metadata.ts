@@ -27,6 +27,10 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
     title: 'Новий пароль | Shukayu',
     description: 'Встановлення нового пароля',
   },
+  GOOGLE_AUTH_COMPLETE: {
+    title: 'Вхід через Google | Shukayu',
+    description: 'Завершення входу через Google',
+  },
   PRICING: { title: 'Тарифи | Shukayu', description: 'Тарифи для користувачів' },
   PRIVACY: {
     title: 'Політика конфіденційності | Shukayu',

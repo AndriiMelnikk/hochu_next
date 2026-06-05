@@ -31,6 +31,12 @@ export const messages: Messages = {
   'auth.login.messages.invalidData': 'Invalid data',
   'auth.login.messages.error': 'An error occurred while logging in',
 
+  'auth.google.button': 'Continue with Google',
+  'auth.google.divider': 'or',
+  'auth.google.messages.success': 'Google sign-in successful!',
+  'auth.google.messages.error': 'Failed to sign in with Google',
+  'auth.google.messages.loading': 'Completing Google sign-in...',
+
   // Forgot password
   'auth.forgotPassword.title': 'Forgot password',
   'auth.forgotPassword.subtitle': 'Enter your email to receive a password reset link',

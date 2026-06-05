@@ -299,6 +299,12 @@ export const messages: Messages = {
   'auth.register.form.success': 'Registration successful!',
   'auth.register.form.error': 'An error occurred during registration',
   'auth.register.form.invalidData': 'Invalid data',
+
+  'auth.google.button': 'Continue with Google',
+  'auth.google.divider': 'or',
+  'auth.google.messages.success': 'Google sign-in successful!',
+  'auth.google.messages.error': 'Failed to sign in with Google',
+  'auth.google.messages.loading': 'Completing Google sign-in...',
   'request.detail.cannotPropose': 'Cannot create proposal',
   'request.detail.proposalAuthRequired.title': 'Cannot make proposals',
   'request.detail.proposalAuthRequired.description':

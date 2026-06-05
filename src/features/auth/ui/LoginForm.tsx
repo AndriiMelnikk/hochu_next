@@ -13,6 +13,8 @@ import { routes } from '@/app/router/routes';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { AxiosError } from 'axios';
 import { useLingui } from '@lingui/react';
+import { GoogleSignInButton } from './GoogleSignInButton';
+import { Separator } from '@shared/ui/separator';
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -94,50 +96,63 @@ export const LoginForm = () => {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-4">
-        <FormField
-          control={control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('auth.login.form.email.label')}</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder={t('auth.login.form.email.placeholder')}
-                  {...field}
-                  disabled={isLoading}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <div className="space-y-4">
+      <GoogleSignInButton disabled={isLoading} />
 
-        <FormField
-          control={control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('auth.login.form.password.label')}</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder={t('auth.login.form.password.placeholder')}
-                  {...field}
-                  disabled={isLoading}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <Separator />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-card px-2 text-muted-foreground">{t('auth.google.divider')}</span>
+        </div>
+      </div>
 
-        <Button type="submit" variant="gradient" className="w-full" disabled={isLoading}>
-          {isLoading ? t('auth.login.form.submit.loading') : t('auth.login.form.submit.default')}
-        </Button>
-      </form>
-    </Form>
+      <Form {...form}>
+        <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-4">
+          <FormField
+            control={control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('auth.login.form.email.label')}</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder={t('auth.login.form.email.placeholder')}
+                    {...field}
+                    disabled={isLoading}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('auth.login.form.password.label')}</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder={t('auth.login.form.password.placeholder')}
+                    {...field}
+                    disabled={isLoading}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" variant="gradient" className="w-full" disabled={isLoading}>
+            {isLoading ? t('auth.login.form.submit.loading') : t('auth.login.form.submit.default')}
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
 };

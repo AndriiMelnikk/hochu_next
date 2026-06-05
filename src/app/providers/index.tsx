@@ -1,6 +1,7 @@
 'use client';
 
 import { AuthProvider } from '@/entities/auth/hooks/useAuth';
+import { SessionProvider } from 'next-auth/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
@@ -29,13 +30,15 @@ export function Providers({ children, locale, messages }: ProvidersProps) {
   );
 
   return (
-    <LinguiProvider locale={locale} messages={messages}>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          {children}
-          <Toaster position="top-right" richColors closeButton />
-        </AuthProvider>
-      </QueryClientProvider>
-    </LinguiProvider>
+    <SessionProvider>
+      <LinguiProvider locale={locale} messages={messages}>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            {children}
+            <Toaster position="top-right" richColors closeButton />
+          </AuthProvider>
+        </QueryClientProvider>
+      </LinguiProvider>
+    </SessionProvider>
   );
 }
