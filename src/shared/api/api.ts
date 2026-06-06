@@ -46,6 +46,12 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     const locale = localStorage.getItem(LS_KEYS.LOCALE) || 'uk';
     config.headers['Accept-Language'] = locale;
   }
+
+  // Let the browser set multipart boundary; manual Content-Type breaks iOS uploads.
+  if (config.data instanceof FormData) {
+    delete config.headers['Content-Type'];
+  }
+
   return config;
 });
 

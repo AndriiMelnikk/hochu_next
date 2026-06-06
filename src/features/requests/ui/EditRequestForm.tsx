@@ -20,7 +20,7 @@ import {
   X,
 } from 'lucide-react';
 
-import { MAX_IMAGES, ACCEPTED_IMAGE_TYPES } from '@/shared/utils';
+import { MAX_IMAGES, ACCEPTED_IMAGE_ACCEPT_ATTR, isAcceptedImageFile } from '@/shared/utils';
 
 import { cn } from '@/lib/utils';
 import { useCategories } from '@/entities/category';
@@ -198,7 +198,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
       event.target.value = '';
       return;
     }
-    const toAdd = Array.from(files).filter((f) => ACCEPTED_IMAGE_TYPES.includes(f.type));
+    const toAdd = Array.from(files).filter(isAcceptedImageFile);
     if (toAdd.length < files.length) {
       toast.error(t('request.create.filesTypeError'));
     }
@@ -612,7 +612,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
                     ref={fileInputRef}
                     id="files"
                     type="file"
-                    accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                    accept={ACCEPTED_IMAGE_ACCEPT_ATTR}
                     multiple
                     className="hidden"
                     disabled={isSubmitting || displayItems.length >= MAX_IMAGES}

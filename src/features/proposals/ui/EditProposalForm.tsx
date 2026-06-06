@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import type { z } from 'zod';
 
 import { cn } from '@/lib/utils';
-import { ACCEPTED_IMAGE_TYPES } from '@/shared/utils';
+import { ACCEPTED_IMAGE_ACCEPT_ATTR, isAcceptedImageFile } from '@/shared/utils';
 import { Button } from '@shared/ui/button';
 import { Input } from '@shared/ui/input';
 import { Textarea } from '@shared/ui/textarea';
@@ -105,7 +105,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
       event.target.value = '';
       return;
     }
-    const toAdd = Array.from(files).filter((f) => ACCEPTED_IMAGE_TYPES.includes(f.type));
+    const toAdd = Array.from(files).filter(isAcceptedImageFile);
     if (toAdd.length < files.length) {
       toast.error(t('request.create.filesTypeError') || 'Дозволені лише JPG, PNG, WebP, GIF');
     }
@@ -362,7 +362,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                     ref={fileInputRef}
                     id="proposal-edit-files"
                     type="file"
-                    accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                    accept={ACCEPTED_IMAGE_ACCEPT_ATTR}
                     multiple
                     className="hidden"
                     disabled={isSubmitting || displayItems.length >= MAX_PROPOSAL_IMAGES}

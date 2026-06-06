@@ -26,7 +26,7 @@ import { cn } from '@/lib/utils';
 import { useCategories } from '@/entities/category';
 import { useCities } from '@/entities/location';
 import { useDebounce } from '@/shared/hooks';
-import { MAX_IMAGES, ACCEPTED_IMAGE_TYPES } from '@/shared/utils';
+import { MAX_IMAGES, ACCEPTED_IMAGE_ACCEPT_ATTR, isAcceptedImageFile } from '@/shared/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import {
   Command,
@@ -231,7 +231,7 @@ export const CreateRequestForm = () => {
       event.target.value = '';
       return;
     }
-    const toUpload = Array.from(files).filter((f) => ACCEPTED_IMAGE_TYPES.includes(f.type));
+    const toUpload = Array.from(files).filter(isAcceptedImageFile);
     if (toUpload.length < files.length) {
       toast.error(t('request.create.filesTypeError'));
     }
@@ -546,7 +546,7 @@ export const CreateRequestForm = () => {
                     ref={fileInputRef}
                     id="files"
                     type="file"
-                    accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                    accept={ACCEPTED_IMAGE_ACCEPT_ATTR}
                     multiple
                     className="hidden"
                     disabled={isSubmitting || isUploading || uploadedImages.length >= MAX_IMAGES}

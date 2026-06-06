@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { toast } from 'sonner';
 import { User, MapPin, Upload, X, Check, ChevronDown } from 'lucide-react';
 
-import { ACCEPTED_IMAGE_TYPES } from '@/shared/utils';
+import { ACCEPTED_IMAGE_ACCEPT_ATTR, isAcceptedImageFile } from '@/shared/utils';
 import { cn } from '@/lib/utils';
 import { useCities } from '@/entities/location';
 import { useDebounce } from '@/shared/hooks';
@@ -79,7 +79,7 @@ export const EditProfileForm = ({ user, onSuccess }: EditProfileFormProps) => {
     if (!files?.length) return;
 
     const file = files[0];
-    if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+    if (!isAcceptedImageFile(file)) {
       toast.error(t('profile.edit.avatarTypeError') || 'Непідтримуваний тип файлу');
       return;
     }
@@ -185,7 +185,7 @@ export const EditProfileForm = ({ user, onSuccess }: EditProfileFormProps) => {
           <input
             ref={fileInputRef}
             type="file"
-            accept={ACCEPTED_IMAGE_TYPES.join(',')}
+            accept={ACCEPTED_IMAGE_ACCEPT_ATTR}
             className="hidden"
             onChange={handleAvatarChange}
           />

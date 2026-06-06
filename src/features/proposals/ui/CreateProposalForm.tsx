@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import type { z } from 'zod';
 
 import { cn } from '@/lib/utils';
-import { ACCEPTED_IMAGE_TYPES } from '@/shared/utils';
+import { ACCEPTED_IMAGE_ACCEPT_ATTR, isAcceptedImageFile } from '@/shared/utils';
 import { Button } from '@shared/ui/button';
 import { Input } from '@shared/ui/input';
 import { Textarea } from '@shared/ui/textarea';
@@ -73,7 +73,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
       event.target.value = '';
       return;
     }
-    const toUpload = Array.from(files).filter((f) => ACCEPTED_IMAGE_TYPES.includes(f.type));
+    const toUpload = Array.from(files).filter(isAcceptedImageFile);
     if (toUpload.length < files.length) {
       toast.error(t('request.create.filesTypeError'));
     }
@@ -336,7 +336,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                         ref={fileInputRef}
                         id="proposal-files"
                         type="file"
-                        accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                        accept={ACCEPTED_IMAGE_ACCEPT_ATTR}
                         multiple
                         className="hidden"
                         disabled={
