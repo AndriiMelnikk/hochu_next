@@ -1,6 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import { api, ENDPOINTS } from '@shared/api';
-import { assertValidUploadedImageUrl, normalizeImageFileForUpload } from '@shared/utils';
+import { api, ENDPOINTS, uploadFile } from '@shared/api';
 import type {
   IUser,
   IProfile,
@@ -51,12 +50,7 @@ class UserService {
   }
 
   async uploadAvatar(file: File): Promise<string> {
-    const normalized = normalizeImageFileForUpload(file);
-    const formData = new FormData();
-    formData.append('file', normalized);
-
-    const { data } = await api.post<{ url: string }>('/api/upload/avatar', formData);
-    return assertValidUploadedImageUrl(data.url);
+    return uploadFile('/api/upload/avatar', file);
   }
 }
 

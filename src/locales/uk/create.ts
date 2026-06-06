@@ -34,7 +34,9 @@ export const messages: Messages = {
   'request.create.filesHintSecondary': 'Фото, документи (до 5 файлів, макс. 10MB кожен)',
   'request.create.filesLabel': 'Додати файли',
   'request.create.filesMaxError': 'Максимум 5 фото',
-  'request.create.filesTypeError': 'Дозволені лише JPG, PNG, WebP, GIF',
+  'request.create.filesTypeError': 'Дозволені лише JPG, PNG, WebP, GIF, HEIC',
+  'request.create.filesEmptyError':
+    'Файл порожній. На iPhone відкрийте фото і дочекайтесь завантаження з iCloud.',
   'request.create.filesUploadError': 'Помилка завантаження фото',
   'request.create.filesUploading': 'Завантаження…',
   'request.create.filesRemove': 'Видалити',

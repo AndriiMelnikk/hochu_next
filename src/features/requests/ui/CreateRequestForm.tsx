@@ -26,7 +26,12 @@ import { cn } from '@/lib/utils';
 import { useCategories } from '@/entities/category';
 import { useCities } from '@/entities/location';
 import { useDebounce } from '@/shared/hooks';
-import { MAX_IMAGES, ACCEPTED_IMAGE_ACCEPT_ATTR, isAcceptedImageFile } from '@/shared/utils';
+import {
+  MAX_IMAGES,
+  ACCEPTED_IMAGE_ACCEPT_ATTR,
+  getImageUploadErrorMessageKey,
+  isAcceptedImageFile,
+} from '@/shared/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import {
   Command,
@@ -247,8 +252,8 @@ export const CreateRequestForm = () => {
         urls.push(url);
       }
       setValue('images', [...current, ...urls]);
-    } catch {
-      toast.error(t('request.create.filesUploadError'));
+    } catch (error) {
+      toast.error(t(getImageUploadErrorMessageKey(error)));
     } finally {
       setIsUploading(false);
       event.target.value = '';

@@ -1,6 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import { api, ENDPOINTS } from '@shared/api';
-import { assertValidUploadedImageUrl, normalizeImageFileForUpload } from '@shared/utils';
+import { api, ENDPOINTS, uploadFile } from '@shared/api';
 import { IRequest, IRequestWithBuyer } from '../types/Request';
 import { ICreateRequestRequest } from '../types/requests/CreateRequest';
 import { IUpdateRequestRequest } from '../types/requests/UpdateRequest';
@@ -66,20 +65,8 @@ class RequestService {
    * Завантажує одне зображення для запиту (POST /api/upload/post, multipart field "file").
    * Повертає URL завантаженого файлу.
    */
-  async uploadPostImage(file: File, requestConfig?: AxiosRequestConfig): Promise<string> {
-    const normalized = normalizeImageFileForUpload(file);
-    const formData = new FormData();
-    formData.append('file', normalized);
-    const response = await api.post<{ url?: string; path?: string } | string>(
-      ENDPOINTS.UPLOAD.POST_IMAGE,
-      formData,
-      requestConfig,
-    );
-    const data = response.data;
-    if (typeof data === 'string') return assertValidUploadedImageUrl(data);
-    const url = data?.url ?? data?.path;
-    if (typeof url !== 'string') throw new Error('Upload response missing url/path');
-    return assertValidUploadedImageUrl(url);
+  async uploadPostImage(file: File, _requestConfig?: AxiosRequestConfig): Promise<string> {
+    return uploadFile(ENDPOINTS.UPLOAD.POST_IMAGE, file);
   }
 
   async deleteFile(url: string, config?: AxiosRequestConfig): Promise<void> {

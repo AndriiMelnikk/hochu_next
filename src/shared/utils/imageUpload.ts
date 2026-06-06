@@ -1,5 +1,24 @@
 import { ACCEPTED_IMAGE_TYPES } from './const';
 
+export type ImageUploadErrorCode = 'EMPTY_FILE' | 'INVALID_UPLOAD_URL' | 'UPLOAD_FAILED';
+
+export class ImageUploadError extends Error {
+  readonly code: ImageUploadErrorCode;
+
+  constructor(code: ImageUploadErrorCode, message?: string) {
+    super(message ?? code);
+    this.name = 'ImageUploadError';
+    this.code = code;
+  }
+}
+
+export function getImageUploadErrorMessageKey(error: unknown): string {
+  if (error instanceof ImageUploadError && error.code === 'EMPTY_FILE') {
+    return 'request.create.filesEmptyError';
+  }
+  return 'request.create.filesUploadError';
+}
+
 const EXT_TO_MIME: Record<string, string> = {
   jpg: 'image/jpeg',
   jpeg: 'image/jpeg',
@@ -43,8 +62,8 @@ export function isAcceptedImageFile(file: File): boolean {
  * Throws when the file is empty (common with iCloud placeholders).
  */
 export function normalizeImageFileForUpload(file: File): File {
-  if (file.size === 0) {
-    throw new Error('EMPTY_FILE');
+  if (!file || file.size === 0) {
+    throw new ImageUploadError('EMPTY_FILE');
   }
 
   let name = file.name;
@@ -69,10 +88,10 @@ export function assertValidUploadedImageUrl(url: string): string {
   try {
     parsed = new URL(url);
   } catch {
-    throw new Error('INVALID_UPLOAD_URL');
+    throw new ImageUploadError('INVALID_UPLOAD_URL');
   }
   if (parsed.pathname.includes('/api/upload')) {
-    throw new Error('INVALID_UPLOAD_URL');
+    throw new ImageUploadError('INVALID_UPLOAD_URL');
   }
   return url;
 }

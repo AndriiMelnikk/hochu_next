@@ -12,7 +12,11 @@ import { toast } from 'sonner';
 import type { z } from 'zod';
 
 import { cn } from '@/lib/utils';
-import { ACCEPTED_IMAGE_ACCEPT_ATTR, isAcceptedImageFile } from '@/shared/utils';
+import {
+  ACCEPTED_IMAGE_ACCEPT_ATTR,
+  getImageUploadErrorMessageKey,
+  isAcceptedImageFile,
+} from '@/shared/utils';
 import { Button } from '@shared/ui/button';
 import { Input } from '@shared/ui/input';
 import { Textarea } from '@shared/ui/textarea';
@@ -89,8 +93,8 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
         urls.push(url);
       }
       setValue('images', [...current, ...urls]);
-    } catch {
-      toast.error(t('request.create.filesUploadError'));
+    } catch (error) {
+      toast.error(t(getImageUploadErrorMessageKey(error)));
     } finally {
       setIsUploading(false);
       event.target.value = '';

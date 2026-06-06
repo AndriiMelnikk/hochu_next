@@ -34,7 +34,9 @@ export const messages: Messages = {
   'request.create.filesHintSecondary': 'Photos, documents (up to 5 files, max 10MB each)',
   'request.create.filesLabel': 'Add files',
   'request.create.filesMaxError': 'Maximum 5 photos',
-  'request.create.filesTypeError': 'Only JPG, PNG, WebP, GIF are allowed',
+  'request.create.filesTypeError': 'Only JPG, PNG, WebP, GIF, HEIC are allowed',
+  'request.create.filesEmptyError':
+    'File is empty. On iPhone, open the photo and wait for it to download from iCloud.',
   'request.create.filesUploadError': 'Failed to upload photo',
   'request.create.filesUploading': 'Uploading…',
   'request.create.filesRemove': 'Remove',
