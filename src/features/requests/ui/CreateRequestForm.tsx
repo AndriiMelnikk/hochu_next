@@ -8,39 +8,17 @@ import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { toast } from 'sonner';
-import {
-  FileText,
-  Wallet,
-  MapPin,
-  Clock,
-  Upload,
-  Check,
-  ChevronDown,
-  Tag,
-  Package,
-  X,
-  Loader2,
-} from 'lucide-react';
+import { FileText, Wallet, MapPin, Clock, Upload, Tag, Package, X, Loader2 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { useCategories } from '@/entities/category';
-import { useCities } from '@/entities/location';
-import { useDebounce } from '@/shared/hooks';
 import {
   MAX_IMAGES,
   ACCEPTED_IMAGE_ACCEPT_ATTR,
   getImageUploadErrorMessageKey,
   isAcceptedImageFile,
 } from '@/shared/utils';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/shared/ui/command';
+import { CityCombobox } from '@/shared/ui/city-combobox';
 import {
   createRequestSchema,
   requestService,
@@ -85,14 +63,9 @@ export const CreateRequestForm = () => {
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
 
-  const [locationSearch, setLocationSearch] = useState('');
-  const debouncedLocationSearch = useDebounce(locationSearch, 500);
-  const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [deletingUrls, setDeletingUrls] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const { data: cities = [], isLoading: isCitiesLoading } = useCities(debouncedLocationSearch);
 
   const form = useForm<ICreateRequestRequest>({
     resolver: zodResolver(createRequestSchema),
@@ -414,69 +387,17 @@ export const CreateRequestForm = () => {
                 <MapPin className="h-5 w-5 mr-2 text-primary" />
                 {t('request.create.locationLabel')}
               </FormLabel>
-              <Popover open={isLocationOpen} onOpenChange={setIsLocationOpen}>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={isLocationOpen}
-                      className={cn(
-                        'w-full justify-between text-base font-normal',
-                        !field.value && 'text-muted-foreground',
-                      )}
-                      disabled={isSubmitting}
-                    >
-                      {field.value || t('request.create.locationPlaceholder')}
-                      <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
-                  <Command shouldFilter={false}>
-                    <CommandInput
-                      placeholder={t('request.create.locationPlaceholder')}
-                      value={locationSearch}
-                      onValueChange={setLocationSearch}
-                    />
-                    <CommandList>
-                      {isCitiesLoading && (
-                        <div className="py-6 text-center text-sm">
-                          {t('request.create.locationSearching')}
-                        </div>
-                      )}
-                      {!isCitiesLoading && cities.length === 0 && locationSearch.length >= 2 && (
-                        <CommandEmpty>{t('request.create.locationNotFound')}</CommandEmpty>
-                      )}
-                      <CommandGroup>
-                        {cities.map((city) => (
-                          <CommandItem
-                            key={city.ref}
-                            value={city.name}
-                            onSelect={() => {
-                              field.onChange(city.name);
-                              setIsLocationOpen(false);
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                'mr-2 h-4 w-4',
-                                city.name === field.value ? 'opacity-100' : 'opacity-0',
-                              )}
-                            />
-                            <div className="flex flex-col">
-                              <span>{city.name}</span>
-                              <span className="text-xs text-muted-foreground">
-                                {city.mainDescription}
-                              </span>
-                            </div>
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <FormControl>
+                <CityCombobox
+                  value={field.value || null}
+                  onValueChange={(city) => field.onChange(city ?? '')}
+                  disabled={isSubmitting}
+                  placeholder={t('request.create.locationPlaceholder')}
+                  searchPlaceholder={t('request.create.locationPlaceholder')}
+                  searchingLabel={t('request.create.locationSearching')}
+                  notFoundLabel={t('request.create.locationNotFound')}
+                />
+              </FormControl>
             </FormItem>
           )}
         />

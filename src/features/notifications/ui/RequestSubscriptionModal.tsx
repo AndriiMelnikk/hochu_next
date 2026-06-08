@@ -5,24 +5,16 @@ import { useLingui } from '@lingui/react';
 import { toast } from 'sonner';
 import type { IRequestSubscription } from '@/entities/notification';
 import {
-  NotificationChannel,
+  ALL_NOTIFICATION_CHANNELS,
   useCreateRequestSubscription,
   useUpdateRequestSubscription,
 } from '@/entities/notification';
-import { useDebounce } from '@/shared/hooks';
-import { useCities } from '@/entities/location';
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/shared/ui/dialog';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { Switch } from '@/shared/ui/switch';
-import { Checkbox } from '@/shared/ui/checkbox';
+import { CityCombobox } from '@/shared/ui/city-combobox';
 import { CategoryChipsSelect } from './CategoryChipsSelect';
 
 interface RequestSubscriptionModalProps {
@@ -32,8 +24,6 @@ interface RequestSubscriptionModalProps {
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
 }
-
-const CHANNELS = [NotificationChannel.IN_APP, NotificationChannel.EMAIL] as const;
 
 export const RequestSubscriptionModal = ({
   sellerProfileId,
@@ -51,11 +41,6 @@ export const RequestSubscriptionModal = ({
   const [budgetMin, setBudgetMin] = useState('');
   const [budgetMax, setBudgetMax] = useState('');
   const [enabled, setEnabled] = useState(true);
-  const [channels, setChannels] = useState<NotificationChannel[]>([NotificationChannel.IN_APP]);
-
-  const [locationSearch, setLocationSearch] = useState('');
-  const debouncedLocationSearch = useDebounce(locationSearch, 500);
-  const { data: cities = [], isLoading: isCitiesLoading } = useCities(debouncedLocationSearch);
 
   const { mutateAsync: createSubscription, isPending: isCreating } =
     useCreateRequestSubscription(sellerProfileId);
@@ -66,18 +51,10 @@ export const RequestSubscriptionModal = ({
     if (!open) return;
     setCategories(subscription?.categories ?? []);
     setLocation(subscription?.location ?? '');
-    setLocationSearch(subscription?.location ?? '');
     setBudgetMin(subscription?.budgetMin != null ? String(subscription.budgetMin) : '');
     setBudgetMax(subscription?.budgetMax != null ? String(subscription.budgetMax) : '');
     setEnabled(subscription?.enabled ?? true);
-    setChannels(subscription?.channels ?? [NotificationChannel.IN_APP]);
   }, [open, subscription]);
-
-  const toggleChannel = (channel: NotificationChannel, checked: boolean) => {
-    setChannels((prev) =>
-      checked ? [...new Set([...prev, channel])] : prev.filter((c) => c !== channel),
-    );
-  };
 
   const handleSubmit = async () => {
     const payload = {
@@ -86,7 +63,7 @@ export const RequestSubscriptionModal = ({
       budgetMin: budgetMin ? Number(budgetMin) : null,
       budgetMax: budgetMax ? Number(budgetMax) : null,
       enabled,
-      channels,
+      channels: enabled ? ALL_NOTIFICATION_CHANNELS : [],
     };
 
     try {
@@ -130,29 +107,22 @@ export const RequestSubscriptionModal = ({
 
           <div className="space-y-2">
             <Label htmlFor="subscription-location">{t('profile.edit.locationLabel')}</Label>
-            <Input
+            <CityCombobox
               id="subscription-location"
-              value={locationSearch}
-              onChange={(e) => {
-                setLocationSearch(e.target.value);
-                setLocation(e.target.value);
-              }}
+              value={location || null}
+              onValueChange={(city) => setLocation(city ?? '')}
               placeholder={t('profile.edit.locationPlaceholder')}
-              list="subscription-cities"
+              searchPlaceholder={t('profile.edit.locationSearch')}
+              searchingLabel={t('profile.edit.locationSearching')}
+              notFoundLabel={t('profile.edit.locationNotFound')}
             />
-            {isCitiesLoading && (
-              <p className="text-xs text-muted-foreground">{t('profile.edit.locationSearching')}</p>
-            )}
-            <datalist id="subscription-cities">
-              {cities.map((city) => (
-                <option key={city.name} value={city.name} />
-              ))}
-            </datalist>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="budget-min">{t('profile.notifications.subscriptions.budgetMin')}</Label>
+              <Label htmlFor="budget-min">
+                {t('profile.notifications.subscriptions.budgetMin')}
+              </Label>
               <Input
                 id="budget-min"
                 type="number"
@@ -162,7 +132,9 @@ export const RequestSubscriptionModal = ({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="budget-max">{t('profile.notifications.subscriptions.budgetMax')}</Label>
+              <Label htmlFor="budget-max">
+                {t('profile.notifications.subscriptions.budgetMax')}
+              </Label>
               <Input
                 id="budget-max"
                 type="number"
@@ -170,21 +142,6 @@ export const RequestSubscriptionModal = ({
                 value={budgetMax}
                 onChange={(e) => setBudgetMax(e.target.value)}
               />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label>{t('profile.notifications.channels.label')}</Label>
-            <div className="flex flex-wrap gap-4">
-              {CHANNELS.map((channel) => (
-                <label key={channel} className="flex items-center gap-2 text-sm">
-                  <Checkbox
-                    checked={channels.includes(channel)}
-                    onCheckedChange={(checked) => toggleChannel(channel, checked === true)}
-                  />
-                  {t(`profile.notifications.channels.${channel}`)}
-                </label>
-              ))}
             </div>
           </div>
         </div>

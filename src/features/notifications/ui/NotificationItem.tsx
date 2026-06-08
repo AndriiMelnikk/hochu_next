@@ -49,7 +49,8 @@ export const NotificationItem = ({ notification }: NotificationItemProps) => {
           </div>
           <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{notification.message}</p>
           <p className="mt-2 text-xs text-muted-foreground">
-            {t(`profile.notifications.categories.${notification.category}`)}
+            {i18n._(`profile.notifications.categories.${notification.category}`) ||
+              notification.category}
           </p>
         </div>
       </div>

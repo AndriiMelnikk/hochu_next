@@ -16,19 +16,25 @@ export const notificationCategorySchema = z.enum([
   NotificationCategory.ACHIEVEMENTS,
 ]);
 
-export const notificationSchema = z.object({
-  _id: z.string(),
-  accountId: z.string(),
-  profileId: z.string().nullable().optional(),
-  type: z.string(),
-  category: notificationCategorySchema,
-  title: z.string(),
-  message: z.string(),
-  link: z.string().nullable().optional(),
-  metadata: z.record(z.unknown()).nullable().optional(),
-  read: z.boolean(),
-  createdAt: z.string(),
-});
+export const notificationSchemaRaw = z
+  .object({
+    _id: z.string().optional(),
+    id: z.string().optional(),
+    accountId: z.string(),
+    profileId: z.string().nullable().optional(),
+    type: z.string(),
+    category: notificationCategorySchema.optional(),
+    title: z.string(),
+    message: z.string(),
+    link: z.string().nullable().optional(),
+    metadata: z.record(z.unknown()).nullable().optional(),
+    read: z.boolean(),
+    createdAt: z.string(),
+  })
+  .passthrough()
+  .refine((data) => Boolean(data._id || data.id), {
+    message: 'Notification id is required',
+  });
 
 export const categoryPreferenceSchema = z.object({
   enabled: z.boolean(),
@@ -67,8 +73,8 @@ export const paginationResultSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
   z.object({
     count: z.number(),
     results: z.array(itemSchema),
-    page: z.number(),
-    pageSize: z.number(),
+    page: z.number().optional(),
+    pageSize: z.number().optional(),
     next: z.string().nullable().optional(),
     previous: z.string().nullable().optional(),
   });

@@ -26,3 +26,5 @@ export { useCreateRequestSubscription } from './hooks/useCreateRequestSubscripti
 export { useUpdateRequestSubscription } from './hooks/useUpdateRequestSubscription';
 export { useDeleteRequestSubscription } from './hooks/useDeleteRequestSubscription';
 export { mapNotificationFilters, type NotificationScope } from './utils/mapNotificationFilters';
+export { ALL_NOTIFICATION_CHANNELS, channelsForEnabled } from './utils/notificationChannels';
+export { inferNotificationCategory, normalizeNotification } from './utils/normalizeNotification';

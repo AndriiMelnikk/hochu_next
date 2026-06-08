@@ -70,13 +70,12 @@ export const RequestSubscriptionCard = ({
         )}
         {(subscription.budgetMin != null || subscription.budgetMax != null) && (
           <p>
-            <span className="text-muted-foreground">{t('profile.notifications.subscriptions.budget')}:</span>{' '}
+            <span className="text-muted-foreground">
+              {t('profile.notifications.subscriptions.budget')}:
+            </span>{' '}
             {subscription.budgetMin ?? '—'} – {subscription.budgetMax ?? '—'}
           </p>
         )}
-        <p className="text-muted-foreground">
-          {subscription.channels.map((c) => t(`profile.notifications.channels.${c}`)).join(', ')}
-        </p>
       </CardContent>
     </Card>
   );

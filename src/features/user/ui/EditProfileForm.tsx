@@ -7,21 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import Image from 'next/image';
 import { toast } from 'sonner';
-import { User, MapPin, Upload, X, Check, ChevronDown } from 'lucide-react';
+import { User, MapPin, Upload, X } from 'lucide-react';
 
 import { ACCEPTED_IMAGE_ACCEPT_ATTR, isAcceptedImageFile } from '@/shared/utils';
-import { cn } from '@/lib/utils';
-import { useCities } from '@/entities/location';
-import { useDebounce } from '@/shared/hooks';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/shared/ui/command';
+import { CityCombobox } from '@/shared/ui/city-combobox';
 import {
   userService,
   updateProfileSchema,
@@ -52,15 +41,9 @@ export const EditProfileForm = ({ user, onSuccess }: EditProfileFormProps) => {
   const { setUser } = useAuthStore();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [locationSearch, setLocationSearch] = useState('');
-  const debouncedLocationSearch = useDebounce(locationSearch, 500);
-  const [isLocationOpen, setIsLocationOpen] = useState(false);
-
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(user.profile.avatar || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const { data: cities = [], isLoading: isCitiesLoading } = useCities(debouncedLocationSearch);
 
   const form = useForm<IUpdateProfileRequest>({
     resolver: zodResolver(updateProfileSchema),
@@ -233,71 +216,17 @@ export const EditProfileForm = ({ user, onSuccess }: EditProfileFormProps) => {
                 <MapPin size={16} className="text-primary" />
                 {t('profile.edit.locationLabel') || 'Місто'}
               </FormLabel>
-              <Popover open={isLocationOpen} onOpenChange={setIsLocationOpen}>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={isLocationOpen}
-                      className={cn(
-                        'w-full justify-between text-base font-normal',
-                        !field.value && 'text-muted-foreground',
-                      )}
-                      disabled={isSubmitting}
-                    >
-                      {field.value || t('profile.edit.locationPlaceholder') || 'Оберіть місто'}
-                      <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
-                  <Command shouldFilter={false}>
-                    <CommandInput
-                      placeholder={t('profile.edit.locationSearch') || 'Пошук міста...'}
-                      value={locationSearch}
-                      onValueChange={setLocationSearch}
-                    />
-                    <CommandList>
-                      {isCitiesLoading && (
-                        <div className="py-6 text-center text-sm">
-                          {t('profile.edit.locationSearching') || 'Пошук...'}
-                        </div>
-                      )}
-                      {!isCitiesLoading && cities.length === 0 && locationSearch.length >= 2 && (
-                        <CommandEmpty>
-                          {t('profile.edit.locationNotFound') || 'Місто не знайдено'}
-                        </CommandEmpty>
-                      )}
-                      <CommandGroup>
-                        {cities.map((city) => (
-                          <CommandItem
-                            key={city.ref}
-                            value={city.name}
-                            onSelect={() => {
-                              field.onChange(city.name);
-                              setIsLocationOpen(false);
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                'mr-2 h-4 w-4',
-                                city.name === field.value ? 'opacity-100' : 'opacity-0',
-                              )}
-                            />
-                            <div className="flex flex-col">
-                              <span>{city.name}</span>
-                              <span className="text-xs text-muted-foreground">
-                                {city.mainDescription}
-                              </span>
-                            </div>
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <FormControl>
+                <CityCombobox
+                  value={field.value || null}
+                  onValueChange={(city) => field.onChange(city ?? '')}
+                  disabled={isSubmitting}
+                  placeholder={t('profile.edit.locationPlaceholder') || 'Оберіть місто'}
+                  searchPlaceholder={t('profile.edit.locationSearch') || 'Пошук міста...'}
+                  searchingLabel={t('profile.edit.locationSearching') || 'Пошук...'}
+                  notFoundLabel={t('profile.edit.locationNotFound') || 'Місто не знайдено'}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

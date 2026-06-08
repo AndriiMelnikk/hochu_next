@@ -95,11 +95,15 @@ export default function NotificationsTabContent() {
       {isLoading && <Loading variant="inline" />}
 
       {error && (
-        <p className="text-center text-destructive py-8">{t('profile.notifications.inbox.error')}</p>
+        <p className="text-center text-destructive py-8">
+          {t('profile.notifications.inbox.error')}
+        </p>
       )}
 
       {!isLoading && !error && items.length === 0 && (
-        <p className="text-center text-muted-foreground py-12">{t('profile.notifications.inbox.empty')}</p>
+        <p className="text-center text-muted-foreground py-12">
+          {t('profile.notifications.inbox.empty')}
+        </p>
       )}
 
       {!isLoading && !error && items.length > 0 && (

@@ -15,5 +15,6 @@ export const useNotifications = (params: IGetNotificationsRequest, enabled = tru
     ],
     queryFn: () => notificationService.get(params),
     enabled,
+    retry: 1,
   });
 };

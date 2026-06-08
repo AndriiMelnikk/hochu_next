@@ -21,7 +21,18 @@ class RequestSubscriptionService {
       ...config,
     });
     const schema = paginationResultSchema(requestSubscriptionSchema);
-    return schema.parse(response.data) as IPaginationResult<IRequestSubscription>;
+    const data = schema.parse(response.data);
+    const page = params.page ?? 1;
+    const pageSize = params.pageSize ?? 20;
+
+    return {
+      count: data.count,
+      results: data.results as IRequestSubscription[],
+      page: data.page ?? page,
+      pageSize: data.pageSize ?? pageSize,
+      next: data.next ?? null,
+      previous: data.previous ?? null,
+    };
   }
 
   async create(
@@ -51,7 +62,11 @@ class RequestSubscriptionService {
     return requestSubscriptionSchema.parse(response.data) as IRequestSubscription;
   }
 
-  async delete(profileId: string, subscriptionId: string, config?: AxiosRequestConfig): Promise<void> {
+  async delete(
+    profileId: string,
+    subscriptionId: string,
+    config?: AxiosRequestConfig,
+  ): Promise<void> {
     await api.delete(ENDPOINTS.REQUEST_SUBSCRIPTIONS.BY_ID(profileId, subscriptionId), config);
   }
 }

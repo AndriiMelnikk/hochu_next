@@ -7,6 +7,7 @@ import { Plus } from 'lucide-react';
 import { useProfiles } from '@/entities/user';
 import {
   NotificationCategory,
+  channelsForEnabled,
   notificationPreferenceService,
   useDeleteRequestSubscription,
   useNotificationPreferences,
@@ -96,7 +97,9 @@ export default function NotificationSettingsContent() {
             <CardHeader className="flex flex-row items-start justify-between gap-4">
               <div>
                 <CardTitle>{t('profile.notifications.subscriptions.title')}</CardTitle>
-                <CardDescription>{t('profile.notifications.subscriptions.description')}</CardDescription>
+                <CardDescription>
+                  {t('profile.notifications.subscriptions.description')}
+                </CardDescription>
               </div>
               <Button
                 type="button"
@@ -186,10 +189,14 @@ function AccountMessagesSection({ profiles }: { profiles: { _id: string }[] }) {
     if (!localMessages || profiles.length === 0) return;
     setIsSaving(true);
     try {
+      const messagesPayload = {
+        ...localMessages,
+        channels: channelsForEnabled(localMessages.enabled),
+      };
       await Promise.all(
         profiles.map((profile) =>
           notificationPreferenceService.update(profile._id, {
-            [NotificationCategory.MESSAGES]: localMessages,
+            [NotificationCategory.MESSAGES]: messagesPayload,
           }),
         ),
       );
@@ -293,7 +300,11 @@ function ProfilePreferencesSection({
             />
           );
         })}
-        <Button type="button" onClick={handleSave} disabled={isPending || Object.keys(localPrefs).length === 0}>
+        <Button
+          type="button"
+          onClick={handleSave}
+          disabled={isPending || Object.keys(localPrefs).length === 0}
+        >
           {isPending ? t('profile.edit.submitting') : t('profile.edit.submit')}
         </Button>
       </CardContent>
@@ -316,8 +327,7 @@ function SellerPreferencesSection({
   const [localNewRequests, setLocalNewRequests] = useState<INewRequestsPreference | null>(null);
   const [localPrefs, setLocalPrefs] = useState<Partial<INotificationPreferences>>({});
 
-  const newRequestsValue =
-    localNewRequests ?? prefs?.[NotificationCategory.NEW_REQUESTS];
+  const newRequestsValue = localNewRequests ?? prefs?.[NotificationCategory.NEW_REQUESTS];
 
   const getCategoryValue = (key: NotificationCategory): ICategoryPreference | undefined => {
     const local = localPrefs[key] as ICategoryPreference | undefined;
