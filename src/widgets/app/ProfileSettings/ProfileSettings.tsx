@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 
 import { Lock } from 'lucide-react';
 import { Loading } from '@/shared/ui/loading';
+import { NotificationSettingsContent } from '@/widgets/app/NotificationSettings';
 
 const ProfileSettings = () => {
   const router = useRouter();
@@ -96,16 +97,17 @@ const ProfileSettings = () => {
       </Card>
 
       {/* Налаштування сповіщень */}
-      <Card className="relative overflow-hidden">
-        <CardHeader className="opacity-50">
-          <CardTitle>
-            <p className="flex items-center gap-2">
-              <Lock className="h-5 w-5 text-muted-foreground" />{' '}
-              {t('profile.notifications.title') || 'Сповіщення'}
-            </p>
-          </CardTitle>
-          <CardDescription>{t('common.availableLater') || 'Буде доступно пізніше'}</CardDescription>
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('profile.notifications.title') || 'Сповіщення'}</CardTitle>
+          <CardDescription>
+            {t('profile.notifications.settingsDescription') ||
+              'Керуйте сповіщеннями для акаунта та профілів'}
+          </CardDescription>
         </CardHeader>
+        <CardContent>
+          <NotificationSettingsContent />
+        </CardContent>
       </Card>
 
       {/* Конфіденційність */}

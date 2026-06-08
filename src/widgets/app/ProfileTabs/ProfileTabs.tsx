@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Settings, Star, User, Users } from 'lucide-react';
+import { Bell, Settings, Star, User, Users } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { ProfileReviews } from '@/widgets/app/Reviews';
 import Chat from '@/widgets/app/Chat';
@@ -10,6 +10,7 @@ import ProfilesTabContent from './ProfilesTabContent';
 import GamificationProgress from '@/widgets/app/GamificationProgress';
 import ProfileStats from '@/widgets/app/ProfileStats';
 import UserRequestsList from '@/widgets/app/UserRequestsList';
+import { NotificationsTabContent } from '@/widgets/app/NotificationsTab';
 import type { UserRole } from '@/types/gamification';
 import { useLingui } from '@lingui/react';
 
@@ -26,11 +27,24 @@ interface ProfileTabsProps {
 export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-  
+
   const [activeTab, setActiveTab] = useState('overview');
 
-  const lockedTabsForGuest = ['gamification', 'analytics', 'settings', 'messages', 'profiles'];
-  const originallyLockedTabs = ['gamification', 'analytics', 'reviews', 'messages'];
+  const lockedTabsForGuest = [
+    'gamification',
+    'analytics',
+    'settings',
+    'messages',
+    'profiles',
+    'notifications',
+  ];
+  const originallyLockedTabs = [
+    'gamification',
+    'analytics',
+    'reviews',
+    'messages',
+    'notifications',
+  ];
 
   const handleTabChange = (value: string) => {
     if (!isOwner && lockedTabsForGuest.includes(value)) {
@@ -47,10 +61,15 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
   return (
     <Tabs value={activeTab} onValueChange={handleTabChange}>
       {isOwner ? (
-        <TabsList className="grid w-full grid-cols-4 mb-3">
+        <TabsList className="grid w-full grid-cols-5 mb-3">
           <TabsTrigger value="overview" className="flex items-center gap-2">
             <User className="h-4 w-4" />
             <span className="hidden sm:inline">{t('profile.tabs.overview')}</span>
+          </TabsTrigger>
+
+          <TabsTrigger value="notifications" className="flex items-center gap-2">
+            <Bell className="h-4 w-4" />
+            <span className="hidden sm:inline">{t('profile.tabs.notifications')}</span>
           </TabsTrigger>
 
           <TabsTrigger value="profiles" className="flex items-center gap-2">
@@ -92,6 +111,10 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
 
       <TabsContent value="overview">
         <UserRequestsList userId={user.id} userType={user.role as 'buyer' | 'seller'} />
+      </TabsContent>
+
+      <TabsContent value="notifications">
+        <NotificationsTabContent />
       </TabsContent>
 
       <TabsContent value="profiles">

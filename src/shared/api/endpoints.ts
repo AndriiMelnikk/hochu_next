@@ -58,4 +58,18 @@ export const ENDPOINTS = {
   CONTACT: {
     BASE: '/api/contact',
   },
+  NOTIFICATIONS: {
+    BASE: '/api/notifications',
+    UNREAD_COUNT: '/api/notifications/unread-count',
+    READ: (id: string) => `/api/notifications/${id}/read`,
+    READ_ALL: '/api/notifications/read-all',
+  },
+  NOTIFICATION_PREFERENCES: {
+    BY_PROFILE: (profileId: string) => `/api/users/${profileId}/notification-preferences`,
+  },
+  REQUEST_SUBSCRIPTIONS: {
+    BY_PROFILE: (profileId: string) => `/api/users/${profileId}/request-subscriptions`,
+    BY_ID: (profileId: string, id: string) =>
+      `/api/users/${profileId}/request-subscriptions/${id}`,
+  },
 } as const;
