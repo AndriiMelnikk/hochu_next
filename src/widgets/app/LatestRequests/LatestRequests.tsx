@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import Link from '@/shared/ui/link';
 import { useMemo } from 'react';
 import { useLingui } from '@lingui/react';
 import { ArrowRight } from 'lucide-react';

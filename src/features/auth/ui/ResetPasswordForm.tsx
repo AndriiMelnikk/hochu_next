@@ -10,7 +10,7 @@ import { Input } from '@shared/ui/input';
 import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
 import type { FieldError } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { routes } from '@/app/router/routes';
 import { AxiosError } from 'axios';
 import { useMemo } from 'react';
@@ -35,7 +35,7 @@ interface ResetPasswordFormProps {
 export const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-  const router = useRouter();
+  const router = useLocalizedRouter();
   const resetPasswordFormSchema = useMemo(
     () => getResetPasswordFormSchema(t),
     // eslint-disable-next-line react-hooks/exhaustive-deps

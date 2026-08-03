@@ -1,5 +1,5 @@
 import { Button } from '@shared/ui/button';
-import Link from 'next/link';
+import Link from '@/shared/ui/link';
 import { routes } from '@/app/router/routes';
 import { useLingui } from '@lingui/react';
 

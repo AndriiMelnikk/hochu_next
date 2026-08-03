@@ -641,4 +641,26 @@ export const messages: Messages = {
   'common.footer.privacy': 'Privacy policy',
   'common.footer.support': 'Support',
   'common.footer.copyright': '© 2026 Shukayu. All rights reserved.',
+
+  // Home FAQ section
+  'common.home.faq.title': 'Frequently Asked Questions',
+  'common.home.faq.subtitle': 'Answers to the most common questions about the Shukayu platform',
+  'common.home.faq.whatIs.question': 'What is Shukayu and how does the platform work?',
+  'common.home.faq.whatIs.answer':
+    'Shukayu is a reverse-auction platform for buyers and sellers of services. You describe what you need, and sellers send you offers with prices — you simply pick the best one.',
+  'common.home.faq.howToCreate.question': 'How do I post a service request?',
+  'common.home.faq.howToCreate.answer':
+    'Click "Create request", describe the task, choose a category, budget, location, and urgency. Posting a request takes about 2 minutes, and sellers will start sending offers.',
+  'common.home.faq.isFree.question': 'Is Shukayu free to use?',
+  'common.home.faq.isFree.answer':
+    'Yes, registration, posting service requests, and sending offers are free for all users of the platform.',
+  'common.home.faq.howSellersWork.question': 'How can a seller find orders on Shukayu?',
+  'common.home.faq.howSellersWork.answer':
+    'Go to the "Browse requests" page, filter buyer requests by category, location, or budget, and send your offer with a price, timeline, and warranty.',
+  'common.home.faq.isSafe.question': 'Is it safe to use the platform?',
+  'common.home.faq.isSafe.answer':
+    'Every user has a profile with a rating, reviews, and a history of completed deals. Moderation reviews requests and offers, and the report system helps respond quickly to violations.',
+  'common.home.faq.howToStart.question': 'How do I get started on Shukayu?',
+  'common.home.faq.howToStart.answer':
+    'Sign up in a minute — you get two profiles right away: buyer and seller. Post service requests or send offers as a provider.',
 };

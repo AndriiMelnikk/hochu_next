@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMe } from '@entities/user';
 import { useAuthStore } from '@entities/auth';
@@ -17,7 +17,7 @@ import { Loading } from '@/shared/ui/loading';
 import { NotificationSettingsContent } from '@/widgets/app/NotificationSettings';
 
 const ProfileSettings = () => {
-  const router = useRouter();
+  const router = useLocalizedRouter();
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const { data: user, isLoading, error } = useMe();

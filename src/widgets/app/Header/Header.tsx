@@ -2,51 +2,46 @@
 
 import { Button } from '@shared/ui/button';
 import { RegisterButton } from '@/features/auth';
-import Link from 'next/link';
+import Link, { useCurrentLocale } from '@/shared/ui/link';
 import { Menu, X, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { routes } from '@app/router/routes';
 import { HeroBadge } from '@/shared/ui/hero-badge';
 import { useAuthStore } from '@/entities/auth/store/authStore';
 import { useLingui } from '@lingui/react';
-import type { Locale } from '@/locales/locale';
+import { switchLocaleInPathname, type Locale } from '@/locales/config';
 import { LS_KEYS } from '@shared/config/envVars';
-import { messages as enMessages } from '@/locales/en/create';
-import { messages as ukMessages } from '@/locales/uk/create';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
 
 const Header = () => {
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [currentLocale, setCurrentLocale] = useState<Locale>('uk');
   const { isAuth } = useAuthStore();
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-
-  const messagesByLocale = {
-    en: enMessages,
-    uk: ukMessages,
-  } as const;
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentLocale = useCurrentLocale();
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-    setCurrentLocale((i18n.locale as Locale) || 'uk');
   }, []);
 
   const handleLocaleChange = (locale: Locale) => {
     if (locale === currentLocale) return;
 
-    setCurrentLocale(locale);
-
     if (typeof window !== 'undefined') {
       localStorage.setItem(LS_KEYS.LOCALE, locale);
-      // Зберігаємо також у cookie, щоб сервер міг визначити локаль при наступних навігаціях/рендерах
+      // Cookie використовується middleware для редіректа з непрефіксованих URL
       document.cookie = `locale=${locale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
     }
 
-    i18n.load(locale, messagesByLocale[locale]);
-    i18n.activate(locale);
+    // Навігація на той самий шлях з іншим мовним префіксом
+    const nextPath = switchLocaleInPathname(pathname, locale);
+    const search = typeof window !== 'undefined' ? window.location.search : '';
+    router.push(`${nextPath}${search}`);
   };
 
   if (!mounted) return null;

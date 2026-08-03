@@ -1,41 +1,35 @@
 import { cookies, headers } from 'next/headers';
+import {
+  defaultLocale,
+  isLocale,
+  LOCALE_COOKIE,
+  LOCALE_HEADER,
+  resolveLocale,
+  type Locale,
+} from '@/locales/config';
 
-export type Locale = 'en' | 'uk';
-
-export const defaultLocale: Locale = 'uk';
-
-export function resolveLocale(acceptLanguageHeader?: string): Locale {
-  if (!acceptLanguageHeader) {
-    return defaultLocale;
-  }
-
-  const locales = acceptLanguageHeader
-    .split(',')
-    .map((part) => part.trim().split(';')[0]?.toLowerCase())
-    .filter(Boolean) as string[];
-
-  if (locales.some((locale) => locale.startsWith('uk'))) {
-    return 'uk';
-  }
-
-  if (locales.some((locale) => locale.startsWith('en'))) {
-    return 'en';
-  }
-
-  return defaultLocale;
-}
+export { defaultLocale, isLocale, locales, resolveLocale, LOCALE_HEADER } from '@/locales/config';
+export type { Locale } from '@/locales/config';
 
 export async function getLocaleFromHeaders(): Promise<Locale> {
   try {
-    // 1) Спробувати прочитати локаль з cookies (встановлюється на клієнті при перемиканні мови)
+    const headerStore = await headers();
+
+    // 1) Локаль з мовного префікса URL (виставляється middleware) — джерело істини
+    const pathLocale = headerStore.get(LOCALE_HEADER);
+    if (isLocale(pathLocale)) {
+      return pathLocale;
+    }
+
+    // 2) Fallback: cookie (встановлюється при перемиканні мови)
     const cookieStore = await cookies();
-    const cookieLocale = cookieStore.get('locale')?.value as Locale | undefined;
-    if (cookieLocale === 'uk' || cookieLocale === 'en') {
+    const cookieLocale = cookieStore.get(LOCALE_COOKIE)?.value;
+    if (isLocale(cookieLocale)) {
       return cookieLocale;
     }
 
-    // 2) Якщо немає cookie — fallback на Accept-Language
-    const acceptLanguage = (await headers()).get('accept-language') ?? '';
+    // 3) Fallback: Accept-Language
+    const acceptLanguage = headerStore.get('accept-language') ?? '';
     return resolveLocale(acceptLanguage);
   } catch {
     return defaultLocale;

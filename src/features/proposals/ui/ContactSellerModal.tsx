@@ -16,7 +16,7 @@ import {
 import { useUserContacts } from '@/entities/user/hooks/useUserContacts';
 import { ContactChannel } from '@/entities/user/types/User';
 import { Button } from '@shared/ui/button';
-import Link from 'next/link';
+import Link from '@/shared/ui/link';
 
 interface ContactSellerModalProps {
   userId: string;

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/shared/ui/link';
 import { Badge } from '@shared/ui/badge';
 import { Clock, Wallet, MapPin } from 'lucide-react';
 import { routes } from '@/app/router/routes';

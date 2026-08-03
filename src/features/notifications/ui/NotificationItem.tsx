@@ -1,7 +1,7 @@
 'use client';
 
 import { useLingui } from '@lingui/react';
-import { useRouter } from 'next/navigation';
+import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { cn } from '@/lib/utils';
 import type { INotification } from '@/entities/notification';
 import { useMarkNotificationRead } from '@/entities/notification';
@@ -13,7 +13,7 @@ interface NotificationItemProps {
 export const NotificationItem = ({ notification }: NotificationItemProps) => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-  const router = useRouter();
+  const router = useLocalizedRouter();
   const { mutate: markRead } = useMarkNotificationRead();
 
   const handleClick = () => {

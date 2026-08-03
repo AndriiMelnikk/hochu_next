@@ -2,7 +2,7 @@
 
 import { FieldErrors, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { registerSchema, useAuthStore, type IRegisterRequest } from '@/entities/auth';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
@@ -17,7 +17,7 @@ import { Separator } from '@shared/ui/separator';
 export const RegisterForm = () => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-  const router = useRouter();
+  const router = useLocalizedRouter();
   const { register: registerUser, isLoading } = useAuthStore();
 
   const form = useForm<IRegisterRequest>({

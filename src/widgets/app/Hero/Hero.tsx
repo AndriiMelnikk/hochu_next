@@ -3,7 +3,7 @@
 import { Button } from '@shared/ui/button';
 import { HeroBadge } from '@shared/ui/hero-badge';
 import { CreateRequestButton } from '@/features/requests';
-import Link from 'next/link';
+import Link from '@/shared/ui/link';
 import { Search, MessageSquare, CheckCircle } from 'lucide-react';
 import { routes } from '@/app/router/routes';
 import { useLingui } from '@lingui/react';

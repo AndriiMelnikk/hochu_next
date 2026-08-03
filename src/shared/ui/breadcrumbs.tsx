@@ -1,13 +1,17 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import Link from 'next/link';
+import Link from '@/shared/ui/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { cn } from '@/lib/utils';
 import { routes } from '@/app/router/routes';
 import { useCategories, getCategoryPath } from '@/entities/category';
+import { localizeHref } from '@/locales/config';
+import { useCurrentLocale } from '@/shared/ui/link';
+import { JsonLd } from '@/shared/seo/JsonLd';
+import { getBreadcrumbListJsonLd } from '@/shared/seo/schemas';
 import { Button } from '@shared/ui/button';
 import {
   Breadcrumb,
@@ -40,6 +44,7 @@ function buildCategoryHref(categoryId: string) {
 export function Breadcrumbs({ categoryId, currentLabel, className, backHref }: BreadcrumbsProps) {
   const router = useRouter();
   const { i18n } = useLingui();
+  const locale = useCurrentLocale();
 
   const { data: categories = [] } = useCategories();
 
@@ -77,6 +82,14 @@ export function Breadcrumbs({ categoryId, currentLabel, className, backHref }: B
         className,
       )}
     >
+      <JsonLd
+        data={getBreadcrumbListJsonLd(
+          breadcrumbItems.map((item) => ({
+            name: item.label,
+            url: item.href ? localizeHref(locale, item.href) : undefined,
+          })),
+        )}
+      />
       {backHref ? (
         <Button variant="link" size="sm" className="h-8 shrink-0 px-2" asChild>
           <Link href={backHref}>

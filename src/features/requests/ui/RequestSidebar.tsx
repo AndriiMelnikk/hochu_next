@@ -6,7 +6,7 @@ import { Separator } from '@shared/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import { IRequestBuyer } from '@/entities/request/types/Request';
 import { routes } from '@/app/router/routes';
-import Link from 'next/link';
+import Link from '@/shared/ui/link';
 
 interface RequestSidebarProps {
   buyer?: IRequestBuyer;

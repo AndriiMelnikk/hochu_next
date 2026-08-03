@@ -7,7 +7,7 @@ import { Button } from '@shared/ui/button';
 import { Badge } from '@shared/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/shared/ui/link';
 import {
   Carousel,
   CarouselContent,

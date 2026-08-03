@@ -6,7 +6,7 @@ import { loginSchema } from '@entities/auth/schemas/authSchema';
 import { Button } from '@shared/ui/button';
 import { Input } from '@shared/ui/input';
 import { useAuthStore } from '@entities/auth/store/authStore';
-import { useRouter } from 'next/navigation';
+import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { toast } from 'sonner';
 import { ILoginRequest } from '@/entities/auth';
 import { routes } from '@/app/router/routes';
@@ -17,7 +17,7 @@ import { GoogleSignInButton } from './GoogleSignInButton';
 import { Separator } from '@shared/ui/separator';
 
 export const LoginForm = () => {
-  const router = useRouter();
+  const router = useLocalizedRouter();
   const { login: loginUser, isLoading } = useAuthStore();
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);

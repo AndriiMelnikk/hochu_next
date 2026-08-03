@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { useQueryClient } from '@tanstack/react-query';
 import { routes } from '@/app/router/routes';
 import { useAuthStore } from '@/entities/auth';
@@ -31,7 +31,7 @@ export default function ProfilesTabContent() {
     seller: t('profile.type.seller'),
   };
 
-  const router = useRouter();
+  const router = useLocalizedRouter();
   const queryClient = useQueryClient();
   const resetRequestStore = useRequestStore((s) => s.reset);
   const { user, currentProfileId, switchProfile } = useAuthStore();
@@ -68,9 +68,7 @@ export default function ProfilesTabContent() {
 
   if (error) {
     return (
-      <div className="p-8 text-center text-destructive">
-        {t('profile.profiles.loadingError')}
-      </div>
+      <div className="p-8 text-center text-destructive">{t('profile.profiles.loadingError')}</div>
     );
   }
 
@@ -79,9 +77,7 @@ export default function ProfilesTabContent() {
       <Card>
         <CardHeader>
           <CardTitle>{t('profile.profiles.title')}</CardTitle>
-          <CardDescription>
-            {t('profile.profiles.description')}
-          </CardDescription>
+          <CardDescription>{t('profile.profiles.description')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -139,7 +135,7 @@ interface ProfileCardProps {
 function ProfileCard({ profile, isActive, onSelect, labels }: ProfileCardProps) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-  
+
   const Icon = PROFILE_TYPE_ICONS[profile.type];
   const label = labels[profile.type];
   const displayName = [profile.name, profile.lastName].filter(Boolean).join(' ') || label;

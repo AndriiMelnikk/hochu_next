@@ -5,7 +5,7 @@ import { useLingui } from '@lingui/react';
 import { useForm, type FieldError, type FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
+import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { FileText, Wallet, MapPin, Clock, Upload, Tag, Package, X, Loader2 } from 'lucide-react';
@@ -52,7 +52,7 @@ const urgencyOptions = Object.values(REQUEST_URGENCY).map((value) => ({
 export const CreateRequestForm = () => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-  const router = useRouter();
+  const router = useLocalizedRouter();
   const { createRequest, creating: isSubmitting } = useRequestStore();
 
   const {

@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@shared/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
 import { Star } from 'lucide-react';
 import { format } from 'date-fns';
-import Link from 'next/link';
+import Link from '@/shared/ui/link';
 import { routes } from '@/app/router/routes';
 
 interface ReviewCardProps {
