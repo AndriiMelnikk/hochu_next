@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="70%" stop-color="#16213e"/>
+      <stop offset="100%" stop-color="#e63946"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#bg)"/>
+  <circle cx="760" cy="140" r="120" fill="#e63946" opacity="0.25"/>
+  <circle cx="180" cy="420" r="160" fill="#ffffff" opacity="0.06"/>
+  <text x="80" y="250" fill="#e63946" font-family="Arial, Helvetica, sans-serif" font-size="96" font-weight="700">Shukayu</text>
+  <text x="80" y="330" fill="#f5f5f5" font-family="Arial, Helvetica, sans-serif" font-size="36">;0BD>@<0 4;O ?>:C?FV2 V ?@>402FV2 ?>A;C3</text>
+</svg>

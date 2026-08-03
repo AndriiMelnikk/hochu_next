@@ -11,7 +11,7 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
   HOME: {
     title: 'Shukayu — Platform Connecting Buyers and Sellers of Services',
     description:
-      'Stop searching — say what you need. Post a service request for free, receive offers from sellers, and choose the best deal on Shukayu.',
+      'Stop searching — say what you need. Post a free service request, get offers from sellers, and choose the best price on Shukayu.',
   },
   ABOUT: {
     title: 'About Shukayu — How We Connect Buyers and Sellers',

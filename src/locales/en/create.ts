@@ -641,6 +641,8 @@ export const messages: Messages = {
   'common.footer.privacy': 'Privacy policy',
   'common.footer.support': 'Support',
   'common.footer.copyright': '© 2026 Shukayu. All rights reserved.',
+  'common.footer.externalPrefix': 'Learn more about the',
+  'common.footer.externalLink': 'reverse auction model',
 
   // Home FAQ section
   'common.home.faq.title': 'Frequently Asked Questions',
@@ -663,4 +665,25 @@ export const messages: Messages = {
   'common.home.faq.howToStart.question': 'How do I get started on Shukayu?',
   'common.home.faq.howToStart.answer':
     'Sign up in a minute — you get two profiles right away: buyer and seller. Post service requests or send offers as a provider.',
+
+  // Home SEO intro section
+  'common.home.intro.title': 'A platform for service requests and seller offers',
+  'common.home.intro.p1':
+    'Shukayu is an online marketplace where buyers describe a service request and sellers compete with their own offers. Instead of searching for a provider for hours, you describe the job once: category, budget, location, and urgency. Sellers then send prices, timelines, and warranty terms — and you compare options in one place.',
+  'common.home.intro.p2':
+    'This format works for both sides. Buyers save time on outreach: offers arrive centrally, while ratings and reviews help assess trust. Sellers see real demand — live buyer requests online — and can respond to relevant jobs without cold outreach.',
+  'common.home.intro.p3':
+    'On Shukayu you can post a request for free, browse the request catalog, chat about deal details, and leave reviews after the work is done. Moderation and a report system help keep listings high-quality, while XP and achievements in the profile encourage fair collaboration.',
+  'common.home.intro.listTitle': 'What you get on the platform',
+  'common.home.intro.bullet1':
+    'Buyer requests online with filters by category, location, and budget',
+  'common.home.intro.bullet2': 'Seller offers with price, delivery time, and warranty',
+  'common.home.intro.bullet3': 'Rating, reviews, and completed-deal history on the user profile',
+  'common.home.intro.bullet4': 'Free registration with buyer and seller profiles in one account',
+  'common.home.intro.p4':
+    'The model is close to a reverse auction, where providers compete for a client request. You can read more about this approach in the Wikipedia article',
+  'common.home.intro.externalLink': 'Reverse auction',
+  'common.home.intro.cta': 'See how it works step by step',
+  'common.home.intro.imageAlt':
+    'Shukayu platform overview — a service connecting buyers and sellers of services in Ukraine',
 };

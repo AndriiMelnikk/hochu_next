@@ -59,6 +59,11 @@ export function getDefaultMetadata(locale: Locale): Metadata {
   return {
     metadataBase: new URL(siteUrl),
     ...defaults,
+    icons: {
+      icon: [{ url: '/favicon.ico', sizes: 'any' }],
+      shortcut: '/favicon.ico',
+      apple: '/favicon.ico',
+    },
     robots: { index: true, follow: true },
     openGraph: {
       type: 'website',
@@ -106,6 +111,11 @@ export function getMetadataForRoute(
   const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
     ...merged,
+    icons: {
+      icon: [{ url: '/favicon.ico', sizes: 'any' }],
+      shortcut: '/favicon.ico',
+      apple: '/favicon.ico',
+    },
     robots: noindex ? { index: false, follow: false } : { index: true, follow: true },
     openGraph: {
       type: 'website',

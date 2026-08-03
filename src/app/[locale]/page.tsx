@@ -2,6 +2,7 @@ import Hero from '@/widgets/app/Hero';
 import LatestRequests from '@/widgets/app/LatestRequests';
 import Features from '@/widgets/app/Features';
 import HowItWorks from '@/widgets/app/HowItWorks';
+import PlatformIntro from '@/widgets/app/PlatformIntro';
 import Faq from '@/widgets/app/Faq';
 import { getLocaleFromHeaders } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
@@ -18,6 +19,7 @@ export default function HomePage() {
       <LatestRequests />
       <Features />
       <HowItWorks />
+      <PlatformIntro />
       <Faq />
     </>
   );

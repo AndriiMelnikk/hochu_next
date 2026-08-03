@@ -1,0 +1,32 @@
+# Shukayu
+
+> Shukayu is a reverse-auction marketplace that connects buyers and sellers of services in Ukraine. Buyers post what they need; sellers send price offers; the buyer picks the best deal.
+
+Site: https://shukayu.com.ua
+Languages: Ukrainian (default, /uk), English (/en)
+
+## Primary pages
+
+- [Home](https://shukayu.com.ua/uk): Platform overview, how it works, FAQ
+- [Browse requests](https://shukayu.com.ua/uk/request): Live buyer service requests for sellers
+- [Create request](https://shukayu.com.ua/uk/create): Post a free service request as a buyer
+- [How it works](https://shukayu.com.ua/uk/how-it-works): Step-by-step flow from request to deal
+- [About](https://shukayu.com.ua/uk/about): Mission and platform principles
+- [Contact](https://shukayu.com.ua/uk/contact): Contact the Shukayu team
+- [Support](https://shukayu.com.ua/uk/support): Help and common questions
+- [Terms](https://shukayu.com.ua/uk/terms): Terms of service
+- [Privacy](https://shukayu.com.ua/uk/privacy): Privacy policy
+
+English equivalents use the /en prefix (e.g. https://shukayu.com.ua/en/request).
+
+## Product model
+
+1. Buyer creates a request (category, budget, location, urgency).
+2. Sellers browse requests and send proposals (price, timeline, warranty).
+3. Buyer compares offers, chats with sellers, and accepts one proposal.
+4. After the deal, users leave reviews that build profile reputation.
+
+## Optional
+
+- Sitemap: https://shukayu.com.ua/sitemap.xml
+- Robots: https://shukayu.com.ua/robots.txt

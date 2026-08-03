@@ -91,27 +91,23 @@ const Footer = () => {
         </div>
 
         {/* Social & Copyright */}
-        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-muted-foreground text-sm mb-4 md:mb-0">
-            {t('common.footer.copyright')}
+        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-muted-foreground text-sm mb-0">{t('common.footer.copyright')}</p>
+          <p className="text-muted-foreground text-sm text-center md:text-right">
+            {t('common.footer.externalPrefix')}{' '}
+            <a
+              href={
+                i18n.locale === 'uk'
+                  ? 'https://uk.wikipedia.org/wiki/%D0%97%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%B8%D0%B9_%D0%B0%D1%83%D0%BA%D1%86%D1%96%D0%BE%D0%BD'
+                  : 'https://en.wikipedia.org/wiki/Reverse_auction'
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline underline-offset-2"
+            >
+              {t('common.footer.externalLink')}
+            </a>
           </p>
-
-          {/* TODO: add social media links */}
-
-          {/* <div className="flex space-x-4">
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              <Facebook className="h-5 w-5" />
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              <Twitter className="h-5 w-5" />
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              <Instagram className="h-5 w-5" />
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-              <Linkedin className="h-5 w-5" />
-            </a>
-          </div> */}
         </div>
       </div>
     </footer>
