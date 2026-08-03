@@ -97,17 +97,17 @@ const ProfileSettings = () => {
       </Card>
 
       {/* Налаштування сповіщень */}
-      <Card>
-        <CardHeader>
+      <Card className="relative overflow-hidden">
+        <CardHeader className="opacity-50">
           <CardTitle>{t('profile.notifications.title') || 'Сповіщення'}</CardTitle>
           <CardDescription>
             {t('profile.notifications.settingsDescription') ||
               'Керуйте сповіщеннями для акаунта та профілів'}
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        {/* <CardContent>
           <NotificationSettingsContent />
-        </CardContent>
+        </CardContent> */}
       </Card>
 
       {/* Конфіденційність */}
