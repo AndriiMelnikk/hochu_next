@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from '@/shared/ui/link';
 import { routes } from '@/app/router/routes';
 import { useLingui } from '@lingui/react';
@@ -65,14 +66,12 @@ const PlatformIntro = () => {
           </div>
 
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border-2 border-border bg-card">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/platform-overview.svg"
+            <Image
+              src="/images/platform-overview.jpg"
               alt={t('common.home.intro.imageAlt')}
-              className="h-full w-full object-cover"
-              width={960}
-              height={540}
-              loading="lazy"
+              fill
+              className="object-cover"
+              sizes="(min-width: 1024px) 512px, 100vw"
             />
           </div>
         </div>
