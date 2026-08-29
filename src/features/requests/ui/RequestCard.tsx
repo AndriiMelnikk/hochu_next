@@ -33,7 +33,7 @@ export const RequestCard = ({ request, categoryName, status }: RequestCardProps)
   }
 
   return (
-    <Link href={`${routes.REQUEST_ID(request._id.toString())}`} className="group">
+    <Link href={`${routes.REQUEST_ID(request._id.toString())}`} className="group" prefetch={false}>
       <div className="bg-card rounded-2xl p-6 shadow-md border border-border hover:shadow-lg hover:shadow-blue/20 transition-all h-full flex flex-col">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
