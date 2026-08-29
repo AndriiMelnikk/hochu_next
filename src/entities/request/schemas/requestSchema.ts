@@ -30,7 +30,7 @@ export const requestSchema = z.object({
   urgency: z.number(),
   itemCondition: z.nativeEnum(ItemCondition),
   buyerId: requestBuyerSchema,
-  images: z.array(z.string()),
+  images: z.array(z.string()).optional().default([]),
   views: z.number(),
   proposalsCount: z.number(),
   rejectedProposalsCount: z.number(),

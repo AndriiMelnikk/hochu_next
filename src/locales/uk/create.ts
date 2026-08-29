@@ -58,7 +58,7 @@ export const messages: Messages = {
   'request.create.titleEmphasis': 'запит',
   'request.create.titleHint': 'Стисло опишіть що вам потрібно',
   'request.create.titleLabel': 'Заголовок запиту',
-  'request.create.titlePlaceholder': 'Наприклад: Шукаю веб-дизайнера для створення лендінгу',
+  'request.create.titlePlaceholder': 'Наприклад: Триметр бензиновий',
   'request.create.titlePrefix': 'Створити',
   'request.create.urgencyDays': '2-3 дні',
   'request.create.urgencyFlexible': 'Гнучко (не терміново)',
@@ -318,6 +318,9 @@ export const messages: Messages = {
   'proposal.rejection.OWN_REQUEST': 'Ви не можете залишати пропозиції до власного запиту',
   'proposal.rejection.ALREADY_PROPOSED': 'Ви вже залишили пропозицію до цього запиту',
   'proposal.rejection.NOT_SELLER': 'Ви не є виконавцем (продавцем)',
+  'proposal.rejection.NO_CONTACTS': 'Щоб залишити пропозицію, додайте хоча б один канал звʼязку',
+  'request.detail.switchToSeller': 'Змінити тип профілю',
+  'request.detail.addContacts': 'Додати канали звʼязку',
 
   // Create Request Auth/Role checks
   'request.create.authRequired.title': 'Потрібна авторизація',

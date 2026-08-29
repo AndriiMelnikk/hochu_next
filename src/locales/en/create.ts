@@ -58,8 +58,7 @@ export const messages: Messages = {
   'request.create.titleEmphasis': 'request',
   'request.create.titleHint': 'Briefly describe what you need',
   'request.create.titleLabel': 'Request title',
-  'request.create.titlePlaceholder':
-    'For example: Looking for a web designer to create a landing page',
+  'request.create.titlePlaceholder': 'For example: Petrol trimmer',
   'request.create.titlePrefix': 'Create',
   'request.create.urgencyDays': '2-3 days',
   'request.create.urgencyFlexible': 'Flexible (not urgent)',
@@ -319,6 +318,9 @@ export const messages: Messages = {
   'proposal.rejection.OWN_REQUEST': 'You cannot make a proposal to your own request',
   'proposal.rejection.ALREADY_PROPOSED': 'You have already made a proposal for this request',
   'proposal.rejection.NOT_SELLER': 'You are not a seller',
+  'proposal.rejection.NO_CONTACTS': 'Add at least one contact channel to submit a proposal',
+  'request.detail.switchToSeller': 'Change profile type',
+  'request.detail.addContacts': 'Add contact channels',
 
   // Create Request Auth/Role checks
   'request.create.authRequired.title': 'Authorization required',

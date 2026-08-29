@@ -158,7 +158,7 @@ export const RequestInfo = ({
           <div className="flex flex-col items-end gap-2">
             {isOwner && request.status === RequestStatus.ACTIVE && (
               <>
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="sm" disabled={updating}>
                       {t('request.actions.menu')}
@@ -166,12 +166,21 @@ export const RequestInfo = ({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="min-w-[200px]">
-                    <DropdownMenuItem onClick={() => setEditModalOpen(true)} disabled={isCancelled}>
+                    <DropdownMenuItem
+                      disabled={isCancelled}
+                      onSelect={() => {
+                        window.setTimeout(() => setEditModalOpen(true), 0);
+                      }}
+                    >
                       <Pencil className="h-4 w-4 mr-2 text-primary" />
                       {t('request.actions.edit')}
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem onClick={() => setCancelDialogOpen(true)}>
+                    <DropdownMenuItem
+                      onSelect={() => {
+                        window.setTimeout(() => setCancelDialogOpen(true), 0);
+                      }}
+                    >
                       <XCircle className="h-4 w-4 mr-2 text-destructive" />
                       {t('request.actions.cancel')}
                     </DropdownMenuItem>

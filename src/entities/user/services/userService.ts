@@ -7,6 +7,7 @@ import type {
   IUpdateProfileRequest,
   ICreateProfileRequest,
 } from '../types/User';
+import { normalizeContacts } from '../utils/contacts';
 
 class UserService {
   async get(id: string | number, config?: AxiosRequestConfig): Promise<IProfile> {
@@ -46,7 +47,8 @@ class UserService {
     id: string | number,
     config?: AxiosRequestConfig,
   ): Promise<Partial<Record<ContactChannel, string>>> {
-    return (await api.get(`/api/users/${id}/contacts`, config)).data;
+    const data = (await api.get(`/api/users/${id}/contacts`, config)).data;
+    return normalizeContacts(data);
   }
 
   async uploadAvatar(file: File): Promise<string> {

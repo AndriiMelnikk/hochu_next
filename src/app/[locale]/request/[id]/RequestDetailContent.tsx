@@ -5,18 +5,24 @@ import { useLingui } from '@lingui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
 import { RequestStatus, useRequest, IRequest } from '@/entities/request';
-import { useMe } from '@/entities/user/hooks/useUser';
-import { ProposalStatus, useCanPropose, useProposals } from '@/entities/proposal';
+import { useMe, useUserContacts, hasFilledContacts } from '@/entities/user';
+import {
+  ProposalStatus,
+  ProposalRejectionReason,
+  useCanPropose,
+  useProposals,
+} from '@/entities/proposal';
 import { RequestInfo, RequestSidebar, StatusGuide } from '@/features/requests';
 import { CreateProposalForm, ProposalList } from '@/features/proposals';
 import { DiscussionForm, DiscussionList } from '@/features/discussions';
+import { EditContactChannelsModal, SwitchProfileModal } from '@/features/user';
 import { Loading } from '@shared/ui/loading';
 import { Error } from '@shared/ui/error';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 import { Breadcrumbs } from '@shared/ui/breadcrumbs';
 import { Alert, AlertDescription, AlertTitle } from '@shared/ui/alert';
 import { Button } from '@shared/ui/button';
-import { Ban, LogIn, UserPlus } from 'lucide-react';
+import { Ban, LogIn, Phone, UserPlus, Users } from 'lucide-react';
 import Link from '@/shared/ui/link';
 import { routes } from '@/app/router/routes';
 
@@ -31,16 +37,22 @@ export default function RequestDetailContent({
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
   const queryClient = useQueryClient();
 
-  const {
-    data: request,
-    isLoading,
-    error,
-  } = useRequest(id, {
+  const { data: request, isLoading } = useRequest(id, {
     initialData: initialData ?? undefined,
     staleTime: 60_000,
   });
   const { data: canProposeData } = useCanPropose(request?._id);
   const { data: user } = useMe();
+  const {
+    data: contacts,
+    isLoading: isContactsLoading,
+    isError: isContactsError,
+  } = useUserContacts(user?.profile?._id, {
+    enabled:
+      !!user?.profile?._id &&
+      (canProposeData?.canPropose === true ||
+        canProposeData?.reason === ProposalRejectionReason.NO_CONTACTS),
+  });
   const { data: completedProposals } = useProposals(id, {
     status: ProposalStatus.COMPLETED,
     page: 1,
@@ -52,6 +64,8 @@ export default function RequestDetailContent({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [activeLightboxImages, setActiveLightboxImages] = useState<string[]>([]);
+  const [contactsModalOpen, setContactsModalOpen] = useState(false);
+  const [switchProfileModalOpen, setSwitchProfileModalOpen] = useState(false);
 
   // Discussion state
   const [replyTo, setReplyTo] = useState<number | null>(null);
@@ -84,7 +98,7 @@ export default function RequestDetailContent({
     return <Loading variant="full-page" />;
   }
 
-  if (error || !request) {
+  if (!request) {
     return <Error variant="full-page" message={t('request.detail.loadingError')} />;
   }
 
@@ -103,6 +117,22 @@ export default function RequestDetailContent({
   const lightboxImages =
     activeLightboxImages.length > 0 ? activeLightboxImages : request.images || [];
 
+  const contactsFilled = hasFilledContacts(contacts);
+  const noContactsFromList = !isContactsLoading && !isContactsError && !contactsFilled;
+  const blockedByMissingContacts =
+    noContactsFromList &&
+    (canProposeData?.canPropose === true ||
+      canProposeData?.reason === ProposalRejectionReason.NO_CONTACTS);
+  const cannotProposeReason = blockedByMissingContacts
+    ? ProposalRejectionReason.NO_CONTACTS
+    : !canProposeData?.canPropose && canProposeData?.reason !== ProposalRejectionReason.NO_CONTACTS
+      ? canProposeData?.reason
+      : undefined;
+  const showProposalForm =
+    !blockedByMissingContacts &&
+    !isContactsLoading &&
+    (canProposeData?.canPropose === true ||
+      (canProposeData?.reason === ProposalRejectionReason.NO_CONTACTS && contactsFilled));
   return (
     <div className="container mx-auto px-4 max-w-7xl">
       <Breadcrumbs categoryId={request.category.id} currentLabel={request.title} />
@@ -128,7 +158,11 @@ export default function RequestDetailContent({
             }}
           />
 
-          {canProposeData?.canPropose && (
+          {(canProposeData?.canPropose ||
+            canProposeData?.reason === ProposalRejectionReason.NO_CONTACTS) &&
+            isContactsLoading && <Loading variant="block" />}
+
+          {showProposalForm && (
             <CreateProposalForm
               budget={budget}
               requestId={request._id}
@@ -136,14 +170,69 @@ export default function RequestDetailContent({
             />
           )}
 
-          {!canProposeData?.canPropose && canProposeData?.reason && (
+          {cannotProposeReason && (
             <Alert variant="amber">
               <Ban className="h-4 w-4" />
               <AlertTitle>{t('request.detail.cannotPropose')}</AlertTitle>
-              <AlertDescription>
-                {t(`proposal.rejection.${canProposeData.reason}`)}
+              <AlertDescription className="flex flex-col gap-3">
+                <span>{t(`proposal.rejection.${cannotProposeReason}`)}</span>
+                {cannotProposeReason === ProposalRejectionReason.NOT_SELLER && user && (
+                  <div className="pt-1">
+                    <Button
+                      size="sm"
+                      className="gap-1.5"
+                      onClick={() => setSwitchProfileModalOpen(true)}
+                    >
+                      <Users className="h-3.5 w-3.5" />
+                      {t('request.detail.switchToSeller')}
+                    </Button>
+                  </div>
+                )}
+                {cannotProposeReason === ProposalRejectionReason.NO_CONTACTS && user && (
+                  <div className="pt-1">
+                    <Button
+                      size="sm"
+                      className="gap-1.5"
+                      onClick={() => setContactsModalOpen(true)}
+                    >
+                      <Phone className="h-3.5 w-3.5" />
+                      {t('request.detail.addContacts')}
+                    </Button>
+                  </div>
+                )}
               </AlertDescription>
             </Alert>
+          )}
+
+          {user && (
+            <>
+              <EditContactChannelsModal
+                user={user}
+                open={contactsModalOpen}
+                onOpenChange={setContactsModalOpen}
+                onSuccess={() => {
+                  void queryClient.invalidateQueries({
+                    queryKey: ['users', 'contacts', user.profile._id],
+                  });
+                  if (request._id) {
+                    void queryClient.invalidateQueries({
+                      queryKey: ['proposals', 'canPropose', request._id],
+                    });
+                  }
+                }}
+              />
+              <SwitchProfileModal
+                open={switchProfileModalOpen}
+                onOpenChange={setSwitchProfileModalOpen}
+                onSuccess={() => {
+                  if (request._id) {
+                    void queryClient.invalidateQueries({
+                      queryKey: ['proposals', 'canPropose', request._id],
+                    });
+                  }
+                }}
+              />
+            </>
           )}
 
           {!user && (

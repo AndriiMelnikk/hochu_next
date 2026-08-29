@@ -1,19 +1,20 @@
 'use client';
 
+import { useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { CreateRequestForm } from '@/features/requests';
 import { useMe } from '@/entities/user/hooks/useUser';
 import { Button } from '@/shared/ui/button';
-import { routes } from '@/app/router/routes';
-import Link from '@/shared/ui/link';
-import { Loader2, UserPlus, UserCircle } from 'lucide-react';
+import { UserPlus, UserCircle } from 'lucide-react';
 import { AuthRequired } from '@/features/auth';
 import { Loading } from '@/shared/ui/loading';
+import { SwitchProfileModal } from '@/features/user';
 
 export default function CreateRequestContent() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const { data: user, isLoading, isError } = useMe();
+  const [switchProfileModalOpen, setSwitchProfileModalOpen] = useState(false);
 
   const renderContent = () => {
     if (isLoading) {
@@ -41,12 +42,10 @@ export default function CreateRequestContent() {
           <p className="text-muted-foreground mb-8 max-w-md">
             {t('request.create.buyerProfileRequired.description')}
           </p>
-          <Link href={routes.PROFILE}>
-            <Button size="lg" className="gap-2">
-              <UserPlus className="h-5 w-5" />
-              {t('request.create.buyerProfileRequired.button')}
-            </Button>
-          </Link>
+          <Button size="lg" className="gap-2" onClick={() => setSwitchProfileModalOpen(true)}>
+            <UserPlus className="h-5 w-5" />
+            {t('request.create.buyerProfileRequired.button')}
+          </Button>
         </div>
       );
     }
@@ -79,6 +78,13 @@ export default function CreateRequestContent() {
 
       {/* Content */}
       {renderContent()}
+
+      {user && (
+        <SwitchProfileModal
+          open={switchProfileModalOpen}
+          onOpenChange={setSwitchProfileModalOpen}
+        />
+      )}
     </div>
   );
 }

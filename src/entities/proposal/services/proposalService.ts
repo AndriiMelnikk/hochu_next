@@ -7,6 +7,7 @@ import type { IGetProposalsRequest } from '../types/requests/GetProposals';
 import type { IGetProposalsResponse } from '../types/responses/GetProposals';
 import type { ICanProposeResponse } from '../types/responses/CanPropose';
 import type { IProposalWithSeller, IProposalSeller } from '../types/Proposal';
+import { parseProposalRejectionReason } from '../utils/rejectionReason';
 
 /** Бекенд може повертати sellerId як populated об'єкт; нормалізуємо до sellerId (string) + seller (object). */
 function normalizeProposalItem(raw: Record<string, unknown>): IProposalWithSeller {
@@ -63,7 +64,11 @@ class ProposalService {
     config?: AxiosRequestConfig,
   ): Promise<ICanProposeResponse> {
     const url = ENDPOINTS.PROPOSALS.CAN_PROPOSE(requestId);
-    return (await api.get(url, config)).data;
+    const data = (await api.get(url, config)).data;
+    return {
+      ...data,
+      reason: parseProposalRejectionReason(data?.reason) ?? data?.reason,
+    };
   }
 
   async create(

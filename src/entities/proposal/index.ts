@@ -17,3 +17,7 @@ export {
   updateProposalSchema,
 } from './schemas/proposalSchema';
 export * from './const';
+export {
+  parseProposalRejectionReason,
+  getProposalRejectionReasonFromError,
+} from './utils/rejectionReason';

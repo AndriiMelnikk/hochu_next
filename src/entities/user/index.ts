@@ -9,6 +9,8 @@ export type {
 } from './types/User';
 export { useUser, useMe } from './hooks/useUser';
 export { useProfiles, useCreateProfile } from './hooks/useProfiles';
+export { useUserContacts } from './hooks/useUserContacts';
+export { hasFilledContacts, normalizeContacts } from './utils/contacts';
 export {
   accountSchema,
   profileSchema,

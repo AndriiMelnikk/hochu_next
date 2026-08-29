@@ -22,8 +22,12 @@ export const EditRequestModal = ({
   const t = (id: string) => i18n._(id);
 
   const handleSuccess = () => {
-    onSuccess();
     onOpenChange(false);
+    // Invalidate after the dialog starts closing so Radix can release the
+    // pointer-events lock before the page re-renders with fresh request data.
+    window.setTimeout(() => {
+      onSuccess();
+    }, 0);
   };
 
   const handleCancel = () => {

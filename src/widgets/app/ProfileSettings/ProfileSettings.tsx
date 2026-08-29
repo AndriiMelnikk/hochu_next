@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMe } from '@entities/user';
@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shar
 import { Button } from '@shared/ui/button';
 import { routes } from '@/app/router/routes';
 import { toast } from 'sonner';
+import { PROFILE_HASH } from '@/widgets/app/ProfileTabs/const';
 
 import { Lock } from 'lucide-react';
 import { Loading } from '@/shared/ui/loading';
@@ -26,6 +27,17 @@ const ProfileSettings = () => {
   const logout = useAuthStore((s) => s.logout);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+
+  useEffect(() => {
+    if (window.location.hash.replace(/^#/, '') !== PROFILE_HASH.CONTACTS) return;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById('profile-contacts')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -59,10 +71,8 @@ const ProfileSettings = () => {
       {/* Особиста інформація */}
       <Card>
         <CardHeader>
-          <CardTitle>{t('profile.edit.title') || 'Особиста інформація'}</CardTitle>
-          <CardDescription>
-            {t('profile.edit.description') || 'Оновіть свої особисті дані та контактну інформацію'}
-          </CardDescription>
+          <CardTitle>{t('profile.edit.title')}</CardTitle>
+          <CardDescription>{t('profile.edit.description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <EditProfileForm user={user} />
@@ -70,13 +80,10 @@ const ProfileSettings = () => {
       </Card>
 
       {/* Канали зв&apos;язку */}
-      <Card>
+      <Card id="profile-contacts" className="scroll-mt-24">
         <CardHeader>
-          <CardTitle>{t('profile.contacts.title') || 'Канали зв&apos;язку'}</CardTitle>
-          <CardDescription>
-            {t('profile.contacts.description') ||
-              'Налаштуйте способи, за якими інші користувачі зможуть з вами зв&apos;язатися'}
-          </CardDescription>
+          <CardTitle>{t('profile.contacts.title')}</CardTitle>
+          <CardDescription>{t('profile.contacts.description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <EditContactChannelsForm user={user} />

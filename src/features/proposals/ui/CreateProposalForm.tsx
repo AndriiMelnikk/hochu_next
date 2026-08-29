@@ -27,6 +27,7 @@ import { ItemCondition, requestService } from '@/entities/request';
 import {
   createProposalSchema,
   useCreateProposal,
+  getProposalRejectionReasonFromError,
   PROPOSAL_DELIVERY_TIME,
   PROPOSAL_DELIVERY_TIME_LABELS,
   PROPOSAL_WARRANTY,
@@ -137,7 +138,13 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
       onSuccess?.();
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
-        toast.error(error.response?.data?.error?.message || t('proposal.create.error'));
+        const rejectionReason = getProposalRejectionReasonFromError(error);
+        toast.error(
+          error.response?.data?.error?.message ||
+            (rejectionReason
+              ? t(`proposal.rejection.${rejectionReason}`)
+              : t('proposal.create.error')),
+        );
       } else {
         toast.error(t('proposal.create.error'));
       }

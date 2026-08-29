@@ -19,6 +19,7 @@ import {
   useCreateProfile,
   createProfileSchema,
   type ICreateProfileRequest,
+  type IProfile,
   type ProfileType,
 } from '@/entities/user';
 import { toast } from 'react-toastify';
@@ -33,7 +34,7 @@ interface CreateProfileModalProps {
   type: ProfileType;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSuccess?: () => void;
+  onSuccess?: (profile: IProfile) => void;
 }
 
 export const CreateProfileModal = ({
@@ -61,11 +62,11 @@ export const CreateProfileModal = ({
 
   const handleSubmit = async (data: ICreateProfileRequest) => {
     try {
-      await createProfileMutation.mutateAsync({ ...data, type });
+      const profile = await createProfileMutation.mutateAsync({ ...data, type });
       toast.success(`Профіль типу "${PROFILE_TYPE_LABELS[type]}" створено`);
       form.reset();
       onOpenChange(false);
-      onSuccess?.();
+      onSuccess?.(profile);
     } catch {
       toast.error('Не вдалося створити профіль');
     }

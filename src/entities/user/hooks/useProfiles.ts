@@ -22,7 +22,22 @@ export const useCreateProfile = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: ICreateProfileRequest) => userService.createProfile(payload),
+    mutationFn: async (payload: ICreateProfileRequest) => {
+      const data = await userService.createProfile(payload);
+      const raw =
+        data && typeof data === 'object' && 'profile' in data
+          ? ((data as { profile: IProfile }).profile ?? data)
+          : data;
+      const normalized = {
+        rating: 0,
+        xp: 0,
+        completedDeals: 0,
+        type: payload.type,
+        ...raw,
+        _id: raw._id ?? (raw as { id?: string }).id ?? '',
+      };
+      return profileSchema.parse(normalized) as IProfile;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: PROFILES_QUERY_KEY });
     },

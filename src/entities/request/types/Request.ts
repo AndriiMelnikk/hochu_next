@@ -34,9 +34,9 @@ export interface IRequest {
     id: string;
     name: string;
   };
-  budgetMin: number;
+  budgetMin?: number;
   budgetMax: number;
-  location: string;
+  location?: string;
   urgency: number;
   itemCondition: ItemCondition;
   buyerId: IRequestBuyer;

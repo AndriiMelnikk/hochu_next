@@ -19,6 +19,7 @@ import {
 
 import { userService, updateContactsSchema, type IUser } from '@/entities/user';
 import { useAuthStore } from '@/entities/auth';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
@@ -60,6 +61,7 @@ export const EditContactChannelsForm = ({ user, onSuccess }: EditContactChannels
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const { setUser } = useAuthStore();
+  const queryClient = useQueryClient();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -97,6 +99,7 @@ export const EditContactChannelsForm = ({ user, onSuccess }: EditContactChannels
         ...user,
         profile: updatedProfile,
       });
+      void queryClient.invalidateQueries({ queryKey: ['users', 'contacts', user.profile._id] });
 
       toast.success(t('profile.contacts.success') || 'Контактні дані успішно оновлено');
       onSuccess?.();

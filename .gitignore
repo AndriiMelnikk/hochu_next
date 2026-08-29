@@ -53,3 +53,6 @@ next-env.d.ts
 
 # generated translations
 src/locales/**/*.js
+
+# graphify
+graphify-out/cost.json
