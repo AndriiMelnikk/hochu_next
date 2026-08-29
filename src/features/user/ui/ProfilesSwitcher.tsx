@@ -3,23 +3,26 @@
 import { useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { Plus } from 'lucide-react';
-import { useProfiles, type IProfile, type ProfileType } from '@/entities/user';
+
 import { Button } from '@shared/ui/button';
-import { Loading } from '@/shared/ui/loading';
+import { Loading } from '@shared/ui/loading';
+import { useProfiles, type IProfile, type ProfileType } from '@entities/user';
+
 import { ProfileCard } from './ProfileCard';
 import { CreateProfileModal } from './CreateProfileModal';
 import { useProfileSwitch } from '../hooks/useProfileSwitch';
 
 interface ProfilesSwitcherProps {
-  navigateAfterSwitch?: boolean;
+  /** Widget/page supplies the path so this feature does not import app or widgets. */
+  redirectTo?: (profileId: string) => string;
   compact?: boolean;
   embedCreateModal?: boolean;
-  onSwitched?: () => void;
+  onSwitched?: (profileId: string) => void;
   onCreateRequested?: (type: ProfileType) => void;
 }
 
 export function ProfilesSwitcher({
-  navigateAfterSwitch = false,
+  redirectTo,
   compact = false,
   embedCreateModal = true,
   onSwitched,
@@ -29,7 +32,7 @@ export function ProfilesSwitcher({
   const t = (id: string) => i18n._(id);
   const { data: profiles = [], isLoading, error, refetch } = useProfiles();
   const { switchToProfile, activeProfileId } = useProfileSwitch({
-    navigateAfterSwitch,
+    redirectTo,
     onSwitched,
   });
   const [createModalType, setCreateModalType] = useState<ProfileType | null>(null);

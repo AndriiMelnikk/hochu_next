@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@shared/ui/dialog';
-import type { IProfile, ProfileType } from '@/entities/user';
+import type { IProfile, ProfileType } from '@entities/user';
 import { ProfilesSwitcher } from './ProfilesSwitcher';
 import { CreateProfileModal } from './CreateProfileModal';
 import { useProfileSwitch } from '../hooks/useProfileSwitch';

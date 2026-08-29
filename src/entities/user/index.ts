@@ -6,6 +6,7 @@ export type {
   IUpdateProfileRequest,
   ICreateProfileRequest,
   ProfileType,
+  ContactChannel,
 } from './types/User';
 export { useUser, useMe } from './hooks/useUser';
 export { useProfiles, useCreateProfile } from './hooks/useProfiles';

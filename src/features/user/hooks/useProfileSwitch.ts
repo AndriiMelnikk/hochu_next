@@ -3,21 +3,18 @@
 import { useLingui } from '@lingui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
-import { routes } from '@/app/router/routes';
-import { useAuthStore } from '@/entities/auth';
-import { useRequestStore } from '@/entities/request';
-import { PROFILE_TAB } from '@/widgets/app/ProfileTabs/const';
+
+import { useLocalizedRouter } from '@shared/hooks/useLocalizedRouter';
+import { useAuthStore } from '@entities/auth';
+import { useRequestStore } from '@entities/request';
 
 interface UseProfileSwitchOptions {
-  navigateAfterSwitch?: boolean;
-  onSwitched?: () => void;
+  /** Destination after switch. Provided by widgets/pages so this feature does not import app/widgets. */
+  redirectTo?: (profileId: string) => string;
+  onSwitched?: (profileId: string) => void;
 }
 
-export function useProfileSwitch({
-  navigateAfterSwitch = false,
-  onSwitched,
-}: UseProfileSwitchOptions = {}) {
+export function useProfileSwitch({ redirectTo, onSwitched }: UseProfileSwitchOptions = {}) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const router = useLocalizedRouter();
@@ -35,14 +32,14 @@ export function useProfileSwitch({
       if (nextUser) {
         queryClient.setQueryData(['users', 'me'], nextUser);
       }
-      if (navigateAfterSwitch) {
+      if (redirectTo) {
         queryClient.clear();
-        router.push(routes.PROFILE_TAB(profileId, PROFILE_TAB.PROFILES));
+        router.push(redirectTo(profileId));
       } else {
         await queryClient.invalidateQueries();
       }
       toast.success(t('profile.profiles.switchSuccess'));
-      onSwitched?.();
+      onSwitched?.(profileId);
       return true;
     } catch {
       toast.error(t('profile.profiles.switchError'));

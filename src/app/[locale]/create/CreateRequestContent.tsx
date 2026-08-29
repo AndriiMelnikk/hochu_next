@@ -1,20 +1,17 @@
 'use client';
 
-import { useState } from 'react';
 import { useLingui } from '@lingui/react';
-import { CreateRequestForm } from '@/features/requests';
-import { useMe } from '@/entities/user/hooks/useUser';
-import { Button } from '@/shared/ui/button';
-import { UserPlus, UserCircle } from 'lucide-react';
-import { AuthRequired } from '@/features/auth';
-import { Loading } from '@/shared/ui/loading';
-import { SwitchProfileModal } from '@/features/user';
+
+import { useMe } from '@entities/user';
+import { AuthRequired } from '@features/auth';
+import { CreateRequestForm } from '@features/requests';
+import { BuyerProfileRequired } from '@features/user';
+import { Loading } from '@shared/ui/loading';
 
 export default function CreateRequestContent() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const { data: user, isLoading, isError } = useMe();
-  const [switchProfileModalOpen, setSwitchProfileModalOpen] = useState(false);
 
   const renderContent = () => {
     if (isLoading) {
@@ -31,23 +28,7 @@ export default function CreateRequestContent() {
     }
 
     if (user.profile.type !== 'buyer') {
-      return (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="bg-primary/10 p-6 rounded-full mb-6">
-            <UserCircle className="h-16 w-16 text-primary" />
-          </div>
-          <h2 className="text-2xl font-bold mb-4">
-            {t('request.create.buyerProfileRequired.title')}
-          </h2>
-          <p className="text-muted-foreground mb-8 max-w-md">
-            {t('request.create.buyerProfileRequired.description')}
-          </p>
-          <Button size="lg" className="gap-2" onClick={() => setSwitchProfileModalOpen(true)}>
-            <UserPlus className="h-5 w-5" />
-            {t('request.create.buyerProfileRequired.button')}
-          </Button>
-        </div>
-      );
+      return <BuyerProfileRequired />;
     }
 
     return (
@@ -65,7 +46,6 @@ export default function CreateRequestContent() {
 
   return (
     <div className="container mx-auto px-4 max-w-4xl">
-      {/* Header */}
       <div className="mb-8 text-center">
         <h1 className="text-4xl font-bold mb-4">
           {t('request.create.titlePrefix')}{' '}
@@ -76,15 +56,7 @@ export default function CreateRequestContent() {
         <p className="text-xl text-muted-foreground">{t('request.create.subtitle')}</p>
       </div>
 
-      {/* Content */}
       {renderContent()}
-
-      {user && (
-        <SwitchProfileModal
-          open={switchProfileModalOpen}
-          onOpenChange={setSwitchProfileModalOpen}
-        />
-      )}
     </div>
   );
 }

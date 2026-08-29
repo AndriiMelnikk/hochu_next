@@ -1,8 +1,12 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { ProfilesSwitcher } from '@features/user';
 import { useLingui } from '@lingui/react';
+
+import { routes } from '@app/router/routes';
+import { ProfilesSwitcher } from '@features/user';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
+
+import { PROFILE_TAB } from './const';
 
 export default function ProfilesTabContent() {
   const { i18n } = useLingui();
@@ -16,7 +20,7 @@ export default function ProfilesTabContent() {
           <CardDescription>{t('profile.profiles.description')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <ProfilesSwitcher navigateAfterSwitch />
+          <ProfilesSwitcher redirectTo={(id) => routes.PROFILE_TAB(id, PROFILE_TAB.PROFILES)} />
         </CardContent>
       </Card>
     </div>

@@ -17,13 +17,12 @@ import {
   MessageSquare,
 } from 'lucide-react';
 
-import { userService, updateContactsSchema, type IUser } from '@/entities/user';
-import { useAuthStore } from '@/entities/auth';
+import { userService, updateContactsSchema, type IUser, type ContactChannel } from '@entities/user';
+import { useAuthStore } from '@entities/auth';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
-import { ContactChannel } from '@/entities/user/types/User';
+import { Button } from '@shared/ui/button';
+import { Input } from '@shared/ui/input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@shared/ui/form';
 
 interface ContactFormData {
   contacts: Partial<Record<ContactChannel, string>>;
