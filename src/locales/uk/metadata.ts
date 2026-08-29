@@ -84,6 +84,11 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
     description:
       'Профіль користувача платформи Shukayu: рейтинг, відгуки клієнтів, завершені угоди та досягнення покупця або продавця послуг.',
   },
+  PROFILE_TAB: {
+    title: 'Профіль користувача — рейтинг і відгуки | Shukayu',
+    description:
+      'Профіль користувача платформи Shukayu: рейтинг, відгуки клієнтів, завершені угоди та досягнення покупця або продавця послуг.',
+  },
   PROPOSAL_ID: {
     title: 'Пропозиція продавця — ціна та умови | Shukayu',
     description:

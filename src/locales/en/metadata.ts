@@ -84,6 +84,11 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
     description:
       'Shukayu user profile: rating, client reviews, completed deals, and achievements of a buyer or service seller.',
   },
+  PROFILE_TAB: {
+    title: 'User Profile — Rating and Reviews | Shukayu',
+    description:
+      'Shukayu user profile: rating, client reviews, completed deals, and achievements of a buyer or service seller.',
+  },
   PROPOSAL_ID: {
     title: 'Seller Offer — Price and Terms | Shukayu',
     description:
