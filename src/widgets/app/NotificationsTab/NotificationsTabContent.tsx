@@ -70,17 +70,17 @@ export default function NotificationsTabContent() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <NotificationFilters
-          unread={unread}
-          scope={scope}
-          category={category}
-          onUnreadChange={(v) => setFilter('unread', v)}
-          onScopeChange={(v) => setFilter('scope', v)}
-          onCategoryChange={(v) => setFilter('category', v)}
-          hasBuyerProfile={!!buyerProfile}
-          hasSellerProfile={!!sellerProfile}
-        />
+      <NotificationFilters
+        unread={unread}
+        scope={scope}
+        category={category}
+        onUnreadChange={(v) => setFilter('unread', v)}
+        onScopeChange={(v) => setFilter('scope', v)}
+        onCategoryChange={(v) => setFilter('category', v)}
+        hasBuyerProfile={!!buyerProfile}
+        hasSellerProfile={!!sellerProfile}
+      />
+      <div className="flex justify-end">
         <Button
           variant="outline"
           size="sm"
