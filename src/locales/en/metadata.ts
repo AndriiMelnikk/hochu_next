@@ -2,35 +2,35 @@ import { routes } from '@/app/router/routes';
 import type { Metadata } from 'next';
 
 export const defaultMetadata: Metadata = {
-  title: 'Shukayu — Platform Connecting Buyers and Sellers of Services',
+  title: 'Shukayu — Platform Connecting Buyers and Sellers of Goods',
   description:
-    'Shukayu is an online platform connecting buyers and sellers of services in Ukraine. Post a request, receive offers from providers, and pick the best price.',
+    'Shukayu is an online platform where buyers post requests for goods and sellers send offers. Services are also available. Pick the best price in Ukraine.',
 };
 
 export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
   HOME: {
-    title: 'Shukayu — Platform Connecting Buyers and Sellers of Services',
+    title: 'Shukayu — Platform Connecting Buyers and Sellers of Goods',
     description:
-      'Stop searching — say what you need. Post a free service request, get offers from sellers, and choose the best price on Shukayu.',
+      'Say what goods you want to buy. Post a free request, get offers from sellers, and choose the best price. Services are also available on Shukayu.',
   },
   ABOUT: {
     title: 'About Shukayu — How We Connect Buyers and Sellers',
     description:
-      'Learn more about Shukayu: our mission, team, and how the platform helps buyers find reliable service providers across Ukraine.',
+      'Learn more about Shukayu: our mission and principles — helping buyers find goods by request and helping sellers reach ready customers across Ukraine.',
   },
   ADMIN: {
     title: 'Admin Panel | Shukayu',
     description: 'Content moderation and platform management panel for Shukayu administrators.',
   },
   BLOG: {
-    title: 'Shukayu Blog — Tips for Buyers and Service Sellers',
+    title: 'Shukayu Blog — Tips for Buyers and Sellers of Goods',
     description:
-      'Helpful articles on safe online deals, writing effective service requests, and finding new clients as a provider on the Shukayu platform.',
+      'Helpful articles on safe online buying and selling, writing effective product requests, and finding clients as a seller on Shukayu.',
   },
   BLOG_ID: {
     title: 'Blog Article | Shukayu',
     description:
-      'Read Shukayu blog articles: practical tips for buyers and sellers of services, category overviews, and user success stories.',
+      'Read Shukayu blog articles: practical tips for buyers and sellers of goods, category overviews, and user success stories.',
   },
   CONTACT: {
     title: 'Contact Shukayu — Get in Touch with Our Team',
@@ -38,19 +38,19 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
       'Have questions about the Shukayu platform? Reach out via the contact form — our support team will get back to you as soon as possible.',
   },
   CREATE: {
-    title: 'Post a Service Request Online for Free | Shukayu',
+    title: 'Post a Product Request Online for Free | Shukayu',
     description:
-      'Describe the service you need, set a budget and timeline — sellers will send you offers with prices. Posting a request on Shukayu takes 2 minutes.',
+      'Describe the goods you want to buy, set a budget and timeline — sellers will send offers with prices. You can also post service requests.',
   },
   HOW_IT_WORKS: {
-    title: 'How Shukayu Works — From Request to Completed Service',
+    title: 'How Shukayu Works — From Product Request to Deal',
     description:
-      'Step by step: post a service request, receive offers from sellers, compare prices and reviews, pick a provider, and complete the deal safely on Shukayu.',
+      'Step by step: post a request for goods, receive offers from sellers, compare prices and reviews, pick a seller, and complete the deal on Shukayu.',
   },
   LOGIN: {
     title: 'Log In to Your Shukayu Account',
     description:
-      'Sign in to your Shukayu account to post service requests, send offers as a seller, and chat with other users of the platform.',
+      'Sign in to Shukayu to post product requests, send offers as a seller, and chat with other users of the platform.',
   },
   FORGOT_PASSWORD: {
     title: 'Password Recovery | Shukayu',
@@ -67,7 +67,7 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
   PRICING: {
     title: 'Shukayu Pricing — Free for Buyers and Sellers',
     description:
-      'Explore Shukayu pricing: posting service requests and sending offers. Transparent terms with no hidden fees.',
+      'Explore Shukayu pricing: posting product requests and sending offers. Transparent terms with no hidden fees.',
   },
   PRIVACY: {
     title: 'Shukayu Privacy Policy',
@@ -82,27 +82,27 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
   PROFILE_BY_ID: {
     title: 'User Profile — Rating and Reviews | Shukayu',
     description:
-      'Shukayu user profile: rating, client reviews, completed deals, and achievements of a buyer or service seller.',
+      'Shukayu user profile: rating, reviews, completed deals, and achievements of a buyer or seller of goods.',
   },
   PROFILE_TAB: {
     title: 'User Profile — Rating and Reviews | Shukayu',
     description:
-      'Shukayu user profile: rating, client reviews, completed deals, and achievements of a buyer or service seller.',
+      'Shukayu user profile: rating, reviews, completed deals, and achievements of a buyer or seller of goods.',
   },
   PROPOSAL_ID: {
     title: 'Seller Offer — Price and Terms | Shukayu',
     description:
-      'Offer details on Shukayu: price, delivery time, warranty, work samples, and reviews about the service provider.',
+      'Offer details on Shukayu: price, timeline, delivery or warranty terms, and reviews about the seller.',
   },
   REGISTER: {
     title: 'Sign Up for Shukayu — Create a Free Account',
     description:
-      'Register on Shukayu for free: post service requests as a buyer or find new clients as a seller of services.',
+      'Register on Shukayu for free: post product requests as a buyer or find customers as a seller.',
   },
   REQUEST_ID: {
-    title: 'Service Request — Details and Offers | Shukayu',
+    title: 'Product Request — Details and Offers | Shukayu',
     description:
-      'Service request details on Shukayu: description, budget, urgency, offers from sellers, and public discussion.',
+      'Product request details on Shukayu: description, budget, urgency, offers from sellers, and public discussion.',
   },
   SUPPORT: {
     title: 'Shukayu Support — Help and Answers',
@@ -110,18 +110,18 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
       'Shukayu support center: answers to common questions about the platform, resolving issues with requests, offers, and your account.',
   },
   TERMS: {
-    title: 'Shukayu Terms of Service',
+    title: 'Shukayu Terms of Use',
     description:
       'Terms of using the Shukayu platform: rights and obligations of buyers and sellers, rules for posting requests and offers.',
   },
   REQUEST: {
-    title: 'Buyer Requests Online — Find Orders | Shukayu',
+    title: 'Buyer Product Requests — Find Orders | Shukayu',
     description:
-      'Browse live buyer requests for services: filter by category, location, and budget, and send your offers as a seller on Shukayu.',
+      'Browse live buyer requests for goods: filter by category, location, and budget, and send your offers as a seller on Shukayu.',
   },
   PROPOSAL: {
-    title: 'Offers from Service Sellers | Shukayu',
+    title: 'Offers from Sellers of Goods | Shukayu',
     description:
-      'Offers from service sellers on the Shukayu platform: prices, delivery times, and warranties from verified providers.',
+      'Offers from sellers on the Shukayu platform: prices, terms, and warranties from verified sellers of goods.',
   },
 };

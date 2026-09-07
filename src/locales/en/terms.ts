@@ -32,17 +32,15 @@ export const messages: Messages = {
   'terms.sections.3.item4':
     'You may not create multiple accounts or transfer your account to other persons.',
 
-  'terms.sections.4.title': '4. Services and Transactions',
-  'terms.sections.4.item1': 'Shukayu acts as an intermediary between customers and performers.',
+  'terms.sections.4.title': '4. Deals and Transactions',
+  'terms.sections.4.item1': 'Shukayu acts as an intermediary between buyers and sellers.',
   'terms.sections.4.item2':
-    'We are not responsible for the quality of the services provided or the performance of obligations.',
+    'We are not responsible for the quality of goods or services or for users fulfilling their obligations.',
   'terms.sections.4.item3': 'All financial settlements are carried out directly between users.',
-  'terms.sections.4.item4':
-    'We recommend checking reviews and ratings before starting cooperation.',
+  'terms.sections.4.item4': 'We recommend checking reviews and ratings before starting a deal.',
 
   'terms.sections.5.title': '5. Payments and Fees',
-  'terms.sections.5.item1':
-    'The platform may charge a fee for services in accordance with the pricing plan.',
+  'terms.sections.5.item1': 'The platform may charge a fee in accordance with the pricing plan.',
   'terms.sections.5.item2':
     'All prices are indicated in Ukrainian hryvnia (UAH) and include taxes unless otherwise stated.',
   'terms.sections.5.item3': 'Refunds are processed in accordance with our refund policy.',
@@ -60,7 +58,8 @@ export const messages: Messages = {
   'terms.sections.7.item1': "The platform is provided 'as is' without any warranties.",
   'terms.sections.7.item2': 'We are not liable for any losses caused by the use of the platform.',
   'terms.sections.7.item3': 'Users are solely responsible for their actions on the platform.',
-  'terms.sections.7.item4': 'Our maximum liability is limited to the amount paid for the services.',
+  'terms.sections.7.item4':
+    'Our maximum liability is limited to the amount paid for using the platform.',
 
   'terms.sections.8.title': '8. Termination',
   'terms.sections.8.item1': 'We reserve the right to terminate or suspend access to the platform.',

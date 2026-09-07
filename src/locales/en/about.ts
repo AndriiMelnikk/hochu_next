@@ -3,23 +3,23 @@ import type { Messages } from '@lingui/core';
 export const messages: Messages = {
   'about.hero.title': 'About Shukayu',
   'about.hero.description':
-    "Shukayu is a platform that connects people who need services with professionals ready to provide them. We've created a space where anyone can find the right service or offer their skills.",
+    'Shukayu is a platform that connects buyers looking for goods with sellers ready to offer them. The main scenario is product requests; services are also available.',
 
   'about.stats.users': 'Users',
-  'about.stats.orders': 'Completed orders',
-  'about.stats.categories': 'Service categories',
+  'about.stats.orders': 'Completed deals',
+  'about.stats.categories': 'Product categories',
   'about.stats.rating': 'Average rating',
 
   'about.mission.title': 'Our Mission',
   'about.mission.paragraph1':
-    'We strive to create the easiest and safest way to find a professional for any service. Whether you need repairs, tutoring, delivery, or any other service — you will find the right specialists on Shukayu.',
+    'We aim to make buying simpler: instead of hours of browsing listings, you post a request for goods — and sellers send offers. Need a service? You can also post that as a request on Shukayu.',
   'about.mission.paragraph2':
-    'For professionals, we provide the opportunity to grow their business, find new clients, and build a reputation through a system of reviews and ratings.',
+    'For sellers, we provide access to real demand: you can see which goods buyers are looking for right now. Reviews and ratings help build trust and reputation.',
 
   'about.values.title': 'Our Values',
   'about.values.community.title': 'Community',
   'about.values.community.description':
-    'We connect people who want to receive services with those who are ready to provide them',
+    'We connect people who want to buy goods with those who are ready to sell them',
   'about.values.transparency.title': 'Transparency',
   'about.values.transparency.description':
     'Clear terms, open reviews, and transparent pricing for all participants',
@@ -28,13 +28,13 @@ export const messages: Messages = {
     'The system of ratings and reviews helps build trusting relationships',
   'about.values.speed.title': 'Speed',
   'about.values.speed.description':
-    'Instant connection between those who need a service and professionals',
+    'A fast match between a buyer’s product request and seller offers',
 
   'about.story.title': 'Our Story',
   'about.story.paragraph1':
-    'Shukayu was created in 2026 with the goal of solving a simple problem: how to easily find a reliable professional for everyday tasks?',
+    'Shukayu was created in 2026 with a simple goal: how to easily find the right product and a reliable seller without endless searching?',
   'about.story.paragraph2':
-    'We saw that many people spend hours searching for the right services, while professionals lose potential clients due to the lack of a convenient platform.',
+    'We saw that buyers spend hours browsing listings, while sellers miss customers because there is no convenient place that shows real demand.',
   'about.story.paragraph3':
-    'Today, Shukayu is a growing community of thousands of users who find each other every day and collaborate successfully.',
+    'Today, Shukayu is a growing community of users who find each other every day through product requests and seller offers.',
 };

@@ -8,16 +8,16 @@ export const messages: Messages = {
   'auth.login.forgotPassword': 'Забули пароль?',
 
   'auth.login.info.title': 'Ласкаво просимо!',
-  'auth.login.info.subtitle': 'Платформа для пошуку виконавців та замовників',
+  'auth.login.info.subtitle': 'Платформа для покупців і продавців товарів',
 
   'auth.login.features.security.title': 'Безпечні угоди',
   'auth.login.features.security.desc': 'Захист ваших інтересів на кожному етапі',
 
-  'auth.login.features.verified.title': 'Перевірені виконавці',
-  'auth.login.features.verified.desc': 'Працюйте з професіоналами з рейтингом',
+  'auth.login.features.verified.title': 'Перевірені продавці',
+  'auth.login.features.verified.desc': 'Працюйте з користувачами з рейтингом і відгуками',
 
   'auth.login.features.fast.title': 'Швидкий пошук',
-  'auth.login.features.fast.desc': 'Знаходьте виконавців за лічені хвилини',
+  'auth.login.features.fast.desc': 'Знаходьте продавців товарів за лічені хвилини',
 
   'auth.login.form.email.label': 'Email',
   'auth.login.form.email.placeholder': 'your@email.com',

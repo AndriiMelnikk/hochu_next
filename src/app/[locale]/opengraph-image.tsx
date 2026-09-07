@@ -3,7 +3,7 @@ import { isLocale } from '@/locales/config';
 
 export const runtime = 'edge';
 
-export const alt = 'Shukayu — платформа для покупців та продавців послуг';
+export const alt = 'Shukayu — платформа для покупців і продавців товарів';
 export const size = {
   width: 1200,
   height: 630,
@@ -15,8 +15,8 @@ export default async function OpengraphImage({ params }: { params: { locale: str
 
   const subtitle =
     locale === 'uk'
-      ? 'Платформа для покупців та продавців послуг'
-      : 'Platform connecting buyers and sellers of services';
+      ? 'Платформа для покупців і продавців товарів'
+      : 'Platform connecting buyers and sellers of goods';
 
   return new ImageResponse(
     <div

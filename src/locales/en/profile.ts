@@ -17,7 +17,7 @@ export const messages: Messages = {
   'profile.create.title.buyer': 'Create a buyer profile',
   'profile.create.title.seller': 'Create a seller profile',
   'profile.create.description.buyer':
-    'You will be able to use this profile to create requests and order services.',
+    'You will be able to use this profile to post product requests (and services) and choose sellers.',
   'profile.create.description.seller':
     'You will be able to use this profile to send proposals and complete orders.',
   'profile.create.namePlaceholder': 'Enter first name',

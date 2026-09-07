@@ -5,7 +5,7 @@ export const messages: Messages = {
   'how-it-works.hero.title.prefix': 'Як працює',
   'how-it-works.hero.title.suffix': '?',
   'how-it-works.hero.subtitle':
-    'Простий та ефективний спосіб знайти те, що вам потрібно, або знайти клієнтів',
+    'Простий спосіб купити потрібний товар за запитом або знайти покупців для ваших товарів',
 
   'how-it-works.buyers.title': 'Для покупців',
   'how-it-works.buyers.time-saving.title': 'Економія часу',

@@ -20,13 +20,14 @@ export const messages: Messages = {
 
   'privacy.section1.title': '1. What data we collect',
   'privacy.section1.item1': 'Personal information: first name, last name, email, phone number',
-  'privacy.section1.item2': 'Profile information: photo, description, service categories',
+  'privacy.section1.item2':
+    'Profile information: photo, description, product and service categories',
   'privacy.section1.item3': 'Activity data: requests, proposals, messages, reviews',
   'privacy.section1.item4': 'Technical information: IP address, browser type, operating system',
   'privacy.section1.item5': 'Payment data: transaction history (without card numbers)',
 
   'privacy.section2.title': '2. How we use your data',
-  'privacy.section2.item1': 'Providing and improving our services',
+  'privacy.section2.item1': 'Providing and improving the platform',
   'privacy.section2.item2': 'Communicating with you about your account and orders',
   'privacy.section2.item3': 'Personalizing your experience on the platform',
   'privacy.section2.item4': 'Ensuring security and preventing fraud',

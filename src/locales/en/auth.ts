@@ -8,16 +8,16 @@ export const messages: Messages = {
   'auth.login.forgotPassword': 'Forgot password?',
 
   'auth.login.info.title': 'Welcome!',
-  'auth.login.info.subtitle': 'Platform for finding contractors and customers',
+  'auth.login.info.subtitle': 'A platform for buyers and sellers of goods',
 
   'auth.login.features.security.title': 'Secure transactions',
   'auth.login.features.security.desc': 'Protection of your interests at every stage',
 
-  'auth.login.features.verified.title': 'Verified contractors',
-  'auth.login.features.verified.desc': 'Work with rated professionals',
+  'auth.login.features.verified.title': 'Verified sellers',
+  'auth.login.features.verified.desc': 'Work with rated users and reviews',
 
   'auth.login.features.fast.title': 'Fast search',
-  'auth.login.features.fast.desc': 'Find contractors in minutes',
+  'auth.login.features.fast.desc': 'Find sellers of goods in minutes',
 
   'auth.login.form.email.label': 'Email',
   'auth.login.form.email.placeholder': 'your@email.com',

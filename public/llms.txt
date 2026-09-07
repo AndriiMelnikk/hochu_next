@@ -1,6 +1,6 @@
 # Shukayu
 
-> Shukayu is a reverse-auction marketplace that connects buyers and sellers of services in Ukraine. Buyers post what they need; sellers send price offers; the buyer picks the best deal.
+> Shukayu is a reverse-auction marketplace for buying and selling goods in Ukraine. Buyers post what they want to buy; sellers send price offers; the buyer picks the best deal. Service requests are also supported.
 
 Site: https://shukayu.com.ua
 Languages: Ukrainian (default, /uk), English (/en)
@@ -8,22 +8,22 @@ Languages: Ukrainian (default, /uk), English (/en)
 ## Primary pages
 
 - [Home](https://shukayu.com.ua/uk): Platform overview, how it works, FAQ
-- [Browse requests](https://shukayu.com.ua/uk/request): Live buyer service requests for sellers
-- [Create request](https://shukayu.com.ua/uk/create): Post a free service request as a buyer
+- [Browse requests](https://shukayu.com.ua/uk/request): Live buyer product requests for sellers
+- [Create request](https://shukayu.com.ua/uk/create): Post a free product request as a buyer
 - [How it works](https://shukayu.com.ua/uk/how-it-works): Step-by-step flow from request to deal
 - [About](https://shukayu.com.ua/uk/about): Mission and platform principles
 - [Contact](https://shukayu.com.ua/uk/contact): Contact the Shukayu team
 - [Support](https://shukayu.com.ua/uk/support): Help and common questions
-- [Terms](https://shukayu.com.ua/uk/terms): Terms of service
+- [Terms](https://shukayu.com.ua/uk/terms): Terms of use
 - [Privacy](https://shukayu.com.ua/uk/privacy): Privacy policy
 
 English equivalents use the /en prefix (e.g. https://shukayu.com.ua/en/request).
 
 ## Product model
 
-1. Buyer creates a request (category, budget, location, urgency).
-2. Sellers browse requests and send proposals (price, timeline, warranty).
-3. Buyer compares offers, chats with sellers, and accepts one proposal.
+1. Buyer creates a request for goods (category, budget, location, urgency). Service requests are also possible.
+2. Sellers browse requests and send offers (price, timeline, terms).
+3. Buyer compares offers, chats with sellers, and accepts one offer.
 4. After the deal, users leave reviews that build profile reputation.
 
 ## Optional

@@ -4,7 +4,7 @@ export const messages: Messages = {
   // Request list page
   'request.list.titlePrefix': 'Find',
   'request.list.titleEmphasis': 'your clients',
-  'request.list.subtitle': 'Browse requests and offer your services',
+  'request.list.subtitle': 'Browse buyer requests and offer your goods',
   'request.list.searchPlaceholder': 'Search requests...',
   'request.list.loadingError': 'Loading error',
   'request.list.foundPrefix': 'Found',
@@ -216,8 +216,8 @@ export const messages: Messages = {
   'proposal.item.cancelButton': 'Cancel proposal',
   'proposal.item.leaveReviewForSeller': 'Leave a review about the seller',
   'proposal.item.leaveReviewForBuyer': 'Leave a review about the buyer',
-  'proposal.item.cancelAcceptedButton': 'Cancel selected executor',
-  'proposal.item.selectedExecutorBadge': 'Selected executor',
+  'proposal.item.cancelAcceptedButton': 'Cancel selected seller',
+  'proposal.item.selectedExecutorBadge': 'Selected seller',
   'proposal.edit.title': 'Edit proposal',
   'proposal.edit.submit': 'Save changes',
   'proposal.edit.submitting': 'Saving...',
@@ -238,13 +238,13 @@ export const messages: Messages = {
   'proposal.reject.success': 'Proposal rejected',
   'proposal.reject.error': 'Failed to reject proposal',
 
-  'proposal.cancelAccepted.confirmTitle': 'Cancel selected executor?',
+  'proposal.cancelAccepted.confirmTitle': 'Cancel selected seller?',
   'proposal.cancelAccepted.confirmDescription_1':
-    'Are you sure you want to cancel the selected executor and reopen this request?',
+    'Are you sure you want to cancel the selected seller and reopen this request?',
   'proposal.cancelAccepted.confirmDescription_2': 'The proposal will be set as rejected',
-  'proposal.cancelAccepted.submit': 'Cancel executor',
-  'proposal.cancelAccepted.success': 'Selected executor has been cancelled',
-  'proposal.cancelAccepted.error': 'Failed to cancel selected executor',
+  'proposal.cancelAccepted.submit': 'Cancel seller',
+  'proposal.cancelAccepted.success': 'Selected seller has been cancelled',
+  'proposal.cancelAccepted.error': 'Failed to cancel selected seller',
 
   'proposal.contact.title': 'Contact seller',
   'proposal.contact.noContacts': 'No contacts to contact',
@@ -280,7 +280,7 @@ export const messages: Messages = {
   'auth.register.benefit2.title': 'Gamification',
   'auth.register.benefit2.description': 'Achievements and bonuses for activity',
   'auth.register.benefit3.title': 'Direct Connection',
-  'auth.register.benefit3.description': 'Communicate with performers directly',
+  'auth.register.benefit3.description': 'Communicate with sellers directly',
 
   // Register Form
   'auth.register.form.nameLabel': 'Name',
@@ -294,7 +294,7 @@ export const messages: Messages = {
   'auth.register.form.roleLabel': 'Role',
   'auth.register.form.rolePlaceholder': 'Select a role',
   'auth.register.form.roleBuyer': 'Customer (Buyer)',
-  'auth.register.form.roleSeller': 'Performer (Seller)',
+  'auth.register.form.roleSeller': 'Seller',
   'auth.register.form.submit': 'Register',
   'auth.register.form.submitting': 'Registering...',
   'auth.register.form.success': 'Registration successful!',
@@ -339,14 +339,14 @@ export const messages: Messages = {
   'request.profile.authRequired.register': 'Register',
 
   // Proposal actions
-  'proposal.accept.success': 'Executor selected successfully',
-  'proposal.accept.error': 'Failed to select executor',
-  'proposal.accept.confirmTitle': 'Select this executor?',
+  'proposal.accept.success': 'Seller selected successfully',
+  'proposal.accept.error': 'Failed to select seller',
+  'proposal.accept.confirmTitle': 'Select this seller?',
   'proposal.accept.confirmDescription_1':
-    'By selecting an executor, you choose a person who will execute your request.',
-  'proposal.accept.confirmDescription_2': 'You can cancel and change the executor at any time.',
+    'By selecting a seller, you choose the person who will fulfill your request (sell the goods or provide the service).',
+  'proposal.accept.confirmDescription_2': 'You can cancel and change the seller at any time.',
   'proposal.accept.confirmDescription_3':
-    'During the selected executor, you will not receive new proposals for this request.',
+    'While a seller is selected, you will not receive new proposals for this request.',
   'proposal.accept.submit': 'Select',
 
   'proposal.complete.success': 'Proposal completed successfully',
@@ -390,13 +390,12 @@ export const messages: Messages = {
   'status.guide.request.pending.desc': 'The request is created but not yet published.',
   'status.guide.request.pending.next': 'Next step: Editing or publishing (transition to Active).',
   'status.guide.request.active.name': 'Active',
-  'status.guide.request.active.desc': 'The request is published. Performers can send proposals.',
-  'status.guide.request.active.next': 'Next step: Wait for proposals and select an executor.',
+  'status.guide.request.active.desc': 'The request is published. Sellers can send proposals.',
+  'status.guide.request.active.next': 'Next step: Wait for proposals and select a seller.',
   'status.guide.request.closed.name': 'Closed',
-  'status.guide.request.closed.desc':
-    'An executor has been selected. New proposals are not accepted.',
+  'status.guide.request.closed.desc': 'A seller has been selected. New proposals are not accepted.',
   'status.guide.request.closed.next':
-    'Next step: Work execution. You can cancel the selection to choose another executor.',
+    'Next step: Complete the deal. You can cancel the selection to choose another seller.',
   'status.guide.request.completed.name': 'Completed',
   'status.guide.request.completed.desc': 'The deal has been successfully completed.',
   'status.guide.request.completed.next': 'Final state. You can leave a review.',
@@ -556,9 +555,9 @@ export const messages: Messages = {
   'profile.create.title.buyer': 'Create a buyer profile',
   'profile.create.title.seller': 'Create a seller profile',
   'profile.create.description.buyer':
-    'You will be able to use this profile to create requests and order services.',
+    'You will be able to use this profile to post product requests (and services) and choose sellers.',
   'profile.create.description.seller':
-    'You will be able to use this profile to send proposals and complete orders.',
+    'You will be able to use this profile to send offers and sell goods against buyer requests.',
   'profile.create.namePlaceholder': 'Enter first name',
   'profile.create.lastNameLabel': 'Last name (optional)',
   'profile.create.lastNamePlaceholder': 'Enter last name',
@@ -613,7 +612,7 @@ export const messages: Messages = {
     'Create a request in 5 minutes, get dozens of proposals and choose the best one',
   'common.home.features.sellers.title': 'For sellers',
   'common.home.features.sellers.description':
-    'Find clients actively — see what people need and offer your services',
+    'Find clients actively — see which goods buyers are looking for and offer your options',
   'common.home.features.fastSimple.title': 'Fast and simple',
   'common.home.features.fastSimple.description':
     'No endless searching — a fast match between demand and supply',
@@ -634,7 +633,7 @@ export const messages: Messages = {
   'common.home.howItWorks.subtitle': 'Just 4 simple steps to your goal',
   'common.home.howItWorks.step1.title': 'Create a request',
   'common.home.howItWorks.step1.description':
-    'Describe what you need: product, service, specify budget and deadlines',
+    'Describe the goods you want to buy (services are also possible), set a budget and timeline',
   'common.home.howItWorks.step2.title': 'Get proposals',
   'common.home.howItWorks.step2.description':
     'Sellers will find your request and offer their options',
@@ -642,11 +641,11 @@ export const messages: Messages = {
   'common.home.howItWorks.step3.description': 'Communicate via built-in chat, compare proposals',
   'common.home.howItWorks.step4.title': 'Close the deal',
   'common.home.howItWorks.step4.description':
-    'Choose the best proposal and leave a review after completion',
+    'Choose the best seller offer and leave a review after the deal',
 
   // Footer
   'common.footer.brandDescription':
-    'A platform of wishes and opportunities. Say what you want, and those who can provide it will find you.',
+    'A product-request platform: say what you want to buy — and sellers will find you. Services are also available.',
   'common.footer.section.platform': 'Platform',
   'common.footer.section.company': 'Company',
   'common.footer.section.legal': 'Legal',
@@ -664,41 +663,41 @@ export const messages: Messages = {
   'common.home.faq.subtitle': 'Answers to the most common questions about the Shukayu platform',
   'common.home.faq.whatIs.question': 'What is Shukayu and how does the platform work?',
   'common.home.faq.whatIs.answer':
-    'Shukayu is a reverse-auction platform for buyers and sellers of services. You describe what you need, and sellers send you offers with prices — you simply pick the best one.',
-  'common.home.faq.howToCreate.question': 'How do I post a service request?',
+    'Shukayu is a reverse-auction platform for buying and selling goods. You describe the product you want to buy, and sellers send offers with prices — you simply pick the best one. Service requests are also supported.',
+  'common.home.faq.howToCreate.question': 'How do I post a product request?',
   'common.home.faq.howToCreate.answer':
-    'Click "Create request", describe the task, choose a category, budget, location, and urgency. Posting a request takes about 2 minutes, and sellers will start sending offers.',
+    'Click "Create request", describe the goods, choose a category, budget, location, and urgency. Posting a request takes about 2 minutes, and sellers will start sending offers. You can also post a service request the same way.',
   'common.home.faq.isFree.question': 'Is Shukayu free to use?',
   'common.home.faq.isFree.answer':
-    'Yes, registration, posting service requests, and sending offers are free for all users of the platform.',
-  'common.home.faq.howSellersWork.question': 'How can a seller find orders on Shukayu?',
+    'Yes, registration, posting product requests, and sending offers are free for all users of the platform.',
+  'common.home.faq.howSellersWork.question': 'How can a seller find buyers on Shukayu?',
   'common.home.faq.howSellersWork.answer':
-    'Go to the "Browse requests" page, filter buyer requests by category, location, or budget, and send your offer with a price, timeline, and warranty.',
+    'Go to the "Browse requests" page, filter buyer requests by category, location, or budget, and send your offer with a price and sale terms.',
   'common.home.faq.isSafe.question': 'Is it safe to use the platform?',
   'common.home.faq.isSafe.answer':
     'Every user has a profile with a rating, reviews, and a history of completed deals. Moderation reviews requests and offers, and the report system helps respond quickly to violations.',
   'common.home.faq.howToStart.question': 'How do I get started on Shukayu?',
   'common.home.faq.howToStart.answer':
-    'Sign up in a minute — you get two profiles right away: buyer and seller. Post service requests or send offers as a provider.',
+    'Sign up in a minute — you get two profiles right away: buyer and seller. Post product requests or send offers as a seller.',
 
   // Home SEO intro section
-  'common.home.intro.title': 'A platform for service requests and seller offers',
+  'common.home.intro.title': 'A platform for product requests and seller offers',
   'common.home.intro.p1':
-    'Shukayu is an online marketplace where buyers describe a service request and sellers compete with their own offers. Instead of searching for a provider for hours, you describe the job once: category, budget, location, and urgency. Sellers then send prices, timelines, and warranty terms — and you compare options in one place.',
+    'Shukayu is an online marketplace where buyers post a request for goods they want to buy, and sellers compete with their own offers. Instead of searching through endless listings, you describe the product once: category, budget, location, and urgency. Sellers then send prices and terms — and you compare options in one place. Service requests are also available, but the main scenario is buying physical goods.',
   'common.home.intro.p2':
-    'This format works for both sides. Buyers save time on outreach: offers arrive centrally, while ratings and reviews help assess trust. Sellers see real demand — live buyer requests online — and can respond to relevant jobs without cold outreach.',
+    'This format works for both sides. Buyers save time: offers arrive centrally, while ratings and reviews help assess trust. Sellers see real demand — live buyer requests for goods — and can respond quickly without cold outreach.',
   'common.home.intro.p3':
-    'On Shukayu you can post a request for free, browse the request catalog, chat about deal details, and leave reviews after the work is done. Moderation and a report system help keep listings high-quality, while XP and achievements in the profile encourage fair collaboration.',
+    'On Shukayu you can post a request for free, browse the request catalog, chat about deal details, and leave reviews after the purchase. Moderation and a report system help keep listings high-quality, while XP and achievements in the profile encourage fair trading.',
   'common.home.intro.listTitle': 'What you get on the platform',
   'common.home.intro.bullet1':
-    'Buyer requests online with filters by category, location, and budget',
-  'common.home.intro.bullet2': 'Seller offers with price, delivery time, and warranty',
+    'Buyer product requests with filters by category, location, and budget',
+  'common.home.intro.bullet2': 'Seller offers with price, terms, and warranty',
   'common.home.intro.bullet3': 'Rating, reviews, and completed-deal history on the user profile',
   'common.home.intro.bullet4': 'Free registration with buyer and seller profiles in one account',
   'common.home.intro.p4':
-    'The model is close to a reverse auction, where providers compete for a client request. You can read more about this approach in the Wikipedia article',
+    'The model is close to a reverse auction, where sellers compete for a buyer request. You can read more about this approach in the Wikipedia article',
   'common.home.intro.externalLink': 'Reverse auction',
   'common.home.intro.cta': 'See how it works step by step',
   'common.home.intro.imageAlt':
-    'Shukayu platform overview — a service connecting buyers and sellers of services in Ukraine',
+    'Shukayu platform overview — a marketplace connecting buyers and sellers of goods in Ukraine',
 };

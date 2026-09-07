@@ -17,7 +17,7 @@ export const messages: Messages = {
   'profile.create.title.buyer': 'Створити профіль покупця',
   'profile.create.title.seller': 'Створити профіль продавця',
   'profile.create.description.buyer':
-    'Ви зможете використовувати цей профіль для створення запитів та замовлення послуг.',
+    'Ви зможете використовувати цей профіль для створення запитів на товари (та послуги) і вибору продавців.',
   'profile.create.description.seller':
     'Ви зможете використовувати цей профіль для надсилання пропозицій та виконання замовлень.',
   'profile.create.namePlaceholder': "Введіть ім'я",
