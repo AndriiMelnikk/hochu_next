@@ -1,14 +1,18 @@
 'use client';
 
 import { Check } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { Button } from '@shared/ui/button';
 import Link from '@/shared/ui/link';
 import { routes } from '@/app/router/routes';
+import { buildAuthHref, getReturnUrlFromLocation } from '@/features/auth';
 import { useLingui } from '@lingui/react';
 
 export default function PricingContent() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
+  const pathname = usePathname();
+  const registerHref = buildAuthHref(routes.REGISTER, getReturnUrlFromLocation(pathname));
 
   const plans = [
     {
@@ -117,7 +121,7 @@ export default function PricingContent() {
               </div>
 
               <Button variant={plan.buttonVariant} className="w-full text-lg py-6" asChild>
-                <Link href={routes.REGISTER}>{plan.buttonText}</Link>
+                <Link href={registerHref}>{plan.buttonText}</Link>
               </Button>
             </div>
           ))}

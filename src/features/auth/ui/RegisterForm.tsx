@@ -2,22 +2,25 @@
 
 import { FieldErrors, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSearchParams } from 'next/navigation';
 import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { registerSchema, useAuthStore, type IRegisterRequest } from '@/entities/auth';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
-import { routes } from '@/app/router/routes';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { useLingui } from '@lingui/react';
 import { GoogleSignInButton } from './GoogleSignInButton';
 import { Separator } from '@shared/ui/separator';
+import { RETURN_URL_PARAM, resolvePostAuthRedirect } from '../lib/returnUrl';
 
 export const RegisterForm = () => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const router = useLocalizedRouter();
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get(RETURN_URL_PARAM);
   const { register: registerUser, isLoading } = useAuthStore();
 
   const form = useForm<IRegisterRequest>({
@@ -37,7 +40,7 @@ export const RegisterForm = () => {
     try {
       await registerUser(data);
       toast.success(t('auth.register.form.success'));
-      router.push(routes.HOME);
+      router.push(resolvePostAuthRedirect(returnUrl));
     } catch (err) {
       let handledAsFieldError = false;
 
@@ -86,7 +89,7 @@ export const RegisterForm = () => {
 
   return (
     <div className="space-y-4">
-      <GoogleSignInButton disabled={isLoading} />
+      <GoogleSignInButton returnUrl={returnUrl} disabled={isLoading} />
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">

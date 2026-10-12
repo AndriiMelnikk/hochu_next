@@ -1,13 +1,16 @@
 'use client';
 
 import Link from '@/shared/ui/link';
+import { useSearchParams } from 'next/navigation';
 import { routes } from '@/app/router/routes';
-import { RegisterForm } from '@/features/auth';
+import { RegisterForm, buildAuthHref, RETURN_URL_PARAM } from '@/features/auth';
 import { useLingui } from '@lingui/react';
 
 export default function RegisterContent() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
+  const searchParams = useSearchParams();
+  const loginHref = buildAuthHref(routes.LOGIN, searchParams.get(RETURN_URL_PARAM));
 
   return (
     <div className="container mx-auto px-4 pb-16">
@@ -23,7 +26,7 @@ export default function RegisterContent() {
 
           <div className="mt-6 text-center text-sm">
             <span className="text-muted-foreground">{t('auth.register.alreadyHaveAccount')}</span>
-            <Link href={routes.LOGIN} className="text-primary hover:underline font-medium">
+            <Link href={loginHref} className="text-primary hover:underline font-medium">
               {t('auth.register.loginLink')}
             </Link>
           </div>

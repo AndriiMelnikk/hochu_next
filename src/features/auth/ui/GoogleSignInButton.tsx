@@ -1,19 +1,16 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
-import { routes } from '@/app/router/routes';
 import { Button } from '@shared/ui/button';
 import { useLingui } from '@lingui/react';
+import { buildGoogleAuthCallbackUrl } from '../lib/returnUrl';
 
 type GoogleSignInButtonProps = {
-  callbackUrl?: string;
+  returnUrl?: string | null;
   disabled?: boolean;
 };
 
-export function GoogleSignInButton({
-  callbackUrl = routes.GOOGLE_AUTH_COMPLETE,
-  disabled = false,
-}: GoogleSignInButtonProps) {
+export function GoogleSignInButton({ returnUrl, disabled = false }: GoogleSignInButtonProps) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
 
@@ -23,7 +20,7 @@ export function GoogleSignInButton({
       variant="outline"
       className="w-full"
       disabled={disabled}
-      onClick={() => signIn('google', { callbackUrl })}
+      onClick={() => signIn('google', { callbackUrl: buildGoogleAuthCallbackUrl(returnUrl) })}
     >
       <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
         <path

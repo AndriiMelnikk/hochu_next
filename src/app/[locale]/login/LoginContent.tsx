@@ -5,6 +5,7 @@ import Link from '@/shared/ui/link';
 import { useSearchParams } from 'next/navigation';
 import { routes } from '@/app/router/routes';
 import { LoginForm } from '@/features/auth/ui/LoginForm';
+import { buildAuthHref, RETURN_URL_PARAM } from '@/features/auth';
 import { toast } from 'sonner';
 
 import { useLingui } from '@lingui/react';
@@ -13,6 +14,7 @@ export default function LoginContent() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const searchParams = useSearchParams();
+  const registerHref = buildAuthHref(routes.REGISTER, searchParams.get(RETURN_URL_PARAM));
 
   useEffect(() => {
     const error = searchParams.get('error');
@@ -83,7 +85,7 @@ export default function LoginContent() {
           </div>
           <div className="mt-6 text-center text-sm">
             <span className="text-muted-foreground">{t('auth.login.noAccount')}</span>
-            <Link href={routes.REGISTER} className="text-primary hover:underline font-medium">
+            <Link href={registerHref} className="text-primary hover:underline font-medium">
               {t('auth.login.registerLink')}
             </Link>
           </div>

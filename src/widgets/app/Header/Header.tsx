@@ -9,6 +9,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { routes } from '@app/router/routes';
 import { HeroBadge } from '@/shared/ui/hero-badge';
 import { useAuthStore } from '@/entities/auth/store/authStore';
+import { buildAuthHref, getReturnUrlFromLocation } from '@/features/auth';
 import { useLingui } from '@lingui/react';
 import { switchLocaleInPathname, type Locale } from '@/locales/config';
 import { LS_KEYS } from '@shared/config/envVars';
@@ -23,6 +24,7 @@ const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const currentLocale = useCurrentLocale();
+  const loginHref = buildAuthHref(routes.LOGIN, getReturnUrlFromLocation(pathname));
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -85,7 +87,7 @@ const Header = () => {
               </Link>
             ) : (
               <div className="flex items-center space-x-2">
-                <Link href={routes.LOGIN}>
+                <Link href={loginHref}>
                   <Button variant="outline" size="sm">
                     {t('common.nav.login')}
                   </Button>
@@ -147,7 +149,7 @@ const Header = () => {
               </Link>
             ) : (
               <div className="flex flex-col space-y-2 pt-4">
-                <Link href={routes.LOGIN} onClick={() => setIsOpen(false)}>
+                <Link href={loginHref} onClick={() => setIsOpen(false)}>
                   <Button variant="outline" size="sm" className="w-full">
                     {t('common.nav.login')}
                   </Button>

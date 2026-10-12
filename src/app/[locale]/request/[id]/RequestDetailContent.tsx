@@ -24,7 +24,9 @@ import { Alert, AlertDescription, AlertTitle } from '@shared/ui/alert';
 import { Button } from '@shared/ui/button';
 import { Ban, LogIn, Phone, UserPlus, Users } from 'lucide-react';
 import Link from '@/shared/ui/link';
+import { usePathname } from 'next/navigation';
 import { routes } from '@/app/router/routes';
+import { buildAuthHref, getReturnUrlFromLocation } from '@/features/auth';
 
 export default function RequestDetailContent({
   id,
@@ -36,6 +38,8 @@ export default function RequestDetailContent({
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
   const queryClient = useQueryClient();
+  const pathname = usePathname();
+  const returnUrl = getReturnUrlFromLocation(pathname);
 
   const { data: request, isLoading } = useRequest(id, {
     initialData: initialData ?? undefined,
@@ -242,13 +246,13 @@ export default function RequestDetailContent({
               <AlertDescription className="flex flex-col gap-3">
                 <span>{t('request.detail.proposalAuthRequired.description')}</span>
                 <div className="flex flex-wrap gap-2 pt-1">
-                  <Link href={routes.REGISTER}>
+                  <Link href={buildAuthHref(routes.REGISTER, returnUrl)}>
                     <Button size="sm" className="gap-1.5">
                       <UserPlus className="h-3.5 w-3.5" />
                       {t('request.detail.proposalAuthRequired.register')}
                     </Button>
                   </Link>
-                  <Link href={routes.LOGIN}>
+                  <Link href={buildAuthHref(routes.LOGIN, returnUrl)}>
                     <Button size="sm" variant="outline" className="gap-1.5">
                       <LogIn className="h-3.5 w-3.5" />
                       {t('request.detail.proposalAuthRequired.login')}

@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { getLocaleFromHeaders } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import RegisterContent from './RegisterContent';
@@ -8,5 +9,9 @@ export async function generateMetadata() {
 }
 
 export default function RegisterPage() {
-  return <RegisterContent />;
+  return (
+    <Suspense fallback={null}>
+      <RegisterContent />
+    </Suspense>
+  );
 }
