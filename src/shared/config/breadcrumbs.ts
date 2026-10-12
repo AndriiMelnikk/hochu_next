@@ -16,6 +16,18 @@ export const breadcrumbLabels: Record<string, string> = {
   [routes.PRIVACY]: 'Політика конфіденційності',
   [routes.SUPPORT]: 'Підтримка',
   [routes.ADMIN]: 'Адміністратор',
+  [routes.ADMIN_ANALYTICS]: 'Аналітика',
+  [routes.ADMIN_ANALYTICS_TRAFFIC]: 'Трафік',
+  [routes.ADMIN_MODERATION_REQUESTS]: 'Запити',
+  [routes.ADMIN_MODERATION_PROPOSALS]: 'Пропозиції',
+  [routes.ADMIN_MODERATION_REPORTS]: 'Звіти',
+  [routes.ADMIN_MODERATION_USERS]: 'Користувачі',
+  [routes.ADMIN_CONTENT_BLOG]: 'Блог',
+  [routes.ADMIN_CONTENT_PRICING]: 'Тарифи',
+  [routes.ADMIN_CONTENT_PAGES]: 'Сторінки',
+  [routes.ADMIN_STAFF]: 'Команда',
   // Динамічні сегменти (базові шляхи для динамічних роутів)
   '/proposal': 'Пропозиція',
+  '/admin/moderation': 'Модерація',
+  '/admin/content': 'Контент',
 };

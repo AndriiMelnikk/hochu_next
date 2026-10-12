@@ -20,6 +20,16 @@ const metadataByLocale = {
 /** Приватні/службові сторінки, які не повинні індексуватись */
 const NOINDEX_ROUTES: ReadonlySet<keyof typeof routes> = new Set([
   'ADMIN',
+  'ADMIN_ANALYTICS',
+  'ADMIN_ANALYTICS_TRAFFIC',
+  'ADMIN_MODERATION_REQUESTS',
+  'ADMIN_MODERATION_PROPOSALS',
+  'ADMIN_MODERATION_REPORTS',
+  'ADMIN_MODERATION_USERS',
+  'ADMIN_CONTENT_BLOG',
+  'ADMIN_CONTENT_PRICING',
+  'ADMIN_CONTENT_PAGES',
+  'ADMIN_STAFF',
   'PROFILE',
   'FORGOT_PASSWORD',
   'RESET_PASSWORD',

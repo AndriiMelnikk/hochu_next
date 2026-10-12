@@ -1,0 +1,1 @@
+export { ContentPages } from './ContentPages';

@@ -3,6 +3,7 @@ import { LinguiProvider } from '@/app/providers/LinguiProvider';
 import { getLocaleFromHeaders } from '@/locales/locale';
 import { messages as enMessages } from '@/locales/en/admin';
 import { messages as ukMessages } from '@/locales/uk/admin';
+import { AdminShell } from '@/widgets/admin/AdminShell';
 
 const messagesByLocale = {
   en: enMessages,
@@ -14,7 +15,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
   return (
     <LinguiProvider locale={locale} messages={messagesByLocale[locale]}>
-      {children}
+      <AdminShell>{children}</AdminShell>
     </LinguiProvider>
   );
 }

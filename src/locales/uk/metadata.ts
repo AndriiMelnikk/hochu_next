@@ -22,6 +22,46 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
     title: 'Адміністративна панель | Shukayu',
     description: 'Панель модерації контенту та управління платформою Shukayu для адміністраторів.',
   },
+  ADMIN_ANALYTICS: {
+    title: 'Аналітика продукту | Адмінка Shukayu',
+    description: 'Продуктова аналітика платформи Shukayu.',
+  },
+  ADMIN_ANALYTICS_TRAFFIC: {
+    title: 'Аналітика трафіку | Адмінка Shukayu',
+    description: 'Трафік, джерела та пристрої на платформі Shukayu.',
+  },
+  ADMIN_MODERATION_REQUESTS: {
+    title: 'Модерація запитів | Адмінка Shukayu',
+    description: 'Черга запитів на модерацію.',
+  },
+  ADMIN_MODERATION_PROPOSALS: {
+    title: 'Модерація пропозицій | Адмінка Shukayu',
+    description: 'Черга пропозицій на модерацію.',
+  },
+  ADMIN_MODERATION_REPORTS: {
+    title: 'Звіти | Адмінка Shukayu',
+    description: 'Скарги та звіти користувачів.',
+  },
+  ADMIN_MODERATION_USERS: {
+    title: 'Користувачі | Адмінка Shukayu',
+    description: 'Блокування та управління користувачами.',
+  },
+  ADMIN_CONTENT_BLOG: {
+    title: 'Блог | Адмінка Shukayu',
+    description: 'Керування статтями блогу.',
+  },
+  ADMIN_CONTENT_PRICING: {
+    title: 'Тарифи | Адмінка Shukayu',
+    description: 'Керування тарифними планами.',
+  },
+  ADMIN_CONTENT_PAGES: {
+    title: 'Сторінки | Адмінка Shukayu',
+    description: 'Керування інформаційними сторінками.',
+  },
+  ADMIN_STAFF: {
+    title: 'Команда | Адмінка Shukayu',
+    description: 'Ролі модераторів та адміністраторів.',
+  },
   BLOG: {
     title: 'Блог Shukayu — поради для покупців і продавців товарів',
     description:

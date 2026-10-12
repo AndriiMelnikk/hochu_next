@@ -22,6 +22,46 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
     title: 'Admin Panel | Shukayu',
     description: 'Content moderation and platform management panel for Shukayu administrators.',
   },
+  ADMIN_ANALYTICS: {
+    title: 'Product Analytics | Shukayu Admin',
+    description: 'Product analytics for the Shukayu platform.',
+  },
+  ADMIN_ANALYTICS_TRAFFIC: {
+    title: 'Traffic Analytics | Shukayu Admin',
+    description: 'Traffic, sources and devices on Shukayu.',
+  },
+  ADMIN_MODERATION_REQUESTS: {
+    title: 'Request Moderation | Shukayu Admin',
+    description: 'Moderation queue for requests.',
+  },
+  ADMIN_MODERATION_PROPOSALS: {
+    title: 'Proposal Moderation | Shukayu Admin',
+    description: 'Moderation queue for proposals.',
+  },
+  ADMIN_MODERATION_REPORTS: {
+    title: 'Reports | Shukayu Admin',
+    description: 'User reports and complaints.',
+  },
+  ADMIN_MODERATION_USERS: {
+    title: 'Users | Shukayu Admin',
+    description: 'User blocking and management.',
+  },
+  ADMIN_CONTENT_BLOG: {
+    title: 'Blog | Shukayu Admin',
+    description: 'Manage blog posts.',
+  },
+  ADMIN_CONTENT_PRICING: {
+    title: 'Pricing | Shukayu Admin',
+    description: 'Manage pricing plans.',
+  },
+  ADMIN_CONTENT_PAGES: {
+    title: 'Pages | Shukayu Admin',
+    description: 'Manage informational pages.',
+  },
+  ADMIN_STAFF: {
+    title: 'Staff | Shukayu Admin',
+    description: 'Moderator and admin roles.',
+  },
   BLOG: {
     title: 'Shukayu Blog — Tips for Buyers and Sellers of Goods',
     description:

@@ -1,0 +1,1 @@
+export { ContentBlog } from './ContentBlog';

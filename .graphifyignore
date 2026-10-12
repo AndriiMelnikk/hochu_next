@@ -1,0 +1,4 @@
+# graphify skill + outputs (not application code)
+.agents/skills/graphify/
+.cursor/skills/graphify/
+graphify-out/

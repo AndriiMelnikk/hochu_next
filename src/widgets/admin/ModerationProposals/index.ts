@@ -1,0 +1,1 @@
+export { ModerationProposals } from './ModerationProposals';
