@@ -14,3 +14,4 @@ export type {
 export type { IGetNotificationsRequest } from './requests/GetNotifications';
 export type { IGetRequestSubscriptionsRequest } from './requests/GetRequestSubscriptions';
 export type { IPaginationResult } from './responses/PaginationResult';
+export type { ITelegramLinkStatus, ITelegramLinkToken } from './TelegramLink';

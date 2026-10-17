@@ -5,3 +5,5 @@ export { NewRequestsPreferenceForm } from './ui/NewRequestsPreferenceForm';
 export { RequestSubscriptionModal } from './ui/RequestSubscriptionModal';
 export { RequestSubscriptionCard } from './ui/RequestSubscriptionCard';
 export { CategoryChipsSelect } from './ui/CategoryChipsSelect';
+export { NotificationChannelsSelect } from './ui/NotificationChannelsSelect';
+export { TelegramConnectSection } from './ui/TelegramConnectSection';

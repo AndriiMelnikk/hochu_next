@@ -4,7 +4,21 @@ import { NotificationCategory, NotificationChannel } from '../types/Notification
 export const notificationChannelSchema = z.enum([
   NotificationChannel.IN_APP,
   NotificationChannel.EMAIL,
+  NotificationChannel.TELEGRAM,
 ]);
+
+export const telegramLinkStatusSchema = z.object({
+  linked: z.boolean(),
+  telegramChatId: z.string().nullable().optional(),
+  telegramUsername: z.string().nullable().optional(),
+  linkedAt: z.string().nullable().optional(),
+});
+
+export const telegramLinkTokenSchema = z.object({
+  token: z.string(),
+  deepLink: z.string().url(),
+  expiresAt: z.string(),
+});
 
 export const notificationCategorySchema = z.enum([
   NotificationCategory.NEW_REQUESTS,

@@ -72,4 +72,13 @@ export const ENDPOINTS = {
     BY_ID: (profileId: string, id: string) =>
       `/api/users/${profileId}/request-subscriptions/${id}`,
   },
+  TELEGRAM: {
+    STATUS: '/api/users/me/telegram',
+    LINK_TOKEN: '/api/users/me/telegram/link-token',
+    UNLINK: '/api/users/me/telegram',
+  },
+  ADMIN: {
+    REQUEST_SUBSCRIPTIONS: '/api/admin/request-subscriptions',
+    TELEGRAM_UNLINK: (accountId: string) => `/api/admin/users/${accountId}/telegram`,
+  },
 } as const;

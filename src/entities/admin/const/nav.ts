@@ -52,6 +52,13 @@ export const ADMIN_NAV_ITEMS: IAdminNavItem[] = [
     group: 'moderation',
   },
   {
+    id: 'subscriptions',
+    href: '/admin/moderation/subscriptions',
+    labelKey: 'admin.nav.subscriptions',
+    permission: 'notifications.subscriptions',
+    group: 'moderation',
+  },
+  {
     id: 'blog',
     href: '/admin/content/blog',
     labelKey: 'admin.nav.blog',

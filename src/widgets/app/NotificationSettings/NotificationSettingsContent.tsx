@@ -1,22 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useLingui } from '@lingui/react';
 import { toast } from 'sonner';
 import { Plus } from 'lucide-react';
 import { useProfiles } from '@/entities/user';
 import {
   NotificationCategory,
-  channelsForEnabled,
   notificationPreferenceService,
   useDeleteRequestSubscription,
   useNotificationPreferences,
   useRequestSubscriptions,
+  useTelegramLinkStatus,
   useUpdateNotificationPreferences,
   type ICategoryPreference,
   type INewRequestsPreference,
-  type INotificationPreferences,
   type IRequestSubscription,
+  type IUpdateNotificationPreferencesRequest,
 } from '@/entities/notification';
 import { useQueryClient } from '@tanstack/react-query';
 import {
@@ -24,8 +24,9 @@ import {
   NotificationPreferencesSection,
   RequestSubscriptionCard,
   RequestSubscriptionModal,
+  TelegramConnectSection,
 } from '@/features/notifications';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/shared/ui/accordion';
 import { Button } from '@/shared/ui/button';
 import { Loading } from '@/shared/ui/loading';
 import { UniversalPagination } from '@/shared/ui/universal-pagination';
@@ -50,6 +51,8 @@ export default function NotificationSettingsContent() {
   const { data: profiles = [], isLoading: isProfilesLoading } = useProfiles();
   const buyerProfile = profiles.find((p) => p.type === 'buyer');
   const sellerProfile = profiles.find((p) => p.type === 'seller');
+  const { data: telegramStatus } = useTelegramLinkStatus();
+  const telegramLinked = telegramStatus?.linked ?? false;
 
   const [subscriptionPage, setSubscriptionPage] = useState(1);
   const subscriptionPageSize = 10;
@@ -77,126 +80,168 @@ export default function NotificationSettingsContent() {
   }
 
   return (
-    <div className="space-y-6">
-      <AccountMessagesSection profiles={profiles} />
+    <div className="space-y-3">
+      <div className="rounded-lg border px-4 py-3">
+        <TelegramConnectSection />
+      </div>
 
-      {buyerProfile && (
-        <ProfilePreferencesSection
-          title={t('profile.notifications.sections.buyer')}
-          description={t('profile.notifications.sections.buyerDescription')}
-          profileId={buyerProfile._id}
-          categories={BUYER_CATEGORIES}
-        />
-      )}
+      <Accordion type="multiple" defaultValue={['account']} className="rounded-lg border px-4">
+        <AccordionItem value="account">
+          <AccordionTrigger className="py-3 text-sm hover:no-underline">
+            {t('profile.notifications.sections.account')}
+          </AccordionTrigger>
+          <AccordionContent className="pb-3 pt-0">
+            <AccountMessagesSection profiles={profiles} telegramLinked={telegramLinked} />
+          </AccordionContent>
+        </AccordionItem>
 
-      {sellerProfile && (
-        <>
-          <SellerPreferencesSection profileId={sellerProfile._id} categories={SELLER_CATEGORIES} />
+        {buyerProfile && (
+          <AccordionItem value="buyer">
+            <AccordionTrigger className="py-3 text-sm hover:no-underline">
+              {t('profile.notifications.sections.buyer')}
+            </AccordionTrigger>
+            <AccordionContent className="pb-3 pt-0">
+              <ProfilePreferencesSection
+                profileId={buyerProfile._id}
+                categories={BUYER_CATEGORIES}
+                telegramLinked={telegramLinked}
+              />
+            </AccordionContent>
+          </AccordionItem>
+        )}
 
-          <Card>
-            <CardHeader className="flex flex-row items-start justify-between gap-4">
-              <div>
-                <CardTitle>{t('profile.notifications.subscriptions.title')}</CardTitle>
-                <CardDescription>
-                  {t('profile.notifications.subscriptions.description')}
-                </CardDescription>
-              </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setEditingSubscription(null);
-                  setSubscriptionModalOpen(true);
-                }}
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                {t('profile.notifications.subscriptions.add')}
-              </Button>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {isSubscriptionsLoading && <Loading variant="inline" />}
+        {sellerProfile && (
+          <AccordionItem value="seller">
+            <AccordionTrigger className="py-3 text-sm hover:no-underline">
+              {t('profile.notifications.sections.seller')}
+            </AccordionTrigger>
+            <AccordionContent className="pb-3 pt-0">
+              <SellerPreferencesSection
+                profileId={sellerProfile._id}
+                categories={SELLER_CATEGORIES}
+                telegramLinked={telegramLinked}
+              />
+            </AccordionContent>
+          </AccordionItem>
+        )}
 
-              {!isSubscriptionsLoading && subscriptions.length === 0 && (
-                <p className="text-sm text-muted-foreground">
-                  {t('profile.notifications.subscriptions.empty')}
-                </p>
-              )}
-
-              <div className="grid gap-3">
-                {subscriptions.map((sub) => (
-                  <RequestSubscriptionCard
-                    key={sub._id}
-                    subscription={sub}
-                    onEdit={() => {
-                      setEditingSubscription(sub);
+        {sellerProfile && (
+          <AccordionItem value="subscriptions" className="border-b-0">
+            <AccordionTrigger className="py-3 text-sm hover:no-underline">
+              <span className="flex flex-1 items-center justify-between gap-3 pr-2 text-left">
+                {t('profile.notifications.subscriptions.title')}
+                {subscriptionsData?.count != null && subscriptionsData.count > 0 && (
+                  <span className="text-xs font-normal text-muted-foreground">
+                    {subscriptionsData.count}
+                  </span>
+                )}
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="pb-3 pt-0">
+              <div className="space-y-2">
+                <div className="flex items-start justify-between gap-3">
+                  <p className="text-xs text-muted-foreground">
+                    {t('profile.notifications.subscriptions.description')}
+                  </p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="shrink-0"
+                    onClick={() => {
+                      setEditingSubscription(null);
                       setSubscriptionModalOpen(true);
                     }}
-                    onDelete={async () => {
-                      try {
-                        await deleteSubscription(sub._id);
-                        toast.success(t('profile.notifications.subscriptions.deleteSuccess'));
-                      } catch {
-                        toast.error(t('profile.notifications.subscriptions.deleteError'));
-                      }
-                    }}
-                    isDeleting={isDeleting}
+                  >
+                    <Plus className="mr-1.5 h-3.5 w-3.5" />
+                    {t('profile.notifications.subscriptions.add')}
+                  </Button>
+                </div>
+
+                {isSubscriptionsLoading && <Loading variant="inline" />}
+
+                {!isSubscriptionsLoading && subscriptions.length === 0 && (
+                  <p className="py-1 text-sm text-muted-foreground">
+                    {t('profile.notifications.subscriptions.empty')}
+                  </p>
+                )}
+
+                <div>
+                  {subscriptions.map((sub) => (
+                    <RequestSubscriptionCard
+                      key={sub._id}
+                      subscription={sub}
+                      onEdit={() => {
+                        setEditingSubscription(sub);
+                        setSubscriptionModalOpen(true);
+                      }}
+                      onDelete={async () => {
+                        try {
+                          await deleteSubscription(sub._id);
+                          toast.success(t('profile.notifications.subscriptions.deleteSuccess'));
+                        } catch {
+                          toast.error(t('profile.notifications.subscriptions.deleteError'));
+                        }
+                      }}
+                      isDeleting={isDeleting}
+                    />
+                  ))}
+                </div>
+
+                {subscriptionsTotalPages > 1 && (
+                  <UniversalPagination
+                    currentPage={subscriptionPage}
+                    totalPages={subscriptionsTotalPages}
+                    onPageChange={setSubscriptionPage}
                   />
-                ))}
+                )}
               </div>
 
-              {subscriptionsTotalPages > 1 && (
-                <UniversalPagination
-                  currentPage={subscriptionPage}
-                  totalPages={subscriptionsTotalPages}
-                  onPageChange={(p) => {
-                    setSubscriptionPage(p);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                />
-              )}
-            </CardContent>
-          </Card>
-
-          {sellerProfile && (
-            <RequestSubscriptionModal
-              sellerProfileId={sellerProfile._id}
-              subscription={editingSubscription}
-              open={subscriptionModalOpen}
-              onOpenChange={setSubscriptionModalOpen}
-              onSuccess={() => setEditingSubscription(null)}
-            />
-          )}
-        </>
-      )}
+              <RequestSubscriptionModal
+                sellerProfileId={sellerProfile._id}
+                subscription={editingSubscription}
+                open={subscriptionModalOpen}
+                onOpenChange={setSubscriptionModalOpen}
+                onSuccess={() => setEditingSubscription(null)}
+              />
+            </AccordionContent>
+          </AccordionItem>
+        )}
+      </Accordion>
     </div>
   );
 }
 
-function AccountMessagesSection({ profiles }: { profiles: { _id: string }[] }) {
+function PreferenceList({ children }: { children: ReactNode }) {
+  return <div className="divide-y">{children}</div>;
+}
+
+function AccountMessagesSection({
+  profiles,
+  telegramLinked,
+}: {
+  profiles: { _id: string }[];
+  telegramLinked: boolean;
+}) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const queryClient = useQueryClient();
   const firstProfileId = profiles[0]?._id;
   const { data: prefs, isLoading } = useNotificationPreferences(firstProfileId);
-
   const [localMessages, setLocalMessages] = useState<ICategoryPreference | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
   const messagesValue = localMessages ?? prefs?.[NotificationCategory.MESSAGES];
 
-  const saveMessages = async () => {
-    if (!localMessages || profiles.length === 0) return;
+  const saveMessages = async (next: ICategoryPreference) => {
+    if (profiles.length === 0) return;
+    setLocalMessages(next);
     setIsSaving(true);
     try {
-      const messagesPayload = {
-        ...localMessages,
-        channels: channelsForEnabled(localMessages.enabled),
-      };
       await Promise.all(
         profiles.map((profile) =>
           notificationPreferenceService.update(profile._id, {
-            [NotificationCategory.MESSAGES]: messagesPayload,
+            [NotificationCategory.MESSAGES]: next,
           }),
         ),
       );
@@ -205,9 +250,9 @@ function AccountMessagesSection({ profiles }: { profiles: { _id: string }[] }) {
           queryClient.invalidateQueries({ queryKey: ['notification-preferences', profile._id] }),
         ),
       );
-      toast.success(t('profile.notifications.saveSuccess'));
       setLocalMessages(null);
     } catch {
+      setLocalMessages(null);
       toast.error(t('profile.notifications.saveError'));
     } finally {
       setIsSaving(false);
@@ -215,176 +260,173 @@ function AccountMessagesSection({ profiles }: { profiles: { _id: string }[] }) {
   };
 
   if (!firstProfileId) return null;
+  if (isLoading) return <Loading variant="inline" />;
+  if (!messagesValue) return null;
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t('profile.notifications.sections.account')}</CardTitle>
-        <CardDescription>{t('profile.notifications.sections.accountDescription')}</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {isLoading && <Loading variant="inline" />}
-        {messagesValue && (
-          <>
-            <NotificationPreferencesSection
-              categoryKey={NotificationCategory.MESSAGES}
-              value={messagesValue}
-              onChange={setLocalMessages}
-              disabled={isSaving}
-            />
-            <Button type="button" onClick={saveMessages} disabled={isSaving || !localMessages}>
-              {isSaving ? t('profile.edit.submitting') : t('profile.edit.submit')}
-            </Button>
-          </>
-        )}
-      </CardContent>
-    </Card>
+    <PreferenceList>
+      <NotificationPreferencesSection
+        categoryKey={NotificationCategory.MESSAGES}
+        value={messagesValue}
+        onChange={saveMessages}
+        disabled={isSaving}
+        telegramLinked={telegramLinked}
+      />
+    </PreferenceList>
   );
 }
 
-interface ProfilePreferencesSectionProps {
-  title: string;
-  description: string;
-  profileId: string;
-  categories: readonly NotificationCategory[];
-}
-
 function ProfilePreferencesSection({
-  title,
-  description,
   profileId,
   categories,
-}: ProfilePreferencesSectionProps) {
+  telegramLinked,
+}: {
+  profileId: string;
+  categories: readonly NotificationCategory[];
+  telegramLinked: boolean;
+}) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const { data: prefs, isLoading } = useNotificationPreferences(profileId);
   const { mutateAsync: updatePrefs, isPending } = useUpdateNotificationPreferences(profileId);
+  const [localPrefs, setLocalPrefs] = useState<Partial<Record<NotificationCategory, ICategoryPreference>>>(
+    {},
+  );
 
-  const [localPrefs, setLocalPrefs] = useState<Partial<INotificationPreferences>>({});
-
-  const getCategoryValue = (key: NotificationCategory): ICategoryPreference | undefined => {
-    const local = localPrefs[key] as ICategoryPreference | undefined;
-    if (local) return local;
-    return prefs?.[key] as ICategoryPreference | undefined;
-  };
-
-  const handleSave = async () => {
-    if (Object.keys(localPrefs).length === 0) return;
+  const saveCategory = async (key: NotificationCategory, value: ICategoryPreference) => {
+    setLocalPrefs((prev) => ({ ...prev, [key]: value }));
     try {
-      await updatePrefs(localPrefs);
-      toast.success(t('profile.notifications.saveSuccess'));
-      setLocalPrefs({});
+      await updatePrefs({ [key]: value } as IUpdateNotificationPreferencesRequest);
+      setLocalPrefs((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
     } catch {
+      setLocalPrefs((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
       toast.error(t('profile.notifications.saveError'));
     }
   };
 
+  if (isLoading) return <Loading variant="inline" />;
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {isLoading && <Loading variant="inline" />}
-        {categories.map((categoryKey) => {
-          const value = getCategoryValue(categoryKey);
-          if (!value) return null;
-          return (
-            <NotificationPreferencesSection
-              key={categoryKey}
-              categoryKey={categoryKey}
-              value={value}
-              onChange={(v) => setLocalPrefs((prev) => ({ ...prev, [categoryKey]: v }))}
-              disabled={isPending}
-            />
-          );
-        })}
-        <Button
-          type="button"
-          onClick={handleSave}
-          disabled={isPending || Object.keys(localPrefs).length === 0}
-        >
-          {isPending ? t('profile.edit.submitting') : t('profile.edit.submit')}
-        </Button>
-      </CardContent>
-    </Card>
+    <PreferenceList>
+      {categories.map((categoryKey) => {
+        const value =
+          localPrefs[categoryKey] ?? (prefs?.[categoryKey] as ICategoryPreference | undefined);
+        if (!value) return null;
+        return (
+          <NotificationPreferencesSection
+            key={categoryKey}
+            categoryKey={categoryKey}
+            value={value}
+            onChange={(v) => void saveCategory(categoryKey, v)}
+            disabled={isPending}
+            telegramLinked={telegramLinked}
+          />
+        );
+      })}
+    </PreferenceList>
   );
 }
 
 function SellerPreferencesSection({
   profileId,
   categories,
+  telegramLinked,
 }: {
   profileId: string;
   categories: readonly NotificationCategory[];
+  telegramLinked: boolean;
 }) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const { data: prefs, isLoading } = useNotificationPreferences(profileId);
   const { mutateAsync: updatePrefs, isPending } = useUpdateNotificationPreferences(profileId);
-
   const [localNewRequests, setLocalNewRequests] = useState<INewRequestsPreference | null>(null);
-  const [localPrefs, setLocalPrefs] = useState<Partial<INotificationPreferences>>({});
+  const [localPrefs, setLocalPrefs] = useState<Partial<Record<NotificationCategory, ICategoryPreference>>>(
+    {},
+  );
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const newRequestsValue = localNewRequests ?? prefs?.[NotificationCategory.NEW_REQUESTS];
+  const serverNewRequests = prefs?.[NotificationCategory.NEW_REQUESTS];
+  const newRequestsValue = localNewRequests ?? serverNewRequests;
 
-  const getCategoryValue = (key: NotificationCategory): ICategoryPreference | undefined => {
-    const local = localPrefs[key] as ICategoryPreference | undefined;
-    if (local) return local;
-    return prefs?.[key] as ICategoryPreference | undefined;
-  };
+  useEffect(() => {
+    return () => {
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    };
+  }, []);
 
-  const hasChanges = localNewRequests !== null || Object.keys(localPrefs).length > 0;
-
-  const handleSave = async () => {
-    const payload: Partial<INotificationPreferences> = { ...localPrefs };
-    if (localNewRequests) {
-      payload[NotificationCategory.NEW_REQUESTS] = localNewRequests;
-    }
-    if (Object.keys(payload).length === 0) return;
+  const savePatch = async (payload: IUpdateNotificationPreferencesRequest) => {
     try {
       await updatePrefs(payload);
-      toast.success(t('profile.notifications.saveSuccess'));
-      setLocalNewRequests(null);
-      setLocalPrefs({});
     } catch {
       toast.error(t('profile.notifications.saveError'));
+      throw new Error('save failed');
     }
   };
 
+  const handleNewRequestsChange = (next: INewRequestsPreference) => {
+    setLocalNewRequests(next);
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => {
+      void savePatch({ [NotificationCategory.NEW_REQUESTS]: next })
+        .then(() => setLocalNewRequests(null))
+        .catch(() => setLocalNewRequests(null));
+    }, 450);
+  };
+
+  const saveCategory = async (key: NotificationCategory, value: ICategoryPreference) => {
+    setLocalPrefs((prev) => ({ ...prev, [key]: value }));
+    try {
+      await savePatch({ [key]: value });
+      setLocalPrefs((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    } catch {
+      setLocalPrefs((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    }
+  };
+
+  if (isLoading) return <Loading variant="inline" />;
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t('profile.notifications.sections.seller')}</CardTitle>
-        <CardDescription>{t('profile.notifications.sections.sellerDescription')}</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {isLoading && <Loading variant="inline" />}
-        {newRequestsValue && (
-          <NewRequestsPreferenceForm
-            value={newRequestsValue}
-            onChange={setLocalNewRequests}
+    <PreferenceList>
+      {newRequestsValue && (
+        <NewRequestsPreferenceForm
+          value={newRequestsValue}
+          onChange={handleNewRequestsChange}
+          disabled={isPending}
+          telegramLinked={telegramLinked}
+        />
+      )}
+      {categories.map((categoryKey) => {
+        const value =
+          localPrefs[categoryKey] ?? (prefs?.[categoryKey] as ICategoryPreference | undefined);
+        if (!value) return null;
+        return (
+          <NotificationPreferencesSection
+            key={categoryKey}
+            categoryKey={categoryKey}
+            value={value}
+            onChange={(v) => void saveCategory(categoryKey, v)}
             disabled={isPending}
+            telegramLinked={telegramLinked}
           />
-        )}
-        {categories.map((categoryKey) => {
-          const value = getCategoryValue(categoryKey);
-          if (!value) return null;
-          return (
-            <NotificationPreferencesSection
-              key={categoryKey}
-              categoryKey={categoryKey}
-              value={value}
-              onChange={(v) => setLocalPrefs((prev) => ({ ...prev, [categoryKey]: v }))}
-              disabled={isPending}
-            />
-          );
-        })}
-        <Button type="button" onClick={handleSave} disabled={isPending || !hasChanges}>
-          {isPending ? t('profile.edit.submitting') : t('profile.edit.submit')}
-        </Button>
-      </CardContent>
-    </Card>
+        );
+      })}
+    </PreferenceList>
   );
 }

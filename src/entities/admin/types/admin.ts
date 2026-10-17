@@ -5,6 +5,7 @@ export type StaffPermission =
   | 'moderation.proposals'
   | 'moderation.reports'
   | 'users.block'
+  | 'notifications.subscriptions'
   | 'content.blog'
   | 'content.pricing'
   | 'content.pages'
@@ -138,4 +139,20 @@ export interface IAdminStaffMember {
   name: string;
   email: string;
   role: StaffRole;
+}
+
+export interface IAdminRequestSubscription {
+  id: string;
+  sellerProfileId: string;
+  sellerName: string;
+  accountId: string;
+  accountEmail: string;
+  categories: string[];
+  location: string | null;
+  budgetMin: number | null;
+  budgetMax: number | null;
+  enabled: boolean;
+  channels: string[];
+  telegramLinked: boolean;
+  createdAt: string;
 }

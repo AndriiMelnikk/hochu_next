@@ -3,11 +3,14 @@
 import { useEffect, useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { toast } from 'sonner';
-import type { IRequestSubscription } from '@/entities/notification';
 import {
-  ALL_NOTIFICATION_CHANNELS,
+  DEFAULT_NOTIFICATION_CHANNELS,
+  channelsForEnabled,
   useCreateRequestSubscription,
+  useTelegramLinkStatus,
   useUpdateRequestSubscription,
+  type IRequestSubscription,
+  type NotificationChannel,
 } from '@/entities/notification';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
 import { Button } from '@/shared/ui/button';
@@ -16,6 +19,7 @@ import { Label } from '@/shared/ui/label';
 import { Switch } from '@/shared/ui/switch';
 import { CityCombobox } from '@/shared/ui/city-combobox';
 import { CategoryChipsSelect } from './CategoryChipsSelect';
+import { NotificationChannelsSelect } from './NotificationChannelsSelect';
 
 interface RequestSubscriptionModalProps {
   sellerProfileId: string;
@@ -35,12 +39,15 @@ export const RequestSubscriptionModal = ({
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const isEdit = !!subscription;
+  const { data: telegramStatus } = useTelegramLinkStatus();
+  const telegramLinked = telegramStatus?.linked ?? false;
 
   const [categories, setCategories] = useState<string[]>([]);
   const [location, setLocation] = useState('');
   const [budgetMin, setBudgetMin] = useState('');
   const [budgetMax, setBudgetMax] = useState('');
   const [enabled, setEnabled] = useState(true);
+  const [channels, setChannels] = useState<NotificationChannel[]>(DEFAULT_NOTIFICATION_CHANNELS);
 
   const { mutateAsync: createSubscription, isPending: isCreating } =
     useCreateRequestSubscription(sellerProfileId);
@@ -54,7 +61,19 @@ export const RequestSubscriptionModal = ({
     setBudgetMin(subscription?.budgetMin != null ? String(subscription.budgetMin) : '');
     setBudgetMax(subscription?.budgetMax != null ? String(subscription.budgetMax) : '');
     setEnabled(subscription?.enabled ?? true);
-  }, [open, subscription]);
+    setChannels(
+      channelsForEnabled(
+        subscription?.enabled ?? true,
+        subscription?.channels ?? DEFAULT_NOTIFICATION_CHANNELS,
+        { telegramLinked },
+      ),
+    );
+  }, [open, subscription, telegramLinked]);
+
+  const handleEnabledChange = (nextEnabled: boolean) => {
+    setEnabled(nextEnabled);
+    setChannels(channelsForEnabled(nextEnabled, channels, { telegramLinked }));
+  };
 
   const handleSubmit = async () => {
     const payload = {
@@ -63,7 +82,7 @@ export const RequestSubscriptionModal = ({
       budgetMin: budgetMin ? Number(budgetMin) : null,
       budgetMax: budgetMax ? Number(budgetMax) : null,
       enabled,
-      channels: enabled ? ALL_NOTIFICATION_CHANNELS : [],
+      channels: enabled ? channels : [],
     };
 
     try {
@@ -97,8 +116,16 @@ export const RequestSubscriptionModal = ({
         <div className="space-y-4 py-2">
           <div className="flex items-center justify-between">
             <Label>{t('profile.notifications.subscriptions.enabled')}</Label>
-            <Switch checked={enabled} onCheckedChange={setEnabled} />
+            <Switch checked={enabled} onCheckedChange={handleEnabledChange} />
           </div>
+
+          {enabled && (
+            <NotificationChannelsSelect
+              value={channels}
+              onChange={setChannels}
+              telegramLinked={telegramLinked}
+            />
+          )}
 
           <div className="space-y-2">
             <Label>{t('profile.notifications.subscriptions.categories')}</Label>

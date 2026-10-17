@@ -2,6 +2,7 @@ import type {
   IAdminBlogPost,
   IAdminInfoPage,
   IAdminPricingPlan,
+  IAdminRequestSubscription,
   IAdminStaffMember,
   IModerationProposal,
   IModerationReport,
@@ -240,6 +241,54 @@ export const adminStaff: IAdminStaffMember[] = [
   },
 ];
 
+export const adminRequestSubscriptions: IAdminRequestSubscription[] = [
+  {
+    id: 'sub-1',
+    sellerProfileId: 'seller-101',
+    sellerName: 'WebCraft Studio',
+    accountId: 'acc-101',
+    accountEmail: 'craft@example.com',
+    categories: ['Web', 'Design'],
+    location: 'Київ',
+    budgetMin: 5000,
+    budgetMax: 25000,
+    enabled: true,
+    channels: ['in_app', 'email', 'telegram'],
+    telegramLinked: true,
+    createdAt: '2024-03-10',
+  },
+  {
+    id: 'sub-2',
+    sellerProfileId: 'seller-204',
+    sellerName: 'MarketPro',
+    accountId: 'acc-204',
+    accountEmail: 'market@example.com',
+    categories: ['Marketing'],
+    location: null,
+    budgetMin: null,
+    budgetMax: 10000,
+    enabled: true,
+    channels: ['in_app', 'email'],
+    telegramLinked: false,
+    createdAt: '2024-03-12',
+  },
+  {
+    id: 'sub-3',
+    sellerProfileId: 'seller-318',
+    sellerName: 'DevNova',
+    accountId: 'acc-318',
+    accountEmail: 'dev@example.com',
+    categories: ['Web'],
+    location: 'Львів',
+    budgetMin: 15000,
+    budgetMax: null,
+    enabled: false,
+    channels: ['telegram'],
+    telegramLinked: true,
+    createdAt: '2024-03-15',
+  },
+];
+
 export const adminMockData = {
   productAnalytics,
   trafficAnalytics,
@@ -251,4 +300,5 @@ export const adminMockData = {
   adminPricingPlans,
   adminInfoPages,
   adminStaff,
+  adminRequestSubscriptions,
 } as const;

@@ -9,8 +9,10 @@ import { messages as ukMessages } from '@/locales/uk/create';
 import Header from '@/widgets/app/Header';
 import Footer from '@/widgets/app/Footer';
 import { Analytics } from '@vercel/analytics/next';
+import { GoogleTagManager } from '@next/third-parties/google';
 import { JsonLd } from '@/shared/seo/JsonLd';
 import { getOrganizationJsonLd, getWebSiteJsonLd } from '@/shared/seo/schemas';
+import { gtmId } from '@/shared/config/envVars';
 
 const inter = Inter({ subsets: ['latin', 'cyrillic'] });
 
@@ -48,6 +50,7 @@ export default async function RootLayout({ children, params }: Props) {
 
   return (
     <html lang={locale}>
+      <GoogleTagManager gtmId={gtmId} />
       <body className={inter.className}>
         <JsonLd data={getOrganizationJsonLd()} />
         <JsonLd data={getWebSiteJsonLd(locale)} />
