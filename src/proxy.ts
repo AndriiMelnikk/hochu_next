@@ -37,14 +37,15 @@ export function proxy(request: NextRequest) {
     return response;
   }
 
-  // Шлях без префікса (у т.ч. старі URL з листів/закладок) —
-  // permanent redirect на версію з мовним префіксом.
+  // Шлях без префікса (у т.ч. старі URL з листів/закладок) — редірект на версію
+  // з мовним префіксом. Локаль залежить від cookie/Accept-Language, тому редірект
+  // тимчасовий (307): постійний 308 браузери кешують і «прикували б» мову.
   const locale = detectPreferredLocale(request);
   const url = request.nextUrl.clone();
   url.pathname = `/${locale}${pathname === '/' ? '' : pathname}`;
   url.search = search;
 
-  return NextResponse.redirect(url, 308);
+  return NextResponse.redirect(url, 307);
 }
 
 export const config = {

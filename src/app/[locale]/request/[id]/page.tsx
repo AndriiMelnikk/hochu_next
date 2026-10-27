@@ -7,7 +7,11 @@ import { requestService } from '@/entities/request';
 import { routes } from '@/app/router/routes';
 import { IRequestWithBuyer } from '@/entities/request/types/Request';
 import { Loading } from '@/shared/ui/loading';
-import { isIndexableRequestStatus, isNotFoundError } from '@/shared/seo/indexability';
+import {
+  isIndexableRequestStatus,
+  isNotFoundError,
+  toMetaDescription,
+} from '@/shared/seo/indexability';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -40,7 +44,7 @@ export async function generateMetadata({ params }: Props) {
 
   if (lookup.state === 'found') {
     const { request } = lookup;
-    const description = request.description?.slice(0, 160);
+    const description = toMetaDescription(request.description) ?? baseMetadata.description;
     return {
       ...baseMetadata,
       // Лише активні запити індексуються; решта (на модерації, закриті, відхилені) — ні

@@ -26,8 +26,6 @@ const STATIC_ROUTES: (keyof typeof routes)[] = [
   'TERMS',
   'PRIVACY',
   'SUPPORT',
-  'LOGIN',
-  'REGISTER',
 ];
 
 function parseDate(value: string | undefined): Date | undefined {

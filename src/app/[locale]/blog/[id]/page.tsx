@@ -7,7 +7,7 @@ import { Error as ErrorComponent } from '@shared/ui/error';
 import { parseContentToSections } from '@/entities/blog/utils/contentParser';
 import { JsonLd } from '@/shared/seo/JsonLd';
 import { getBlogPostingJsonLd } from '@/shared/seo/schemas';
-import { isNotFoundError } from '@/shared/seo/indexability';
+import { isNotFoundError, toMetaDescription } from '@/shared/seo/indexability';
 import { siteUrl } from '@/shared/config/envVars';
 import BlogArticleContent from './BlogArticleContent';
 
@@ -23,7 +23,10 @@ export async function generateMetadata({ params }: Props) {
   try {
     const post = await blogService.getOne(id);
     if (post) {
-      const description = post.content?.slice(0, 160).replace(/<[^>]*>/g, '');
+      const description =
+        toMetaDescription(post.description) ??
+        toMetaDescription(post.content) ??
+        baseMetadata.description;
       return {
         ...baseMetadata,
         title: `${post.title} | Shukayu Blog`,
@@ -33,7 +36,7 @@ export async function generateMetadata({ params }: Props) {
           type: 'article',
           title: post.title,
           description,
-          images: post.image ? [post.image] : [],
+          ...(post.image ? { images: [post.image] } : {}),
         },
         twitter: {
           ...baseMetadata.twitter,

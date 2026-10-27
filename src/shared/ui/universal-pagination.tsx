@@ -17,6 +17,8 @@ export type UniversalPaginationProps = {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  /** Повертає справжній URL сторінки, щоб пагінація була доступна краулерам без JS */
+  getPageHref?: (page: number) => string;
   previousLabel?: string;
   nextLabel?: string;
   variant?: 'default' | 'mini';
@@ -50,6 +52,7 @@ export function UniversalPagination({
   currentPage,
   totalPages,
   onPageChange,
+  getPageHref,
   previousLabel,
   nextLabel,
   variant = 'default',
@@ -91,7 +94,8 @@ export function UniversalPagination({
             size="default"
             className={cn('gap-1 pl-2.5', !canGoPrevious && 'pointer-events-none opacity-50')}
             aria-label={prevText}
-            href="#"
+            rel="prev"
+            href={canGoPrevious ? (getPageHref?.(currentPage - 1) ?? '#') : '#'}
             onClick={(e) => {
               e.preventDefault();
               if (canGoPrevious) onPageChange(currentPage - 1);
@@ -113,7 +117,7 @@ export function UniversalPagination({
                 <PaginationItem key={page}>
                   <PaginationLink
                     isActive={currentPage === page}
-                    href="#"
+                    href={getPageHref?.(page) ?? '#'}
                     onClick={(e) => handleClick(e, page)}
                   >
                     {page}
@@ -133,7 +137,8 @@ export function UniversalPagination({
             size="default"
             className={cn('gap-1 pr-2.5', !canGoNext && 'pointer-events-none opacity-50')}
             aria-label={nextText}
-            href="#"
+            rel="next"
+            href={canGoNext ? (getPageHref?.(currentPage + 1) ?? '#') : '#'}
             onClick={(e) => {
               e.preventDefault();
               if (canGoNext) onPageChange(currentPage + 1);

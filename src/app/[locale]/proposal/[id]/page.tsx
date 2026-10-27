@@ -3,6 +3,7 @@ import { getLocaleFromHeaders } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import { proposalService } from '@/entities/proposal/services/proposalService';
 import { routes } from '@/app/router/routes';
+import { toMetaDescription } from '@/shared/seo/indexability';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: Props) {
   try {
     const proposal = await proposalService.getOne(id);
     if (proposal) {
-      const description = proposal.description?.slice(0, 160);
+      const description = toMetaDescription(proposal.description) ?? baseMetadata.description;
       return {
         ...baseMetadata,
         title: `${proposal.seller.name} | Shukayu`,

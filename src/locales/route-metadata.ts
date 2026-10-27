@@ -73,8 +73,6 @@ export function getDefaultMetadata(locale: Locale): Metadata {
     ...defaults,
     icons: {
       icon: [{ url: '/favicon.ico', sizes: 'any' }],
-      shortcut: '/favicon.ico',
-      apple: '/favicon.ico',
     },
     robots: { index: true, follow: true },
     openGraph: {
@@ -125,8 +123,6 @@ export function getMetadataForRoute(
     ...merged,
     icons: {
       icon: [{ url: '/favicon.ico', sizes: 'any' }],
-      shortcut: '/favicon.ico',
-      apple: '/favicon.ico',
     },
     robots: noindex ? { index: false, follow: false } : { index: true, follow: true },
     openGraph: {

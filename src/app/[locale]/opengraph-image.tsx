@@ -3,15 +3,16 @@ import { isLocale } from '@/locales/config';
 
 export const runtime = 'edge';
 
-export const alt = 'Shukayu — платформа для покупців і продавців товарів';
+export const alt = 'Shukayu';
 export const size = {
   width: 1200,
   height: 630,
 };
 export const contentType = 'image/png';
 
-export default async function OpengraphImage({ params }: { params: { locale: string } }) {
-  const locale = isLocale(params.locale) ? params.locale : 'uk';
+export default async function OpengraphImage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : 'uk';
 
   const subtitle =
     locale === 'uk'

@@ -7,6 +7,7 @@ import { RequestCard } from '@/features/requests';
 import { Search } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLingui } from '@lingui/react';
+import { usePathname } from 'next/navigation';
 import {
   useRequestStore,
   type IGetRequestsRequest,
@@ -27,6 +28,7 @@ type RequestContentProps = {
 export default function RequestContent({ initialData, initialParams }: RequestContentProps) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
+  const pathname = usePathname();
   const paginationOptions = useMemo(() => ({}), []);
   const { page, pageSize, setPage, filters, setFilter } = useQueryPagination<{
     category: string;
@@ -93,6 +95,15 @@ export default function RequestContent({ initialData, initialParams }: RequestCo
   const requestResults = requests?.results || [];
   const totalCount = requests?.count ?? 0;
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+
+  const getPageHref = (target: number) => {
+    const query = new URLSearchParams();
+    if (category) query.set('category', category);
+    if (search) query.set('search', search);
+    if (target > 1) query.set('page', String(target));
+    const qs = query.toString();
+    return qs ? `${pathname}?${qs}` : pathname;
+  };
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -196,6 +207,7 @@ export default function RequestContent({ initialData, initialParams }: RequestCo
           currentPage={page}
           totalPages={totalPages}
           onPageChange={handlePageChange}
+          getPageHref={getPageHref}
           className="mt-8"
         />
       )}

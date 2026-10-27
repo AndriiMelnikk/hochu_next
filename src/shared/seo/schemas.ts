@@ -9,7 +9,7 @@ export function getOrganizationJsonLd(): Record<string, unknown> {
     '@type': 'Organization',
     name: SITE_NAME,
     url: `${siteUrl}/`,
-    logo: `${siteUrl}/favicon.ico`,
+    logo: `${siteUrl}/logo.png`,
     sameAs: [],
   };
 }
@@ -21,11 +21,6 @@ export function getWebSiteJsonLd(locale: Locale): Record<string, unknown> {
     name: SITE_NAME,
     url: `${siteUrl}/`,
     inLanguage: locale,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: `${siteUrl}/${locale}/request?search={search_term_string}`,
-      'query-input': 'required name=search_term_string',
-    },
   };
 }
 
@@ -75,6 +70,7 @@ export function getBlogPostingJsonLd(post: BlogPostingJsonLdInput): Record<strin
       '@type': 'Organization',
       name: SITE_NAME,
       url: `${siteUrl}/`,
+      logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.png` },
     },
   };
 }
