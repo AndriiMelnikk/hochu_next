@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { getLocaleFromHeaders } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import { blogService } from '@/entities/blog/services/blogService';
@@ -6,6 +7,7 @@ import { Error as ErrorComponent } from '@shared/ui/error';
 import { parseContentToSections } from '@/entities/blog/utils/contentParser';
 import { JsonLd } from '@/shared/seo/JsonLd';
 import { getBlogPostingJsonLd } from '@/shared/seo/schemas';
+import { isNotFoundError } from '@/shared/seo/indexability';
 import { siteUrl } from '@/shared/config/envVars';
 import BlogArticleContent from './BlogArticleContent';
 
@@ -41,6 +43,9 @@ export async function generateMetadata({ params }: Props) {
       };
     }
   } catch (error) {
+    if (isNotFoundError(error)) {
+      return { ...baseMetadata, robots: { index: false, follow: false } };
+    }
     console.error('Failed to fetch blog post for metadata:', error);
   }
 
@@ -57,9 +62,12 @@ export default async function BlogArticlePage({ params }: Props) {
   try {
     article = await blogService.getOne(id);
   } catch (err) {
+    if (isNotFoundError(err)) notFound();
     console.error('Failed to fetch article:', err);
     error = err;
   }
+
+  if (!error && !article) notFound();
 
   if (error || !article) {
     return (

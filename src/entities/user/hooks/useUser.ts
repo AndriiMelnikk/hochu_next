@@ -3,7 +3,7 @@ import { userService } from '../services/userService';
 import { profileSchema, userSchema } from '../schemas/userSchema';
 import type { IUser, IProfile } from '../types/User';
 
-export const useUser = (id: string | number | undefined) => {
+export const useUser = (id: string | number | undefined, options?: { initialData?: IProfile }) => {
   return useQuery<IProfile>({
     queryKey: ['users', 'profile', id],
     queryFn: async () => {
@@ -12,6 +12,7 @@ export const useUser = (id: string | number | undefined) => {
       return profileSchema.parse(data) as IProfile;
     },
     enabled: !!id,
+    initialData: options?.initialData,
   });
 };
 

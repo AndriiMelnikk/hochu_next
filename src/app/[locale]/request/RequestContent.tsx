@@ -5,15 +5,26 @@ import { Loading } from '@shared/ui/loading';
 import { Error } from '@shared/ui/error';
 import { RequestCard } from '@/features/requests';
 import { Search } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLingui } from '@lingui/react';
-import { useRequestStore } from '@/entities/request';
+import {
+  useRequestStore,
+  type IGetRequestsRequest,
+  type IGetRequestsResponse,
+} from '@/entities/request';
 import { CascadingSelect, type CascadingSelectItem } from '@shared/ui/cascading-select';
 import { useCategories } from '@/entities/category';
 import { UniversalPagination } from '@shared/ui/universal-pagination';
 import { useDebounce, useQueryPagination } from '@shared/hooks';
 
-export default function RequestContent() {
+type RequestContentProps = {
+  /** Перша порція даних, завантажена на сервері */
+  initialData?: IGetRequestsResponse;
+  /** Параметри, з якими завантажено initialData */
+  initialParams?: IGetRequestsRequest;
+};
+
+export default function RequestContent({ initialData, initialParams }: RequestContentProps) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const paginationOptions = useMemo(() => ({}), []);
@@ -53,16 +64,31 @@ export default function RequestContent() {
     }));
   }, [categories]);
 
-  const { requests, loading, error, fetchRequests } = useRequestStore();
+  const {
+    requests: storeRequests,
+    loading: storeLoading,
+    error,
+    fetchRequests,
+  } = useRequestStore();
+
+  const category = filters.category || undefined;
+  const search = filters.search || undefined;
+
+  // Поки параметри збігаються з серверними, показуємо серверні дані без повторного запиту
+  const useServerData =
+    !!initialData &&
+    !!initialParams &&
+    initialParams.page === page &&
+    initialParams.pageSize === pageSize &&
+    initialParams.category === category &&
+    initialParams.search === search;
+  const requests = useServerData ? initialData : storeRequests;
+  const loading = useServerData ? false : storeLoading;
 
   useEffect(() => {
-    fetchRequests({
-      page,
-      pageSize,
-      category: filters.category || undefined,
-      search: filters.search || undefined,
-    });
-  }, [page, filters, fetchRequests, pageSize]);
+    if (useServerData) return;
+    fetchRequests({ page, pageSize, category, search });
+  }, [useServerData, page, pageSize, category, search, fetchRequests]);
 
   const requestResults = requests?.results || [];
   const totalCount = requests?.count ?? 0;

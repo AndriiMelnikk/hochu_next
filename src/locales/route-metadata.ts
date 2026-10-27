@@ -31,6 +31,8 @@ const NOINDEX_ROUTES: ReadonlySet<keyof typeof routes> = new Set([
   'ADMIN_CONTENT_PAGES',
   'ADMIN_STAFF',
   'PROFILE',
+  'PROPOSAL',
+  'PROPOSAL_ID',
   'FORGOT_PASSWORD',
   'RESET_PASSWORD',
   'GOOGLE_AUTH_COMPLETE',

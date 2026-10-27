@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useUser } from '@/entities/user';
+import { useUser, type IProfile } from '@/entities/user';
 import { useAuthStore } from '@/entities/auth';
 import { Button } from '@shared/ui/button';
 import Link from '@/shared/ui/link';
@@ -11,13 +11,13 @@ import ProfileTabs from '@/widgets/app/ProfileTabs';
 import { Loading } from '@/shared/ui/loading';
 import { useLingui } from '@lingui/react';
 
-export default function ProfileContent() {
+export default function ProfileContent({ initialData }: { initialData?: IProfile }) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
 
   const params = useParams();
   const id = params?.id as string;
-  const { data: user, isLoading, error } = useUser(id);
+  const { data: user, isLoading, error } = useUser(id, { initialData });
 
   const { user: currentUser } = useAuthStore();
   const isOwner = currentUser?.profile?._id === id;

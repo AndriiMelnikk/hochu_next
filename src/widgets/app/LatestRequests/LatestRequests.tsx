@@ -5,16 +5,16 @@ import { useMemo } from 'react';
 import { useLingui } from '@lingui/react';
 import { ArrowRight } from 'lucide-react';
 import { routes } from '@/app/router/routes';
-import { useLatestRequests, type IRequest } from '@/entities/request';
+import { useLatestRequests, type IRequest, type IGetRequestsResponse } from '@/entities/request';
 import { RequestCard } from '@/features/requests';
 import { Loading } from '@shared/ui/loading';
 import { Error } from '@shared/ui/error';
 import { Button } from '@shared/ui/button';
 
-const LatestRequests = () => {
+const LatestRequests = ({ initialData }: { initialData?: IGetRequestsResponse }) => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-  const { data, isLoading, isError } = useLatestRequests();
+  const { data, isLoading, isError } = useLatestRequests(initialData);
 
   const requests = useMemo(() => data?.results ?? [], [data?.results]);
 

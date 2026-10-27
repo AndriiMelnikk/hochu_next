@@ -98,3 +98,45 @@ export function getFaqPageJsonLd(items: FaqJsonLdItem[]): Record<string, unknown
     })),
   };
 }
+
+export type ProfilePageJsonLdInput = {
+  name: string;
+  url: string;
+  image?: string | null;
+  location?: string | null;
+  rating?: number;
+  reviewsCount?: number;
+  memberSince?: string;
+  locale: Locale;
+};
+
+export function getProfilePageJsonLd(profile: ProfilePageJsonLdInput): Record<string, unknown> {
+  const hasRating = (profile.reviewsCount ?? 0) > 0 && (profile.rating ?? 0) > 0;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    inLanguage: profile.locale,
+    ...(profile.memberSince ? { dateCreated: profile.memberSince } : {}),
+    mainEntity: {
+      '@type': 'Person',
+      name: profile.name,
+      url: profile.url,
+      ...(profile.image ? { image: profile.image } : {}),
+      ...(profile.location
+        ? { address: { '@type': 'PostalAddress', addressLocality: profile.location } }
+        : {}),
+      ...(hasRating
+        ? {
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: profile.rating,
+              reviewCount: profile.reviewsCount,
+              bestRating: 5,
+              worstRating: 1,
+            },
+          }
+        : {}),
+    },
+  };
+}

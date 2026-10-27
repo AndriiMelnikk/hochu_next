@@ -1,4 +1,5 @@
 import { Suspense, cache } from 'react';
+import { notFound } from 'next/navigation';
 import { getLocaleFromHeaders } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import RequestDetailContent from './RequestDetailContent';
@@ -6,17 +7,24 @@ import { requestService } from '@/entities/request';
 import { routes } from '@/app/router/routes';
 import { IRequestWithBuyer } from '@/entities/request/types/Request';
 import { Loading } from '@/shared/ui/loading';
+import { isIndexableRequestStatus, isNotFoundError } from '@/shared/seo/indexability';
 
 type Props = {
   params: Promise<{ id: string }>;
 };
 
-const getRequest = cache(async (id: string): Promise<IRequestWithBuyer | null> => {
+type RequestLookup =
+  | { state: 'found'; request: IRequestWithBuyer }
+  | { state: 'missing' }
+  | { state: 'error' };
+
+const getRequest = cache(async (id: string): Promise<RequestLookup> => {
   try {
-    return await requestService.getOne(id);
+    return { state: 'found', request: await requestService.getOne(id) };
   } catch (error) {
+    if (isNotFoundError(error)) return { state: 'missing' };
     console.error('Failed to fetch request:', error);
-    return null;
+    return { state: 'error' };
   }
 });
 
@@ -25,11 +33,20 @@ export async function generateMetadata({ params }: Props) {
   const locale = await getLocaleFromHeaders();
   const baseMetadata = getMetadataForRoute(locale, 'REQUEST_ID', routes.REQUEST_ID(id));
 
-  const request = await getRequest(id);
-  if (request) {
+  const lookup = await getRequest(id);
+  if (lookup.state === 'missing') {
+    return { ...baseMetadata, robots: { index: false, follow: false } };
+  }
+
+  if (lookup.state === 'found') {
+    const { request } = lookup;
     const description = request.description?.slice(0, 160);
     return {
       ...baseMetadata,
+      // Лише активні запити індексуються; решта (на модерації, закриті, відхилені) — ні
+      robots: isIndexableRequestStatus(request.status)
+        ? baseMetadata.robots
+        : { index: false, follow: true },
       title: `${request.title} | Shukayu`,
       description,
       openGraph: {
@@ -50,10 +67,15 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function RequestDetailPage({ params }: Props) {
   const { id } = await params;
-  const request = await getRequest(id);
+  const lookup = await getRequest(id);
+  if (lookup.state === 'missing') notFound();
+
   return (
     <Suspense fallback={<Loading variant="block" />}>
-      <RequestDetailContent id={id} initialData={request} />
+      <RequestDetailContent
+        id={id}
+        initialData={lookup.state === 'found' ? lookup.request : null}
+      />
     </Suspense>
   );
 }
