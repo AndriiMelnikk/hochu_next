@@ -1,5 +1,5 @@
 import type { Locale } from '@/locales/config';
-import { siteUrl } from '@/shared/config/envVars';
+import { logoUrl, siteUrl, socialProfiles } from '@/shared/config/envVars';
 
 const SITE_NAME = 'Shukayu';
 
@@ -9,8 +9,8 @@ export function getOrganizationJsonLd(): Record<string, unknown> {
     '@type': 'Organization',
     name: SITE_NAME,
     url: `${siteUrl}/`,
-    logo: `${siteUrl}/logo.png`,
-    sameAs: [],
+    logo: logoUrl,
+    sameAs: socialProfiles,
   };
 }
 
@@ -70,7 +70,7 @@ export function getBlogPostingJsonLd(post: BlogPostingJsonLdInput): Record<strin
       '@type': 'Organization',
       name: SITE_NAME,
       url: `${siteUrl}/`,
-      logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.png` },
+      logo: { '@type': 'ImageObject', url: logoUrl },
     },
   };
 }

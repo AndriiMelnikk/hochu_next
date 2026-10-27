@@ -39,8 +39,8 @@ export const ENDPOINTS = {
     BY_PROFILE_ID: (profileId: string) => `/api/reviews/profiles/${profileId}`,
   },
   BLOG: {
-    BASE: '/api/blog',
-    BY_ID: (id: string | number) => `/api/blog/${id}`,
+    BASE: '/api/blog/posts',
+    BY_ID: (id: string | number) => `/api/blog/posts/${id}`,
   },
   CATEGORIES: {
     BASE: '/api/categories',

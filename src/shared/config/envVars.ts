@@ -3,6 +3,15 @@ export const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://shuka
 /** Канонічний публічний домен сайту (для canonical, hreflang, sitemap, OG) */
 export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shukayu.com.ua';
 
+/** Логотип для JSON-LD (PNG ≥112×112); за замовчуванням генерується маршрутом /logo.png */
+export const logoUrl = process.env.NEXT_PUBLIC_LOGO_URL || `${siteUrl}/logo.png`;
+
+/** Офіційні профілі в соцмережах для Organization.sameAs (URL через кому) */
+export const socialProfiles = (process.env.NEXT_PUBLIC_SOCIAL_PROFILES || '')
+  .split(',')
+  .map((url) => url.trim())
+  .filter(Boolean);
+
 /** Google Tag Manager container ID */
 export const gtmId = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-MVLLHXMP';
 
