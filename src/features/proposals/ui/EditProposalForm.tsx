@@ -411,7 +411,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                         >
                           <Image
                             src={item.url}
-                            alt=""
+                            alt={t('proposal.detail.images.alt', { index: index + 1 })}
                             fill
                             className="object-cover"
                             sizes="(max-width: 640px) 50vw, 25vw"

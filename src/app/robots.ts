@@ -22,9 +22,10 @@ const AI_BOTS = [
   'anthropic-ai',
   'PerplexityBot',
   'Applebot-Extended',
-  'Bytespider',
-  'CCBot',
 ] as const;
+
+/** Агресивні скрапери для тренування моделей: без SEO-користі й з великим навантаженням */
+const BLOCKED_BOTS = ['Bytespider', 'CCBot'] as const;
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -34,6 +35,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: DISALLOW,
       },
+      ...BLOCKED_BOTS.map((userAgent) => ({ userAgent, disallow: '/' })),
       ...AI_BOTS.map((userAgent) => ({
         userAgent,
         allow: '/',

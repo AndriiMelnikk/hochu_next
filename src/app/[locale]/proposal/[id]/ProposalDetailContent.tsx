@@ -138,6 +138,8 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                     <img
                       src={image}
                       alt={t('proposal.detail.images.alt', { index: index + 1 })}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover hover:scale-105 transition-transform"
                     />
                   </div>

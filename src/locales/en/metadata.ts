@@ -90,7 +90,7 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
   LOGIN: {
     title: 'Log In to Your Shukayu Account',
     description:
-      'Sign in to Shukayu to post product requests, send offers as a seller, and chat with other users of the platform.',
+      'Log in to Shukayu to post product requests, compare seller offers, chat with sellers and manage your deals in one place.',
   },
   FORGOT_PASSWORD: {
     title: 'Password Recovery | Shukayu',
@@ -107,7 +107,7 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
   PRICING: {
     title: 'Shukayu Pricing — Free for Buyers and Sellers',
     description:
-      'Explore Shukayu pricing: posting product requests and sending offers. Transparent terms with no hidden fees.',
+      'Shukayu pricing: creating product requests is free for buyers. See seller plans, what each one includes and choose the best option.',
   },
   PRIVACY: {
     title: 'Shukayu Privacy Policy',
@@ -122,7 +122,7 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
   PROFILE_BY_ID: {
     title: 'User Profile — Rating and Reviews | Shukayu',
     description:
-      'Shukayu user profile: rating, reviews, completed deals, and achievements of a buyer or seller of goods.',
+      'Shukayu user profile: rating, reviews, completed deals and achievements of a buyer or seller of goods. Check reputation before a deal.',
   },
   PROFILE_TAB: {
     title: 'User Profile — Rating and Reviews | Shukayu',
@@ -137,12 +137,12 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
   REGISTER: {
     title: 'Sign Up for Shukayu — Create a Free Account',
     description:
-      'Register on Shukayu for free: post product requests as a buyer or find customers as a seller.',
+      'Register on Shukayu for free: post product requests as a buyer, receive offers from sellers or find new customers as a seller in Ukraine.',
   },
   REQUEST_ID: {
     title: 'Product Request — Details and Offers | Shukayu',
     description:
-      'Product request details on Shukayu: description, budget, urgency, offers from sellers, and public discussion.',
+      'Product request on Shukayu: description, budget, location and seller offers. Send your price or create your own request for free.',
   },
   SUPPORT: {
     title: 'Shukayu Support — Help and Answers',

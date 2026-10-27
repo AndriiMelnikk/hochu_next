@@ -1,6 +1,6 @@
 import { Suspense, cache } from 'react';
 import { notFound } from 'next/navigation';
-import { getLocaleFromHeaders } from '@/locales/locale';
+import { getLocaleFromParams, type LocaleRouteProps } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import { routes } from '@/app/router/routes';
 import ProfileContent from './ProfileContent';
@@ -12,7 +12,7 @@ import { isIndexableProfile, isNotFoundError } from '@/shared/seo/indexability';
 import { siteUrl } from '@/shared/config/envVars';
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 };
 
 type ProfileLookup =
@@ -36,7 +36,7 @@ function getDisplayName(profile: IProfile): string {
 
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
-  const locale = await getLocaleFromHeaders();
+  const locale = await getLocaleFromParams(params);
   const baseMetadata = getMetadataForRoute(locale, 'PROFILE_BY_ID', routes.PROFILE_BY_ID(id));
 
   const lookup = await getProfile(id);
@@ -87,7 +87,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProfileIdPage({ params }: Props) {
   const { id } = await params;
-  const locale = await getLocaleFromHeaders();
+  const locale = await getLocaleFromParams(params);
   const lookup = await getProfile(id);
   if (lookup.state === 'missing') notFound();
 

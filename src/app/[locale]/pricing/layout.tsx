@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { LinguiProvider } from '@/app/providers/LinguiProvider';
-import { getLocaleFromHeaders } from '@/locales/locale';
+import { getLocaleFromParams, type LocaleRouteProps } from '@/locales/locale';
 
 import { messages as enMessages } from '@/locales/en/pricing';
 import { messages as ukMessages } from '@/locales/uk/pricing';
@@ -10,8 +10,11 @@ const messagesByLocale = {
   uk: ukMessages,
 } as const;
 
-export default async function PricingLayout({ children }: { children: ReactNode }) {
-  const locale = await getLocaleFromHeaders();
+export default async function PricingLayout({
+  children,
+  params,
+}: { children: ReactNode } & LocaleRouteProps) {
+  const locale = await getLocaleFromParams(params);
 
   return (
     <LinguiProvider locale={locale} messages={messagesByLocale[locale]}>

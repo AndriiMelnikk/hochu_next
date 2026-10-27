@@ -1,3 +1,4 @@
+import type { Locale } from '@/locales/config';
 import { RequestStatus } from '@/entities/request/types/Request';
 
 /** Індексуємо лише активні запити; решта (pending/rejected/closed/…) — noindex. */
@@ -40,4 +41,15 @@ export function toMetaDescription(text: string | undefined | null, max = 160): s
   const cut = plain.slice(0, max - 1);
   const lastSpace = cut.lastIndexOf(' ');
   return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[\s,.;:!-]+$/, '')}…`;
+}
+
+/**
+ * Мова користувацького контенту (запити створюють і українською, і англійською,
+ * але зберігаються в одній базі). За замовчуванням — українська.
+ */
+export function detectContentLocale(...texts: Array<string | undefined | null>): Locale {
+  const text = texts.filter(Boolean).join(' ');
+  const cyrillic = (text.match(/[\u0400-\u04FF]/g) ?? []).length;
+  const latin = (text.match(/[A-Za-z]/g) ?? []).length;
+  return latin > cyrillic ? 'en' : 'uk';
 }

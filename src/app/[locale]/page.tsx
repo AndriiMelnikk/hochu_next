@@ -4,12 +4,15 @@ import Features from '@/widgets/app/Features';
 import HowItWorks from '@/widgets/app/HowItWorks';
 import PlatformIntro from '@/widgets/app/PlatformIntro';
 import Faq from '@/widgets/app/Faq';
-import { getLocaleFromHeaders } from '@/locales/locale';
+import { getLocaleFromParams, type LocaleRouteProps } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import { HOME_LATEST_REQUESTS_LIMIT, requestService } from '@/entities/request';
 
-export async function generateMetadata() {
-  const locale = await getLocaleFromHeaders();
+/** Головна статична, але «Останні запити» оновлюються кожні 5 хвилин */
+export const revalidate = 300;
+
+export async function generateMetadata({ params }: LocaleRouteProps) {
+  const locale = await getLocaleFromParams(params);
   return getMetadataForRoute(locale, 'HOME');
 }
 

@@ -60,6 +60,26 @@ export function buildAlternates(locale: Locale, path: string): Metadata['alterna
 }
 
 /**
+ * canonical для UGC, який існує лише однією мовою (текст не перекладається).
+ * Версія в мові контенту — канонічна й єдина в hreflang; версія в іншій мові
+ * (той самий текст в оболонці іншої локалі) вказує canonical на оригінал.
+ */
+export function buildContentAlternates(
+  locale: Locale,
+  path: string,
+  contentLocale: Locale,
+): Metadata['alternates'] {
+  const canonical = localizedUrl(contentLocale, path);
+  if (locale !== contentLocale) {
+    return { canonical };
+  }
+  return {
+    canonical,
+    languages: { [contentLocale]: canonical, 'x-default': canonical },
+  };
+}
+
+/**
  * Дефолтні метадані для кореневого layout — без canonical/hreflang,
  * щоб сторінки без власних alternates не успадковували чужий canonical.
  */

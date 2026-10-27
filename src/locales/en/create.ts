@@ -22,6 +22,7 @@ export const messages: Messages = {
   'request.create.budgetMinPlaceholder': '0',
   'request.create.categoriesEmpty': 'No categories available',
   'request.create.categoriesError': 'Failed to load categories',
+  'request.create.imageAlt': 'Photo {index}',
   'request.create.categoriesLoading': 'Loading categories...',
   'request.create.categoryBackLabel': 'Back',
   'request.create.categoryLabel': 'Category',

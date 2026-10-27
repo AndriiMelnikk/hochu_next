@@ -1,17 +1,17 @@
 import ProposalDetailContent from './ProposalDetailContent';
-import { getLocaleFromHeaders } from '@/locales/locale';
+import { getLocaleFromParams, type LocaleRouteProps } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import { proposalService } from '@/entities/proposal/services/proposalService';
 import { routes } from '@/app/router/routes';
 import { toMetaDescription } from '@/shared/seo/indexability';
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 };
 
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
-  const locale = await getLocaleFromHeaders();
+  const locale = await getLocaleFromParams(params);
   const baseMetadata = getMetadataForRoute(locale, 'PROPOSAL_ID', routes.PROPOSAL_ID(id));
 
   try {

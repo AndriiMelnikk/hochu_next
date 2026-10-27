@@ -1,9 +1,9 @@
-import { getLocaleFromHeaders } from '@/locales/locale';
+import { getLocaleFromParams, type LocaleRouteProps } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import HowItWorksContent from './HowItWorksContent';
 
-export async function generateMetadata() {
-  const locale = await getLocaleFromHeaders();
+export async function generateMetadata({ params }: LocaleRouteProps) {
+  const locale = await getLocaleFromParams(params);
   return getMetadataForRoute(locale, 'HOW_IT_WORKS');
 }
 

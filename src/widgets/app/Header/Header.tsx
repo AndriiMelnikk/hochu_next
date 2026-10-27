@@ -13,7 +13,54 @@ import { buildAuthHref, getReturnUrlFromLocation } from '@/features/auth';
 import { useLingui } from '@lingui/react';
 import { switchLocaleInPathname, type Locale } from '@/locales/config';
 import { LS_KEYS } from '@shared/config/envVars';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
+import NextLink from 'next/link';
+import { cn } from '@/lib/utils';
+
+const LOCALE_OPTIONS: ReadonlyArray<{ locale: Locale; label: string }> = [
+  { locale: 'uk', label: 'UA' },
+  { locale: 'en', label: 'EN' },
+];
+
+/** Перемикач мови зі справжніми посиланнями (`<a href hreflang>`), доступними краулерам. */
+const LocaleSwitcher = ({ className }: { className?: string }) => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const currentLocale = useCurrentLocale();
+
+  const handleClick = (event: React.MouseEvent, locale: Locale) => {
+    event.preventDefault();
+    if (locale === currentLocale) return;
+
+    localStorage.setItem(LS_KEYS.LOCALE, locale);
+    // Cookie використовується proxy для редіректа з непрефіксованих URL
+    // eslint-disable-next-line react-hooks/immutability
+    document.cookie = `locale=${locale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+    router.push(`${switchLocaleInPathname(pathname, locale)}${window.location.search}`);
+  };
+
+  return (
+    <div className={cn('flex items-center gap-1 text-xs', className)}>
+      {LOCALE_OPTIONS.map(({ locale, label }) => (
+        <NextLink
+          key={locale}
+          href={switchLocaleInPathname(pathname, locale)}
+          hrefLang={locale}
+          lang={locale}
+          aria-current={locale === currentLocale ? 'true' : undefined}
+          onClick={(event) => handleClick(event, locale)}
+          className={cn(
+            'rounded-md border px-2 py-1 transition-colors',
+            locale === currentLocale
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'bg-background text-foreground hover:text-primary',
+          )}
+        >
+          {label}
+        </NextLink>
+      ))}
+    </div>
+  );
+};
 
 const Header = () => {
   const [mounted, setMounted] = useState(false);
@@ -23,30 +70,13 @@ const Header = () => {
   const t = (id: string) => i18n._(id);
   const router = useRouter();
   const pathname = usePathname();
-  const currentLocale = useCurrentLocale();
+  const showAuth = mounted && isAuth;
   const loginHref = buildAuthHref(routes.LOGIN, getReturnUrlFromLocation(pathname));
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
-
-  const handleLocaleChange = (locale: Locale) => {
-    if (locale === currentLocale) return;
-
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(LS_KEYS.LOCALE, locale);
-      // Cookie використовується middleware для редіректа з непрефіксованих URL
-      document.cookie = `locale=${locale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
-    }
-
-    // Навігація на той самий шлях з іншим мовним префіксом
-    const nextPath = switchLocaleInPathname(pathname, locale);
-    const search = typeof window !== 'undefined' ? window.location.search : '';
-    router.push(`${nextPath}${search}`);
-  };
-
-  if (!mounted) return null;
 
   return (
     <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
@@ -81,7 +111,7 @@ const Header = () => {
             >
               {t('common.nav.howItWorks')}
             </Link>
-            {isAuth ? (
+            {showAuth ? (
               <Link href={routes.PROFILE}>
                 <User className="h-4 w-4" />
               </Link>
@@ -95,18 +125,7 @@ const Header = () => {
                 <RegisterButton size="sm" onClick={() => setIsOpen(false)} />
               </div>
             )}
-            <Select
-              value={currentLocale}
-              onValueChange={(value) => handleLocaleChange(value as Locale)}
-            >
-              <SelectTrigger className="ml-4 h-8 w-[80px] rounded-md border bg-background px-2 text-xs text-foreground">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="uk">UA</SelectItem>
-                <SelectItem value="en">EN</SelectItem>
-              </SelectContent>
-            </Select>
+            <LocaleSwitcher className="ml-4" />
           </div>
 
           {/* Mobile menu button */}
@@ -139,7 +158,7 @@ const Header = () => {
             >
               {t('common.nav.howItWorks')}
             </Link>
-            {isAuth ? (
+            {showAuth ? (
               <Link
                 href={routes.PROFILE}
                 className="block text-foreground hover:text-primary transition-colors"
@@ -158,18 +177,7 @@ const Header = () => {
               </div>
             )}
             <div className="pt-2">
-              <Select
-                value={currentLocale}
-                onValueChange={(value) => handleLocaleChange(value as Locale)}
-              >
-                <SelectTrigger className="h-8  rounded-md border bg-background px-2 text-xs text-foreground">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="uk">UA</SelectItem>
-                  <SelectItem value="en">EN</SelectItem>
-                </SelectContent>
-              </Select>
+              <LocaleSwitcher />
             </div>
           </div>
         )}

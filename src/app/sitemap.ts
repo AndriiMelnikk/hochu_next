@@ -4,7 +4,7 @@ import { routes } from '@/app/router/routes';
 import { siteUrl } from '@/shared/config/envVars';
 import { requestService } from '@/entities/request';
 import { blogService } from '@/entities/blog/services/blogService';
-import { isIndexableProfile } from '@/shared/seo/indexability';
+import { detectContentLocale, isIndexableProfile } from '@/shared/seo/indexability';
 
 /** Sitemap перегенеровується раз на годину, а не фіксується на момент білда */
 export const revalidate = 3600;
@@ -74,13 +74,16 @@ async function getRequestAndProfileEntries(): Promise<MetadataRoute.Sitemap> {
       totalPages = response.totalPages || 1;
 
       for (const request of response.results) {
-        entries.push(
-          ...sitemapEntry(routes.REQUEST_ID(request._id), {
-            lastModified: request.updatedAt ? new Date(request.updatedAt) : undefined,
-            changeFrequency: 'daily',
-            priority: 0.7,
-          }),
-        );
+        // Текст запиту не перекладається: в sitemap лише версія в мові контенту
+        entries.push({
+          url: localizedUrl(
+            detectContentLocale(request.title, request.description),
+            routes.REQUEST_ID(request._id),
+          ),
+          lastModified: parseDate(request.updatedAt),
+          changeFrequency: 'daily',
+          priority: 0.7,
+        });
 
         const buyer = request.buyerId;
         if (buyer?._id && !profileIds.has(buyer._id) && isIndexableProfile(buyer)) {

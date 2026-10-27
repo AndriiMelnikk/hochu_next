@@ -583,7 +583,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
                         >
                           <Image
                             src={item.url}
-                            alt=""
+                            alt={i18n._('request.create.imageAlt', { index: index + 1 })}
                             fill
                             className="object-cover"
                             sizes="(max-width: 640px) 50vw, 25vw"

@@ -35,3 +35,15 @@ export async function getLocaleFromHeaders(): Promise<Locale> {
     return defaultLocale;
   }
 }
+
+/** Пропси Next.js для сегмента [locale] (params — Promise у Next 15+). */
+export type LocaleRouteProps = { params: Promise<{ locale: string }> };
+
+/**
+ * Локаль із params сегмента [locale]. На відміну від getLocaleFromHeaders,
+ * не читає headers()/cookies(), тому не змушує сторінку бути динамічною.
+ */
+export async function getLocaleFromParams(params: Promise<{ locale: string }>): Promise<Locale> {
+  const { locale } = await params;
+  return isLocale(locale) ? locale : defaultLocale;
+}

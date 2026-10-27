@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getLocaleFromHeaders } from '@/locales/locale';
+import { getLocaleFromParams, type LocaleRouteProps } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import RequestContent from './RequestContent';
 import { routes } from '@/app/router/routes';
@@ -12,8 +12,8 @@ type Props = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export async function generateMetadata() {
-  const locale = await getLocaleFromHeaders();
+export async function generateMetadata({ params }: LocaleRouteProps) {
+  const locale = await getLocaleFromParams(params);
   return getMetadataForRoute(locale, routes.REQUEST as keyof typeof routes);
 }
 

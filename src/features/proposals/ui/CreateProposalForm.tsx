@@ -408,7 +408,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                               >
                                 <Image
                                   src={url}
-                                  alt=""
+                                  alt={t('proposal.detail.images.alt', { index: index + 1 })}
                                   fill
                                   className={cn(
                                     'object-cover transition-opacity',

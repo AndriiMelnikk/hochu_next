@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getLocaleFromHeaders } from '@/locales/locale';
+import { getLocaleFromParams, type LocaleRouteProps } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import { blogService } from '@/entities/blog/services/blogService';
 import { routes } from '@/app/router/routes';
@@ -12,12 +12,12 @@ import { siteUrl } from '@/shared/config/envVars';
 import BlogArticleContent from './BlogArticleContent';
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 };
 
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
-  const locale = await getLocaleFromHeaders();
+  const locale = await getLocaleFromParams(params);
   const baseMetadata = getMetadataForRoute(locale, 'BLOG_ID', routes.BLOG_ID(id));
 
   try {
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function BlogArticlePage({ params }: Props) {
   const { id } = await params;
-  const locale = await getLocaleFromHeaders();
+  const locale = await getLocaleFromParams(params);
 
   let article;
   let error;

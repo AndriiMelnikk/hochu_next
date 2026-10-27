@@ -531,7 +531,7 @@ export const CreateRequestForm = () => {
                           >
                             <Image
                               src={url}
-                              alt=""
+                              alt={i18n._('request.create.imageAlt', { index: index + 1 })}
                               fill
                               className={cn(
                                 'object-cover transition-opacity',
