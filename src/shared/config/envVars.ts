@@ -7,7 +7,13 @@ export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shukayu.com.
 export const logoUrl = process.env.NEXT_PUBLIC_LOGO_URL || `${siteUrl}/logo.png`;
 
 /** Офіційні профілі в соцмережах для Organization.sameAs (URL через кому) */
-export const socialProfiles = (process.env.NEXT_PUBLIC_SOCIAL_PROFILES || '')
+const DEFAULT_SOCIAL_PROFILES = [
+  'https://www.instagram.com/shukayu.com.ua/',
+  'https://www.facebook.com/profile.php?id=61557142326871',
+  'https://www.tiktok.com/@shukayu.com.ua',
+].join(',');
+
+export const socialProfiles = (process.env.NEXT_PUBLIC_SOCIAL_PROFILES || DEFAULT_SOCIAL_PROFILES)
   .split(',')
   .map((url) => url.trim())
   .filter(Boolean);

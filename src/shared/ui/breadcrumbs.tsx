@@ -35,13 +35,17 @@ interface BreadcrumbsProps {
   className?: string;
   /** Явне посилання для кнопки «Назад»; за замовчуванням — history.back() */
   backHref?: string;
+  /** Ланцюжок категорій, підготовлений на сервері (щоб крихти були в HTML без JS) */
+  categoryTrail?: Array<{ title: string; slug: string }>;
 }
 
-function buildCategoryHref(categoryId: string) {
-  return `${routes.REQUEST}?category=${categoryId}`;
-}
-
-export function Breadcrumbs({ categoryId, currentLabel, className, backHref }: BreadcrumbsProps) {
+export function Breadcrumbs({
+  categoryId,
+  currentLabel,
+  className,
+  backHref,
+  categoryTrail,
+}: BreadcrumbsProps) {
   const router = useRouter();
   const { i18n } = useLingui();
   const locale = useCurrentLocale();
@@ -56,12 +60,16 @@ export function Breadcrumbs({ categoryId, currentLabel, className, backHref }: B
       },
     ];
 
-    if (categoryId) {
+    if (categoryTrail && categoryTrail.length > 0) {
+      categoryTrail.forEach((category) => {
+        items.push({ label: category.title, href: routes.CATEGORY(category.slug) });
+      });
+    } else if (categoryId) {
       const categoryPath = getCategoryPath(categories, categoryId);
       categoryPath.forEach((category) => {
         items.push({
           label: category.title,
-          href: buildCategoryHref(category._id),
+          href: routes.CATEGORY(category.slug),
         });
       });
     }
@@ -69,7 +77,7 @@ export function Breadcrumbs({ categoryId, currentLabel, className, backHref }: B
     items.push({ label: currentLabel });
 
     return items;
-  }, [categories, categoryId, currentLabel, i18n]);
+  }, [categories, categoryId, categoryTrail, currentLabel, i18n]);
 
   const handleBack = () => {
     router.back();

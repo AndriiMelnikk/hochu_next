@@ -11,6 +11,13 @@ import { getProfilePageJsonLd } from '@/shared/seo/schemas';
 import { isIndexableProfile, isNotFoundError } from '@/shared/seo/indexability';
 import { siteUrl } from '@/shared/config/envVars';
 
+/** ISR: профіль кешується на 5 хвилин або скидається після змін (revalidatePath) */
+export const revalidate = 300;
+
+export function generateStaticParams() {
+  return [];
+}
+
 type Props = {
   params: Promise<{ id: string; locale: string }>;
 };

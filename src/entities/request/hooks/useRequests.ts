@@ -12,7 +12,7 @@ export const useRequests = (
     queryKey: ['requests', 'list', searchParams],
     queryFn: async () => {
       const data = await requestService.get(searchParams);
-      return getRequestsResponseSchema.parse(data);
+      return getRequestsResponseSchema.parse(data) as IGetRequestsResponse;
     },
     initialData: options?.initialData,
   });

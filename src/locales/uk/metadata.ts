@@ -8,6 +8,21 @@ export const defaultMetadata: Metadata = {
 };
 
 export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
+  CATEGORIES: {
+    title: 'Категорії товарів і послуг — запити покупців | Shukayu',
+    description:
+      'Усі категорії Shukayu: електроніка, техніка для дому, авто, одяг, послуги та інше. Оберіть категорію, перегляньте запити покупців або створіть свій безкоштовно.',
+  },
+  CATEGORY: {
+    title: 'Запити покупців за категорією | Shukayu',
+    description:
+      'Запити покупців у цій категорії на Shukayu: що шукають, бюджет і місто. Продавці надсилають пропозиції, покупці обирають найкращу ціну.',
+  },
+  CATEGORY_CITY: {
+    title: 'Запити покупців у вашому місті | Shukayu',
+    description:
+      'Запити покупців у вашому місті на Shukayu: що шукають, бюджет і умови. Надішліть пропозицію або створіть власний запит безкоштовно.',
+  },
   HOME: {
     title: 'Shukayu — платформа для покупців і продавців товарів',
     description:

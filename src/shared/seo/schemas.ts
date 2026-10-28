@@ -136,3 +136,69 @@ export function getProfilePageJsonLd(profile: ProfilePageJsonLdInput): Record<st
     },
   };
 }
+
+export type ItemListJsonLdItem = { name: string; url: string };
+
+/** Список сутностей (запити на сторінці списку / категорії) */
+export function getItemListJsonLd(items: ItemListJsonLdItem[]): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      url: item.url.startsWith('http') ? item.url : `${siteUrl}${item.url}`,
+    })),
+  };
+}
+
+export type DemandJsonLdInput = {
+  name: string;
+  description?: string;
+  url: string;
+  category?: string;
+  image?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  location?: string | null;
+  createdAt?: string;
+  isActive: boolean;
+};
+
+/** Запит покупця — schema.org/Demand («хочу купити»), протилежність Offer */
+export function getDemandJsonLd(demand: DemandJsonLdInput): Record<string, unknown> {
+  const hasPrice = demand.maxPrice !== undefined && demand.maxPrice > 0;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Demand',
+    name: demand.name,
+    url: demand.url,
+    ...(demand.description ? { description: demand.description } : {}),
+    itemOffered: {
+      '@type': 'Product',
+      name: demand.name,
+      ...(demand.category ? { category: demand.category } : {}),
+      ...(demand.image ? { image: demand.image } : {}),
+    },
+    ...(hasPrice
+      ? {
+          priceSpecification: {
+            '@type': 'PriceSpecification',
+            priceCurrency: 'UAH',
+            ...(demand.minPrice ? { minPrice: demand.minPrice } : {}),
+            maxPrice: demand.maxPrice,
+          },
+        }
+      : {}),
+    ...(demand.location
+      ? { areaServed: { '@type': 'Place', name: demand.location } }
+      : { areaServed: { '@type': 'Country', name: 'Ukraine' } }),
+    ...(demand.createdAt ? { availabilityStarts: demand.createdAt } : {}),
+    availability: demand.isActive
+      ? 'https://schema.org/InStock'
+      : 'https://schema.org/Discontinued',
+  };
+}

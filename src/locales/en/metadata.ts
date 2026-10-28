@@ -8,6 +8,21 @@ export const defaultMetadata: Metadata = {
 };
 
 export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
+  CATEGORIES: {
+    title: 'Product and Service Categories — Buyer Requests | Shukayu',
+    description:
+      'All Shukayu categories: electronics, home appliances, auto, apparel, services and more. Pick a category, browse buyer requests or post your own for free.',
+  },
+  CATEGORY: {
+    title: 'Buyer Requests by Category | Shukayu',
+    description:
+      'Buyer requests in this category on Shukayu: what people want, budget and city. Sellers send offers and buyers pick the best price.',
+  },
+  CATEGORY_CITY: {
+    title: 'Buyer Requests in Your City | Shukayu',
+    description:
+      'Buyer requests in your city on Shukayu: what people want, budget and terms. Send an offer or post your own request for free.',
+  },
   HOME: {
     title: 'Shukayu — Platform Connecting Buyers and Sellers of Goods',
     description:

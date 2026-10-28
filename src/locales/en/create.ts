@@ -598,6 +598,13 @@ export const messages: Messages = {
 
   // Common navigation & header
   'common.hero.betaBadge': 'Beta',
+  'common.nav.openMenu': 'Open menu',
+  'common.nav.closeMenu': 'Close menu',
+  'common.nav.categories': 'Categories',
+  'common.footer.pricing': 'Pricing',
+  'common.footer.blog': 'Blog',
+  'common.footer.categories': 'Product categories',
+  'common.footer.social': 'Follow us',
   'common.nav.viewRequests': 'View requests',
   'common.nav.createRequest': 'Create request',
   'common.nav.howItWorks': 'How it works',

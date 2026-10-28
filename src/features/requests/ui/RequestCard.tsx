@@ -1,3 +1,5 @@
+'use client';
+
 import Link from '@/shared/ui/link';
 import { Badge } from '@shared/ui/badge';
 import { Clock, Wallet, MapPin } from 'lucide-react';

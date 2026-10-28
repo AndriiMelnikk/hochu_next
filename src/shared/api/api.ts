@@ -77,8 +77,26 @@ const processQueue = (error: unknown, token: string | null = null) => {
   failedQueue = [];
 };
 
+/** Мутації, після яких треба скинути ISR-кеш публічних сторінок */
+const CONTENT_MUTATION_URL = /\/api\/(requests|proposals|reviews|users)(\/|$|\?)/;
+const MUTATION_METHODS = new Set(['post', 'put', 'patch', 'delete']);
+
+function revalidateAfterMutation(config: InternalAxiosRequestConfig) {
+  if (typeof window === 'undefined') return;
+  if (!MUTATION_METHODS.has((config.method ?? '').toLowerCase())) return;
+  if (!CONTENT_MUTATION_URL.test(config.url ?? '')) return;
+
+  // Fire-and-forget: помилка ревалідації не повинна ламати UI
+  import('./revalidate')
+    .then(({ revalidatePublicContent }) => revalidatePublicContent())
+    .catch((err) => console.error('Failed to revalidate cache:', err));
+}
+
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    revalidateAfterMutation(response.config);
+    return response;
+  },
   async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 

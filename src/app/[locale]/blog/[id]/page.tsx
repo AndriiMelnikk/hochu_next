@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { getLocaleFromParams, type LocaleRouteProps } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
-import { blogService } from '@/entities/blog/services/blogService';
+import { getBlogPost } from '@/entities/blog/services/blogPosts';
+import { LOCAL_POSTS } from '@/entities/blog/content/localPosts';
 import { routes } from '@/app/router/routes';
 import { Error as ErrorComponent } from '@shared/ui/error';
 import { parseContentToSections } from '@/entities/blog/utils/contentParser';
@@ -10,6 +11,14 @@ import { getBlogPostingJsonLd } from '@/shared/seo/schemas';
 import { isNotFoundError, toMetaDescription } from '@/shared/seo/indexability';
 import { siteUrl } from '@/shared/config/envVars';
 import BlogArticleContent from './BlogArticleContent';
+
+/** Статті кешуються на годину */
+export const revalidate = 3600;
+
+/** Локальні статті генеруються під час білда, решта — при першому запиті */
+export function generateStaticParams() {
+  return LOCAL_POSTS.map((post) => ({ id: post.slug }));
+}
 
 type Props = {
   params: Promise<{ id: string; locale: string }>;
@@ -21,7 +30,7 @@ export async function generateMetadata({ params }: Props) {
   const baseMetadata = getMetadataForRoute(locale, 'BLOG_ID', routes.BLOG_ID(id));
 
   try {
-    const post = await blogService.getOne(id);
+    const post = await getBlogPost(id, locale);
     if (post) {
       const description =
         toMetaDescription(post.description) ??
@@ -29,7 +38,7 @@ export async function generateMetadata({ params }: Props) {
         baseMetadata.description;
       return {
         ...baseMetadata,
-        title: `${post.title} | Shukayu Blog`,
+        title: `${post.title} | Shukayu`,
         description,
         openGraph: {
           ...baseMetadata.openGraph,
@@ -63,7 +72,7 @@ export default async function BlogArticlePage({ params }: Props) {
   let error;
 
   try {
-    article = await blogService.getOne(id);
+    article = await getBlogPost(id, locale);
   } catch (err) {
     if (isNotFoundError(err)) notFound();
     console.error('Failed to fetch article:', err);

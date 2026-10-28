@@ -49,7 +49,7 @@ const LocaleSwitcher = ({ className }: { className?: string }) => {
           aria-current={locale === currentLocale ? 'true' : undefined}
           onClick={(event) => handleClick(event, locale)}
           className={cn(
-            'rounded-md border px-2 py-1 transition-colors',
+            'inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border px-2 transition-colors',
             locale === currentLocale
               ? 'bg-primary text-primary-foreground border-primary'
               : 'bg-background text-foreground hover:text-primary',
@@ -106,6 +106,12 @@ const Header = () => {
               {t('common.nav.createRequest')}
             </Link>
             <Link
+              href={routes.CATEGORIES}
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              {t('common.nav.categories')}
+            </Link>
+            <Link
               href={routes.HOW_IT_WORKS}
               className="text-foreground hover:text-primary transition-colors"
             >
@@ -129,7 +135,13 @@ const Header = () => {
           </div>
 
           {/* Mobile menu button */}
-          <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
+          <button
+            type="button"
+            className="md:hidden inline-flex h-11 w-11 items-center justify-center"
+            aria-label={isOpen ? t('common.nav.closeMenu') : t('common.nav.openMenu')}
+            aria-expanded={isOpen}
+            onClick={() => setIsOpen(!isOpen)}
+          >
             {isOpen ? <X /> : <Menu />}
           </button>
         </div>
@@ -150,6 +162,13 @@ const Header = () => {
               onClick={() => setIsOpen(false)}
             >
               {t('common.nav.createRequest')}
+            </Link>
+            <Link
+              href={routes.CATEGORIES}
+              className="block text-foreground hover:text-primary transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              {t('common.nav.categories')}
             </Link>
             <Link
               href={routes.HOW_IT_WORKS}

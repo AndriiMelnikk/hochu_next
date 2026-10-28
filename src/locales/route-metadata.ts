@@ -33,6 +33,8 @@ const NOINDEX_ROUTES: ReadonlySet<keyof typeof routes> = new Set([
   'PROFILE',
   'PROPOSAL',
   'PROPOSAL_ID',
+  'LOGIN',
+  'REGISTER',
   'FORGOT_PASSWORD',
   'RESET_PASSWORD',
   'GOOGLE_AUTH_COMPLETE',
@@ -144,7 +146,7 @@ export function getMetadataForRoute(
     icons: {
       icon: [{ url: '/favicon.ico', sizes: 'any' }],
     },
-    robots: noindex ? { index: false, follow: false } : { index: true, follow: true },
+    robots: noindex ? { index: false, follow: true } : { index: true, follow: true },
     openGraph: {
       type: 'website',
       siteName: 'Shukayu',

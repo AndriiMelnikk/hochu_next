@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import ImageLightbox from '@/widgets/app/ImageLightbox';
@@ -31,9 +31,11 @@ import { buildAuthHref, getReturnUrlFromLocation } from '@/features/auth';
 export default function RequestDetailContent({
   id,
   initialData,
+  categoryTrail,
 }: {
   id: string;
   initialData?: IRequest | null;
+  categoryTrail?: Array<{ title: string; slug: string }>;
 }) {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
@@ -139,7 +141,11 @@ export default function RequestDetailContent({
       (canProposeData?.reason === ProposalRejectionReason.NO_CONTACTS && contactsFilled));
   return (
     <div className="container mx-auto px-4 max-w-7xl">
-      <Breadcrumbs categoryId={request.category.id} currentLabel={request.title} />
+      <Breadcrumbs
+        categoryId={request.category.id}
+        categoryTrail={categoryTrail}
+        currentLabel={request.title}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content */}
@@ -282,30 +288,34 @@ export default function RequestDetailContent({
 
             {/* Received Proposals Tab */}
             <TabsContent value="proposals" className="p-6 mt-0">
-              <ProposalList
-                requestId={request._id}
-                onImageClick={handleImageClick}
-                isOwner={isOwner}
-                currentUserId={user?.profile?._id}
-                onProposalSuccess={handleProposalSuccess}
-                buyerId={buyer?._id}
-                type="pending"
-                requestStatus={request.status}
-              />
+              <Suspense fallback={<Loading variant="block" />}>
+                <ProposalList
+                  requestId={request._id}
+                  onImageClick={handleImageClick}
+                  isOwner={isOwner}
+                  currentUserId={user?.profile?._id}
+                  onProposalSuccess={handleProposalSuccess}
+                  buyerId={buyer?._id}
+                  type="pending"
+                  requestStatus={request.status}
+                />
+              </Suspense>
             </TabsContent>
 
             {/* Rejected Proposals Tab */}
             <TabsContent value="rejected" className="p-6 mt-0">
-              <ProposalList
-                requestId={request._id}
-                onImageClick={handleImageClick}
-                isOwner={isOwner}
-                currentUserId={user?.profile?._id}
-                onProposalSuccess={handleProposalSuccess}
-                buyerId={buyer?._id}
-                status={ProposalStatus.REJECTED}
-                type="rejected"
-              />
+              <Suspense fallback={<Loading variant="block" />}>
+                <ProposalList
+                  requestId={request._id}
+                  onImageClick={handleImageClick}
+                  isOwner={isOwner}
+                  currentUserId={user?.profile?._id}
+                  onProposalSuccess={handleProposalSuccess}
+                  buyerId={buyer?._id}
+                  status={ProposalStatus.REJECTED}
+                  type="rejected"
+                />
+              </Suspense>
             </TabsContent>
 
             {/* Public Discussion Tab */}

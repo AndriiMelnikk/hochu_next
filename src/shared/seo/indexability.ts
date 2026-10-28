@@ -1,9 +1,15 @@
 import type { Locale } from '@/locales/config';
 import { RequestStatus } from '@/entities/request/types/Request';
 
-/** Індексуємо лише активні запити; решта (pending/rejected/closed/…) — noindex. */
+/** Статуси запитів, що індексуються: активні та виконані (архів). */
+export const INDEXABLE_REQUEST_STATUSES = [RequestStatus.ACTIVE, RequestStatus.COMPLETED] as const;
+
+/**
+ * Індексуємо активні запити і виконані (архів «Виконано» з посиланнями на схожі активні);
+ * pending/rejected/cancelled/closed — noindex.
+ */
 export function isIndexableRequestStatus(status: string | undefined): boolean {
-  return status === RequestStatus.ACTIVE;
+  return (INDEXABLE_REQUEST_STATUSES as readonly string[]).includes(status ?? '');
 }
 
 type ProfileSignals = {

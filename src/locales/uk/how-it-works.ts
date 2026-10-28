@@ -3,7 +3,7 @@ import type { Messages } from '@lingui/core';
 export const messages: Messages = {
   'how-it-works.hero.badge': 'Інструкція користувача',
   'how-it-works.hero.title.prefix': 'Як працює',
-  'how-it-works.hero.title.suffix': '?',
+  'how-it-works.hero.title.suffix': 'Shukayu?',
   'how-it-works.hero.subtitle':
     'Простий спосіб купити потрібний товар за запитом або знайти покупців для ваших товарів',
 

@@ -4,3 +4,9 @@ export type { IGetCategoriesResponse } from './types/responses/GetCategories';
 export { useCategories } from './hooks/useCategories';
 export { getCategoryPath } from './utils/getCategoryPath';
 export { categorySchema, getCategoriesResponseSchema } from './schemas/categorySchema';
+export {
+  getCategoryIndex,
+  getCategoryAncestors,
+  isServiceCategory,
+  type CategoryIndex,
+} from './lib/categoryIndex';

@@ -1,27 +1,30 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import Link from '@/shared/ui/link';
-import { useSearchParams } from 'next/navigation';
 import { routes } from '@/app/router/routes';
 import { LoginForm } from '@/features/auth/ui/LoginForm';
-import { buildAuthHref, RETURN_URL_PARAM } from '@/features/auth';
+import { buildAuthHref } from '@/features/auth';
 import { toast } from 'sonner';
 
 import { useLingui } from '@lingui/react';
 
-export default function LoginContent() {
+type LoginContentProps = {
+  /** returnUrl та error читаються на сервері, щоб сторінка рендерилась без CSR-bailout */
+  returnUrl?: string | null;
+  error?: string | null;
+};
+
+export default function LoginContent({ returnUrl, error }: LoginContentProps) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
-  const searchParams = useSearchParams();
-  const registerHref = buildAuthHref(routes.REGISTER, searchParams.get(RETURN_URL_PARAM));
+  const registerHref = buildAuthHref(routes.REGISTER, returnUrl);
 
   useEffect(() => {
-    const error = searchParams.get('error');
     if (error) {
-      toast.error(t('auth.google.messages.error'));
+      toast.error(i18n._('auth.google.messages.error'));
     }
-  }, [searchParams, t]);
+  }, [error, i18n]);
 
   // const router = useRouter();
   // const { login } = useAuth();
@@ -74,7 +77,9 @@ export default function LoginContent() {
             <h1 className="text-3xl font-bold text-card-foreground">{t('auth.login.title')}</h1>
             <p className="text-muted-foreground">{t('auth.login.subtitle')}</p>
           </div>
-          <LoginForm />
+          <Suspense fallback={null}>
+            <LoginForm />
+          </Suspense>
           <div className="mt-4 text-center text-sm">
             <Link
               href={routes.FORGOT_PASSWORD}

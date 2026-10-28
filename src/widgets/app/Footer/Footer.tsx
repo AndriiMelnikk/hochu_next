@@ -4,6 +4,15 @@ import Link from '@/shared/ui/link';
 import { routes } from '@app/router/routes';
 import { useLingui } from '@lingui/react';
 
+/** Мінімальна зона натискання 44px (WCAG 2.5.5) */
+const FOOTER_LINK = 'inline-flex min-h-11 items-center hover:text-primary transition-colors';
+
+const SOCIAL_LINKS = [
+  { href: 'https://www.instagram.com/shukayu.com.ua/', label: 'Instagram' },
+  { href: 'https://www.facebook.com/profile.php?id=61557142326871', label: 'Facebook' },
+  { href: 'https://www.tiktok.com/@shukayu.com.ua', label: 'TikTok' },
+] as const;
+
 const Footer = () => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
@@ -18,6 +27,23 @@ const Footer = () => {
               Shukayu
             </div>
             <p className="text-muted-foreground text-sm">{t('common.footer.brandDescription')}</p>
+            <p className="mt-4 text-sm font-semibold text-foreground">
+              {t('common.footer.social')}
+            </p>
+            <ul className="mt-1 flex flex-wrap gap-x-4 text-sm text-muted-foreground">
+              {SOCIAL_LINKS.map(({ href, label }) => (
+                <li key={href}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer me"
+                    className={FOOTER_LINK}
+                  >
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Platform */}
@@ -25,23 +51,23 @@ const Footer = () => {
             <h4 className="font-semibold text-foreground mb-4">
               {t('common.footer.section.platform')}
             </h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <ul className="text-sm text-muted-foreground">
               <li>
-                <Link href={routes.REQUEST} className="hover:text-primary transition-colors">
+                <Link href={routes.REQUEST} className={FOOTER_LINK}>
                   {t('common.nav.viewRequests')}
                 </Link>
               </li>
               <li>
-                <Link href={routes.CREATE} className="hover:text-primary transition-colors">
+                <Link href={routes.CREATE} className={FOOTER_LINK}>
                   {t('common.nav.createRequest')}
                 </Link>
               </li>
               <li>
-                <Link href={routes.HOW_IT_WORKS} className="hover:text-primary transition-colors">
+                <Link href={routes.HOW_IT_WORKS} className={FOOTER_LINK}>
                   {t('common.nav.howItWorks')}
                 </Link>
               </li>
-              {/* <li><Link href={routes.PRICING} className="hover:text-primary transition-colors">Ціни</Link></li> */}
+              {/* <li><Link href={routes.PRICING} className={FOOTER_LINK}>Ціни</Link></li> */}
             </ul>
           </div>
 
@@ -50,15 +76,15 @@ const Footer = () => {
             <h4 className="font-semibold text-foreground mb-4">
               {t('common.footer.section.company')}
             </h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <ul className="text-sm text-muted-foreground">
               <li>
-                <Link href={routes.ABOUT} className="hover:text-primary transition-colors">
+                <Link href={routes.ABOUT} className={FOOTER_LINK}>
                   {t('common.footer.about')}
                 </Link>
               </li>
-              {/* <li><Link href={routes.BLOG} className="hover:text-primary transition-colors">Блог</Link></li> */}
+              {/* <li><Link href={routes.BLOG} className={FOOTER_LINK}>Блог</Link></li> */}
               <li>
-                <Link href={routes.CONTACT} className="hover:text-primary transition-colors">
+                <Link href={routes.CONTACT} className={FOOTER_LINK}>
                   {t('common.footer.contact')}
                 </Link>
               </li>
@@ -70,19 +96,19 @@ const Footer = () => {
             <h4 className="font-semibold text-foreground mb-4">
               {t('common.footer.section.legal')}
             </h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <ul className="text-sm text-muted-foreground">
               <li>
-                <Link href={routes.TERMS} className="hover:text-primary transition-colors">
+                <Link href={routes.TERMS} className={FOOTER_LINK}>
                   {t('common.footer.terms')}
                 </Link>
               </li>
               <li>
-                <Link href={routes.PRIVACY} className="hover:text-primary transition-colors">
+                <Link href={routes.PRIVACY} className={FOOTER_LINK}>
                   {t('common.footer.privacy')}
                 </Link>
               </li>
               <li>
-                <Link href={routes.SUPPORT} className="hover:text-primary transition-colors">
+                <Link href={routes.SUPPORT} className={FOOTER_LINK}>
                   {t('common.footer.support')}
                 </Link>
               </li>
@@ -103,7 +129,7 @@ const Footer = () => {
               }
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline underline-offset-2"
+              className="inline-flex min-h-11 items-center text-primary underline underline-offset-2"
             >
               {t('common.footer.externalLink')}
             </a>

@@ -9,7 +9,9 @@ Languages: Ukrainian (default, /uk), English (/en)
 
 - [Home](https://shukayu.com.ua/uk): Platform overview, how it works, FAQ
 - [Browse requests](https://shukayu.com.ua/uk/request): Live buyer product requests for sellers
+- [Categories](https://shukayu.com.ua/uk/categories): Buyer requests by product/service category and city
 - [Create request](https://shukayu.com.ua/uk/create): Post a free product request as a buyer
+- [Blog](https://shukayu.com.ua/uk/blog): Tips for buyers and sellers
 - [How it works](https://shukayu.com.ua/uk/how-it-works): Step-by-step flow from request to deal
 - [About](https://shukayu.com.ua/uk/about): Mission and platform principles
 - [Contact](https://shukayu.com.ua/uk/contact): Contact the Shukayu team

@@ -601,6 +601,13 @@ export const messages: Messages = {
 
   // Common navigation & header
   'common.hero.betaBadge': 'Бета-версія',
+  'common.nav.openMenu': 'Відкрити меню',
+  'common.nav.closeMenu': 'Закрити меню',
+  'common.nav.categories': 'Категорії',
+  'common.footer.pricing': 'Тарифи',
+  'common.footer.blog': 'Блог',
+  'common.footer.categories': 'Категорії товарів',
+  'common.footer.social': 'Ми в соцмережах',
   'common.nav.viewRequests': 'Переглянути запити',
   'common.nav.createRequest': 'Створити запит',
   'common.nav.howItWorks': 'Як це працює',
