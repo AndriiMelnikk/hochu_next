@@ -1,0 +1,73 @@
+/*
+ * ui-v2 design tokens.
+ * Усі змінні мають префікс --v2-, щоб не перетинатися зі старою темою (shadcn: --primary, --border ...).
+ * Значення зняті з референсної платформи; позначені "derived" — вирахувані нами (hover/disabled/backdrop).
+ */
+:root {
+  /* Colors: text */
+  --v2-ink: #1a1a1a;
+  --v2-text-muted: rgba(36, 46, 66, 0.8);
+  --v2-text-subtle: #818b97;
+  --v2-text-secondary: #686e73; /* measured: inactive settings-nav links */
+
+  /* Colors: brand */
+  --v2-primary: #108a00;
+  --v2-primary-hover: #0d7000; /* derived */
+  --v2-on-primary: #ffffff;
+  --v2-brand: #14a800;
+  --v2-link: #195de6;
+
+  /* Colors: surfaces */
+  --v2-surface: #ffffff;
+  --v2-surface-muted: #e0e6eb;
+  --v2-hover: #f2f7f2;
+  --v2-info-bg: #edf2fd;
+  --v2-surface-subtle: #f9fafb; /* measured: muted cards (Connects) */
+  --v2-switch-on: #333333; /* measured: ng-side-nav-switch.is-on */
+  --v2-switch-off: #d5dde3; /* estimated from screenshot (off-state not measured) */
+  --v2-rating: #ff5900; /* measured: filled star */
+  --v2-avatar-blue-bg: #d1dffa; /* measured: initials avatar */
+  --v2-avatar-blue-text: #0a255c; /* measured */
+
+  /* Colors: lines */
+  --v2-border: #d4dbe2;
+  --v2-border-strong: #46494c;
+
+  /* Colors: states */
+  --v2-disabled-bg: #e0e6eb; /* derived */
+  --v2-disabled-text: #818b97; /* derived */
+  --v2-success: #14a800;
+  --v2-warning: #cc0;
+  --v2-danger: #b81414;
+  --v2-backdrop: rgba(26, 26, 26, 0.5); /* derived */
+
+  /* Radius */
+  --v2-radius-sm: 4px;
+  --v2-radius-md: 6px;
+  --v2-radius-lg: 8px;
+  --v2-radius-xl: 12px;
+  --v2-radius-2xl: 24px;
+  --v2-radius-pill: 160px;
+
+  /* Shadows */
+  --v2-shadow-pop: 0 0 10px 2px rgba(0, 30, 0, 0.15);
+  --v2-shadow-float: 0 8px 24px 2px #e0e6eb;
+  --v2-shadow-outline: 0 0 0 1px var(--v2-border);
+  --v2-shadow-popover: 0 4px 16px 0 rgba(0, 0, 0, 0.08); /* measured: account popover */
+
+  /* Spacing scale (крок 4px) — для довідки; у класах використовуємо стандартні Tailwind-відступи */
+  --v2-space-1: 4px;
+  --v2-space-2: 8px;
+  --v2-space-3: 12px;
+  --v2-space-4: 16px;
+  --v2-space-6: 24px;
+  --v2-space-8: 32px;
+}
+
+/* Базова типографіка: обгорнути секцію/сторінку у .ui-v2 */
+.ui-v2 {
+  color: var(--v2-ink);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 450;
+}
