@@ -6,6 +6,7 @@ import {
   resolveLocale,
   type Locale,
 } from '@/locales/config';
+import { ADMIN_COOKIE, verifyAdminToken } from '@/lib/adminSession';
 
 function detectPreferredLocale(request: NextRequest): Locale {
   const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value;
@@ -14,9 +15,28 @@ function detectPreferredLocale(request: NextRequest): Locale {
   return resolveLocale(request.headers.get('accept-language'));
 }
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const firstSegment = pathname.split('/')[1];
+
+  // Адмінка: без валідної сесії — на сторінку входу (окрім самої сторінки входу)
+  if (isLocale(firstSegment) && pathname.split('/')[2] === 'admin') {
+    const isLoginPage = pathname === `/${firstSegment}/admin/login`;
+    const authed = await verifyAdminToken(request.cookies.get(ADMIN_COOKIE)?.value);
+    if (!authed && !isLoginPage) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${firstSegment}/admin/login`;
+      url.search = '';
+      url.searchParams.set('returnUrl', `${pathname}${search}`);
+      return NextResponse.redirect(url);
+    }
+    if (authed && isLoginPage) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${firstSegment}/admin`;
+      url.search = '';
+      return NextResponse.redirect(url);
+    }
+  }
 
   // Шлях уже має мовний префікс: прокидаємо локаль у request-заголовок
   // (використовується getLocaleFromHeaders на сервері) та синхронізуємо cookie.

@@ -7,6 +7,8 @@ import { useLingui } from '@lingui/react';
 import { ADMIN_NAV_ITEMS, hasPermission, useAdminPreviewStore } from '@/entities/admin';
 import { RolePreviewSelect } from '@/features/admin';
 import { AdminNav } from '@/widgets/admin/AdminNav';
+import { AdminRail } from '@/widgets/admin/AdminRail';
+import { AdminSubNav } from '@/widgets/admin/AdminSubNav';
 import { useCurrentLocale } from '@shared/ui/link';
 import { localizeHref } from '@/locales/config';
 import {
@@ -71,42 +73,41 @@ export function AdminShell({ children }: AdminShellProps) {
     </Badge>
   );
 
+  if (stripLocale(pathname) === '/admin/login') return <>{children}</>;
+
   return (
     <Container className="ui-v2">
-      <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
-        <aside className="hidden lg:block">
-          <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto">
-            <div className="space-y-2 px-3">
-              <p className="text-base font-semibold">{t('admin.title')}</p>
-              {roleBadge}
-            </div>
-            <RolePreviewSelect />
-            <AdminNav />
-          </div>
-        </aside>
-
-        <div className="min-w-0">
-          <div className="mb-6 flex items-center justify-between gap-3 lg:hidden">
+      <AdminRail />
+      <div className="min-w-0">
+        <div className="mb-6 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <p className="hidden text-base font-semibold md:block">{t('admin.title')}</p>
             {roleBadge}
-            <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-              <SheetTrigger asChild>
-                <Button variant="outline" shape="circle" aria-label={t('admin.nav.openMenu')}>
-                  <Menu className="size-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[280px] sm:max-w-[280px]">
-                <SheetHeader>
-                  <SheetTitle>{t('admin.nav.aria')}</SheetTitle>
-                </SheetHeader>
-                <div className="mt-6 space-y-6">
-                  <RolePreviewSelect />
-                  <AdminNav onNavigate={() => setMobileOpen(false)} />
-                </div>
-              </SheetContent>
-            </Sheet>
           </div>
-          {children}
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                shape="circle"
+                className="md:hidden"
+                aria-label={t('admin.nav.openMenu')}
+              >
+                <Menu className="size-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[280px] sm:max-w-[280px]">
+              <SheetHeader>
+                <SheetTitle>{t('admin.nav.aria')}</SheetTitle>
+              </SheetHeader>
+              <div className="mt-6 space-y-6">
+                <RolePreviewSelect />
+                <AdminNav onNavigate={() => setMobileOpen(false)} />
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
+        <AdminSubNav />
+        {children}
       </div>
     </Container>
   );

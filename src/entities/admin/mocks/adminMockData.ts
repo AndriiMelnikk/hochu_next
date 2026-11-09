@@ -190,28 +190,91 @@ export const moderationUsers: IModerationUser[] = [
 export const adminBlogPosts: IAdminBlogPost[] = [
   {
     id: '1',
+    slug: 'iak-skladaty-zapyt',
     title: 'Як правильно скласти запит',
     status: 'published',
+    content: 'Опишіть товар, бюджет і місто. Додайте фото, щоб продавці швидше зорієнтувались.',
+    metaDescription: 'Покрокова інструкція, як скласти запит, на який відповідатимуть охоче.',
     updatedAt: '2024-03-10',
   },
   {
     id: '2',
+    slug: 'gaid-dlia-vykonavtsiv',
     title: 'Гайд для виконавців',
     status: 'draft',
+    content: '',
+    metaDescription: '',
     updatedAt: '2024-03-14',
   },
 ];
 
 export const adminPricingPlans: IAdminPricingPlan[] = [
-  { id: '1', name: 'Free', price: '0', period: 'month', isActive: true },
-  { id: '2', name: 'Pro', price: '499', period: 'month', isActive: true },
-  { id: '3', name: 'Business', price: '1499', period: 'month', isActive: false },
+  {
+    id: '1',
+    name: 'Free',
+    price: '0',
+    period: 'month',
+    description: 'Для знайомства з платформою',
+    features: ['До 3 активних запитів', 'Базова підтримка'],
+    isActive: true,
+  },
+  {
+    id: '2',
+    name: 'Pro',
+    price: '499',
+    period: 'month',
+    description: 'Для постійних продавців',
+    features: ['Необмежені пропозиції', 'Пріоритет у видачі', 'Сповіщення в Telegram'],
+    isActive: true,
+  },
+  {
+    id: '3',
+    name: 'Business',
+    price: '1499',
+    period: 'month',
+    description: 'Для команд і магазинів',
+    features: ['Усе з Pro', 'Кілька користувачів', 'Аналітика'],
+    isActive: false,
+  },
 ];
 
 export const adminInfoPages: IAdminInfoPage[] = [
-  { id: '1', slug: 'about', title: 'Про нас', updatedAt: '2024-02-20' },
-  { id: '2', slug: 'terms', title: 'Умови використання', updatedAt: '2024-02-18' },
-  { id: '3', slug: 'privacy', title: 'Політика конфіденційності', updatedAt: '2024-02-18' },
+  {
+    id: '1',
+    slug: 'about',
+    title: 'Про нас',
+    status: 'published',
+    content: 'Shukayu — платформа, де покупці розміщують запити, а продавці пропонують ціни.',
+    metaDescription: 'Дізнайтесь, як працює Shukayu і хто за нею стоїть.',
+    updatedAt: '2024-02-20',
+  },
+  {
+    id: '2',
+    slug: 'terms',
+    title: 'Умови використання',
+    status: 'published',
+    content: 'Користуючись сервісом, ви погоджуєтесь з цими умовами.',
+    metaDescription: 'Умови використання платформи Shukayu.',
+    updatedAt: '2024-02-18',
+  },
+  {
+    id: '3',
+    slug: 'privacy',
+    title: 'Політика конфіденційності',
+    status: 'published',
+    content: 'Ми збираємо лише ті дані, які потрібні для роботи сервісу.',
+    metaDescription: 'Як Shukayu збирає та захищає ваші дані.',
+    updatedAt: '2024-02-18',
+  },
+  {
+    id: '4',
+    slug: 'safety-tips',
+    title: 'Поради з безпечних угод',
+    status: 'draft',
+    content: '',
+    metaDescription: '',
+    updatedAt: '2024-02-10',
+  },
 ];
 
 export const adminStaff: IAdminStaffMember[] = [

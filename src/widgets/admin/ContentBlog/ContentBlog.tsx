@@ -1,134 +1,17 @@
 'use client';
 
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { useLingui } from '@lingui/react';
-import { useClientPagination } from '@/shared/hooks/useClientPagination';
-import { adminBlogPosts, type IAdminBlogPost } from '@/entities/admin';
-import { PermissionGate } from '@/features/admin';
-import {
-  Pagination,
-  Badge,
-  Button,
-  Heading,
-  Input,
-  Label,
-  Modal,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/ui-v2';
+import { useAdminBlogStore } from '@/entities/admin';
+import { ContentCollection } from '../ContentCollection';
 
 export function ContentBlog() {
-  const { i18n } = useLingui();
-  const t = (id: string) => i18n._(id);
-  const [items, setItems] = useState<IAdminBlogPost[]>(adminBlogPosts);
-  const { page, setPage, totalPages, pageItems } = useClientPagination(items);
-  const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
-
+  const { items, ...actions } = useAdminBlogStore();
   return (
-    <section className="space-y-6">
-      <header className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <Heading level="title" as="h1">
-            {t('admin.content.blog.title')}
-          </Heading>
-          <p className="mt-1 text-v2-muted">{t('admin.content.blog.description')}</p>
-        </div>
-        <PermissionGate permission="content.blog">
-          <Modal open={open} onOpenChange={setOpen}>
-            <ModalTrigger asChild>
-              <Button>{t('admin.content.create')}</Button>
-            </ModalTrigger>
-            <ModalContent>
-              <ModalHeader>
-                <ModalTitle>{t('admin.content.blog.createTitle')}</ModalTitle>
-              </ModalHeader>
-              <div className="space-y-2">
-                <Label htmlFor="blog-title">{t('admin.content.blog.fieldTitle')}</Label>
-                <Input
-                  id="blog-title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder={t('admin.content.blog.fieldTitlePlaceholder')}
-                />
-              </div>
-              <ModalFooter>
-                <Button variant="outline" onClick={() => setOpen(false)}>
-                  {t('admin.content.cancel')}
-                </Button>
-                <Button
-                  onClick={() => {
-                    if (!title.trim()) return;
-                    setItems((prev) => [
-                      {
-                        id: String(prev.length + 1),
-                        title: title.trim(),
-                        status: 'draft',
-                        updatedAt: new Date().toISOString().slice(0, 10),
-                      },
-                      ...prev,
-                    ]);
-                    toast.success(t('admin.actions.saveSuccess'));
-                    setTitle('');
-                    setOpen(false);
-                  }}
-                >
-                  {t('admin.content.save')}
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        </PermissionGate>
-      </header>
-      <div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t('admin.content.blog.table.title')}</TableHead>
-              <TableHead>{t('admin.content.blog.table.status')}</TableHead>
-              <TableHead>{t('admin.content.blog.table.updated')}</TableHead>
-              <TableHead>{t('admin.content.table.actions')}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {pageItems.map((post) => (
-              <TableRow key={post.id}>
-                <TableCell className="font-medium">{post.title}</TableCell>
-                <TableCell>
-                  <Badge tone={post.status === 'published' ? 'success' : 'neutral'}>
-                    {t(`admin.content.blog.status.${post.status}`)}
-                  </Badge>
-                </TableCell>
-                <TableCell>{post.updatedAt}</TableCell>
-                <TableCell>
-                  <PermissionGate permission="content.blog">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => toast.success(t('admin.actions.editMock'))}
-                    >
-                      {t('admin.content.edit')}
-                    </Button>
-                  </PermissionGate>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        {totalPages > 1 && (
-          <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
-        )}
-      </div>
-    </section>
+    <ContentCollection
+      keyPrefix="admin.content.blog"
+      permission="content.blog"
+      items={items}
+      actions={actions}
+      publicPath={(locale, slug) => `/${locale}/blog/${slug}`}
+    />
   );
 }

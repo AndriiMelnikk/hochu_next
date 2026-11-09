@@ -19,7 +19,7 @@ import { LocaleSwitcher, useAccountItems } from './site-header';
 type FlyoutLink = { href: string; label: string };
 
 /** Спливаючий блок праворуч від елемента панелі: відкривається по кліку. */
-function ClickFlyout({
+export function ClickFlyout({
   trigger,
   children,
 }: {
@@ -45,7 +45,7 @@ function ClickFlyout({
   );
 }
 
-const flyoutItemClass =
+export const flyoutItemClass =
   'flex min-h-8 items-center rounded-v2-lg px-3 py-1 text-sm text-v2-ink outline-none hover:bg-v2-hover focus-visible:bg-v2-hover';
 
 function FlyoutHeading({ children }: { children: React.ReactNode }) {

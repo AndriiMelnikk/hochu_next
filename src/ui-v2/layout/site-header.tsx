@@ -168,6 +168,8 @@ export function SiteHeader() {
   }, []);
 
   const showAuth = mounted && isAuth;
+  // В адмінці навігація — у власній лівій панелі, верхня шапка лише на мобільному
+  const hideOnDesktop = showAuth || /^\/(uk|en)\/admin(?!\/login)(\/|$)/.test(pathname);
   const returnUrl = getReturnUrlFromLocation(pathname);
   const loginHref = buildAuthHref(routes.LOGIN, returnUrl);
   const registerHref = buildAuthHref(routes.REGISTER, returnUrl);
@@ -189,7 +191,7 @@ export function SiteHeader() {
       className={cn(
         'ui-v2 sticky top-0 z-50 border-b border-v2-border bg-v2-surface',
         // для залогінених на md+ навігація — у лівій панелі
-        showAuth && 'md:hidden',
+        hideOnDesktop && 'md:hidden',
       )}
     >
       <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between gap-6 px-4 md:px-6">

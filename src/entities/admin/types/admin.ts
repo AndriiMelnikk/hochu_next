@@ -112,27 +112,45 @@ export interface IModerationUser {
   status: 'active' | 'blocked';
 }
 
-export interface IAdminBlogPost {
-  id: string;
-  title: string;
-  status: 'draft' | 'published';
-  updatedAt: string;
-}
+export type IAdminBlogPost = IAdminContentItem;
+
+export type AdminPricingPeriod = 'month' | 'year';
 
 export interface IAdminPricingPlan {
   id: string;
   name: string;
+  /** Ціна числом у рядку ('0' — безкоштовно). */
   price: string;
-  period: string;
+  period: AdminPricingPeriod;
+  description: string;
+  /** Перелік можливостей тарифу. */
+  features: string[];
   isActive: boolean;
 }
 
-export interface IAdminInfoPage {
+export type AdminPricingPlanInput = Omit<IAdminPricingPlan, 'id'>;
+
+export type AdminPageStatus = 'draft' | 'published';
+
+/** Спільна форма для сторінок і статей блогу. */
+export interface IAdminContentItem {
   id: string;
   slug: string;
   title: string;
+  status: AdminPageStatus;
+  /** Основний текст (Markdown / простий текст). */
+  content: string;
+  metaDescription: string;
+  /** ISO-дата (YYYY-MM-DD). */
   updatedAt: string;
 }
+
+export type IAdminInfoPage = IAdminContentItem;
+
+export type AdminInfoPageInput = Pick<
+  IAdminContentItem,
+  'slug' | 'title' | 'status' | 'content' | 'metaDescription'
+>;
 
 export interface IAdminStaffMember {
   id: string;

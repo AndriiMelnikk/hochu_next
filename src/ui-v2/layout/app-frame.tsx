@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/entities/auth/store/authStore';
@@ -26,11 +27,13 @@ export function AppFrame({
     () => true,
     () => false,
   );
-  const railed = mounted && isAuth;
+  // В адмінці замість користувацької панелі виводиться власна (AdminRail), а відступ лишається.
+  const isAdmin = /^\/(uk|en)\/admin(?!\/login)(\/|$)/.test(usePathname());
+  const railed = mounted && (isAuth || isAdmin);
 
   return (
     <div className={cn('flex min-h-screen flex-col', railed && 'md:pl-20')}>
-      {railed && <SideRail />}
+      {railed && !isAdmin && <SideRail />}
       {header}
       <main className="ui-v2 flex-1 pt-8 pb-12">{children}</main>
       {footer}
