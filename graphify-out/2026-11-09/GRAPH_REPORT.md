@@ -6,7 +6,7 @@
 - Unclassified: 15 file(s) not represented in the graph (top: (none) 8, .css 3, .ico 2)
 
 ## Summary
-- 2309 nodes · 5975 edges · 144 communities (129 shown, 15 thin omitted)
+- 2467 nodes · 6494 edges · 153 communities (133 shown, 20 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 24 edges (avg confidence: 0.93)
 - Token cost: 0 input · 0 output
 
@@ -27,21 +27,21 @@
 - notificationService.ts
 - proposal/layout.tsx
 - UiKitContent.tsx
-- @lingui/react
-- @tanstack/react-query
+- routes.ts
+- src_ui_v2_index_button
 - breadcrumbs.tsx
 - entities/user/index.ts
 - schemas.ts
 - alert-dialog.tsx
-- [slug]/page.tsx
+- RequestInfo.tsx
 - entities/auth/index.ts
 - discussions/index.ts
-- BlogArticleContent.tsx
+- blog/[id]/page.tsx
 - alert.tsx
-- ProposalList.tsx
+- authStore.ts
 - compilerOptions
 - compilerOptions
-- src_shared_ui_select_select
+- TrafficAnalytics
 - devDependencies
 - components.json
 - locationService.ts
@@ -54,12 +54,12 @@
 - ModerationUsers.tsx
 - JsonLd
 - scripts
-- StaffTable.tsx
+- StaffTable
 - LocaleRouteProps
 - Детальний опис шарів
-- NotificationsTabContent.tsx
+- notification/index.ts
 - sitemap.ts
-- ProfileTabs.tsx
+- GamificationProgress.tsx
 - package.json
 - Виконано
 - AdminShell.tsx
@@ -68,16 +68,16 @@
 - Нотифікації (React Toastify)
 - privacy/layout.tsx
 - review/index.ts
-- lucide-react
+- ui-v2/index.ts
 - support/layout.tsx
-- notificationSchema.ts
-- proposalService
+- notification/types/index.ts
+- @tanstack/react-query
 - @lingui/cli
 - RequestDetailContent.tsx
 - request/index.ts
 - proposalSchema.ts
 - uploadFile.ts
-- login/page.tsx
+- ProfileSettings.tsx
 - tailwindcss
 - Детальний опис архітектури проєкту MOOC Frontend
 - eslint.config.mjs
@@ -86,18 +86,18 @@
 - src/auth.ts
 - admin/layout.tsx
 - utils.ts
-- CatalogView.tsx
+- NotificationsTabContent.tsx
 - SEO Technical Backlog — Shukayu
-- Locale
+- ProfileTabs.tsx
 - blogService.ts
 - LinguiProvider
-- site-header.tsx
+- Link
 - RequestSubscriptionModal.tsx
 - Основні сутності
 - @lingui/core
 - stepper.tsx
 - profile/[id]/page.tsx
-- ModerationSubscriptions.tsx
+- Пагінація в додатку
 - tooltip.tsx
 - config
 - lint-staged
@@ -110,7 +110,7 @@
 - blog/layout.tsx
 - contact/layout.tsx
 - pricing/layout.tsx
-- typography.tsx
+- [locale]/layout.tsx
 - terms/layout.tsx
 - ContentPages.tsx
 - Next.js FSD App
@@ -119,18 +119,26 @@
 - chat/index.ts
 - cn.ts
 - proposal/const.ts
-- CancelAcceptedProposalModal.tsx
+- requestSchema.ts
 - Документація Backend API для проєкту shukayu
-- CancelProposalModal.tsx
-- RejectProposalModal.tsx
+- [locale]/page.tsx
+- Faq.tsx
 - Роутинг (React Router v7)
-- apple-icon.tsx
-- Форми (React Hook Form)
-- Тестування (майбутнє)
-- next.config.ts
-- route.tsx
+- next
+- route-metadata.ts
+- notificationSchema.ts
+- 1. Пріоритет P0 — SEO-каркас (без нього UGC не «полетить»)
+- 2. Пріоритет P0 — Картки виконавців (E-E-A-T)
+- 3. Пріоритет P1 — Запити як long-tail контент
+- AnalyticsOverview
+- ContentBlog
+- ContentPricing
+- ModerationProposals
+- ModerationRequests
 - Аутентифікація та авторизація
-- shared/utils/index.ts
+- TypeScript конфігурація
+- Змінні оточення
+- checkbox.tsx
 - Патерни та практики
 - { GET, POST }
 - locale.ts
@@ -148,7 +156,7 @@
 - Композиція сторінок Shukayu
 - UX універсальних компонентів Shukayu
 - Дизайн-система Shukayu
-- CardHeader
+- ModerationSubscriptions.tsx
 - NotificationSettingsContent.tsx
 - 4. Випадаючі поверхні
 - 2. Колір
@@ -162,121 +170,128 @@
 2. `react` - 125 edges
 3. `@lingui/react` - 103 edges
 4. `getLocaleFromParams()` - 92 edges
-5. `lucide-react` - 75 edges
+5. `lucide-react` - 72 edges
 6. `UiKitContent()` - 62 edges
 7. `getMetadataForRoute()` - 51 edges
 8. `next` - 51 edges
-9. `Link()` - 50 edges
-10. `routes` - 49 edges
+9. `routes` - 49 edges
+10. `@tanstack/react-query` - 46 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `0. Поточний стан (коротко)` --references--> `ICategory`  [INFERRED]
-  docs/SEO_TECHNICAL.md → src/entities/category/types/Category.ts
 - `Ключові особливості:` --references--> `RootLayout()`  [INFERRED]
   docs/ARCHITECTURE.md → src/app/[locale]/layout.tsx
+- `0. Поточний стан (коротко)` --references--> `ICategory`  [INFERRED]
+  docs/SEO_TECHNICAL.md → src/entities/category/types/Category.ts
+- `Статуси запитів (RequestStatus)` --references--> `RequestStatus`  [INFERRED]
+  docs/Status.md → src/entities/request/types/Request.ts
 - `1.2. Контент посадкової категорії (не порожній лістинг)` --references--> `getFaqPageJsonLd()`  [INFERRED]
   docs/SEO_TECHNICAL.md → src/shared/seo/schemas.ts
 - `Чеклист для додавання перекладів` --references--> `LinguiProvider()`  [INFERRED]
   docs/I18N.md → src/app/providers/LinguiProvider.tsx
-- `Як підключити словник до нової сторінки (Route Layout)` --references--> `LinguiProvider()`  [INFERRED]
-  docs/I18N.md → src/app/providers/LinguiProvider.tsx
 
 ## Import Cycles
-- None detected.
+- 4-file cycle: `src/features/auth/index.ts -> src/features/auth/ui/GoogleSignInButton.tsx -> src/ui-v2/index.ts -> src/ui-v2/layout/site-header.tsx -> src/features/auth/index.ts`
+- 4-file cycle: `src/features/auth/index.ts -> src/features/auth/ui/AuthRequired.tsx -> src/ui-v2/index.ts -> src/ui-v2/layout/site-header.tsx -> src/features/auth/index.ts`
+- 4-file cycle: `src/features/auth/index.ts -> src/features/auth/ui/ChangePasswordModal.tsx -> src/ui-v2/index.ts -> src/ui-v2/layout/site-header.tsx -> src/features/auth/index.ts`
+- 4-file cycle: `src/features/auth/index.ts -> src/features/auth/ui/ForgotPasswordForm.tsx -> src/ui-v2/index.ts -> src/ui-v2/layout/site-header.tsx -> src/features/auth/index.ts`
+- 4-file cycle: `src/features/auth/index.ts -> src/features/auth/ui/RegisterButton.tsx -> src/ui-v2/index.ts -> src/ui-v2/layout/site-header.tsx -> src/features/auth/index.ts`
+- 4-file cycle: `src/features/auth/index.ts -> src/features/auth/ui/RegisterForm.tsx -> src/ui-v2/index.ts -> src/ui-v2/layout/site-header.tsx -> src/features/auth/index.ts`
+- 4-file cycle: `src/features/auth/index.ts -> src/features/auth/ui/ResetPasswordForm.tsx -> src/ui-v2/index.ts -> src/ui-v2/layout/site-header.tsx -> src/features/auth/index.ts`
+- 5-file cycle: `src/features/auth/index.ts -> src/features/auth/ui/RegisterForm.tsx -> src/features/auth/ui/GoogleSignInButton.tsx -> src/ui-v2/index.ts -> src/ui-v2/layout/site-header.tsx -> src/features/auth/index.ts`
 
-## Communities (144 total, 15 thin omitted)
+## Communities (153 total, 20 thin omitted)
 
 ### Community 0 - "requestSubscriptionService.ts"
-Cohesion: 0.26
-Nodes (6): requestSubscriptionService, IGetRequestSubscriptionsRequest, ICreateRequestSubscriptionRequest, IRequestSubscription, IUpdateRequestSubscriptionRequest, RequestSubscriptionModalProps
+Cohesion: 0.19
+Nodes (10): useCreateRequestSubscription(), useRequestSubscriptions(), useUpdateRequestSubscription(), paginationResultSchema(), requestSubscriptionService, IGetRequestSubscriptionsRequest, ICreateRequestSubscriptionRequest, IRequestSubscription (+2 more)
 
 ### Community 1 - "[city]/page.tsx"
-Cohesion: 0.20
-Nodes (16): CatalogStats, CopyInput, getCatalogCopy(), isIndexableCategoryCity(), CategoryCityPage(), generateMetadata(), loadCategoryCity(), Props (+8 more)
+Cohesion: 0.14
+Nodes (31): CatalogLink, CatalogView(), CatalogViewProps, LinkChips(), CatalogCopy, CatalogStats, CopyInput, getCatalogCopy() (+23 more)
 
 ### Community 2 - "category/index.ts"
-Cohesion: 0.23
-Nodes (12): CategoryIdLike, normalizeCategories(), normalizeId(), normalizeParentId(), useCategories(), CategoryIndex, categorySchema, getCategoriesResponseSchema (+4 more)
+Cohesion: 0.22
+Nodes (13): CategoryIdLike, normalizeCategories(), normalizeId(), normalizeParentId(), useCategories(), CategoryIndex, categorySchema, getCategoriesResponseSchema (+5 more)
 
 ### Community 3 - "@tanstack/react-query"
-Cohesion: 0.24
-Nodes (13): useCreateProposal(), IProposal, IProposalSeller, ICreateProposalRequest, IUpdateProposalRequest, ICanProposeResponse, IGetProposalsResponse, getProposalRejectionReasonFromError() (+5 more)
+Cohesion: 0.19
+Nodes (15): useCreateProposal(), useRejectProposal(), IProposal, IProposalSeller, IProposalWithSeller, ICreateProposalRequest, IUpdateProposalRequest, ICanProposeResponse (+7 more)
 
 ### Community 4 - "getLocaleFromHeaders"
 Cohesion: 0.10
-Nodes (31): AboutContent(), AboutPage(), generateMetadata(), generateMetadata(), generateMetadata(), PageProps, ResetPasswordPage(), generateMetadata() (+23 more)
+Nodes (33): AboutContent(), AboutPage(), generateMetadata(), AdminPage(), generateMetadata(), generateMetadata(), PageProps, generateMetadata() (+25 more)
 
 ### Community 5 - "cn"
-Cohesion: 0.11
-Nodes (25): @radix-ui/react-accordion, CategoryFilterButton(), CategoryFilterButtonProps, cn(), Accordion, AccordionContent, AccordionItem, AccordionTrigger (+17 more)
+Cohesion: 0.08
+Nodes (32): @radix-ui/react-accordion, CategoryFilterButton(), CategoryFilterButtonProps, cn(), Accordion, AccordionContent, AccordionItem, AccordionTrigger (+24 more)
 
 ### Community 6 - "CreateRequestForm.tsx"
-Cohesion: 0.06
-Nodes (23): @hookform/resolvers, react-hook-form, CreateRequestContent(), useChangePassword(), useMe(), ChangePasswordModal(), ChangePasswordModalProps, ForgotPasswordForm() (+15 more)
+Cohesion: 0.05
+Nodes (30): axios, @hookform/resolvers, react-hook-form, useUpdateProposal(), ChangePasswordModalProps, ForgotPasswordForm(), getForgotPasswordSchema(), ResetPasswordFormData (+22 more)
 
 ### Community 7 - "Button"
-Cohesion: 0.16
-Nodes (27): sonner, GoogleAuthCompleteContent(), GoogleAuthCompletePage(), PricingContent(), ProfilePage(), buildAuthStateFromResponse(), buildUserFromAuthResponse(), persistAuthTokens() (+19 more)
+Cohesion: 0.17
+Nodes (21): next-auth, GoogleAuthCompleteContent(), GoogleAuthCompletePage(), BLOCKED_RETURN_PATHS, buildAuthHref(), buildGoogleAuthCallbackUrl(), getReturnUrlFromLocation(), getSafeReturnUrl() (+13 more)
 
 ### Community 8 - "notificationService.ts"
-Cohesion: 0.12
-Nodes (19): useUnreadCount(), paginationResultSchema(), notificationService, INotification, NotificationCategory, ACHIEVEMENTS, MESSAGES, MY_PROPOSAL_STATUS (+11 more)
+Cohesion: 0.13
+Nodes (17): useNotifications(), NotificationCategory, ACHIEVEMENTS, MESSAGES, MY_PROPOSAL_STATUS, MY_REQUEST_ACTIVITY, NEW_REQUESTS, REQUEST_UPDATES (+9 more)
 
 ### Community 9 - "proposal/layout.tsx"
-Cohesion: 0.12
-Nodes (19): @lingui/core, CreateLayout(), messagesByLocale, messagesByLocale, ProfileLayout(), messagesByLocale, ProposalLayout(), messagesByLocale (+11 more)
+Cohesion: 0.11
+Nodes (21): @lingui/core, react, CreateLayout(), messagesByLocale, messagesByLocale, ProfileLayout(), messagesByLocale, ProposalLayout() (+13 more)
 
 ### Community 10 - "UiKitContent.tsx"
 Cohesion: 0.09
 Nodes (47): metadata, UiKitPage(), Section(), UiKitContent(), CardHeader(), CardSection(), SettingsRow(), DropdownMenu (+39 more)
 
-### Community 11 - "@lingui/react"
-Cohesion: 0.08
-Nodes (37): @lingui/react, next, ResetPasswordContent(), ResetPasswordContentProps, ForgotPasswordContent(), LoginContent(), LoginContentProps, NotFoundPage() (+29 more)
+### Community 11 - "routes.ts"
+Cohesion: 0.13
+Nodes (10): ResetPasswordContentProps, LoginContentProps, routes, CreateRequestButtonProps, RequestCardProps, breadcrumbLabels, LinkProps, Column() (+2 more)
 
-### Community 12 - "@tanstack/react-query"
-Cohesion: 0.21
-Nodes (8): @tanstack/react-query, useAcceptProposal(), useCanPropose(), useCompleteProposal(), AcceptProposalModal(), AcceptProposalModalProps, CompleteProposalModal(), CompleteProposalModalProps
+### Community 12 - "src_ui_v2_index_button"
+Cohesion: 0.09
+Nodes (30): useAcceptProposal(), useCancelAcceptedProposal(), useCancelProposal(), useCompleteProposal(), AcceptProposalModal(), AcceptProposalModalProps, CancelAcceptedProposalModal(), CancelAcceptedProposalModalProps (+22 more)
 
 ### Community 13 - "breadcrumbs.tsx"
-Cohesion: 0.16
-Nodes (17): date-fns, AdminPage(), ProposalDetailPage(), Props, ProposalDetailContent(), getCategoryPath(), localizeHref(), Breadcrumb (+9 more)
+Cohesion: 0.27
+Nodes (11): @radix-ui/react-slot, Breadcrumb, BreadcrumbEllipsis(), BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator() (+3 more)
 
 ### Community 14 - "entities/user/index.ts"
-Cohesion: 0.12
-Nodes (25): axios, PROFILES_QUERY_KEY, useUser(), useUserContacts(), accountSchema, createProfileSchema, profileSchema, updateContactsSchema (+17 more)
+Cohesion: 0.15
+Nodes (21): PROFILES_QUERY_KEY, useCreateProfile(), useProfiles(), useMe(), useUser(), useUserContacts(), accountSchema, createProfileSchema (+13 more)
 
 ### Community 15 - "schemas.ts"
-Cohesion: 0.08
-Nodes (24): @next/third-parties, @vercel/analytics, generateMetadata(), inter, messagesByLocale, Props, RootLayout(), AI_BOTS (+16 more)
+Cohesion: 0.15
+Nodes (14): AI_BOTS, BLOCKED_BOTS, DISALLOW, DEFAULT_SOCIAL_PROFILES, gtmId, logoUrl, siteUrl, socialProfiles (+6 more)
 
 ### Community 16 - "alert-dialog.tsx"
-Cohesion: 0.13
-Nodes (18): @radix-ui/react-alert-dialog, @radix-ui/react-slot, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter() (+10 more)
+Cohesion: 0.14
+Nodes (17): @radix-ui/react-alert-dialog, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter(), AlertDialogHeader() (+9 more)
 
-### Community 17 - "[slug]/page.tsx"
-Cohesion: 0.21
-Nodes (13): getCatalogStats, isIndexableCategory(), CategoriesPage(), COPY, revalidate, CategoryPage(), generateMetadata(), loadCategory() (+5 more)
+### Community 17 - "RequestInfo.tsx"
+Cohesion: 0.11
+Nodes (10): sonner, REQUEST_URGENCY_LABELS, ApproveRejectActions(), ApproveRejectActionsProps, BlockUserActions(), BlockUserActionsProps, RequestInfoProps, STATUS_TONE (+2 more)
 
 ### Community 18 - "entities/auth/index.ts"
-Cohesion: 0.10
-Nodes (25): zod, zustand, LS_KEYS, AuthContext, AuthContextType, authResponseSchema, changePasswordSchema, forgotPasswordSchema (+17 more)
+Cohesion: 0.17
+Nodes (14): zod, LS_KEYS, useChangePassword(), authResponseSchema, changePasswordSchema, forgotPasswordSchema, loginSchema, registerSchema (+6 more)
 
 ### Community 19 - "discussions/index.ts"
-Cohesion: 0.33
-Nodes (6): DiscussionForm(), DiscussionFormProps, DiscussionItem(), DiscussionItemProps, DiscussionList(), discussions
+Cohesion: 0.43
+Nodes (5): DiscussionForm(), DiscussionItem(), DiscussionItemProps, DiscussionList(), discussions
 
-### Community 20 - "BlogArticleContent.tsx"
-Cohesion: 0.27
-Nodes (10): ArticleSection(), Props, BlogArticleContent(), Props, ArticleSectionData, createDefaultSections(), getIconComponent(), iconMap (+2 more)
+### Community 20 - "blog/[id]/page.tsx"
+Cohesion: 0.15
+Nodes (19): ArticleSection(), Props, BlogArticleContent(), BlogArticlePage(), Props, revalidate, LOCAL_POSTS, LocalizedPost (+11 more)
 
 ### Community 21 - "alert.tsx"
 Cohesion: 0.15
-Nodes (13): class-variance-authority, Alert(), AlertDescription(), AlertProps, AlertTitle(), alertVariants, Avatar, AvatarProps (+5 more)
+Nodes (13): class-variance-authority, Avatar, AvatarProps, avatarVariants, Badge(), BadgeProps, badgeVariants, Chip() (+5 more)
 
-### Community 22 - "ProposalList.tsx"
-Cohesion: 0.27
-Nodes (8): useProposals(), useUpdateProposal(), IProposalWithSeller, EditProposalForm(), EditProposalModal(), EditProposalModalProps, ProposalItem(), ProposalList()
+### Community 22 - "authStore.ts"
+Cohesion: 0.12
+Nodes (18): AuthContext, AuthContextType, AuthProvider(), useAuth(), authService, AuthActions, AuthState, buildAuthStateFromResponse() (+10 more)
 
 ### Community 23 - "compilerOptions"
 Cohesion: 0.06
@@ -286,9 +301,9 @@ Nodes (30): compilerOptions, allowJs, baseUrl, esModuleInterop, incremental, iso
 Cohesion: 0.12
 Nodes (15): compilerOptions, allowImportingTsExtensions, isolatedModules, lib, module, moduleDetection, moduleResolution, noEmit (+7 more)
 
-### Community 25 - "src_shared_ui_select_select"
-Cohesion: 0.13
-Nodes (11): AdminAnalyticsPage(), AdminTrafficPage(), AnalyticsRange, ApproveRejectActionsProps, BlockUserActionsProps, useCurrentLocale(), AnalyticsOverview(), PIE_COLORS (+3 more)
+### Community 25 - "TrafficAnalytics"
+Cohesion: 0.60
+Nodes (3): AdminTrafficPage(), MetricBars(), TrafficAnalytics()
 
 ### Community 26 - "devDependencies"
 Cohesion: 0.09
@@ -315,68 +330,60 @@ Cohesion: 0.03
 Nodes (59): dependencies, axios, class-variance-authority, clsx, cmdk, date-fns, embla-carousel-react, @hookform/resolvers (+51 more)
 
 ### Community 32 - "entities/admin/index.ts"
-Cohesion: 0.12
-Nodes (35): adminBlogPosts, adminInfoPages, adminMockData, adminPricingPlans, adminRequestSubscriptions, adminStaff, moderationProposals, moderationReports (+27 more)
+Cohesion: 0.07
+Nodes (54): AdminModerationSubscriptionsPage(), ADMIN_NAV_GROUP_KEYS, ADMIN_NAV_ITEMS, IAdminNavItem, ALL_STAFF_PERMISSIONS, ROLE_PERMISSIONS, STAFF_ROLES, hasAnyPermission() (+46 more)
 
 ### Community 33 - "request/[id]/page.tsx"
-Cohesion: 0.13
-Nodes (23): BlogArticlePage(), generateMetadata(), Props, revalidate, generateMetadata(), getCategoryTrail(), getRequest, Props (+15 more)
+Cohesion: 0.11
+Nodes (23): generateMetadata(), ProposalDetailPage(), Props, ProposalDetailContent(), generateMetadata(), getCategoryTrail(), getRequest, Props (+15 more)
 
 ### Community 34 - "notification/index.ts"
-Cohesion: 0.14
-Nodes (9): useCreateTelegramLinkToken(), TELEGRAM_LINK_QUERY_KEY, UNLINKED, useTelegramLinkStatus(), useUnlinkTelegram(), telegramLinkService, ITelegramLinkStatus, ITelegramLinkToken (+1 more)
-
-### Community 35 - "ModerationUsers.tsx"
-Cohesion: 0.48
-Nodes (4): AdminModerationUsersPage(), BlockUserActions(), Filter, ModerationUsers()
+Cohesion: 0.19
+Nodes (10): useCreateTelegramLinkToken(), TELEGRAM_LINK_QUERY_KEY, UNLINKED, useTelegramLinkStatus(), useUnlinkTelegram(), telegramLinkStatusSchema, telegramLinkTokenSchema, telegramLinkService (+2 more)
 
 ### Community 36 - "JsonLd"
-Cohesion: 0.12
-Nodes (16): BlogListPage(), COPY, revalidate, first(), generateMetadata(), parsePage(), Props, RequestPage() (+8 more)
+Cohesion: 0.15
+Nodes (17): BlogListPage(), COPY, revalidate, CategoriesPage(), COPY, revalidate, first(), generateMetadata() (+9 more)
 
 ### Community 37 - "scripts"
 Cohesion: 0.18
 Nodes (11): scripts, build, commit, commit:retry, lint, prepare, start, start:dev (+3 more)
 
-### Community 38 - "StaffTable.tsx"
-Cohesion: 0.22
-Nodes (8): AdminStaffPage(), ALL_STAFF_PERMISSIONS, ROLE_PERMISSIONS, STAFF_ROLES, hasAnyPermission(), AdminPreviewState, StaffRole, StaffTable()
-
 ### Community 39 - "LocaleRouteProps"
-Cohesion: 0.33
-Nodes (8): ContactPage(), CreateRequestPage(), SupportPage(), LocaleRouteProps, PAGE_COPY, PageKey, SeoTextBlock, SeoTextSection()
+Cohesion: 0.19
+Nodes (12): ContactContent(), ContactPage(), generateMetadata(), CreateRequestPage(), generateMetadata(), generateMetadata(), SupportPage(), SupportContent() (+4 more)
 
 ### Community 40 - "Детальний опис шарів"
 Cohesion: 0.11
 Nodes (19): 1. App Layer (`src/app/`), 2. Pages Layer (`src/pages/`), 3. Widgets Layer (`src/widgets/`), 4. Features Layer (`src/features/`), 5. Entities Layer (`src/entities/`), 6. Shared Layer (`src/shared/`), Детальний опис компонентів entity:, Детальний опис шарів (+11 more)
 
-### Community 41 - "NotificationsTabContent.tsx"
-Cohesion: 0.18
-Nodes (12): useMarkAllNotificationsRead(), useMarkNotificationRead(), useNotifications(), mapNotificationFilters(), NotificationScope, useProfiles(), CATEGORY_OPTIONS, NotificationFilters() (+4 more)
+### Community 41 - "notification/index.ts"
+Cohesion: 0.10
+Nodes (9): useDeleteRequestSubscription(), useMarkAllNotificationsRead(), useMarkNotificationRead(), useUnreadCount(), notificationService, ALL_NOTIFICATION_CHANNELS, channelsForEnabled(), DEFAULT_NOTIFICATION_CHANNELS (+1 more)
 
 ### Community 42 - "sitemap.ts"
-Cohesion: 0.33
+Cohesion: 0.32
 Nodes (12): getBlogEntries(), getCatalogEntries(), getRequestAndProfileEntries(), localizedUrl(), parseDate(), revalidate, safeFetchRequests(), sitemap() (+4 more)
 
-### Community 43 - "ProfileTabs.tsx"
-Cohesion: 0.06
-Nodes (33): recharts, UserRole, Achievement, buyerAchievements, buyerLevels, calculateLevel(), getProgressToNextLevel(), Level (+25 more)
+### Community 43 - "GamificationProgress.tsx"
+Cohesion: 0.12
+Nodes (15): UserRole, Achievement, buyerAchievements, buyerLevels, calculateLevel(), getProgressToNextLevel(), Level, sellerAchievements (+7 more)
 
 ### Community 44 - "package.json"
 Cohesion: 0.04
-Nodes (46): name, private, version, autoprefixer, cmdk, embla-carousel-react, eslint, eslint-config-next (+38 more)
+Nodes (48): name, private, version, autoprefixer, cmdk, embla-carousel-react, eslint, eslint-config-next (+40 more)
 
 ### Community 45 - "Виконано"
 Cohesion: 0.11
 Nodes (18): 1. Базова структура Next.js ✅, 1. Оновити всі компоненти, 2. Провайдери ✅, 2. Створити всі сторінки App Router, 3. Міграція компонентів в FSD структуру, 3. Структура FSD ✅, 4. Entity Request (приклад) ✅, 4. Створити інші entities (+10 more)
 
 ### Community 46 - "AdminShell.tsx"
-Cohesion: 0.17
-Nodes (15): ADMIN_NAV_GROUP_KEYS, ADMIN_NAV_ITEMS, IAdminNavItem, hasPermission(), useAdminPreviewStore, StaffPermission, PermissionGateProps, RolePreviewSelect() (+7 more)
+Cohesion: 0.12
+Nodes (7): cn(), AdminNav(), AdminNavProps, stripLocale(), AdminShell(), AdminShellProps, stripLocale()
 
 ### Community 47 - "@lingui/react"
-Cohesion: 0.19
-Nodes (19): react-toastify, useCreateProfile(), IProfile, ProfileType, useProfileSwitch(), UseProfileSwitchOptions, BuyerProfileRequired(), CreateProfileModal() (+11 more)
+Cohesion: 0.22
+Nodes (13): useRequestStore, useProfileSwitch(), UseProfileSwitchOptions, BuyerProfileRequired(), CreateProfileModal(), EditProfileForm(), PROFILE_TYPE_ICONS, ProfileCard() (+5 more)
 
 ### Community 48 - "Структура файлів компонента"
 Cohesion: 0.67
@@ -391,44 +398,48 @@ Cohesion: 0.38
 Nodes (4): messagesByLocale, PrivacyLayout(), messages, messages
 
 ### Community 51 - "review/index.ts"
-Cohesion: 0.07
-Nodes (36): API UniversalPagination, API useQueryPagination, Checklist для нової пагінації, Архітектура пагінації, Ключові файли, Конвенції, Крок 1. Типи запиту та відповіді (entities), Крок 2. Сервіс (entities) (+28 more)
+Cohesion: 0.20
+Nodes (11): useCreateReview(), useReviews(), useReviewStats(), reviewSchema, reviewService, ICreateReviewRequest, IGetReviewsRequest, IGetReviewsResponse (+3 more)
 
-### Community 52 - "lucide-react"
-Cohesion: 0.09
-Nodes (12): lucide-react, HowItWorksContent(), getLatestRequests(), HomePage(), revalidate, CreateRequestButton(), StatusGuide(), StatusItem() (+4 more)
+### Community 52 - "ui-v2/index.ts"
+Cohesion: 0.07
+Nodes (16): date-fns, @lingui/react, lucide-react, Props, RequestContentProps, IRequestBuyer, ReviewCardProps, DiscussionFormProps (+8 more)
 
 ### Community 53 - "support/layout.tsx"
 Cohesion: 0.38
 Nodes (4): messagesByLocale, SupportLayout(), messages, messages
 
-### Community 54 - "notificationSchema.ts"
-Cohesion: 0.16
-Nodes (12): categoryPreferenceSchema, newRequestsPreferenceSchema, notificationCategorySchema, notificationChannelSchema, notificationPreferencesSchema, notificationSchemaRaw, requestSubscriptionSchema, telegramLinkStatusSchema (+4 more)
+### Community 54 - "notification/types/index.ts"
+Cohesion: 0.20
+Nodes (12): useNotificationPreferences(), useUpdateNotificationPreferences(), notificationPreferenceService, INotification, NotificationChannel, EMAIL, IN_APP, TELEGRAM (+4 more)
 
-### Community 55 - "proposalService"
-Cohesion: 0.24
-Nodes (3): Статуси пропозицій (ProposalStatus), normalizeProposalItem(), proposalService
+### Community 55 - "@tanstack/react-query"
+Cohesion: 0.13
+Nodes (7): Загальна логіка відгуків, Статуси запитів (RequestStatus), Статуси пропозицій (ProposalStatus), @tanstack/react-query, useCanPropose(), normalizeProposalItem(), proposalService
+
+### Community 57 - "RequestDetailContent.tsx"
+Cohesion: 0.09
+Nodes (3): ProfileReviews(), ProfileReviewsProps, renderStars()
 
 ### Community 58 - "request/index.ts"
-Cohesion: 0.06
-Nodes (48): Загальна логіка відгуків, Статуси запитів (RequestStatus), useAuth(), HOME_LATEST_REQUESTS_LIMIT, REQUEST_STATUS_BADGE_VARIANT, REQUEST_STATUS_LABELS, REQUEST_URGENCY, REQUEST_URGENCY_LABELS (+40 more)
+Cohesion: 0.14
+Nodes (20): useCancelRequest(), useCreateRequest(), useRequest(), requestSchema, requestService, RequestActions, RequestState, IRequest (+12 more)
 
 ### Community 59 - "proposalSchema.ts"
 Cohesion: 0.14
-Nodes (13): useProposal(), createProposalSchema, getProposalsResponseSchema, proposalSchema, proposalSellerSchema, updateProposalSchema, ProposalStatus, ACCEPTED (+5 more)
+Nodes (13): useProposal(), useProposals(), createProposalSchema, getProposalsResponseSchema, proposalSchema, proposalSellerSchema, updateProposalSchema, ProposalStatus (+5 more)
 
 ### Community 60 - "uploadFile.ts"
-Cohesion: 0.30
-Nodes (8): createUploadFormData(), getUploadHeaders(), parseUploadResponse(), refreshAccessToken(), uploadFile(), assertValidUploadedImageUrl(), ImageUploadError, normalizeImageFileForUpload()
+Cohesion: 0.12
+Nodes (20): CreateProposalForm(), CreateRequestForm(), createUploadFormData(), getUploadHeaders(), parseUploadResponse(), refreshAccessToken(), uploadFile(), ACCEPTED_IMAGE_ACCEPT_ATTR (+12 more)
 
-### Community 61 - "login/page.tsx"
-Cohesion: 0.27
-Nodes (7): first(), LoginPage(), PageProps, first(), PageProps, RegisterPage(), RegisterContent()
+### Community 61 - "ProfileSettings.tsx"
+Cohesion: 0.10
+Nodes (10): CreateRequestContent(), ProfilePage(), getResetPasswordFormSchema(), ResetPasswordForm(), NotificationItem(), NotificationItemProps, localizeHref(), AppRouter (+2 more)
 
 ### Community 63 - "Детальний опис архітектури проєкту MOOC Frontend"
 Cohesion: 0.12
-Nodes (16): API та HTTP запити, Environment Variables, Netlify, Path Aliases:, TypeScript конфігурація, Використання:, Використання:, Висновок (+8 more)
+Nodes (16): API та HTTP запити, Environment Variables, Netlify, Валідація:, Висновок, Деплой, Детальний опис архітектури проєкту MOOC Frontend, Додаткові ресурси (+8 more)
 
 ### Community 64 - "eslint.config.mjs"
 Cohesion: 0.15
@@ -443,44 +454,44 @@ Cohesion: 0.12
 Nodes (15): Динамічні значення в перекладах, Конвенція іменування ключів, Крок 1: Переконайтеся, що компонент клієнтський, Крок 2: Створити функцію `t` в компоненті, Крок 3: Додати ключі перекладу у файли локалей, Огляд, Переклад метаданих (Title, Description) сторінок (SEO), Підтримувані мови (+7 more)
 
 ### Community 67 - "src/auth.ts"
-Cohesion: 0.29
-Nodes (5): next-auth, auth, handlers, signIn, signOut
+Cohesion: 0.33
+Nodes (4): auth, handlers, signIn, signOut
 
 ### Community 68 - "admin/layout.tsx"
 Cohesion: 0.32
 Nodes (4): AdminLayout(), messagesByLocale, messages, messages
 
 ### Community 69 - "utils.ts"
-Cohesion: 0.13
-Nodes (16): @radix-ui/react-popover, CascadingSelect(), CascadingSelectItem, CascadingSelectProps, CityCombobox(), CityComboboxProps, getPageNumbers(), Pagination() (+8 more)
+Cohesion: 0.21
+Nodes (12): @radix-ui/react-popover, CascadingSelect(), CascadingSelectItem, CascadingSelectProps, CityCombobox(), CityComboboxProps, getPageNumbers(), Pagination() (+4 more)
 
-### Community 70 - "CatalogView.tsx"
-Cohesion: 0.19
-Nodes (8): CatalogLink, CatalogView(), CatalogViewProps, LinkChips(), CatalogCopy, getBreadcrumbListJsonLd(), COPY, SimilarRequestsProps
+### Community 70 - "NotificationsTabContent.tsx"
+Cohesion: 0.09
+Nodes (4): renderStars(), ReviewCard(), ReviewsList(), ReviewsListProps
 
 ### Community 71 - "SEO Technical Backlog — Shukayu"
-Cohesion: 0.08
-Nodes (24): 0. Поточний стан (коротко), 1.1. Дерево посадкових сторінок: локаль → місто → категорія → підкатегорія, 1.2. Контент посадкової категорії (не порожній лістинг), 1.3. Авто-шаблони мета-тегів + ручний override, 1. Пріоритет P0 — SEO-каркас (без нього UGC не «полетить»), 2.1. SEO-URL і індексація профілів, 2.2. Контент картки (те, що любить Google), 2.3. Синергія профіль ↔ категорія (+16 more)
+Cohesion: 0.18
+Nodes (10): 0. Поточний стан (коротко), 4. Пріоритет P1 — Технічний SEO (інфраструктура), 5. Пріоритет P2 — Контент і семантика (не лише код), 6. Рекомендований порядок впровадження, 7. Критерії успіху (вимірювані), 8.1. Де відповіді варто тримати «з обережністю» (не помилки), 8. Продуктові рішення — статус, 9. Зв’язок із існуючими файлами (+2 more)
 
-### Community 72 - "Locale"
-Cohesion: 0.39
-Nodes (6): LOCAL_POSTS, LocalizedPost, LocalPost, getBlogPost(), toBlogPost(), Locale
+### Community 72 - "ProfileTabs.tsx"
+Cohesion: 0.18
+Nodes (11): GUEST_PROFILE_TABS, HASH_TO_TAB, OWNER_PROFILE_TABS, PROFILE_HASH, PROFILE_TAB, ProfileTabId, resolveProfileTab(), syncProfileTabHash() (+3 more)
 
 ### Community 73 - "blogService.ts"
 Cohesion: 0.33
 Nodes (7): useBlogPost(), useBlogPosts(), blogPostSchema, getBlogPostsResponseSchema, blogService, IBlogPost, IGetBlogPostsResponse
 
 ### Community 74 - "LinguiProvider"
-Cohesion: 0.17
-Nodes (15): react, GoogleAuthCompleteLayout(), messagesByLocale, messagesByLocale, ResetPasswordLayout(), ForgotPasswordLayout(), messagesByLocale, LoginLayout() (+7 more)
+Cohesion: 0.25
+Nodes (11): GoogleAuthCompleteLayout(), messagesByLocale, messagesByLocale, ResetPasswordLayout(), ForgotPasswordLayout(), messagesByLocale, LoginLayout(), messagesByLocale (+3 more)
 
-### Community 75 - "site-header.tsx"
-Cohesion: 0.38
-Nodes (5): switchLocaleInPathname(), LS_KEYS, LOCALES, LocaleSwitcher(), SiteHeader()
+### Community 75 - "Link"
+Cohesion: 0.12
+Nodes (19): ResetPasswordPage(), ResetPasswordContent(), ForgotPasswordContent(), ForgotPasswordPage(), HowItWorksContent(), HowItWorksPage(), NotFoundPage(), PricingPage() (+11 more)
 
 ### Community 76 - "RequestSubscriptionModal.tsx"
-Cohesion: 0.15
-Nodes (20): useCreateRequestSubscription(), useUpdateRequestSubscription(), NotificationChannel, EMAIL, IN_APP, TELEGRAM, ICategoryPreference, INewRequestsPreference (+12 more)
+Cohesion: 0.11
+Nodes (13): CategoryChipsSelect(), NewRequestsPreferenceForm(), NewRequestsPreferenceFormProps, NotificationChannelsSelect(), NotificationChannelsSelectProps, CATEGORY_OPTIONS, NotificationFilters(), NotificationFiltersProps (+5 more)
 
 ### Community 77 - "Основні сутності"
 Cohesion: 0.14
@@ -495,12 +506,12 @@ Cohesion: 0.38
 Nodes (6): Marker(), ProgressBar(), Stepper(), StepperStep, StepStatus, WizardFooter()
 
 ### Community 80 - "profile/[id]/page.tsx"
-Cohesion: 0.20
+Cohesion: 0.21
 Nodes (10): generateMetadata(), getDisplayName(), getProfile, ProfileIdPage(), ProfileLookup, Props, revalidate, ProfileContent() (+2 more)
 
-### Community 81 - "ModerationSubscriptions.tsx"
-Cohesion: 0.23
-Nodes (6): AdminModerationSubscriptionsPage(), adminNotificationService, filterMock(), EnabledFilter, ModerationSubscriptions(), TelegramFilter
+### Community 81 - "Пагінація в додатку"
+Cohesion: 0.12
+Nodes (16): API UniversalPagination, API useQueryPagination, Checklist для нової пагінації, Архітектура пагінації, Ключові файли, Конвенції, Крок 1. Типи запиту та відповіді (entities), Крок 2. Сервіс (entities) (+8 more)
 
 ### Community 82 - "tooltip.tsx"
 Cohesion: 0.33
@@ -515,8 +526,8 @@ Cohesion: 0.67
 Nodes (3): lint-staged, *.{json,md,yml,yaml}, *.{ts,tsx}
 
 ### Community 85 - "api.ts"
-Cohesion: 0.22
-Nodes (4): failedQueue, MUTATION_METHODS, revalidateAfterMutation(), apiBaseUrl
+Cohesion: 0.20
+Nodes (5): failedQueue, MUTATION_METHODS, revalidateAfterMutation(), apiBaseUrl, LS_KEYS
 
 ### Community 86 - "sheet.tsx"
 Cohesion: 0.25
@@ -531,8 +542,8 @@ Cohesion: 0.18
 Nodes (11): 10. Статичні сторінки, 1. Головна сторінка (`/`), 2. Перегляд запитів (`/browse`), 3. Створення запиту (`/create`), 4. Деталі запиту (`/request/[id]`), 5. Деталі пропозиції (`/proposal/[id]`), 6. Профіль користувача (`/profile`), 7. Авторизація (`/login`, `/register`) (+3 more)
 
 ### Community 89 - "Правила та конвенції"
-Cohesion: 0.33
-Nodes (6): 1. Найменування, 2. Імпорти, 3. Експорти, 4. Типізація, 6. Стан завантаження, Правила та конвенції
+Cohesion: 0.29
+Nodes (7): 1. Найменування, 2. Імпорти, 3. Експорти, 4. Типізація, 5. Обробка помилок, 6. Стан завантаження, Правила та конвенції
 
 ### Community 90 - "about/layout.tsx"
 Cohesion: 0.38
@@ -550,9 +561,9 @@ Nodes (4): ContactLayout(), messagesByLocale, messages, messages
 Cohesion: 0.38
 Nodes (4): messagesByLocale, PricingLayout(), messages, messages
 
-### Community 94 - "typography.tsx"
-Cohesion: 0.40
-Nodes (5): DescriptionItem(), Heading(), HeadingProps, headingVariants, TextLink
+### Community 94 - "[locale]/layout.tsx"
+Cohesion: 0.14
+Nodes (11): @next/third-parties, @vercel/analytics, generateMetadata(), inter, messagesByLocale, Props, RootLayout(), Providers() (+3 more)
 
 ### Community 95 - "terms/layout.tsx"
 Cohesion: 0.38
@@ -563,56 +574,76 @@ Cohesion: 0.17
 Nodes (11): Правила залежностей (Import Rules), Структура проєкту (Feature-Sliced Design), Next.js FSD App, Path Aliases, Встановлення, Додаткова інформація, Запуск, Правила залежностей (Import Rules) (+3 more)
 
 ### Community 98 - "api"
-Cohesion: 0.32
-Nodes (5): ContactContent(), contactService, IContactRequest, api, ENDPOINTS
+Cohesion: 0.38
+Nodes (4): contactService, IContactRequest, api, ENDPOINTS
 
 ### Community 102 - "proposal/const.ts"
 Cohesion: 0.40
 Nodes (4): PROPOSAL_DELIVERY_TIME, PROPOSAL_DELIVERY_TIME_LABELS, PROPOSAL_WARRANTY, PROPOSAL_WARRANTY_LABELS
 
-### Community 103 - "CancelAcceptedProposalModal.tsx"
-Cohesion: 0.60
-Nodes (3): useCancelAcceptedProposal(), CancelAcceptedProposalModal(), CancelAcceptedProposalModalProps
+### Community 103 - "requestSchema.ts"
+Cohesion: 0.19
+Nodes (10): HOME_LATEST_REQUESTS_LIMIT, REQUEST_STATUS_BADGE_VARIANT, REQUEST_STATUS_LABELS, REQUEST_URGENCY, useLatestRequests(), useRequests(), createRequestSchema, getRequestsResponseSchema (+2 more)
 
 ### Community 104 - "Документація Backend API для проєкту shukayu"
 Cohesion: 0.20
 Nodes (9): Storage Strategy, Висновок, Документація Backend API для проєкту shukayu, Діаграма flow створення запиту → пропозиції → угоди, Завантаження зображень, Зміст, Обмеження, Структура бази даних (+1 more)
 
-### Community 105 - "CancelProposalModal.tsx"
-Cohesion: 0.60
-Nodes (3): useCancelProposal(), CancelProposalModal(), CancelProposalModalProps
+### Community 105 - "[locale]/page.tsx"
+Cohesion: 0.18
+Nodes (4): generateMetadata(), getLatestRequests(), HomePage(), revalidate
 
-### Community 106 - "RejectProposalModal.tsx"
-Cohesion: 0.60
-Nodes (3): useRejectProposal(), RejectProposalModal(), RejectProposalModalProps
+### Community 106 - "Faq.tsx"
+Cohesion: 0.29
+Nodes (5): StatusGuide(), StatusItem(), getFaqPageJsonLd(), Faq(), FAQ_KEYS
 
 ### Community 107 - "Роутинг (React Router v7)"
 Cohesion: 0.50
 Nodes (4): Конфігурація, Навігація:, Особливості:, Роутинг (React Router v7)
 
-### Community 110 - "Форми (React Hook Form)"
-Cohesion: 0.67
-Nodes (3): Валідація:, Патерн використання:, Форми (React Hook Form)
+### Community 108 - "next"
+Cohesion: 0.15
+Nodes (6): nextConfig, SECURITY_HEADERS, next, contentType, size, dynamic
 
-### Community 111 - "Тестування (майбутнє)"
-Cohesion: 0.67
-Nodes (3): Рекомендована структура:, Тестування (майбутнє), Інструменти:
+### Community 110 - "route-metadata.ts"
+Cohesion: 0.25
+Nodes (8): defaultMetadata, routeMetadata, localizedUrl(), metadataByLocale, NOINDEX_ROUTES, OG_LOCALE, defaultMetadata, routeMetadata
+
+### Community 111 - "notificationSchema.ts"
+Cohesion: 0.25
+Nodes (7): categoryPreferenceSchema, newRequestsPreferenceSchema, notificationCategorySchema, notificationChannelSchema, notificationPreferencesSchema, notificationSchemaRaw, requestSubscriptionSchema
+
+### Community 112 - "1. Пріоритет P0 — SEO-каркас (без нього UGC не «полетить»)"
+Cohesion: 0.40
+Nodes (5): 1.1. Дерево посадкових сторінок: локаль → місто → категорія → підкатегорія, 1.2. Контент посадкової категорії (не порожній лістинг), 1.3. Авто-шаблони мета-тегів + ручний override, 1. Пріоритет P0 — SEO-каркас (без нього UGC не «полетить»), generateStaticParams()
+
+### Community 113 - "2. Пріоритет P0 — Картки виконавців (E-E-A-T)"
+Cohesion: 0.40
+Nodes (5): 2.1. SEO-URL і індексація профілів, 2.2. Контент картки (те, що любить Google), 2.3. Синергія профіль ↔ категорія, 2. Пріоритет P0 — Картки виконавців (E-E-A-T), robots()
+
+### Community 114 - "3. Пріоритет P1 — Запити як long-tail контент"
+Cohesion: 0.50
+Nodes (4): 3.1. Теги та кластеризація, 3.2. Архівування замість видалення, 3.3. Мікророзмітка сторінки запиту, 3. Пріоритет P1 — Запити як long-tail контент
 
 ### Community 120 - "Аутентифікація та авторизація"
 Cohesion: 0.25
 Nodes (8): Access Token, JWT Токени, Refresh Token, Аутентифікація та авторизація, Діаграма flow авторизації, Захищені routes, Механізм оновлення токенів, Профілі та права
 
-### Community 124 - "shared/utils/index.ts"
-Cohesion: 0.16
-Nodes (13): 5. Обробка помилок, ACCEPTED_IMAGE_ACCEPT_ATTR, ACCEPTED_IMAGE_TYPES, MAX_IMAGES, downloadFile(), ACCEPTED_EXTENSIONS, EXT_TO_MIME, getFileExtension() (+5 more)
+### Community 121 - "TypeScript конфігурація"
+Cohesion: 0.67
+Nodes (3): Path Aliases:, TypeScript конфігурація, Використання:
+
+### Community 122 - "Змінні оточення"
+Cohesion: 0.67
+Nodes (3): Використання:, Змінні оточення, Конфігурація:
 
 ### Community 125 - "Патерни та практики"
 Cohesion: 0.33
 Nodes (6): 1. Кастомні хуки, 2. Higher-Order Components, 3. Селектори для оптимізації, 4. Abort Controller для cleanup, 5. Error Boundaries (майбутнє), Патерни та практики
 
 ### Community 135 - "locale.ts"
-Cohesion: 0.18
-Nodes (15): alt, contentType, OpengraphImage(), runtime, size, defaultLocale, isLocale(), LOCALE_COOKIE (+7 more)
+Cohesion: 0.14
+Nodes (19): alt, contentType, OpengraphImage(), runtime, size, defaultLocale, isLocale(), LOCALE_COOKIE (+11 more)
 
 ### Community 136 - "Оптимізація"
 Cohesion: 0.40
@@ -670,13 +701,13 @@ Nodes (11): 10. Мобільні винятки (`&lt; md`), 11. Доступн�
 Cohesion: 0.15
 Nodes (13): 10. Що свідомо не змінюємо цим файлом, 1. Принципи, 3.1. Шкала, 3. Типографіка, 4.1. Правила сусідства (як елементи стоять один до одного), 4. Відступи (spacing), 5. Радіуси, рамки, іконки, 6.1. Публічний shell (гостьовий) (+5 more)
 
-### Community 179 - "CardHeader"
-Cohesion: 0.17
-Nodes (10): AdminContentBlogPage(), AdminContentPricingPage(), AdminModerationProposalsPage(), AdminModerationRequestsPage(), ApproveRejectActions(), PermissionGate(), ContentBlog(), ContentPricing() (+2 more)
+### Community 179 - "ModerationSubscriptions.tsx"
+Cohesion: 0.10
+Nodes (8): recharts, RolePreviewSelect(), PIE_COLORS, EnabledFilter, TelegramFilter, Filter, NUMBER_LOCALE, Conversation
 
 ### Community 181 - "NotificationSettingsContent.tsx"
-Cohesion: 0.13
-Nodes (14): useDeleteRequestSubscription(), useNotificationPreferences(), useRequestSubscriptions(), useUpdateNotificationPreferences(), NotificationPreferencesSection(), RequestSubscriptionCard(), RequestSubscriptionCardProps, AccountMessagesSection() (+6 more)
+Cohesion: 0.12
+Nodes (7): AccountMessagesSection(), BUYER_CATEGORIES, NotificationSettingsContent(), PreferenceList(), ProfilePreferencesSection(), SELLER_CATEGORIES, SellerPreferencesSection()
 
 ### Community 183 - "4. Випадаючі поверхні"
 Cohesion: 0.29
@@ -703,24 +734,24 @@ Cohesion: 0.40
 Nodes (5): 8.1. Dialog, 8.2. Alert dialog, 8.3. Sheet і Drawer, 8.4. Toast vs Alert vs Empty vs Dialog помилки, 8. Модалки та панелі
 
 ## Knowledge Gaps
-- **67 isolated node(s):** `{ GET, POST }`, `@radix-ui/react-toast`, `embla-carousel-react`, `NEW`, `USED` (+62 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 833 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **15 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **67 isolated node(s):** `{ GET, POST }`, `NEW`, `USED`, `autoprefixer`, `cmdk` (+62 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 944 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **20 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `LinguiProvider` to `[city]/page.tsx`, `category/index.ts`, `cn`, `CreateRequestForm.tsx`, `Button`, `proposal/layout.tsx`, `UiKitContent.tsx`, `@lingui/react`, `breadcrumbs.tsx`, `entities/user/index.ts`, `alert-dialog.tsx`, `entities/auth/index.ts`, `discussions/index.ts`, `alert.tsx`, `ProposalList.tsx`, `src_shared_ui_select_select`, `form.tsx`, `request/[id]/page.tsx`, `ModerationUsers.tsx`, `JsonLd`, `StaffTable.tsx`, `NotificationsTabContent.tsx`, `ProfileTabs.tsx`, `package.json`, `AdminShell.tsx`, `@lingui/react`, `privacy/layout.tsx`, `review/index.ts`, `CardHeader`, `support/layout.tsx`, `lucide-react`, `NotificationSettingsContent.tsx`, `RequestDetailContent.tsx`, `request/index.ts`, `card.tsx`, `admin/layout.tsx`, `utils.ts`, `site-header.tsx`, `RequestSubscriptionModal.tsx`, `@lingui/core`, `stepper.tsx`, `profile/[id]/page.tsx`, `ModerationSubscriptions.tsx`, `tooltip.tsx`, `sheet.tsx`, `about/layout.tsx`, `blog/layout.tsx`, `contact/layout.tsx`, `pricing/layout.tsx`, `typography.tsx`, `terms/layout.tsx`, `api`, `ModerationReports.tsx`?**
-  _High betweenness centrality (0.213) - this node is a cross-community bridge._
-- **What connects `{ GET, POST }`, `@radix-ui/react-toast`, `embla-carousel-react` to the rest of the system?**
+- **Why does `react` connect `proposal/layout.tsx` to `[city]/page.tsx`, `category/index.ts`, `cn`, `CreateRequestForm.tsx`, `Button`, `locale.ts`, `UiKitContent.tsx`, `routes.ts`, `src_ui_v2_index_button`, `breadcrumbs.tsx`, `alert-dialog.tsx`, `RequestInfo.tsx`, `alert.tsx`, `authStore.ts`, `form.tsx`, `entities/admin/index.ts`, `request/[id]/page.tsx`, `JsonLd`, `package.json`, `AdminShell.tsx`, `@lingui/react`, `privacy/layout.tsx`, `ModerationSubscriptions.tsx`, `ui-v2/index.ts`, `support/layout.tsx`, `NotificationSettingsContent.tsx`, `RequestDetailContent.tsx`, `request/index.ts`, `ProfileSettings.tsx`, `card.tsx`, `admin/layout.tsx`, `utils.ts`, `NotificationsTabContent.tsx`, `ProfileTabs.tsx`, `LinguiProvider`, `RequestSubscriptionModal.tsx`, `@lingui/core`, `stepper.tsx`, `profile/[id]/page.tsx`, `Пагінація в додатку`, `tooltip.tsx`, `sheet.tsx`, `about/layout.tsx`, `blog/layout.tsx`, `contact/layout.tsx`, `pricing/layout.tsx`, `terms/layout.tsx`, `requestSchema.ts`, `checkbox.tsx`?**
+  _High betweenness centrality (0.154) - this node is a cross-community bridge._
+- **What connects `{ GET, POST }`, `NEW`, `USED` to the rest of the system?**
   _67 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `[city]/page.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.13765182186234817 - nodes in this community are weakly interconnected._
+- **Why does `Message` connect `Чат та повідомлення` to `ModerationSubscriptions.tsx`?**
+  _High betweenness centrality (0.069) - this node is a cross-community bridge._
 - **Should `getLocaleFromHeaders` be split into smaller, more focused modules?**
-  _Cohesion score 0.09639953542392567 - nodes in this community are weakly interconnected._
-- **Why does `@lingui/react` connect `@lingui/react` to `getLocaleFromHeaders`, `CreateRequestForm.tsx`, `Button`, `proposal/layout.tsx`, `@tanstack/react-query`, `breadcrumbs.tsx`, `entities/user/index.ts`, `discussions/index.ts`, `BlogArticleContent.tsx`, `ProposalList.tsx`, `src_shared_ui_select_select`, `notification/index.ts`, `ModerationUsers.tsx`, `JsonLd`, `StaffTable.tsx`, `NotificationsTabContent.tsx`, `ProfileTabs.tsx`, `package.json`, `AdminShell.tsx`, `@lingui/react`, `review/index.ts`, `lucide-react`, `NotificationSettingsContent.tsx`, `CardHeader`, `RequestDetailContent.tsx`, `request/index.ts`, `utils.ts`, `site-header.tsx`, `RequestSubscriptionModal.tsx`, `profile/[id]/page.tsx`, `ModerationSubscriptions.tsx`, `ContentPages.tsx`, `api`, `ModerationReports.tsx`, `CancelAcceptedProposalModal.tsx`, `CancelProposalModal.tsx`, `RejectProposalModal.tsx`?**
-  _High betweenness centrality (0.106) - this node is a cross-community bridge._
+  _Cohesion score 0.09840425531914894 - nodes in this community are weakly interconnected._
 - **Should `cn` be split into smaller, more focused modules?**
-  _Cohesion score 0.10887096774193548 - nodes in this community are weakly interconnected._
-- **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.068) - this node is a cross-community bridge._
+  _Cohesion score 0.07897793263646923 - nodes in this community are weakly interconnected._
 - **Should `CreateRequestForm.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.06352941176470588 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05231724796942188 - nodes in this community are weakly interconnected._
