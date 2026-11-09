@@ -5,20 +5,29 @@ import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
 import { adminBlogPosts, type IAdminBlogPost } from '@/entities/admin';
 import { PermissionGate } from '@/features/admin';
-import { Badge } from '@shared/ui/badge';
-import { Button } from '@shared/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@shared/ui/dialog';
-import { Input } from '@shared/ui/input';
-import { Label } from '@shared/ui/label';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shared/ui/table';
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  Input,
+  Label,
+  Modal,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  ModalTrigger,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/ui-v2';
 
 export function ContentBlog() {
   const { i18n } = useLingui();
@@ -29,20 +38,20 @@ export function ContentBlog() {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
+      <CardHead className="flex flex-row items-start justify-between gap-4 space-y-0">
         <div>
           <CardTitle>{t('admin.content.blog.title')}</CardTitle>
           <CardDescription>{t('admin.content.blog.description')}</CardDescription>
         </div>
         <PermissionGate permission="content.blog">
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
+          <Modal open={open} onOpenChange={setOpen}>
+            <ModalTrigger asChild>
               <Button>{t('admin.content.create')}</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{t('admin.content.blog.createTitle')}</DialogTitle>
-              </DialogHeader>
+            </ModalTrigger>
+            <ModalContent>
+              <ModalHeader>
+                <ModalTitle>{t('admin.content.blog.createTitle')}</ModalTitle>
+              </ModalHeader>
               <div className="space-y-2">
                 <Label htmlFor="blog-title">{t('admin.content.blog.fieldTitle')}</Label>
                 <Input
@@ -52,7 +61,7 @@ export function ContentBlog() {
                   placeholder={t('admin.content.blog.fieldTitlePlaceholder')}
                 />
               </div>
-              <DialogFooter>
+              <ModalFooter>
                 <Button variant="outline" onClick={() => setOpen(false)}>
                   {t('admin.content.cancel')}
                 </Button>
@@ -75,12 +84,12 @@ export function ContentBlog() {
                 >
                   {t('admin.content.save')}
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </PermissionGate>
-      </CardHeader>
-      <CardContent>
+      </CardHead>
+      <CardBody>
         <Table>
           <TableHeader>
             <TableRow>
@@ -95,7 +104,7 @@ export function ContentBlog() {
               <TableRow key={post.id}>
                 <TableCell className="font-medium">{post.title}</TableCell>
                 <TableCell>
-                  <Badge variant={post.status === 'published' ? 'success' : 'secondary'}>
+                  <Badge tone={post.status === 'published' ? 'success' : 'neutral'}>
                     {t(`admin.content.blog.status.${post.status}`)}
                   </Badge>
                 </TableCell>
@@ -115,7 +124,7 @@ export function ContentBlog() {
             ))}
           </TableBody>
         </Table>
-      </CardContent>
+      </CardBody>
     </Card>
   );
 }

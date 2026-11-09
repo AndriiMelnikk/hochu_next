@@ -1,11 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/card';
-import { Input } from '@shared/ui/input';
-import { Button } from '@shared/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
-import { ScrollArea } from '@shared/ui/scroll-area';
 import { Send, Search, MoreVertical } from 'lucide-react';
-import { Badge } from '@shared/ui/badge';
+import { Badge, Button, Card, CardBody, CardHead, CardTitle, Input, Avatar } from '@/ui-v2';
 
 interface Message {
   id: number;
@@ -143,90 +138,90 @@ const Chat = () => {
     <div className="grid md:grid-cols-[350px_1fr] gap-6 h-[600px]">
       {/* Список розмов */}
       <Card>
-        <CardHeader>
+        <CardHead>
           <CardTitle>Повідомлення</CardTitle>
           <div className="relative mt-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-v2-muted" />
             <Input placeholder="Пошук розмов..." className="pl-9" />
           </div>
-        </CardHeader>
-        <CardContent className="p-0">
-          <ScrollArea className="h-[480px]">
+        </CardHead>
+        <CardBody className="p-0">
+          <div className="overflow-y-auto h-[480px]">
             {conversations.map((conv) => (
               <div
                 key={conv.id}
                 onClick={() => setSelectedChat(conv.id)}
-                className={`flex items-start gap-3 p-4 cursor-pointer transition-colors hover:bg-muted/50 border-b ${
-                  selectedChat === conv.id ? 'bg-muted' : ''
+                className={`flex items-start gap-3 p-4 cursor-pointer transition-colors hover:bg-v2-surface-subtle border-b ${
+                  selectedChat === conv.id ? 'bg-v2-surface-subtle' : ''
                 }`}
               >
                 <div className="relative">
-                  <Avatar>
-                    <AvatarImage src={conv.avatar} />
-                    <AvatarFallback className="bg-gradient-primary text-white">
-                      {conv.name
+                  <Avatar
+                    src={conv.avatar}
+                    fallback={String(
+                      conv.name
                         .split(' ')
                         .map((n) => n[0])
-                        .join('')}
-                    </AvatarFallback>
-                  </Avatar>
+                        .join('') ?? '',
+                    ).charAt(0)}
+                  />
                   {conv.online && (
-                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-v2-surface" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-medium truncate">{conv.name}</span>
-                    <span className="text-xs text-muted-foreground">{conv.time}</span>
+                    <span className="text-xs text-v2-muted">{conv.time}</span>
                   </div>
-                  <p className="text-sm text-muted-foreground truncate">{conv.lastMessage}</p>
+                  <p className="text-sm text-v2-muted truncate">{conv.lastMessage}</p>
                 </div>
-                {conv.unread > 0 && <Badge className="bg-primary">{conv.unread}</Badge>}
+                {conv.unread > 0 && <Badge className="bg-v2-primary">{conv.unread}</Badge>}
               </div>
             ))}
-          </ScrollArea>
-        </CardContent>
+          </div>
+        </CardBody>
       </Card>
 
       {/* Вікно чату */}
       <Card>
-        <CardHeader className="border-b">
+        <CardHead className="border-b">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <Avatar>
-                  <AvatarImage src={selectedConversation?.avatar} />
-                  <AvatarFallback className="bg-gradient-primary text-white">
-                    {selectedConversation?.name
+                <Avatar
+                  src={selectedConversation?.avatar}
+                  fallback={String(
+                    selectedConversation?.name
                       .split(' ')
                       .map((n) => n[0])
-                      .join('')}
-                  </AvatarFallback>
-                </Avatar>
+                      .join('') ?? '',
+                  ).charAt(0)}
+                />
                 {selectedConversation?.online && (
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-v2-surface" />
                 )}
               </div>
               <div>
                 <h3 className="font-semibold">{selectedConversation?.name}</h3>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-v2-muted">
                   {selectedConversation?.online ? 'В мережі' : 'Не в мережі'}
                 </p>
               </div>
             </div>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" shape="circle">
               <MoreVertical className="h-5 w-5" />
             </Button>
           </div>
-        </CardHeader>
-        <CardContent className="p-0 flex flex-col">
-          <ScrollArea className="flex-1 h-[440px] p-4" ref={scrollRef}>
+        </CardHead>
+        <CardBody className="p-0 flex flex-col">
+          <div className="overflow-y-auto flex-1 h-[440px] p-4" ref={scrollRef}>
             <div className="space-y-4">
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.isOwn ? 'justify-end' : 'justify-start'}`}>
                   <div
-                    className={`max-w-[70%] rounded-lg p-3 ${
-                      msg.isOwn ? 'bg-primary text-primary-foreground' : 'bg-muted'
+                    className={`max-w-[70%] rounded-v2-lg p-3 ${
+                      msg.isOwn ? 'bg-v2-primary text-v2-on-primary' : 'bg-v2-surface-subtle'
                     }`}
                   >
                     <p className="text-sm">{msg.text}</p>
@@ -235,7 +230,7 @@ const Chat = () => {
                 </div>
               ))}
             </div>
-          </ScrollArea>
+          </div>
 
           <div className="border-t p-4">
             <div className="flex gap-2">
@@ -245,12 +240,12 @@ const Chat = () => {
                 onChange={(e) => setMessageText(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
               />
-              <Button onClick={handleSendMessage} variant="gradient">
+              <Button onClick={handleSendMessage}>
                 <Send className="h-4 w-4" />
               </Button>
             </div>
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
     </div>
   );

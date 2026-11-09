@@ -1,9 +1,9 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
-import { Button } from '@shared/ui/button';
 import { useLingui } from '@lingui/react';
 import { buildGoogleAuthCallbackUrl } from '../lib/returnUrl';
+import { Button } from '@/ui-v2';
 
 type GoogleSignInButtonProps = {
   returnUrl?: string | null;

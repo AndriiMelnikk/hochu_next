@@ -12,10 +12,25 @@ import {
   YAxis,
 } from 'recharts';
 import { trafficAnalytics, type AnalyticsRange } from '@/entities/admin';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shared/ui/table';
 import { useCurrentLocale } from '@shared/ui/link';
+import {
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/ui-v2';
 
 const NUMBER_LOCALE = { uk: 'uk-UA', en: 'en-US' } as const;
 
@@ -36,9 +51,9 @@ function MetricBars({
         <li key={item.label} className="space-y-1.5">
           <div className="flex items-center justify-between gap-3 text-sm">
             <span className="font-medium">{item.label}</span>
-            <span className="text-muted-foreground tabular-nums">{formatNumber(item.value)}</span>
+            <span className="text-v2-muted tabular-nums">{formatNumber(item.value)}</span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-muted">
+          <div className="h-2 overflow-hidden rounded-full bg-v2-surface-subtle">
             <div
               className={`h-full rounded-full ${barClassName}`}
               style={{ width: `${Math.round((item.value / max) * 100)}%` }}
@@ -65,7 +80,7 @@ export function TrafficAnalytics() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold">{t('admin.traffic.title')}</h2>
-          <p className="text-sm text-muted-foreground">{t('admin.traffic.description')}</p>
+          <p className="text-sm text-v2-muted">{t('admin.traffic.description')}</p>
         </div>
         <Select value={range} onValueChange={(v) => setRange(v as AnalyticsRange)}>
           <SelectTrigger className="w-[140px]">
@@ -81,43 +96,43 @@ export function TrafficAnalytics() {
 
       <div className="grid gap-6 md:grid-cols-3">
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardHead className="pb-2">
+            <CardTitle className="text-sm font-medium text-v2-muted">
               {t('admin.traffic.visitors')}
             </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{formatNumber(data.visitors)}</div>
-          </CardContent>
+          </CardHead>
+          <CardBody>
+            <div className="text-3xl font-[550]">{formatNumber(data.visitors)}</div>
+          </CardBody>
         </Card>
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardHead className="pb-2">
+            <CardTitle className="text-sm font-medium text-v2-muted">
               {t('admin.traffic.pageviews')}
             </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{formatNumber(data.pageviews)}</div>
-          </CardContent>
+          </CardHead>
+          <CardBody>
+            <div className="text-3xl font-[550]">{formatNumber(data.pageviews)}</div>
+          </CardBody>
         </Card>
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardHead className="pb-2">
+            <CardTitle className="text-sm font-medium text-v2-muted">
               {t('admin.traffic.online')}
             </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{data.onlineApprox}</div>
-          </CardContent>
+          </CardHead>
+          <CardBody>
+            <div className="text-3xl font-[550]">{data.onlineApprox}</div>
+          </CardBody>
         </Card>
       </div>
 
       <Card>
-        <CardHeader>
+        <CardHead>
           <CardTitle>{t('admin.traffic.trend')}</CardTitle>
           <CardDescription>{t('admin.traffic.trendDescription')}</CardDescription>
-        </CardHeader>
-        <CardContent className="h-72">
+        </CardHead>
+        <CardBody className="h-72">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={series}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -142,43 +157,43 @@ export function TrafficAnalytics() {
               />
             </LineChart>
           </ResponsiveContainer>
-        </CardContent>
+        </CardBody>
       </Card>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <CardHeader>
+          <CardHead>
             <CardTitle>{t('admin.traffic.sources')}</CardTitle>
-          </CardHeader>
-          <CardContent>
+          </CardHead>
+          <CardBody>
             <MetricBars
               formatNumber={formatNumber}
-              barClassName="bg-primary"
+              barClassName="bg-v2-primary"
               items={data.sources.map((row) => ({ label: row.ref, value: row.visits }))}
             />
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHead>
             <CardTitle>{t('admin.traffic.devices')}</CardTitle>
-          </CardHeader>
-          <CardContent>
+          </CardHead>
+          <CardBody>
             <MetricBars
               formatNumber={formatNumber}
-              barClassName="bg-foreground"
+              barClassName="bg-v2-ink"
               items={data.devices.map((row) => ({ label: row.device, value: row.visits }))}
             />
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <CardHeader>
+          <CardHead>
             <CardTitle>{t('admin.traffic.countries')}</CardTitle>
-          </CardHeader>
-          <CardContent>
+          </CardHead>
+          <CardBody>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -195,14 +210,14 @@ export function TrafficAnalytics() {
                 ))}
               </TableBody>
             </Table>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHead>
             <CardTitle>{t('admin.traffic.topPaths')}</CardTitle>
-          </CardHeader>
-          <CardContent>
+          </CardHead>
+          <CardBody>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -219,7 +234,7 @@ export function TrafficAnalytics() {
                 ))}
               </TableBody>
             </Table>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
     </div>

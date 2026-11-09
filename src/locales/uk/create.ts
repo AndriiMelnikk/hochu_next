@@ -9,6 +9,7 @@ export const messages: Messages = {
   'request.list.loadingError': 'Помилка завантаження',
   'request.list.foundPrefix': 'Знайдено',
   'request.list.foundSuffix': 'активних запитів',
+  'request.list.empty': 'Запитів за цими умовами не знайдено',
   'request.list.requestsError': 'Помилка завантаження запитів',
   'request.list.loadMore': 'Завантажити ще',
   'pagination.previous': 'Назад',

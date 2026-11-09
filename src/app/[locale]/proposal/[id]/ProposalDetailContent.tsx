@@ -1,10 +1,5 @@
 'use client';
 
-import { Button } from '@shared/ui/button';
-import { Badge } from '@shared/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
-import { Separator } from '@shared/ui/separator';
-import { Card, CardContent, CardHeader, CardTitle } from '@shared/ui/card';
 import { ProfileReviews } from '@/widgets/app/Reviews';
 import { Breadcrumbs } from '@shared/ui/breadcrumbs';
 import {
@@ -31,6 +26,7 @@ import { uk } from 'date-fns/locale';
 import { ItemCondition } from '@/entities/request';
 import { useLingui } from '@lingui/react';
 import { routes } from '@/app/router/routes';
+import { Badge, Button, Card, CardBody, CardHead, CardTitle, Separator, Avatar } from '@/ui-v2';
 
 export default function ProposalDetailContent({ id }: { id: string }) {
   const { i18n } = useLingui();
@@ -44,7 +40,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
   if (isProposalLoading || isRequestLoading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-v2-primary" />
       </div>
     );
   }
@@ -53,18 +49,18 @@ export default function ProposalDetailContent({ id }: { id: string }) {
     return (
       <div className="flex items-center justify-center p-4 min-h-[50vh]">
         <Card className="max-w-md w-full">
-          <CardHeader>
-            <CardTitle className="text-destructive flex items-center gap-2">
+          <CardHead>
+            <CardTitle className="text-v2-danger flex items-center gap-2">
               <XCircle className="h-5 w-5" />
               {t('proposal.detail.errorTitle')}
             </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">{t('proposal.detail.errorDescription')}</p>
+          </CardHead>
+          <CardBody>
+            <p className="text-v2-muted">{t('proposal.detail.errorDescription')}</p>
             <Button className="w-full mt-4" onClick={() => window.location.reload()}>
               {t('proposal.detail.errorRetry')}
             </Button>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
     );
@@ -76,7 +72,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
   };
 
   return (
-    <div className="container mx-auto px-4 max-w-7xl">
+    <div className="mx-auto w-full max-w-[1240px] px-4 md:px-6 max-w-7xl">
       <Breadcrumbs
         categoryId={request?.category.id}
         currentLabel={proposal.title}
@@ -87,11 +83,11 @@ export default function ProposalDetailContent({ id }: { id: string }) {
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
           {/* Header */}
-          <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
+          <div className="rounded-v2-2xl border border-v2-border bg-v2-surface p-6">
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
-                <h1 className="text-3xl font-bold mb-2 text-card-foreground">{proposal.title}</h1>
-                <p className="text-muted-foreground flex items-center">
+                <h1 className="text-3xl font-[550] mb-2 text-v2-ink">{proposal.title}</h1>
+                <p className="text-v2-muted flex items-center">
                   <Clock className="h-4 w-4 mr-1" />
                   {t('proposal.detail.createdAt', {
                     date: format(new Date(proposal.createdAt), 'd MMMM yyyy', { locale: uk }),
@@ -99,7 +95,7 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                 </p>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-bold text-primary">
+                <div className="text-3xl font-[550] text-v2-primary">
                   {t('proposal.detail.price', { price: proposal.price })}
                 </div>
               </div>
@@ -107,18 +103,18 @@ export default function ProposalDetailContent({ id }: { id: string }) {
 
             <div className="flex flex-wrap gap-2">
               {proposal.itemCondition && (
-                <Badge variant="secondary" className="bg-accent text-accent-foreground">
+                <Badge tone="neutral" className="bg-v2-hover text-v2-ink">
                   <Package className="h-3 w-3 mr-1" />
                   {conditionMap[proposal.itemCondition]}
                 </Badge>
               )}
               {proposal.warranty && (
-                <Badge variant="secondary" className="bg-accent text-accent-foreground">
+                <Badge tone="neutral" className="bg-v2-hover text-v2-ink">
                   <Shield className="h-3 w-3 mr-1" />
                   Гарантія: {proposal.warranty} міс.
                 </Badge>
               )}
-              <Badge variant="secondary" className="bg-accent text-accent-foreground">
+              <Badge tone="neutral" className="bg-v2-hover text-v2-ink">
                 <Clock className="h-3 w-3 mr-1" />
                 {proposal.estimatedTime} днів
               </Badge>
@@ -127,13 +123,13 @@ export default function ProposalDetailContent({ id }: { id: string }) {
 
           {/* Images Gallery */}
           {proposal.images && proposal.images.length > 0 && (
-            <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
+            <div className="rounded-v2-2xl border border-v2-border bg-v2-surface p-6">
               <h2 className="text-xl font-semibold mb-4">{t('proposal.detail.images.title')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {proposal.images.map((image, index) => (
                   <div
                     key={index}
-                    className="aspect-video rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer"
+                    className="aspect-video rounded-v2-lg overflow-hidden border border-v2-border hover:border-v2-primary transition-colors cursor-pointer"
                   >
                     <img
                       src={image}
@@ -149,23 +145,23 @@ export default function ProposalDetailContent({ id }: { id: string }) {
           )}
 
           {/* Description */}
-          <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
+          <div className="rounded-v2-2xl border border-v2-border bg-v2-surface p-6">
             <h2 className="text-xl font-semibold mb-4">{t('proposal.detail.description.title')}</h2>
-            <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
+            <div className="prose max-w-none text-v2-muted whitespace-pre-line">
               {proposal.description}
             </div>
           </div>
 
           {/* Original Request */}
           {request && (
-            <div className="bg-muted/30 rounded-2xl p-6 border border-border">
+            <div className="bg-v2-surface-subtle rounded-v2-2xl p-6 border border-v2-border">
               <h3 className="text-lg font-semibold mb-3 flex items-center">
-                <Calendar className="h-5 w-5 mr-2 text-primary" />
+                <Calendar className="h-5 w-5 mr-2 text-v2-primary" />
                 {t('proposal.detail.originalRequest.title')}
               </h3>
               <div className="space-y-2">
                 <p className="font-medium">{request.title}</p>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-4 text-sm text-v2-muted">
                   <span className="flex items-center">
                     <Wallet className="h-4 w-4 mr-1" />
                     {t('proposal.detail.originalRequest.budget', {
@@ -189,40 +185,41 @@ export default function ProposalDetailContent({ id }: { id: string }) {
 
           {/* Buyer Information */}
           {request?.buyerId && (
-            <Card className="border-2 border-primary/20">
-              <CardHeader>
+            <Card className="border-2 border-v2-primary">
+              <CardHead>
                 <CardTitle className="flex items-center gap-2">
-                  <User className="h-5 w-5 text-primary" />
+                  <User className="h-5 w-5 text-v2-primary" />
                   {t('proposal.detail.buyer.title')}
                 </CardTitle>
-              </CardHeader>
-              <CardContent>
+              </CardHead>
+              <CardBody>
                 <div className="flex items-start gap-4">
-                  <Avatar className="h-16 w-16">
-                    <AvatarImage src={request.buyerId.avatar || undefined} />
-                    <AvatarFallback>{request.buyerId.name?.[0]}</AvatarFallback>
-                  </Avatar>
+                  <Avatar
+                    className=" "
+                    src={request.buyerId.avatar || undefined}
+                    fallback={String(request.buyerId.name?.[0] ?? '').charAt(0)}
+                  />
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <h3 className="font-semibold text-lg">
                         {request.buyerId.name} {request.buyerId.lastName || ''}
                       </h3>
-                      {request.buyerId.isVerified && <Shield className="h-4 w-4 text-primary" />}
+                      {request.buyerId.isVerified && <Shield className="h-4 w-4 text-v2-primary" />}
                     </div>
-                    <p className="text-sm text-muted-foreground flex items-center mb-3">
+                    <p className="text-sm text-v2-muted flex items-center mb-3">
                       <MapPin className="h-3 w-3 mr-1" />
                       {request.buyerId.location || t('proposal.detail.buyer.locationUnknown')}
                     </p>
 
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <span className="text-muted-foreground">
+                        <span className="text-v2-muted">
                           {t('proposal.detail.buyer.ratingLabel')}
                         </span>
                         <div className="flex items-center gap-1">
-                          <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                          <Star className="h-4 w-4 text-v2-rating fill-v2-rating" />
                           <span className="font-semibold">{request.buyerId.rating || 0}</span>
-                          <span className="text-muted-foreground">
+                          <span className="text-v2-muted">
                             {t('proposal.detail.buyer.reviewsCount', {
                               count: request.buyerId.reviewsCount || 0,
                             })}
@@ -230,13 +227,13 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                         </div>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">
+                        <span className="text-v2-muted">
                           {t('proposal.detail.buyer.completedDeals')}
                         </span>
                         <span className="font-semibold">{request.buyerId.completedDeals || 0}</span>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">
+                        <span className="text-v2-muted">
                           {t('proposal.detail.seller.memberSince', {
                             date: '',
                           }).replace(/\s*$/, '')}
@@ -252,18 +249,18 @@ export default function ProposalDetailContent({ id }: { id: string }) {
                     </div>
                   </div>
                 </div>
-              </CardContent>
+              </CardBody>
             </Card>
           )}
 
           {/* Full Reviews Section */}
           <Card>
-            <CardHeader>
+            <CardHead>
               <CardTitle>{t('proposal.detail.reviews.title')}</CardTitle>
-            </CardHeader>
-            <CardContent>
+            </CardHead>
+            <CardBody>
               <ProfileReviews profileId={proposal.seller._id} />
-            </CardContent>
+            </CardBody>
           </Card>
         </div>
 
@@ -271,22 +268,23 @@ export default function ProposalDetailContent({ id }: { id: string }) {
         <div className="space-y-6">
           {/* Seller Card */}
           {proposal.seller && (
-            <div className="bg-card rounded-2xl p-6 shadow-md border border-border sticky top-24">
+            <div className="rounded-v2-2xl border border-v2-border bg-v2-surface p-6 sticky top-24">
               <h2 className="text-xl font-semibold mb-4">{t('proposal.detail.seller.title')}</h2>
 
               <div className="flex items-start mb-4">
-                <Avatar className="h-16 w-16 mr-4">
-                  <AvatarImage src={proposal.seller.avatar || undefined} />
-                  <AvatarFallback>{proposal.seller.name?.[0]}</AvatarFallback>
-                </Avatar>
+                <Avatar
+                  className="  mr-4"
+                  src={proposal.seller.avatar || undefined}
+                  fallback={String(proposal.seller.name?.[0] ?? '').charAt(0)}
+                />
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="font-semibold text-lg">
                       {proposal.seller.name} {proposal.seller.lastName || ''}
                     </h3>
-                    {proposal.seller.isVerified && <Shield className="h-4 w-4 text-primary" />}
+                    {proposal.seller.isVerified && <Shield className="h-4 w-4 text-v2-primary" />}
                   </div>
-                  <p className="text-sm text-muted-foreground flex items-center">
+                  <p className="text-sm text-v2-muted flex items-center">
                     <MapPin className="h-3 w-3 mr-1" />
                     {proposal.seller.location || t('proposal.detail.seller.locationUnknown')}
                   </p>
@@ -297,13 +295,11 @@ export default function ProposalDetailContent({ id }: { id: string }) {
 
               {/* Rating */}
               <div className="flex items-center justify-between mb-3">
-                <span className="text-sm text-muted-foreground">
-                  {t('proposal.detail.seller.rating')}
-                </span>
+                <span className="text-sm text-v2-muted">{t('proposal.detail.seller.rating')}</span>
                 <div className="flex items-center">
-                  <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 mr-1" />
+                  <Star className="h-4 w-4 text-v2-rating fill-v2-rating mr-1" />
                   <span className="font-semibold">{proposal.seller.rating || 0}</span>
-                  <span className="text-sm text-muted-foreground ml-1">
+                  <span className="text-sm text-v2-muted ml-1">
                     ({proposal.seller.reviewsCount || 0})
                   </span>
                 </div>
@@ -312,13 +308,13 @@ export default function ProposalDetailContent({ id }: { id: string }) {
               {/* Stats */}
               <div className="space-y-3 mb-4">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">
+                  <span className="text-v2-muted">
                     {t('proposal.detail.seller.completedDeals')}
                   </span>
                   <span className="font-semibold">{proposal.seller.completedDeals || 0}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">
+                  <span className="text-v2-muted">
                     {t('proposal.detail.seller.memberSince', {
                       date: '',
                     }).replace(/\s*$/, '')}
@@ -337,19 +333,19 @@ export default function ProposalDetailContent({ id }: { id: string }) {
 
               {/* Action Buttons */}
               <div className="space-y-3">
-                <Button variant="gradient" className="w-full shadow-glow" size="lg">
+                <Button className="w-full shadow-glow">
                   <CheckCircle className="mr-2 h-5 w-5" />
                   {t('proposal.detail.actions.accept')}
                 </Button>
 
-                <Button variant="outline" className="w-full" size="lg">
+                <Button variant="outline" className="w-full">
                   <MessageCircle className="mr-2 h-5 w-5" />
                   {t('proposal.detail.actions.message')}
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="w-full text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                  className="w-full text-v2-danger hover:bg-v2-danger hover:text-white"
                 >
                   <XCircle className="mr-2 h-5 w-5" />
                   {t('proposal.detail.actions.reject')}
@@ -357,8 +353,8 @@ export default function ProposalDetailContent({ id }: { id: string }) {
               </div>
 
               {/* Warning */}
-              <div className="mt-4 p-3 bg-accent/30 rounded-lg border border-accent">
-                <p className="text-xs text-accent-foreground">
+              <div className="mt-4 p-3 bg-v2-hover rounded-v2-lg border border-v2-border">
+                <p className="text-xs text-v2-ink">
                   <strong>{t('proposal.detail.tip.title')}</strong> {t('proposal.detail.tip.text')}
                 </p>
               </div>
@@ -367,25 +363,25 @@ export default function ProposalDetailContent({ id }: { id: string }) {
 
           {/* Quick Stats */}
           <Card>
-            <CardHeader>
+            <CardHead>
               <CardTitle className="text-lg">{t('proposal.detail.stats.title')}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
+            </CardHead>
+            <CardBody className="space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground flex items-center">
+                <span className="text-v2-muted flex items-center">
                   <Eye className="h-4 w-4 mr-1" />
                   {t('proposal.detail.stats.views')}
                 </span>
                 <span className="font-semibold">{request?.views || 0}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground flex items-center">
+                <span className="text-v2-muted flex items-center">
                   <Star className="h-4 w-4 mr-1" />
                   {t('proposal.detail.stats.sellerReviews')}
                 </span>
                 <span className="font-semibold">{proposal.seller?.reviewsCount || 0}</span>
               </div>
-            </CardContent>
+            </CardBody>
           </Card>
         </div>
       </div>

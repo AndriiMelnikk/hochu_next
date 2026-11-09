@@ -3,11 +3,9 @@
 import { useLingui } from '@lingui/react';
 import type { INewRequestsPreference } from '@/entities/notification';
 import { channelsForEnabled } from '@/entities/notification';
-import { Label } from '@/shared/ui/label';
-import { Switch } from '@/shared/ui/switch';
-import { CityCombobox } from '@/shared/ui/city-combobox';
 import { CategoryChipsSelect } from './CategoryChipsSelect';
 import { NotificationChannelsSelect } from './NotificationChannelsSelect';
+import { Label, Switch, CityCombobox } from '@/ui-v2';
 
 interface NewRequestsPreferenceFormProps {
   value: INewRequestsPreference;
@@ -32,7 +30,7 @@ export const NewRequestsPreferenceForm = ({
           <p className="text-sm font-medium leading-snug">
             {t('profile.notifications.categories.new_requests')}
           </p>
-          <p className="mt-0.5 text-xs text-muted-foreground leading-snug">
+          <p className="mt-0.5 text-xs text-v2-muted leading-snug">
             {t('profile.notifications.categories.new_requests.description')}
           </p>
         </div>

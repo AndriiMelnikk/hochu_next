@@ -4,8 +4,19 @@ import { useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { moderationProposals, type IModerationProposal } from '@/entities/admin';
 import { ApproveRejectActions, PermissionGate } from '@/features/admin';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shared/ui/table';
+import {
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/ui-v2';
 
 export function ModerationProposals() {
   const { i18n } = useLingui();
@@ -15,17 +26,15 @@ export function ModerationProposals() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHead>
         <CardTitle>{t('admin.proposals.title')}</CardTitle>
         <CardDescription>{t('admin.proposals.description')}</CardDescription>
-      </CardHeader>
-      <CardContent>
+      </CardHead>
+      <CardBody>
         {pending.length === 0 ? (
           <div className="flex flex-col items-center py-12 text-center">
             <p className="text-base font-semibold">{t('admin.empty.title')}</p>
-            <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-              {t('admin.empty.proposals')}
-            </p>
+            <p className="mt-2 max-w-sm text-sm text-v2-muted">{t('admin.empty.proposals')}</p>
           </div>
         ) : (
           <Table>
@@ -68,7 +77,7 @@ export function ModerationProposals() {
             </TableBody>
           </Table>
         )}
-      </CardContent>
+      </CardBody>
     </Card>
   );
 }

@@ -4,9 +4,20 @@ import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
 import { adminInfoPages } from '@/entities/admin';
 import { PermissionGate } from '@/features/admin';
-import { Button } from '@shared/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shared/ui/table';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/ui-v2';
 
 export function ContentPages() {
   const { i18n } = useLingui();
@@ -14,11 +25,11 @@ export function ContentPages() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHead>
         <CardTitle>{t('admin.content.pages.title')}</CardTitle>
         <CardDescription>{t('admin.content.pages.description')}</CardDescription>
-      </CardHeader>
-      <CardContent>
+      </CardHead>
+      <CardBody>
         <Table>
           <TableHeader>
             <TableRow>
@@ -49,7 +60,7 @@ export function ContentPages() {
             ))}
           </TableBody>
         </Table>
-      </CardContent>
+      </CardBody>
     </Card>
   );
 }

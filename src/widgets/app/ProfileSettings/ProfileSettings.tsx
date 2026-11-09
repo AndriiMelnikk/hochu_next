@@ -7,15 +7,21 @@ import { useRequestStore } from '@entities/request';
 import { useLingui } from '@lingui/react';
 import { EditProfileForm, EditContactChannelsForm } from '@features/user';
 import { ChangePasswordModal } from '@features/auth';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Button } from '@shared/ui/button';
 import { routes } from '@/app/router/routes';
 import { toast } from 'sonner';
 import { PROFILE_HASH } from '@/widgets/app/ProfileTabs/const';
 
 import { Lock } from 'lucide-react';
-import { Loading } from '@/shared/ui/loading';
 import { NotificationSettingsContent } from '@/widgets/app/NotificationSettings';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  LoadingState,
+} from '@/ui-v2';
 
 const ProfileSettings = () => {
   const router = useLocalizedRouter();
@@ -55,12 +61,12 @@ const ProfileSettings = () => {
   };
 
   if (isLoading) {
-    return <Loading variant="full-page" />;
+    return <LoadingState className="min-h-[30vh]" />;
   }
 
   if (error || !user) {
     return (
-      <div className="p-8 text-center text-destructive">
+      <div className="p-8 text-center text-v2-danger">
         Сталася помилка при завантаженні даних профілю
       </div>
     );
@@ -70,73 +76,73 @@ const ProfileSettings = () => {
     <div className="space-y-6">
       {/* Особиста інформація */}
       <Card>
-        <CardHeader>
+        <CardHead>
           <CardTitle>{t('profile.edit.title')}</CardTitle>
           <CardDescription>{t('profile.edit.description')}</CardDescription>
-        </CardHeader>
-        <CardContent>
+        </CardHead>
+        <CardBody>
           <EditProfileForm user={user} />
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Канали зв&apos;язку */}
       <Card id="profile-contacts" className="scroll-mt-24">
-        <CardHeader>
+        <CardHead>
           <CardTitle>{t('profile.contacts.title')}</CardTitle>
           <CardDescription>{t('profile.contacts.description')}</CardDescription>
-        </CardHeader>
-        <CardContent>
+        </CardHead>
+        <CardBody>
           <EditContactChannelsForm user={user} />
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Verification Section */}
       <Card className="relative overflow-hidden">
-        <CardHeader className="opacity-50">
+        <CardHead className="opacity-50">
           <CardTitle>
             <p className="flex items-center gap-2">
-              <Lock className="h-5 w-5 text-muted-foreground" />{' '}
+              <Lock className="h-5 w-5 text-v2-muted" />{' '}
               {t('profile.verification.title') || 'Верифікація акаунту'}
             </p>
           </CardTitle>
           <CardDescription>{t('common.availableLater') || 'Буде доступно пізніше'}</CardDescription>
-        </CardHeader>
+        </CardHead>
       </Card>
 
       {/* Налаштування сповіщень / підписки */}
       <Card>
-        <CardHeader>
+        <CardHead>
           <CardTitle>{t('profile.notifications.title')}</CardTitle>
           <CardDescription>{t('profile.notifications.settingsDescription')}</CardDescription>
-        </CardHeader>
-        <CardContent>
+        </CardHead>
+        <CardBody>
           <NotificationSettingsContent />
-        </CardContent>
+        </CardBody>
       </Card>
 
       {/* Конфіденційність */}
       <Card>
-        <CardHeader>
+        <CardHead>
           <CardTitle>{t('profile.security.title') || 'Конфіденційність та безпека'}</CardTitle>
           <CardDescription>
             {t('profile.security.description') || 'Керуйте своїми даними та налаштуваннями безпеки'}
           </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+        </CardHead>
+        <CardBody className="space-y-6">
           <div className="pt-4 flex gap-2">
             <Button variant="outline" onClick={() => setIsChangePasswordOpen(true)}>
               {t('profile.security.changePassword') || 'Змінити пароль'}
             </Button>
             <Button
               variant="outline"
-              className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+              className="text-v2-danger hover:bg-v2-hover hover:text-v2-danger"
               onClick={handleLogout}
               disabled={isLoggingOut}
             >
               {t('auth.logout') || 'Вийти з акаунту'}
             </Button>
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
 
       <ChangePasswordModal open={isChangePasswordOpen} onOpenChange={setIsChangePasswordOpen} />

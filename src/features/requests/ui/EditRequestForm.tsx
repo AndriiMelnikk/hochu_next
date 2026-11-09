@@ -13,7 +13,6 @@ import { MAX_IMAGES, ACCEPTED_IMAGE_ACCEPT_ATTR, isAcceptedImageFile } from '@/s
 
 import { cn } from '@/lib/utils';
 import { useCategories } from '@/entities/category';
-import { CityCombobox } from '@/shared/ui/city-combobox';
 import {
   updateRequestSchema,
   requestService,
@@ -24,12 +23,8 @@ import {
   REQUEST_URGENCY,
   REQUEST_URGENCY_LABELS,
 } from '@/entities/request';
-import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
-import { Textarea } from '@/shared/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { CascadingSelect, type CascadingSelectItem } from '@/shared/ui/cascading-select';
 import {
+  Button,
   Form,
   FormControl,
   FormDescription,
@@ -37,7 +32,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/shared/ui/form';
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Textarea,
+  CityCombobox,
+  CascadingSelect,
+  type CascadingSelectItem,
+} from '@/ui-v2';
 
 const urgencyOptions = Object.values(REQUEST_URGENCY).map((value) => ({
   value,
@@ -324,7 +329,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base font-semibold flex items-center">
-                <FileText className="h-5 w-5 mr-2 text-primary" />
+                <FileText className="h-5 w-5 mr-2 text-v2-primary" />
                 {t('request.create.titleLabel')}
               </FormLabel>
               <FormControl>
@@ -346,7 +351,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base font-semibold flex items-center">
-                <Tag className="h-5 w-5 mr-2 text-primary" />
+                <Tag className="h-5 w-5 mr-2 text-v2-primary" />
                 {t('request.create.categoryLabel')}
               </FormLabel>
               <FormControl>
@@ -359,8 +364,6 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
                   clearable
                   placeholder={categoryPlaceholder}
                   emptyLabel={categoryEmptyLabel}
-                  backLabel={t('request.create.categoryBackLabel')}
-                  moreLabel={t('request.create.categoryMoreLabel')}
                   disabled={isCategoryDisabled || isSubmitting}
                   className="text-base"
                 />
@@ -397,7 +400,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-base font-semibold flex items-center">
-                  <Wallet className="h-5 w-5 mr-2 text-primary" />
+                  <Wallet className="h-5 w-5 mr-2 text-v2-primary" />
                   {t('request.create.budgetMinLabel')}
                 </FormLabel>
                 <FormControl>
@@ -446,7 +449,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="text-base font-semibold flex items-center">
-                <MapPin className="h-5 w-5 mr-2 text-primary" />
+                <MapPin className="h-5 w-5 mr-2 text-v2-primary" />
                 {t('request.create.locationLabel')}
               </FormLabel>
               <FormControl>
@@ -470,7 +473,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base font-semibold flex items-center">
-                <Clock className="h-5 w-5 mr-2 text-primary" />
+                <Clock className="h-5 w-5 mr-2 text-v2-primary" />
                 {t('request.create.urgencyLabel')}
               </FormLabel>
               <Select
@@ -499,7 +502,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base font-semibold flex items-center">
-                <Package className="h-5 w-5 mr-2 text-primary" />
+                <Package className="h-5 w-5 mr-2 text-v2-primary" />
                 {t('request.create.itemConditionLabel')}
               </FormLabel>
               <Select value={field.value} onValueChange={field.onChange} disabled={isSubmitting}>
@@ -525,7 +528,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
           render={() => (
             <FormItem>
               <FormLabel className="text-base font-semibold flex items-center">
-                <Upload className="h-5 w-5 mr-2 text-primary" />
+                <Upload className="h-5 w-5 mr-2 text-v2-primary" />
                 {t('request.create.filesLabel')}
               </FormLabel>
               <FormControl>
@@ -544,10 +547,10 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
                     role="button"
                     tabIndex={0}
                     className={cn(
-                      'border-2 border-dashed border-border rounded-lg p-8 text-center transition-colors cursor-pointer',
+                      'border-2 border-dashed border-v2-border rounded-v2-lg p-8 text-center transition-colors cursor-pointer',
                       isSubmitting || displayItems.length >= MAX_IMAGES
                         ? 'opacity-60 cursor-not-allowed'
-                        : 'hover:border-primary',
+                        : 'hover:border-v2-primary',
                     )}
                     onClick={() =>
                       !isSubmitting &&
@@ -561,15 +564,13 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
                       fileInputRef.current?.click()
                     }
                   >
-                    <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground mb-2">
-                      {t('request.create.filesHintPrimary')}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
+                    <Upload className="h-12 w-12 text-v2-muted mx-auto mb-4" />
+                    <p className="text-v2-muted mb-2">{t('request.create.filesHintPrimary')}</p>
+                    <p className="text-sm text-v2-muted">
                       {t('request.create.filesHintSecondary')}
                     </p>
                     {displayItems.length > 0 && (
-                      <p className="text-sm text-muted-foreground mt-2">
+                      <p className="text-sm text-v2-muted mt-2">
                         {displayItems.length}/{MAX_IMAGES}
                       </p>
                     )}
@@ -579,7 +580,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
                       {displayItems.map((item, index) => (
                         <div
                           key={item.type === 'existing' ? item.url : `${item.url}-${index}`}
-                          className="relative aspect-square rounded-lg overflow-hidden border border-border bg-muted group"
+                          className="relative aspect-square rounded-v2-lg overflow-hidden border border-v2-border bg-v2-surface-subtle group"
                         >
                           <Image
                             src={item.url}
@@ -592,7 +593,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
                           <button
                             type="button"
                             aria-label={t('request.create.filesRemove')}
-                            className="absolute top-2 right-2 rounded-sm bg-destructive text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
+                            className="absolute top-2 right-2 rounded-sm bg-v2-danger text-white p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
                             onClick={() => removeImage(index)}
                             disabled={isSubmitting}
                           >
@@ -609,19 +610,12 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
         />
 
         <div className="flex flex-col sm:flex-row gap-4 pt-6">
-          <Button
-            type="submit"
-            size="lg"
-            variant="gradient"
-            className="text-lg shadow-glow flex-1"
-            disabled={isSubmitting}
-          >
+          <Button type="submit" className="text-lg shadow-glow flex-1" disabled={isSubmitting}>
             {isSubmitting ? t('request.edit.submitting') : t('request.edit.submit')}
           </Button>
           {onCancel && (
             <Button
               type="button"
-              size="lg"
               variant="outline"
               className="flex-1"
               disabled={isSubmitting}

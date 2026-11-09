@@ -8,21 +8,26 @@ import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@shared/ui/dialog';
-import { Button } from '@shared/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@shared/ui/form';
-import { Input } from '@shared/ui/input';
-import {
   useChangePassword,
   changePasswordSchema,
   type IChangePasswordRequest,
 } from '@entities/auth';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from '@/ui-v2';
 
 interface ChangePasswordModalProps {
   open: boolean;
@@ -74,15 +79,15 @@ export const ChangePasswordModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t('profile.security.changePassword') || 'Змінити пароль'}</DialogTitle>
-          <DialogDescription>
+    <Modal open={open} onOpenChange={handleOpenChange}>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>{t('profile.security.changePassword') || 'Змінити пароль'}</ModalTitle>
+          <ModalDescription>
             {t('profile.security.changePasswordDescription') ||
               'Введіть старий та новий пароль для зміни.'}
-          </DialogDescription>
-        </DialogHeader>
+          </ModalDescription>
+        </ModalHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <FormField
@@ -121,7 +126,7 @@ export const ChangePasswordModal = ({
                 </FormItem>
               )}
             />
-            <DialogFooter>
+            <ModalFooter>
               <Button
                 type="button"
                 variant="outline"
@@ -140,10 +145,10 @@ export const ChangePasswordModal = ({
                   t('common.save') || 'Зберегти'
                 )}
               </Button>
-            </DialogFooter>
+            </ModalFooter>
           </form>
         </Form>
-      </DialogContent>
-    </Dialog>
+      </ModalContent>
+    </Modal>
   );
 };

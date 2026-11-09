@@ -1,7 +1,6 @@
 'use client';
 
 import { useLingui } from '@lingui/react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@shared/ui/dialog';
 import {
   Phone,
   Mail,
@@ -15,8 +14,8 @@ import {
 } from 'lucide-react';
 import { useUserContacts } from '@/entities/user/hooks/useUserContacts';
 import { ContactChannel } from '@/entities/user/types/User';
-import { Button } from '@shared/ui/button';
 import Link from '@/shared/ui/link';
+import { Button, Modal, ModalContent, ModalHeader, ModalTitle } from '@/ui-v2';
 
 interface ContactSellerModalProps {
   userId: string;
@@ -73,21 +72,19 @@ export const ContactSellerModal = ({ userId, open, onOpenChange }: ContactSeller
   const hasContacts = validContacts.length > 0;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>{t('proposal.contact.title')}</DialogTitle>
-        </DialogHeader>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent className="sm:max-w-md">
+        <ModalHeader>
+          <ModalTitle>{t('proposal.contact.title')}</ModalTitle>
+        </ModalHeader>
 
         <div className="py-4">
           {isLoading ? (
             <div className="flex justify-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <Loader2 className="h-8 w-8 animate-spin text-v2-primary" />
             </div>
           ) : !hasContacts ? (
-            <div className="text-center text-muted-foreground py-8">
-              {t('proposal.contact.noContacts')}
-            </div>
+            <div className="text-center text-v2-muted py-8">{t('proposal.contact.noContacts')}</div>
           ) : (
             <div className="grid gap-3">
               {validContacts.map(([channel, value]) => {
@@ -102,14 +99,12 @@ export const ContactSellerModal = ({ userId, open, onOpenChange }: ContactSeller
                     asChild
                   >
                     <Link href={href} target="_blank" rel="noopener noreferrer">
-                      <Icon className="h-5 w-5 mr-3 text-primary" />
+                      <Icon className="h-5 w-5 mr-3 text-v2-primary" />
                       <div className="flex flex-col items-start gap-0.5">
-                        <span className="font-medium capitalize text-foreground">
+                        <span className="font-medium capitalize text-v2-ink">
                           {t(`contact.channel.${channel}`)}
                         </span>
-                        <span className="text-sm text-muted-foreground font-normal break-all">
-                          {value}
-                        </span>
+                        <span className="text-sm text-v2-muted font-normal break-all">{value}</span>
                       </div>
                     </Link>
                   </Button>
@@ -118,7 +113,7 @@ export const ContactSellerModal = ({ userId, open, onOpenChange }: ContactSeller
             </div>
           )}
         </div>
-      </DialogContent>
-    </Dialog>
+      </ModalContent>
+    </Modal>
   );
 };

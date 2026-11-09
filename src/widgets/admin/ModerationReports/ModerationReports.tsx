@@ -5,10 +5,21 @@ import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
 import { moderationReports, type IModerationReport } from '@/entities/admin';
 import { PermissionGate } from '@/features/admin';
-import { Badge } from '@shared/ui/badge';
-import { Button } from '@shared/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shared/ui/table';
+import {
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/ui-v2';
 
 export function ModerationReports() {
   const { i18n } = useLingui();
@@ -18,17 +29,15 @@ export function ModerationReports() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHead>
         <CardTitle>{t('admin.reports.title')}</CardTitle>
         <CardDescription>{t('admin.reports.description')}</CardDescription>
-      </CardHeader>
-      <CardContent>
+      </CardHead>
+      <CardBody>
         {open.length === 0 ? (
           <div className="flex flex-col items-center py-12 text-center">
             <p className="text-base font-semibold">{t('admin.empty.title')}</p>
-            <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-              {t('admin.empty.reports')}
-            </p>
+            <p className="mt-2 max-w-sm text-sm text-v2-muted">{t('admin.empty.reports')}</p>
           </div>
         ) : (
           <Table>
@@ -48,9 +57,7 @@ export function ModerationReports() {
                   <TableCell>#{report.id}</TableCell>
                   <TableCell>
                     <div className="space-y-1">
-                      <Badge variant="outline">
-                        {t(`admin.reports.target.${report.targetType}`)}
-                      </Badge>
+                      <Badge tone="neutral">{t(`admin.reports.target.${report.targetType}`)}</Badge>
                       <p className="text-sm font-medium">{report.targetLabel}</p>
                     </div>
                   </TableCell>
@@ -80,7 +87,7 @@ export function ModerationReports() {
             </TableBody>
           </Table>
         )}
-      </CardContent>
+      </CardBody>
     </Card>
   );
 }

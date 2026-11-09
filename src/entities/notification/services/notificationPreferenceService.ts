@@ -12,7 +12,10 @@ class NotificationPreferenceService {
     profileId: string,
     config?: AxiosRequestConfig,
   ): Promise<INotificationPreferences> {
-    const response = await api.get(ENDPOINTS.NOTIFICATION_PREFERENCES.BY_PROFILE(profileId), config);
+    const response = await api.get(
+      ENDPOINTS.NOTIFICATION_PREFERENCES.BY_PROFILE(profileId),
+      config,
+    );
     return notificationPreferencesSchema.parse(response.data) as INotificationPreferences;
   }
 

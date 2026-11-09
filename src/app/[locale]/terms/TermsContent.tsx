@@ -98,14 +98,14 @@ export default function TermsContent() {
   ];
 
   return (
-    <div className="bg-background">
+    <div className="bg-v2-surface">
       {/* Hero Section */}
-      <section className="py-16 px-4 bg-muted/30">
+      <section className="py-16 px-4 bg-v2-surface-subtle">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-[550] mb-6 text-v2-primary">
             {t('terms.hero.title')}
           </h1>
-          <p className="text-lg text-muted-foreground">{t('terms.hero.lastUpdated')}</p>
+          <p className="text-lg text-v2-muted">{t('terms.hero.lastUpdated')}</p>
         </div>
       </section>
 
@@ -113,16 +113,19 @@ export default function TermsContent() {
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="prose prose-lg max-w-none">
-            <p className="text-lg text-muted-foreground mb-12">{t('terms.intro')}</p>
+            <p className="text-lg text-v2-muted mb-12">{t('terms.intro')}</p>
 
             <div className="space-y-12">
               {sections.map((section, index) => (
-                <div key={index} className="bg-card rounded-2xl p-8 shadow-sm border border-border">
-                  <h2 className="text-2xl font-bold mb-6">{section.title}</h2>
+                <div
+                  key={index}
+                  className="bg-v2-surface rounded-v2-2xl p-8 shadow-sm border border-v2-border"
+                >
+                  <h2 className="text-2xl font-[550] mb-6">{section.title}</h2>
                   <ul className="space-y-4">
                     {section.content.map((item, itemIndex) => (
-                      <li key={itemIndex} className="text-muted-foreground leading-relaxed flex">
-                        <span className="text-primary mr-3 flex-shrink-0">•</span>
+                      <li key={itemIndex} className="text-v2-muted leading-relaxed flex">
+                        <span className="text-v2-primary mr-3 flex-shrink-0">•</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -131,9 +134,9 @@ export default function TermsContent() {
               ))}
             </div>
 
-            <div className="mt-12 p-8 bg-muted/50 rounded-2xl border border-border">
+            <div className="mt-12 p-8 bg-v2-surface-subtle rounded-v2-2xl border border-v2-border">
               <h3 className="text-xl font-semibold mb-4">{t('terms.important.title')}</h3>
-              <p className="text-muted-foreground leading-relaxed">{t('terms.important.text')}</p>
+              <p className="text-v2-muted leading-relaxed">{t('terms.important.text')}</p>
             </div>
           </div>
         </div>

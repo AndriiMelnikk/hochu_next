@@ -4,13 +4,12 @@ import { useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { Plus } from 'lucide-react';
 
-import { Button } from '@shared/ui/button';
-import { Loading } from '@shared/ui/loading';
 import { useProfiles, type IProfile, type ProfileType } from '@entities/user';
 
 import { ProfileCard } from './ProfileCard';
 import { CreateProfileModal } from './CreateProfileModal';
 import { useProfileSwitch } from '../hooks/useProfileSwitch';
+import { Button, LoadingState } from '@/ui-v2';
 
 interface ProfilesSwitcherProps {
   /** Widget/page supplies the path so this feature does not import app or widgets. */
@@ -54,12 +53,12 @@ export function ProfilesSwitcher({
   };
 
   if (isLoading) {
-    return <Loading variant={compact ? 'block' : 'full-page'} />;
+    return <LoadingState className={compact ? undefined : 'min-h-[30vh]'} />;
   }
 
   if (error) {
     return (
-      <div className="p-8 text-center text-destructive">{t('profile.profiles.loadingError')}</div>
+      <div className="p-8 text-center text-v2-danger">{t('profile.profiles.loadingError')}</div>
     );
   }
 

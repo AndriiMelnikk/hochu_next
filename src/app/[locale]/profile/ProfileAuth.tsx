@@ -24,8 +24,8 @@ export default function ProfilePage() {
   if (isLoading || (isAuth && !user?.profile?._id)) {
     return (
       <div className="flex flex-col items-center justify-center py-24 min-h-[50vh]">
-        <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
-        <p className="text-muted-foreground">{t('request.create.categoriesLoading')}</p>
+        <Loader2 className="h-12 w-12 animate-spin text-v2-primary mb-4" />
+        <p className="text-v2-muted">{t('request.create.categoriesLoading')}</p>
       </div>
     );
   }

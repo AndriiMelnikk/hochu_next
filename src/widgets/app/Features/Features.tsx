@@ -1,77 +1,51 @@
 'use client';
 
-import { ShoppingBag, Users, Zap, Shield } from 'lucide-react';
+import { ShoppingBag, Shield, Users, Zap } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 
+import { Card, Container, Heading, Section } from '@/ui-v2';
+
 const features = [
-  {
-    icon: ShoppingBag,
-    titleKey: 'common.home.features.buyers.title',
-    descriptionKey: 'common.home.features.buyers.description',
-    color: 'text-primary',
-  },
-  {
-    icon: Users,
-    titleKey: 'common.home.features.sellers.title',
-    descriptionKey: 'common.home.features.sellers.description',
-    color: 'text-secondary',
-  },
-  {
-    icon: Zap,
-    titleKey: 'common.home.features.fastSimple.title',
-    descriptionKey: 'common.home.features.fastSimple.description',
-    color: 'text-primary',
-  },
-  {
-    icon: Shield,
-    titleKey: 'common.home.features.safe.title',
-    descriptionKey: 'common.home.features.safe.description',
-    color: 'text-secondary',
-  },
-];
+  { icon: ShoppingBag, key: 'buyers' },
+  { icon: Users, key: 'sellers' },
+  { icon: Zap, key: 'fastSimple' },
+  { icon: Shield, key: 'safe' },
+] as const;
 
 const Features = () => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
 
   return (
-    <section className="py-20 bg-muted/50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {t('common.home.features.title.prefix')} <span className="text-primary">Shukayu</span>?
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {t('common.home.features.subtitle')}
-          </p>
+    <Section tone="subtle">
+      <Container>
+        <div className="mb-10 max-w-2xl">
+          <Heading level="h2" as="h2" className="mb-3">
+            {t('common.home.features.title.prefix')}{' '}
+            <span className="text-v2-primary">Shukayu</span>?
+          </Heading>
+          <p className="text-lg text-v2-muted">{t('common.home.features.subtitle')}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-card p-8 rounded-xl border-2 border-border hover:border-primary transition-all duration-300 group"
-            >
-              <div className="flex items-start gap-4">
-                <div
-                  className={`${feature.color} p-3 rounded-lg bg-primary/5 group-hover:bg-primary/10 transition-colors`}
-                >
-                  <feature.icon className="h-8 w-8" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold mb-2 text-card-foreground group-hover:text-primary transition-colors">
-                    {t(feature.titleKey)}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {t(feature.descriptionKey)}
-                  </p>
-                </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {features.map(({ icon: Icon, key }) => (
+            <Card key={key} className="flex gap-4 p-6 md:p-8">
+              <span className="flex size-12 shrink-0 items-center justify-center rounded-v2-lg bg-v2-hover text-v2-primary">
+                <Icon className="size-6" />
+              </span>
+              <div>
+                <Heading level="h4" as="h3" className="mb-2">
+                  {t(`common.home.features.${key}.title`)}
+                </Heading>
+                <p className="leading-6 text-v2-muted">
+                  {t(`common.home.features.${key}.description`)}
+                </p>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 };
 

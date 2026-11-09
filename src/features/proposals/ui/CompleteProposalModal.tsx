@@ -1,17 +1,17 @@
 'use client';
 
 import { useLingui } from '@lingui/react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@shared/ui/dialog';
-import { Button } from '@shared/ui/button';
 import { useCompleteProposal } from '@/entities/proposal/hooks/useCompleteProposal';
 import { toast } from 'sonner';
+import {
+  Button,
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from '@/ui-v2';
 
 interface CompleteProposalModalProps {
   requestId: string;
@@ -45,22 +45,21 @@ export const CompleteProposalModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t('proposal.complete.confirmTitle')}</DialogTitle>
-          <DialogDescription>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>{t('proposal.complete.confirmTitle')}</ModalTitle>
+          <ModalDescription>
             <p>{t('proposal.complete.confirmDescription_1')}</p>
             <br />
             <p>{t('proposal.complete.confirmDescription_2')}</p>
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
+          </ModalDescription>
+        </ModalHeader>
+        <ModalFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             {t('proposal.edit.cancel')}
           </Button>
           <Button
-            variant="default"
             onClick={(e) => {
               e.preventDefault();
               handleCompleteProposal();
@@ -69,8 +68,8 @@ export const CompleteProposalModal = ({
           >
             {isCompleting ? t('proposal.edit.submitting') : t('proposal.complete.submit')}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };

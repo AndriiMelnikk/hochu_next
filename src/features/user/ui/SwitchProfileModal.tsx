@@ -2,17 +2,11 @@
 
 import { useState } from 'react';
 import { useLingui } from '@lingui/react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@shared/ui/dialog';
 import type { IProfile, ProfileType } from '@entities/user';
 import { ProfilesSwitcher } from './ProfilesSwitcher';
 import { CreateProfileModal } from './CreateProfileModal';
 import { useProfileSwitch } from '../hooks/useProfileSwitch';
+import { Modal, ModalContent, ModalDescription, ModalHeader, ModalTitle } from '@/ui-v2';
 
 interface SwitchProfileModalProps {
   open: boolean;
@@ -37,26 +31,26 @@ export const SwitchProfileModal = ({ open, onOpenChange, onSuccess }: SwitchProf
 
   return (
     <>
-      <Dialog
+      <Modal
         open={open && !createType}
         onOpenChange={(next) => {
           if (createType) return;
           onOpenChange(next);
         }}
       >
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{t('profile.profiles.title')}</DialogTitle>
-            <DialogDescription>{t('profile.profiles.description')}</DialogDescription>
-          </DialogHeader>
+        <ModalContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <ModalHeader>
+            <ModalTitle>{t('profile.profiles.title')}</ModalTitle>
+            <ModalDescription>{t('profile.profiles.description')}</ModalDescription>
+          </ModalHeader>
           <ProfilesSwitcher
             compact
             embedCreateModal={false}
             onSwitched={handleSwitched}
             onCreateRequested={setCreateType}
           />
-        </DialogContent>
-      </Dialog>
+        </ModalContent>
+      </Modal>
 
       <CreateProfileModal
         type={createType ?? 'seller'}

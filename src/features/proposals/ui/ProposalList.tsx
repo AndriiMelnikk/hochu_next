@@ -3,9 +3,8 @@
 import { useLingui } from '@lingui/react';
 import { ProposalItem } from './ProposalItem';
 import { useProposals, type IProposalWithSeller, ProposalStatus } from '@/entities/proposal';
-import { Loading } from '@shared/ui/loading';
 import { useQueryPagination } from '@shared/hooks';
-import { UniversalPagination } from '@shared/ui/universal-pagination';
+import { LoadingState, Pagination } from '@/ui-v2';
 import { useMemo } from 'react';
 import { RequestStatus } from '@/entities/request';
 
@@ -41,13 +40,11 @@ export const ProposalList = ({
   const { data, isLoading, error } = useProposals(requestId, { page, pageSize, status });
 
   if (isLoading) {
-    return <Loading variant="full-page" />;
+    return <LoadingState className="min-h-[30vh]" />;
   }
 
   if (error) {
-    return (
-      <p className="text-sm text-destructive py-4">{t('request.detail.proposalsLoadError')}</p>
-    );
+    return <p className="text-sm text-v2-danger py-4">{t('request.detail.proposalsLoadError')}</p>;
   }
 
   const proposals = data?.results ?? [];
@@ -79,9 +76,7 @@ export const ProposalList = ({
   };
 
   if (!acceptedProposal && visibleProposals.length === 0) {
-    return (
-      <p className="text-sm text-muted-foreground py-4">{t('request.detail.proposalsEmpty')}</p>
-    );
+    return <p className="text-sm text-v2-muted py-4">{t('request.detail.proposalsEmpty')}</p>;
   }
 
   return (
@@ -113,7 +108,7 @@ export const ProposalList = ({
         />
       ))}
       {totalPages > 1 && (
-        <UniversalPagination
+        <Pagination
           currentPage={page}
           totalPages={totalPages}
           onPageChange={handlePageChange}

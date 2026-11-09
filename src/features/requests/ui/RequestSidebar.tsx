@@ -1,12 +1,12 @@
-import { Star, Shield } from 'lucide-react';
+import { Shield } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { format } from 'date-fns';
 import { uk, enUS } from 'date-fns/locale';
-import { Separator } from '@shared/ui/separator';
-import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
+
 import { IRequestBuyer } from '@/entities/request/types/Request';
 import { routes } from '@/app/router/routes';
 import Link from '@/shared/ui/link';
+import { Avatar, Card, Rating } from '@/ui-v2';
 
 interface RequestSidebarProps {
   buyer?: IRequestBuyer;
@@ -20,77 +20,64 @@ export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) =
   if (!buyer) return null;
 
   const dateLocale = i18n.locale === 'uk' ? uk : enUS;
-  const memberSinceFormatted = buyer.memberSince
+  const memberSince = buyer.memberSince
     ? format(new Date(buyer.memberSince), 'd MMMM yyyy', { locale: dateLocale })
     : '';
+  const fullName = `${buyer.name} ${buyer.lastName || ''}`.trim();
 
   return (
-    <div className="space-y-6 sticky top-24">
-      {/* Buyer Card */}
-      <div className="bg-card rounded-2xl p-6 shadow-md border border-border  top-24">
-        <h2 className="text-xl font-semibold mb-4">{t('request.sidebar.buyer')}</h2>
+    <div className="ui-v2 space-y-6 lg:sticky lg:top-24">
+      <Card className="p-6">
+        <h2 className="mb-4 text-xl font-[550]">{t('request.sidebar.buyer')}</h2>
 
-        <div className="flex items-start mb-4">
-          <Link href={routes.PROFILE_BY_ID(buyer._id)}>
-            <Avatar className="h-16 w-16 mr-4">
-              <AvatarImage src={buyer.avatar || undefined} />
-              <AvatarFallback>{buyer.name}</AvatarFallback>
-            </Avatar>
+        <div className="mb-4 flex items-start gap-4">
+          <Link href={routes.PROFILE_BY_ID(buyer._id)} aria-label={fullName}>
+            <Avatar size="md" src={buyer.avatar || undefined} fallback={buyer.name?.[0]} />
           </Link>
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <h3 className="font-semibold text-lg">
-                <Link href={routes.PROFILE_BY_ID(buyer._id)} className="hover:underline">
-                  {buyer.name} {buyer.lastName || ''}
-                </Link>
-              </h3>
-              {buyer.isVerified && <Shield className="h-4 w-4 text-primary" />}
+          <div className="min-w-0 flex-1">
+            <div className="mb-0.5 flex items-center gap-2">
+              <Link
+                href={routes.PROFILE_BY_ID(buyer._id)}
+                className="truncate text-base font-[550] hover:underline underline-offset-4"
+              >
+                {fullName}
+              </Link>
+              {buyer.isVerified && <Shield className="size-4 shrink-0 text-v2-primary" />}
             </div>
-            <p className="text-sm text-muted-foreground">
-              {t('request.sidebar.memberSince', { date: memberSinceFormatted })}
+            <p className="text-sm text-v2-muted">
+              {t('request.sidebar.memberSince', { date: memberSince })}
             </p>
           </div>
         </div>
 
-        <Separator className="my-4" />
-
-        {/* Buyer Stats */}
-        <div className="space-y-3">
+        <dl className="space-y-3 border-t border-v2-border pt-4 text-sm">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">{t('request.sidebar.rating')}</span>
-            <div className="flex items-center">
-              <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 mr-1" />
-              <span className="font-semibold">{buyer.rating}</span>
-              <span className="text-sm text-muted-foreground ml-1">({buyer.xp || 0})</span>
-            </div>
+            <dt className="text-v2-muted">{t('request.sidebar.rating')}</dt>
+            <dd className="flex items-center gap-1 font-semibold">
+              <Rating value={Number(buyer.rating) || 0} />
+              {buyer.rating}
+              <span className="font-[450] text-v2-muted">({buyer.xp || 0})</span>
+            </dd>
           </div>
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">{t('request.sidebar.completedDeals')}</span>
-            <span className="font-semibold">{buyer.completedDeals}</span>
+          <div className="flex items-center justify-between">
+            <dt className="text-v2-muted">{t('request.sidebar.completedDeals')}</dt>
+            <dd className="font-semibold">{buyer.completedDeals}</dd>
           </div>
-        </div>
+        </dl>
 
-        <Separator className="my-4" />
+        <p className="mt-4 rounded-v2-lg bg-v2-surface-subtle p-3 text-xs text-v2-muted">
+          {t('request.sidebar.buyerTrust')}
+        </p>
+      </Card>
 
-        {/* Info */}
-        <div className="bg-muted/30 rounded-lg p-3">
-          <p className="text-xs text-muted-foreground">{t('request.sidebar.buyerTrust')}</p>
+      <Card className="p-6">
+        <h3 className="mb-4 text-lg font-[550]">{t('request.sidebar.competition')}</h3>
+        <div className="mb-3 rounded-v2-xl bg-v2-surface-subtle p-4 text-center">
+          <div className="mb-1 text-4xl font-[550] text-v2-primary">{proposalsCount}</div>
+          <p className="text-sm text-v2-muted">{t('request.sidebar.otherProposals')}</p>
         </div>
-      </div>
-
-      {/* Competition Info */}
-      <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-        <h3 className="text-lg font-semibold mb-4">{t('request.sidebar.competition')}</h3>
-        <div className="space-y-4">
-          <div className="text-center p-4 bg-muted/30 rounded-lg">
-            <div className="text-4xl font-bold text-primary mb-1">{proposalsCount}</div>
-            <p className="text-sm text-muted-foreground">{t('request.sidebar.otherProposals')}</p>
-          </div>
-          <p className="text-sm text-muted-foreground text-center">
-            {t('request.sidebar.competitionHint')}
-          </p>
-        </div>
-      </div>
+        <p className="text-center text-sm text-v2-muted">{t('request.sidebar.competitionHint')}</p>
+      </Card>
     </div>
   );
 };

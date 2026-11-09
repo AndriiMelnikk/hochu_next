@@ -15,13 +15,16 @@ export default function ResetPasswordContent({ token }: ResetPasswordContentProp
 
   if (!token) {
     return (
-      <div className="container mx-auto px-4 pb-16">
-        <div className="max-w-md mx-auto bg-card rounded-3xl shadow-2xl p-8 text-center">
-          <h1 className="text-2xl font-bold text-card-foreground mb-4">
+      <div className="mx-auto w-full max-w-[1240px] px-4 md:px-6 pb-16">
+        <div className="max-w-md mx-auto bg-v2-surface rounded-3xl shadow-2xl p-8 text-center">
+          <h1 className="text-2xl font-[550] text-v2-ink mb-4">
             {t('auth.resetPassword.noToken.title')}
           </h1>
-          <p className="text-muted-foreground mb-6">{t('auth.resetPassword.noToken.subtitle')}</p>
-          <Link href={routes.FORGOT_PASSWORD} className="text-primary hover:underline font-medium">
+          <p className="text-v2-muted mb-6">{t('auth.resetPassword.noToken.subtitle')}</p>
+          <Link
+            href={routes.FORGOT_PASSWORD}
+            className="text-v2-primary hover:underline font-medium"
+          >
             {t('auth.resetPassword.noToken.requestLink')}
           </Link>
         </div>
@@ -30,34 +33,30 @@ export default function ResetPasswordContent({ token }: ResetPasswordContentProp
   }
 
   return (
-    <div className="container mx-auto px-4 pb-16">
-      <div className="grid lg:grid-cols-2 gap-0 max-w-6xl mx-auto bg-card rounded-3xl shadow-2xl overflow-hidden">
+    <div className="mx-auto w-full max-w-[1240px] px-4 md:px-6 pb-16">
+      <div className="grid lg:grid-cols-2 gap-0 max-w-6xl mx-auto bg-v2-surface rounded-3xl shadow-2xl overflow-hidden">
         {/* Left Section - Form */}
         <div className="p-8 lg:p-12">
           <div className="space-y-2 mb-8">
-            <h1 className="text-3xl font-bold text-card-foreground">
-              {t('auth.resetPassword.title')}
-            </h1>
-            <p className="text-muted-foreground">{t('auth.resetPassword.subtitle')}</p>
+            <h1 className="text-3xl font-[550] text-v2-ink">{t('auth.resetPassword.title')}</h1>
+            <p className="text-v2-muted">{t('auth.resetPassword.subtitle')}</p>
           </div>
 
           <ResetPasswordForm token={token} />
 
           <div className="mt-6 text-center text-sm">
-            <span className="text-muted-foreground">
-              {t('auth.resetPassword.rememberPassword')}
-            </span>
-            <Link href={routes.LOGIN} className="text-primary hover:underline font-medium">
+            <span className="text-v2-muted">{t('auth.resetPassword.rememberPassword')}</span>
+            <Link href={routes.LOGIN} className="text-v2-primary hover:underline font-medium">
               {t('auth.resetPassword.loginLink')}
             </Link>
           </div>
         </div>
 
         {/* Right Section - Info */}
-        <div className="bg-gradient-primary p-8 lg:p-12 text-white flex flex-col justify-center">
+        <div className="bg-v2-primary p-8 lg:p-12 text-white flex flex-col justify-center">
           <div className="space-y-6">
             <div className="space-y-3">
-              <h2 className="text-3xl font-bold">{t('auth.resetPassword.info.title')}</h2>
+              <h2 className="text-3xl font-[550]">{t('auth.resetPassword.info.title')}</h2>
               <p className="text-white/90 text-lg">{t('auth.resetPassword.info.subtitle')}</p>
             </div>
 

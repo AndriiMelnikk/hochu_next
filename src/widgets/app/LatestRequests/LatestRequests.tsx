@@ -1,15 +1,14 @@
 'use client';
 
-import Link from '@/shared/ui/link';
 import { useMemo } from 'react';
 import { useLingui } from '@lingui/react';
 import { ArrowRight } from 'lucide-react';
+
 import { routes } from '@/app/router/routes';
 import { useLatestRequests, type IRequest, type IGetRequestsResponse } from '@/entities/request';
 import { RequestCard } from '@/features/requests';
-import { Loading } from '@shared/ui/loading';
-import { Error } from '@shared/ui/error';
-import { Button } from '@shared/ui/button';
+import Link from '@/shared/ui/link';
+import { Button, Container, Heading, Section, LoadingState, ErrorState } from '@/ui-v2';
 
 const LatestRequests = ({ initialData }: { initialData?: IGetRequestsResponse }) => {
   const { i18n } = useLingui();
@@ -19,49 +18,45 @@ const LatestRequests = ({ initialData }: { initialData?: IGetRequestsResponse })
   const requests = useMemo(() => data?.results ?? [], [data?.results]);
 
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {t('common.home.latestRequests.title.prefix')}{' '}
-            <span className="text-primary">{t('common.home.latestRequests.title.emphasis')}</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {t('common.home.latestRequests.subtitle')}
-          </p>
+    <Section>
+      <Container>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-2xl">
+            <Heading level="h2" as="h2" className="mb-3">
+              {t('common.home.latestRequests.title.prefix')}{' '}
+              <span className="text-v2-primary">
+                {t('common.home.latestRequests.title.emphasis')}
+              </span>
+            </Heading>
+            <p className="text-lg text-v2-muted">{t('common.home.latestRequests.subtitle')}</p>
+          </div>
+          <Button asChild variant="outline" className="shrink-0 self-start">
+            <Link href={routes.REQUEST}>
+              {t('common.home.latestRequests.viewAll')}
+              <ArrowRight />
+            </Link>
+          </Button>
         </div>
 
         {isLoading ? (
-          <Loading variant="block" />
+          <LoadingState />
         ) : isError ? (
-          <Error variant="block" message={t('request.list.requestsError')} />
+          <ErrorState message={t('request.list.requestsError')} />
         ) : requests.length === 0 ? (
-          <p className="text-center text-muted-foreground py-8">
-            {t('common.home.latestRequests.empty')}
-          </p>
+          <p className="py-8 text-center text-v2-muted">{t('common.home.latestRequests.empty')}</p>
         ) : (
-          <div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {requests.map((request) => (
-                <RequestCard
-                  key={request._id}
-                  request={request as IRequest}
-                  categoryName={request.category.name}
-                />
-              ))}
-            </div>
-            <div className="mt-6 flex flex-col gap-4 md:hidden">
-              <Button variant="outline" className="border-2 shrink-0" asChild>
-                <Link href={routes.REQUEST}>
-                  {t('common.home.latestRequests.viewAll')}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {requests.map((request) => (
+              <RequestCard
+                key={request._id}
+                request={request as IRequest}
+                categoryName={request.category.name}
+              />
+            ))}
           </div>
         )}
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 };
 

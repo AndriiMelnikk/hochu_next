@@ -41,14 +41,14 @@ export function AdminNav({ onNavigate, className }: AdminNavProps) {
   }, [previewRole]);
 
   if (groups.length === 0) {
-    return <p className="px-3 py-4 text-sm text-muted-foreground">{t('admin.nav.empty')}</p>;
+    return <p className="px-3 py-4 text-sm text-v2-muted">{t('admin.nav.empty')}</p>;
   }
 
   return (
     <nav className={cn('space-y-6', className)} aria-label={t('admin.nav.aria')}>
       {groups.map(([group, items]) => (
         <div key={group} className="space-y-2">
-          <p className="px-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <p className="px-3 text-xs font-semibold uppercase tracking-wide text-v2-muted">
             {t(ADMIN_NAV_GROUP_KEYS[group])}
           </p>
           <ul className="space-y-1">
@@ -65,8 +65,8 @@ export function AdminNav({ onNavigate, className }: AdminNavProps) {
                     className={cn(
                       'block rounded-md px-3 py-2 text-sm font-medium transition-colors',
                       isActive
-                        ? 'bg-accent text-accent-foreground'
-                        : 'text-foreground hover:bg-muted',
+                        ? 'bg-v2-hover text-v2-ink'
+                        : 'text-v2-ink hover:bg-v2-surface-subtle',
                     )}
                   >
                     {t(item.labelKey)}

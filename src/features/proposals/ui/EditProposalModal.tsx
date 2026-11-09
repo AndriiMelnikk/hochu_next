@@ -2,8 +2,8 @@
 
 import { useLingui } from '@lingui/react';
 import type { IProposalWithSeller } from '@/entities/proposal';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
 import { EditProposalForm } from './EditProposalForm';
+import { Modal, ModalContent, ModalHeader, ModalTitle } from '@/ui-v2';
 
 interface EditProposalModalProps {
   proposal: IProposalWithSeller;
@@ -31,11 +31,11 @@ export const EditProposalModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
-        <DialogHeader>
-          <DialogTitle>{t('proposal.edit.title')}</DialogTitle>
-        </DialogHeader>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+        <ModalHeader>
+          <ModalTitle>{t('proposal.edit.title')}</ModalTitle>
+        </ModalHeader>
         <div className="flex-1 overflow-hidden">
           <EditProposalForm
             key={proposal._id}
@@ -44,7 +44,7 @@ export const EditProposalModal = ({
             onCancel={handleCancel}
           />
         </div>
-      </DialogContent>
-    </Dialog>
+      </ModalContent>
+    </Modal>
   );
 };

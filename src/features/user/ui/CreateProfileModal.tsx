@@ -7,17 +7,6 @@ import { useLingui } from '@lingui/react';
 import { toast } from 'react-toastify';
 import { Loader2 } from 'lucide-react';
 
-import { Button } from '@shared/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@shared/ui/dialog';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@shared/ui/form';
-import { Input } from '@shared/ui/input';
 import {
   useCreateProfile,
   createProfileSchema,
@@ -25,6 +14,22 @@ import {
   type IProfile,
   type ProfileType,
 } from '@entities/user';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from '@/ui-v2';
 
 interface CreateProfileModalProps {
   type: ProfileType;
@@ -77,12 +82,12 @@ export const CreateProfileModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t(`profile.create.title.${type}`)}</DialogTitle>
-          <DialogDescription>{t(`profile.create.description.${type}`)}</DialogDescription>
-        </DialogHeader>
+    <Modal open={open} onOpenChange={handleOpenChange}>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>{t(`profile.create.title.${type}`)}</ModalTitle>
+          <ModalDescription>{t(`profile.create.description.${type}`)}</ModalDescription>
+        </ModalHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <FormField
@@ -120,7 +125,7 @@ export const CreateProfileModal = ({
                 </FormItem>
               )}
             />
-            <DialogFooter>
+            <ModalFooter>
               <Button
                 type="button"
                 variant="outline"
@@ -139,10 +144,10 @@ export const CreateProfileModal = ({
                   t('profile.create.submit')
                 )}
               </Button>
-            </DialogFooter>
+            </ModalFooter>
           </form>
         </Form>
-      </DialogContent>
-    </Dialog>
+      </ModalContent>
+    </Modal>
   );
 };

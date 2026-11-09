@@ -4,7 +4,7 @@ import { getLocaleFromParams, type LocaleRouteProps } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import { routes } from '@/app/router/routes';
 import ProfileContent from './ProfileContent';
-import { Loading } from '@/shared/ui/loading';
+import { LoadingState } from '@/ui-v2';
 import { userService, type IProfile } from '@/entities/user';
 import { JsonLd } from '@/shared/seo/JsonLd';
 import { getProfilePageJsonLd } from '@/shared/seo/schemas';
@@ -117,7 +117,7 @@ export default async function ProfileIdPage({ params }: Props) {
           })}
         />
       )}
-      <Suspense fallback={<Loading variant="block" />}>
+      <Suspense fallback={<LoadingState />}>
         <ProfileContent initialData={profile} />
       </Suspense>
     </>

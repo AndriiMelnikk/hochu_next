@@ -12,11 +12,6 @@ import type { z } from 'zod';
 
 import { cn } from '@/lib/utils';
 import { ACCEPTED_IMAGE_ACCEPT_ATTR, isAcceptedImageFile } from '@/shared/utils';
-import { Button } from '@shared/ui/button';
-import { Input } from '@shared/ui/input';
-import { Textarea } from '@shared/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@shared/ui/form';
 
 import { ItemCondition, requestService } from '@/entities/request';
 import {
@@ -28,6 +23,22 @@ import {
   PROPOSAL_WARRANTY_LABELS,
 } from '@/entities/proposal';
 import { useUpdateProposal } from '@/entities/proposal/hooks/useUpdateProposal';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Textarea,
+} from '@/ui-v2';
 
 const MAX_PROPOSAL_IMAGES = 5;
 
@@ -224,7 +235,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                   {...field}
                 />
               </FormControl>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-v2-muted">
                 {t('proposal.create.charsCount', { count: field.value.length })}
               </div>
             </FormItem>
@@ -238,7 +249,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-base font-semibold flex items-center">
-                  <Wallet className="h-4 w-4 mr-1 text-primary" />
+                  <Wallet className="h-4 w-4 mr-1 text-v2-primary" />
                   {t('proposal.create.priceLabel')}
                 </FormLabel>
                 <FormControl>
@@ -262,7 +273,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-base font-semibold flex items-center">
-                  <Package className="h-4 w-4 mr-1 text-primary" />
+                  <Package className="h-4 w-4 mr-1 text-v2-primary" />
                   {t('proposal.create.itemConditionLabel')}
                 </FormLabel>
                 <Select onValueChange={field.onChange} value={field.value} disabled={isSubmitting}>
@@ -353,7 +364,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
           render={() => (
             <FormItem>
               <FormLabel className="text-base font-semibold flex items-center">
-                <Upload className="h-4 w-4 mr-1 text-primary" />
+                <Upload className="h-4 w-4 mr-1 text-v2-primary" />
                 {t('proposal.create.imagesLabel')}
               </FormLabel>
               <FormControl>
@@ -372,10 +383,10 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                     role="button"
                     tabIndex={0}
                     className={cn(
-                      'border-2 border-dashed border-border rounded-lg p-6 text-center transition-colors cursor-pointer',
+                      'border-2 border-dashed border-v2-border rounded-v2-lg p-6 text-center transition-colors cursor-pointer',
                       isSubmitting || displayItems.length >= MAX_PROPOSAL_IMAGES
                         ? 'opacity-60 cursor-not-allowed'
-                        : 'hover:border-primary',
+                        : 'hover:border-v2-primary',
                     )}
                     onClick={() =>
                       !isSubmitting &&
@@ -389,15 +400,11 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                       fileInputRef.current?.click()
                     }
                   >
-                    <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                    <p className="text-sm text-muted-foreground mb-1">
-                      {t('proposal.create.dragDrop')}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {t('proposal.create.imagesHint')}
-                    </p>
+                    <Upload className="h-10 w-10 text-v2-muted mx-auto mb-3" />
+                    <p className="text-sm text-v2-muted mb-1">{t('proposal.create.dragDrop')}</p>
+                    <p className="text-xs text-v2-muted">{t('proposal.create.imagesHint')}</p>
                     {displayItems.length > 0 && (
-                      <p className="text-sm text-muted-foreground mt-2">
+                      <p className="text-sm text-v2-muted mt-2">
                         {displayItems.length}/{MAX_PROPOSAL_IMAGES}
                       </p>
                     )}
@@ -407,7 +414,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                       {displayItems.map((item, index) => (
                         <div
                           key={item.type === 'existing' ? item.url : `${item.url}-${index}`}
-                          className="relative aspect-square rounded-lg overflow-hidden border border-border bg-muted group"
+                          className="relative aspect-square rounded-v2-lg overflow-hidden border border-v2-border bg-v2-surface-subtle group"
                         >
                           <Image
                             src={item.url}
@@ -420,7 +427,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
                           <button
                             type="button"
                             aria-label={t('request.create.filesRemove') || 'Видалити'}
-                            className="absolute top-2 right-2 rounded-sm bg-destructive text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
+                            className="absolute top-2 right-2 rounded-sm bg-v2-danger text-white p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
                             onClick={() => removeImage(index)}
                             disabled={isSubmitting}
                           >
@@ -437,19 +444,12 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
         />
 
         <div className="flex flex-col sm:flex-row gap-4 pt-6">
-          <Button
-            type="submit"
-            size="lg"
-            variant="gradient"
-            className="text-lg shadow-glow flex-1"
-            disabled={isSubmitting}
-          >
+          <Button type="submit" className="text-lg shadow-glow flex-1" disabled={isSubmitting}>
             {isSubmitting ? t('proposal.edit.submitting') : t('proposal.edit.submit')}
           </Button>
           {onCancel && (
             <Button
               type="button"
-              size="lg"
               variant="outline"
               className="flex-1"
               disabled={isSubmitting}

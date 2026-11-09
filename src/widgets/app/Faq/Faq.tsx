@@ -1,14 +1,18 @@
 'use client';
 
 import { useLingui } from '@lingui/react';
+
+import { JsonLd } from '@/shared/seo/JsonLd';
+import { getFaqPageJsonLd } from '@/shared/seo/schemas';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/shared/ui/accordion';
-import { JsonLd } from '@/shared/seo/JsonLd';
-import { getFaqPageJsonLd } from '@/shared/seo/schemas';
+  Container,
+  Heading,
+  Section,
+} from '@/ui-v2';
 
 const FAQ_KEYS = [
   'whatIs',
@@ -30,33 +34,29 @@ const Faq = () => {
   }));
 
   return (
-    <section className="py-16 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto">
+    <Section>
+      <Container>
+        <div className="mx-auto max-w-3xl">
           <JsonLd
             data={getFaqPageJsonLd(items.map(({ question, answer }) => ({ question, answer })))}
           />
-
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('common.home.faq.title')}</h2>
-            <p className="text-lg text-muted-foreground">{t('common.home.faq.subtitle')}</p>
+          <div className="mb-8">
+            <Heading level="h2" as="h2" className="mb-3">
+              {t('common.home.faq.title')}
+            </Heading>
+            <p className="text-lg text-v2-muted">{t('common.home.faq.subtitle')}</p>
           </div>
-
           <Accordion type="single" collapsible className="w-full">
             {items.map((item) => (
               <AccordionItem key={item.key} value={item.key}>
-                <AccordionTrigger className="text-left text-base font-semibold">
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
-                  {item.answer}
-                </AccordionContent>
+                <AccordionTrigger>{item.question}</AccordionTrigger>
+                <AccordionContent>{item.answer}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 };
 

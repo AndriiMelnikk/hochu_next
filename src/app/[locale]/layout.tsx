@@ -6,8 +6,7 @@ import { isLocale, locales, type Locale } from '@/locales/locale';
 import { getDefaultMetadata } from '@/locales/route-metadata';
 import { messages as enMessages } from '@/locales/en/create';
 import { messages as ukMessages } from '@/locales/uk/create';
-import Header from '@/widgets/app/Header';
-import Footer from '@/widgets/app/Footer';
+import { SiteHeader, SiteFooter } from '@/ui-v2';
 import { Analytics } from '@vercel/analytics/next';
 import { GoogleTagManager } from '@next/third-parties/google';
 import { JsonLd } from '@/shared/seo/JsonLd';
@@ -56,9 +55,9 @@ export default async function RootLayout({ children, params }: Props) {
         <JsonLd data={getWebSiteJsonLd(locale)} />
         <Providers locale={locale} messages={messages}>
           <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-1 pt-24 pb-12">{children}</main>
-            <Footer />
+            <SiteHeader />
+            <main className="ui-v2 flex-1 pt-8 pb-12">{children}</main>
+            <SiteFooter />
           </div>
         </Providers>
         <Analytics />

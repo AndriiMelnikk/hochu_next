@@ -6,20 +6,20 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Star } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@shared/ui/dialog';
-import { Button } from '@shared/ui/button';
-import { Textarea } from '@shared/ui/textarea';
-import { Label } from '@shared/ui/label';
 import { toast } from 'sonner';
 import { useCreateReview } from '@/entities/review/hooks/useCreateReview';
 import { cn } from '@/lib/utils';
+import {
+  Button,
+  Label,
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  Textarea,
+} from '@/ui-v2';
 
 interface CreateReviewModalProps {
   targetProfileId: string;
@@ -88,12 +88,12 @@ export const CreateReviewModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t('review.create.title')}</DialogTitle>
-          <DialogDescription>{t('review.create.description')}</DialogDescription>
-        </DialogHeader>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>{t('review.create.title')}</ModalTitle>
+          <ModalDescription>{t('review.create.description')}</ModalDescription>
+        </ModalHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
           <div className="space-y-2">
@@ -112,15 +112,15 @@ export const CreateReviewModal = ({
                     className={cn(
                       'h-8 w-8 transition-colors',
                       (hoverRating ? star <= hoverRating : star <= rating)
-                        ? 'fill-yellow-500 text-yellow-500'
-                        : 'text-muted-foreground',
+                        ? 'fill-v2-rating text-v2-rating'
+                        : 'text-v2-muted',
                     )}
                   />
                 </button>
               ))}
             </div>
             {errors.rating && (
-              <p className="text-sm text-destructive">{t('review.create.ratingRequired')}</p>
+              <p className="text-sm text-v2-danger">{t('review.create.ratingRequired')}</p>
             )}
           </div>
 
@@ -132,19 +132,19 @@ export const CreateReviewModal = ({
               className="resize-none"
               {...register('comment')}
             />
-            {errors.comment && <p className="text-sm text-destructive">{errors.comment.message}</p>}
+            {errors.comment && <p className="text-sm text-v2-danger">{errors.comment.message}</p>}
           </div>
 
-          <DialogFooter>
+          <ModalFooter>
             <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>
               {t('common.cancel')}
             </Button>
             <Button type="submit" disabled={isPending}>
               {isPending ? t('common.submitting') : t('review.create.submit')}
             </Button>
-          </DialogFooter>
+          </ModalFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </ModalContent>
+    </Modal>
   );
 };

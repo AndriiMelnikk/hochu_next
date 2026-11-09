@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { Bell, Settings, Star, User, Users } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { ProfileReviews } from '@/widgets/app/Reviews';
 import Chat from '@/widgets/app/Chat';
 import ProfileSettings from '@/widgets/app/ProfileSettings';
@@ -21,6 +20,7 @@ import {
   syncProfileTabHash,
   type ProfileTabId,
 } from './const';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui-v2';
 
 interface ProfileTabsProps {
   user: {

@@ -7,11 +7,9 @@ import { useLingui } from '@lingui/react';
 import { ADMIN_NAV_ITEMS, hasPermission, useAdminPreviewStore } from '@/entities/admin';
 import { RolePreviewSelect } from '@/features/admin';
 import { AdminNav } from '@/widgets/admin/AdminNav';
-import { Badge } from '@shared/ui/badge';
-import { Button } from '@shared/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@shared/ui/sheet';
 import { useCurrentLocale } from '@shared/ui/link';
 import { localizeHref } from '@/locales/config';
+import { Badge, Button, Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/ui-v2';
 
 interface AdminShellProps {
   children: ReactNode;
@@ -61,11 +59,11 @@ export function AdminShell({ children }: AdminShellProps) {
     <div className="mx-auto w-full max-w-[1120px] px-4 pb-16 lg:px-6">
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold mb-2">{t('admin.title')}</h1>
-          <p className="text-muted-foreground">{t('admin.description')}</p>
+          <h1 className="text-3xl font-[550] mb-2">{t('admin.title')}</h1>
+          <p className="text-v2-muted">{t('admin.description')}</p>
         </div>
         <div className="flex items-center gap-3">
-          <Badge variant="destructive" className="text-sm px-3 py-1.5">
+          <Badge tone="danger" className="text-sm px-3 py-1.5">
             <Shield className="h-4 w-4 mr-2" />
             {t(`admin.roles.${previewRole}`)}
           </Badge>
@@ -73,7 +71,7 @@ export function AdminShell({ children }: AdminShellProps) {
             <SheetTrigger asChild>
               <Button
                 variant="outline"
-                size="icon"
+                shape="circle"
                 className="lg:hidden"
                 aria-label={t('admin.nav.openMenu')}
               >
@@ -95,7 +93,7 @@ export function AdminShell({ children }: AdminShellProps) {
 
       <div className="flex gap-6">
         <aside className="hidden w-[260px] shrink-0 lg:block">
-          <div className="sticky top-28 space-y-6 rounded-xl border border-border bg-card p-4">
+          <div className="sticky top-28 space-y-6 rounded-v2-xl border border-v2-border bg-v2-surface p-4">
             <RolePreviewSelect />
             <AdminNav />
           </div>

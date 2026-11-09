@@ -17,11 +17,6 @@ import {
   getImageUploadErrorMessageKey,
   isAcceptedImageFile,
 } from '@/shared/utils';
-import { Button } from '@shared/ui/button';
-import { Input } from '@shared/ui/input';
-import { Textarea } from '@shared/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@shared/ui/form';
 
 import { ItemCondition, requestService } from '@/entities/request';
 import {
@@ -33,6 +28,22 @@ import {
   PROPOSAL_WARRANTY,
   PROPOSAL_WARRANTY_LABELS,
 } from '@/entities/proposal';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Textarea,
+} from '@/ui-v2';
 
 interface CreateProposalFormProps {
   budget: string;
@@ -157,13 +168,13 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
   };
 
   return (
-    <div className="bg-gradient-primary rounded-2xl p-1 shadow-lg">
-      <div className="bg-card rounded-xl p-6">
-        <h2 className="text-2xl font-bold mb-2 flex items-center">
-          <Send className="h-6 w-6 mr-2 text-primary" />
+    <div className="bg-v2-primary rounded-v2-2xl p-1 ">
+      <div className="bg-v2-surface rounded-v2-xl p-6">
+        <h2 className="text-2xl font-[550] mb-2 flex items-center">
+          <Send className="h-6 w-6 mr-2 text-v2-primary" />
           {t('proposal.create.title')}
         </h2>
-        <p className="text-muted-foreground mb-6">{t('proposal.create.subtitle')}</p>
+        <p className="text-v2-muted mb-6">{t('proposal.create.subtitle')}</p>
 
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="space-y-5">
@@ -195,7 +206,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-base font-semibold flex items-center">
-                      <Wallet className="h-4 w-4 mr-1 text-primary" />
+                      <Wallet className="h-4 w-4 mr-1 text-v2-primary" />
                       {t('proposal.create.priceLabel')}
                     </FormLabel>
                     <FormControl>
@@ -221,7 +232,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-base font-semibold flex items-center">
-                      <Package className="h-4 w-4 mr-1 text-primary" />
+                      <Package className="h-4 w-4 mr-1 text-v2-primary" />
                       {t('proposal.create.itemConditionLabel')}
                     </FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
@@ -263,7 +274,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                       {...field}
                     />
                   </FormControl>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-sm text-v2-muted">
                     {t('proposal.create.charsCount', { count: field.value.length })}
                   </div>
                 </FormItem>
@@ -338,7 +349,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
               render={() => (
                 <FormItem>
                   <FormLabel className="text-base font-semibold flex items-center">
-                    <Upload className="h-5 w-5 mr-2 text-primary" />
+                    <Upload className="h-5 w-5 mr-2 text-v2-primary" />
                     {t('proposal.create.imagesLabel')}
                   </FormLabel>
                   <FormControl>
@@ -359,10 +370,10 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                         role="button"
                         tabIndex={0}
                         className={cn(
-                          'border-2 border-dashed border-border rounded-lg p-8 text-center transition-colors cursor-pointer',
+                          'border-2 border-dashed border-v2-border rounded-v2-lg p-8 text-center transition-colors cursor-pointer',
                           isUploading || isPending || uploadedImages.length >= MAX_PROPOSAL_IMAGES
                             ? 'opacity-60 cursor-not-allowed'
-                            : 'hover:border-primary',
+                            : 'hover:border-v2-primary',
                         )}
                         onClick={() =>
                           !isUploading &&
@@ -379,20 +390,18 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                         }
                       >
                         {isUploading ? (
-                          <Loader2 className="h-12 w-12 text-primary mx-auto mb-4 animate-spin" />
+                          <Loader2 className="h-12 w-12 text-v2-primary mx-auto mb-4 animate-spin" />
                         ) : (
-                          <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                          <Upload className="h-12 w-12 text-v2-muted mx-auto mb-4" />
                         )}
-                        <p className="text-muted-foreground mb-2">
+                        <p className="text-v2-muted mb-2">
                           {isUploading
                             ? t('request.create.filesUploading')
                             : t('proposal.create.dragDrop')}
                         </p>
-                        <p className="text-sm text-muted-foreground">
-                          {t('proposal.create.imagesHint')}
-                        </p>
+                        <p className="text-sm text-v2-muted">{t('proposal.create.imagesHint')}</p>
                         {uploadedImages.length > 0 && (
-                          <p className="text-sm text-muted-foreground mt-2">
+                          <p className="text-sm text-v2-muted mt-2">
                             {uploadedImages.length}/{MAX_PROPOSAL_IMAGES}
                           </p>
                         )}
@@ -404,7 +413,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                             return (
                               <div
                                 key={`${url}-${index}`}
-                                className="relative aspect-square rounded-lg overflow-hidden border border-border bg-muted group"
+                                className="relative aspect-square rounded-v2-lg overflow-hidden border border-v2-border bg-v2-surface-subtle group"
                               >
                                 <Image
                                   src={url}
@@ -419,13 +428,13 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                                 />
                                 {isDeleting ? (
                                   <div className="absolute inset-0 flex items-center justify-center">
-                                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                                    <Loader2 className="h-6 w-6 animate-spin text-v2-primary" />
                                   </div>
                                 ) : (
                                   <button
                                     type="button"
                                     aria-label={t('request.create.filesRemove')}
-                                    className="absolute top-2 right-2 rounded-sm bg-destructive text-destructive-foreground p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
+                                    className="absolute top-2 right-2 rounded-sm bg-v2-danger text-white p-1.5 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
                                     onClick={() => removeImage(index)}
                                     disabled={isPending}
                                   >
@@ -444,9 +453,9 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
             />
 
             {/* Warning */}
-            <div className="bg-accent/30 rounded-lg p-4 border border-accent flex items-start">
-              <AlertCircle className="h-5 w-5 text-accent-foreground mr-3 mt-0.5 flex-shrink-0" />
-              <div className="text-sm text-accent-foreground">
+            <div className="bg-v2-hover rounded-v2-lg p-4 border border-v2-border flex items-start">
+              <AlertCircle className="h-5 w-5 text-v2-ink mr-3 mt-0.5 flex-shrink-0" />
+              <div className="text-sm text-v2-ink">
                 <p className="font-semibold mb-1">{t('proposal.create.warningTitle')}</p>
                 <ul className="list-disc list-inside space-y-1">
                   <li>{t('proposal.create.warning1')}</li>
@@ -459,13 +468,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
             </div>
 
             {/* Submit Button */}
-            <Button
-              type="submit"
-              size="lg"
-              variant="gradient"
-              className="w-full text-lg shadow-glow"
-              disabled={isPending}
-            >
+            <Button type="submit" className="w-full text-lg shadow-glow" disabled={isPending}>
               <Send className="mr-2 h-5 w-5" />
               {isPending ? t('proposal.create.submitting') : t('proposal.create.submitButton')}
             </Button>

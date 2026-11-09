@@ -87,34 +87,34 @@ export default function PrivacyContent() {
   ];
 
   return (
-    <div className="bg-background">
+    <div className="bg-v2-surface">
       {/* Hero Section */}
-      <section className="py-16 px-4 bg-muted/30">
+      <section className="py-16 px-4 bg-v2-surface-subtle">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-[550] mb-6 text-v2-primary">
             {t('privacy.hero.title')}
           </h1>
-          <p className="text-lg text-muted-foreground">{t('privacy.hero.lastUpdated')}</p>
+          <p className="text-lg text-v2-muted">{t('privacy.hero.lastUpdated')}</p>
         </div>
       </section>
 
       {/* Principles */}
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">{t('privacy.principles.title')}</h2>
+          <h2 className="text-3xl font-[550] text-center mb-12">{t('privacy.principles.title')}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {principles.map((principle, index) => {
               const Icon = principle.icon;
               return (
                 <div
                   key={index}
-                  className="bg-card rounded-2xl p-6 shadow-lg border border-border text-center"
+                  className="bg-v2-surface rounded-v2-2xl p-6  border border-v2-border text-center"
                 >
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-6 h-6 text-primary" />
+                  <div className="w-12 h-12 rounded-full bg-v2-primary flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-6 h-6 text-v2-primary" />
                   </div>
                   <h3 className="font-semibold text-lg mb-2">{principle.title}</h3>
-                  <p className="text-sm text-muted-foreground">{principle.description}</p>
+                  <p className="text-sm text-v2-muted">{principle.description}</p>
                 </div>
               );
             })}
@@ -126,16 +126,19 @@ export default function PrivacyContent() {
       <section className="py-8 px-4 pb-16">
         <div className="max-w-4xl mx-auto">
           <div className="prose prose-lg max-w-none">
-            <p className="text-lg text-muted-foreground mb-12">{t('privacy.intro')}</p>
+            <p className="text-lg text-v2-muted mb-12">{t('privacy.intro')}</p>
 
             <div className="space-y-12">
               {sections.map((section, index) => (
-                <div key={index} className="bg-card rounded-2xl p-8 shadow-sm border border-border">
-                  <h2 className="text-2xl font-bold mb-6">{section.title}</h2>
+                <div
+                  key={index}
+                  className="bg-v2-surface rounded-v2-2xl p-8 shadow-sm border border-v2-border"
+                >
+                  <h2 className="text-2xl font-[550] mb-6">{section.title}</h2>
                   <ul className="space-y-4">
                     {section.content.map((item, itemIndex) => (
-                      <li key={itemIndex} className="text-muted-foreground leading-relaxed flex">
-                        <span className="text-primary mr-3 flex-shrink-0">•</span>
+                      <li key={itemIndex} className="text-v2-muted leading-relaxed flex">
+                        <span className="text-v2-primary mr-3 flex-shrink-0">•</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -144,16 +147,14 @@ export default function PrivacyContent() {
               ))}
             </div>
 
-            <div className="mt-12 p-8 bg-primary/5 rounded-2xl border border-primary/20">
+            <div className="mt-12 p-8 bg-v2-primary rounded-v2-2xl border border-v2-primary">
               <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <Database className="w-6 h-6 text-primary" />
+                <Database className="w-6 h-6 text-v2-primary" />
                 {t('privacy.contact.title')}
               </h3>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                {t('privacy.contact.desc')}
-              </p>
+              <p className="text-v2-muted leading-relaxed mb-4">{t('privacy.contact.desc')}</p>
               <p
-                className="text-foreground font-medium"
+                className="text-v2-ink font-medium"
                 dangerouslySetInnerHTML={{ __html: t('privacy.contact.info') }}
               />
             </div>

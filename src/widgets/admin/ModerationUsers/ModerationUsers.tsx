@@ -5,11 +5,26 @@ import { Search } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { moderationUsers, type IModerationUser } from '@/entities/admin';
 import { BlockUserActions, PermissionGate } from '@/features/admin';
-import { Badge } from '@shared/ui/badge';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Input } from '@shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shared/ui/table';
+import {
+  Badge,
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/ui-v2';
 
 type Filter = 'all' | 'reported' | 'blocked';
 
@@ -33,14 +48,14 @@ export function ModerationUsers() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHead>
         <CardTitle>{t('admin.users.title')}</CardTitle>
         <CardDescription>{t('admin.users.description')}</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
+      </CardHead>
+      <CardBody className="space-y-4">
         <div className="flex flex-col gap-3 sm:flex-row">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-3 h-4 w-4 text-v2-muted" />
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -63,7 +78,7 @@ export function ModerationUsers() {
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center py-12 text-center">
             <p className="text-base font-semibold">{t('admin.empty.title')}</p>
-            <p className="mt-2 max-w-sm text-sm text-muted-foreground">{t('admin.empty.users')}</p>
+            <p className="mt-2 max-w-sm text-sm text-v2-muted">{t('admin.empty.users')}</p>
           </div>
         ) : (
           <Table>
@@ -87,7 +102,7 @@ export function ModerationUsers() {
                   <TableCell>{user.reports}</TableCell>
                   <TableCell>{user.reason}</TableCell>
                   <TableCell>
-                    <Badge variant={user.status === 'blocked' ? 'destructive' : 'success'}>
+                    <Badge tone={user.status === 'blocked' ? 'danger' : 'success'}>
                       {t(`admin.users.status.${user.status}`)}
                     </Badge>
                   </TableCell>
@@ -111,7 +126,7 @@ export function ModerationUsers() {
             </TableBody>
           </Table>
         )}
-      </CardContent>
+      </CardBody>
     </Card>
   );
 }

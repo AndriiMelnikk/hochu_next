@@ -16,28 +16,17 @@ import {
 import { useLingui } from '@lingui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { Badge } from '@shared/ui/badge';
-import { Separator } from '@shared/ui/separator';
-import { Button } from '@/shared/ui/button';
 import {
+  Badge,
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@shared/ui/alert-dialog';
+  Heading,
+} from '@/ui-v2';
 import {
   IRequest,
-  REQUEST_STATUS_BADGE_VARIANT,
   REQUEST_STATUS_LABELS,
   REQUEST_URGENCY_LABELS,
   RequestStatus,
@@ -48,6 +37,25 @@ import { EditRequestModal } from './EditRequestModal';
 import { formatChange } from '../utils/formatChanges';
 import Image from 'next/image';
 import { CreateReviewModal } from '@/features/proposals/ui/CreateReviewModal';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/ui-v2';
+
+const STATUS_TONE = {
+  pending: 'warning',
+  active: 'success',
+  closed: 'neutral',
+  completed: 'success',
+  cancelled: 'danger',
+  rejected: 'danger',
+} as const;
 
 interface RequestInfoProps {
   request: Pick<
@@ -133,27 +141,25 @@ export const RequestInfo = ({
     REQUEST_URGENCY_LABELS[request.urgency as keyof typeof REQUEST_URGENCY_LABELS];
 
   return (
-    <div className="space-y-6">
+    <div className="ui-v2 space-y-6">
       {/* Request Header */}
-      <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
+      <div className="rounded-v2-2xl border border-v2-border bg-v2-surface p-6">
         <div className="flex items-start justify-between mb-4 gap-4">
           <div className="flex-1 min-w-0 gap-2">
             <div>
               <Badge
-                variant={
-                  REQUEST_STATUS_BADGE_VARIANT[
-                    request.status as keyof typeof REQUEST_STATUS_BADGE_VARIANT
-                  ] ?? 'secondary'
-                }
+                tone={STATUS_TONE[request.status as keyof typeof STATUS_TONE] ?? 'neutral'}
                 className="mb-3"
               >
                 {t(REQUEST_STATUS_LABELS[request.status as keyof typeof REQUEST_STATUS_LABELS])}
               </Badge>
-              <Badge variant="secondary" className="bg-accent text-accent-foreground mb-3 ml-1">
+              <Badge tone="info" className="mb-3 ml-1">
                 {request.category.name}
               </Badge>
             </div>
-            <h1 className="text-3xl font-bold mb-3 text-card-foreground">{request.title}</h1>
+            <Heading level="title" as="h1" className="mb-3">
+              {request.title}
+            </Heading>
           </div>
           <div className="flex flex-col items-end gap-2">
             {isOwner && request.status === RequestStatus.ACTIVE && (
@@ -162,7 +168,7 @@ export const RequestInfo = ({
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="sm" disabled={updating}>
                       {t('request.actions.menu')}
-                      <ChevronDown className="h-4 w-4 ml-2" />
+                      <ChevronDown />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="min-w-[200px]">
@@ -172,7 +178,7 @@ export const RequestInfo = ({
                         window.setTimeout(() => setEditModalOpen(true), 0);
                       }}
                     >
-                      <Pencil className="h-4 w-4 mr-2 text-primary" />
+                      <Pencil className="h-4 w-4 mr-2 text-v2-primary" />
                       {t('request.actions.edit')}
                     </DropdownMenuItem>
 
@@ -181,7 +187,7 @@ export const RequestInfo = ({
                         window.setTimeout(() => setCancelDialogOpen(true), 0);
                       }}
                     >
-                      <XCircle className="h-4 w-4 mr-2 text-destructive" />
+                      <XCircle className="h-4 w-4 mr-2 text-v2-danger" />
                       {t('request.actions.cancel')}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -202,7 +208,7 @@ export const RequestInfo = ({
                           e.preventDefault();
                           handleCancelRequest();
                         }}
-                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        className="bg-v2-danger text-white hover:opacity-90"
                       >
                         {isCancelling ? t('request.edit.submitting') : t('request.actions.cancel')}
                       </AlertDialogAction>
@@ -245,7 +251,7 @@ export const RequestInfo = ({
           />
         )}
 
-        <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
+        <div className="flex flex-wrap gap-4 text-sm text-v2-muted mb-4">
           <span className="flex items-center">
             <Clock className="h-4 w-4 mr-1" />
             {timeAgo}
@@ -260,34 +266,34 @@ export const RequestInfo = ({
           </span>
         </div>
 
-        <Separator className="my-4" />
+        <hr className="my-4 border-v2-border" />
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
           <div className="flex items-start">
-            <Wallet className="h-5 w-5 text-primary mr-2 mt-0.5" />
+            <Wallet className="h-5 w-5 text-v2-primary mr-2 mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">{t('request.detail.budget')}</p>
+              <p className="text-sm text-v2-muted">{t('request.detail.budget')}</p>
               <p className="font-semibold">{budget}</p>
             </div>
           </div>
           <div className="flex items-start">
-            <MapPin className="h-5 w-5 text-primary mr-2 mt-0.5" />
+            <MapPin className="h-5 w-5 text-v2-primary mr-2 mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">{t('request.detail.location')}</p>
+              <p className="text-sm text-v2-muted">{t('request.detail.location')}</p>
               <p className="font-semibold">{request.location || '-'}</p>
             </div>
           </div>
           <div className="flex items-start">
-            <Calendar className="h-5 w-5 text-primary mr-2 mt-0.5" />
+            <Calendar className="h-5 w-5 text-v2-primary mr-2 mt-0.5" />
             <div>
-              <p className="text-sm text-muted-foreground">{t('request.detail.urgency')}</p>
+              <p className="text-sm text-v2-muted">{t('request.detail.urgency')}</p>
               <p className="font-semibold">{urgencyLabel ? t(urgencyLabel) : request.urgency}</p>
             </div>
           </div>
           <div className="flex items-start">
-            <Package className="h-5 w-5 mr-2 text-primary" />
+            <Package className="h-5 w-5 mr-2 text-v2-primary" />
             <div>
-              <p className="text-sm text-muted-foreground">{t('request.detail.condition')}</p>
+              <p className="text-sm text-v2-muted">{t('request.detail.condition')}</p>
               <p className="font-semibold">
                 {request.itemCondition === 'new'
                   ? t('request.create.itemConditionNew')
@@ -300,26 +306,27 @@ export const RequestInfo = ({
         </div>
       </div>
       {/* Description */}
-      <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-        <h2 className="text-xl font-semibold mb-4">{t('request.detail.description')}</h2>
-        <div className="prose max-w-none text-muted-foreground whitespace-pre-line">
+      <div className="rounded-v2-2xl border border-v2-border bg-v2-surface p-6">
+        <h2 className="mb-4 text-xl font-[550]">{t('request.detail.description')}</h2>
+        <div className="prose max-w-none text-v2-muted whitespace-pre-line">
           {request.description}
         </div>
 
         {/* Edit History */}
         {request.edits && request.edits.length > 0 && (
-          <div className="mt-6 pt-6 border-t border-border">
-            <h3 className="text-sm font-semibold text-muted-foreground mb-3">
+          <div className="mt-6 pt-6 border-t border-v2-border">
+            <h3 className="text-sm font-semibold text-v2-muted mb-3">
               {t('request.detail.editHistory')}
             </h3>
             <div className="space-y-3">
               {request.edits.map((edit, index) => (
-                <div key={index} className="bg-muted/30 rounded-lg p-3 border border-border">
+                <div
+                  key={index}
+                  className="bg-v2-surface-subtle rounded-v2-lg p-3 border border-v2-border"
+                >
                   <div className="flex items-center justify-between mb-2">
-                    <Badge variant="outline" className="text-xs">
-                      {t('request.detail.clarification')}
-                    </Badge>
-                    <span className="text-xs text-muted-foreground">
+                    <Badge>{t('request.detail.clarification')}</Badge>
+                    <span className="text-xs text-v2-muted">
                       {new Date(edit.timestamp).toLocaleString()}
                     </span>
                   </div>
@@ -336,16 +343,16 @@ export const RequestInfo = ({
                           );
                           return (
                             <div key={idx} className="flex gap-2 text-xs">
-                              <span className="font-semibold text-foreground">{label}:</span>
+                              <span className="font-semibold text-v2-ink">{label}:</span>
                               {formatted ? (
-                                <span className="text-muted-foreground">{formatted}</span>
+                                <span className="text-v2-muted">{formatted}</span>
                               ) : (
                                 <>
-                                  <span className="text-muted-foreground line-through">
+                                  <span className="text-v2-muted line-through">
                                     {String(oldValue)}
                                   </span>
-                                  <span className="text-muted-foreground">→</span>
-                                  <span className="text-primary font-medium">
+                                  <span className="text-v2-muted">→</span>
+                                  <span className="text-v2-primary font-medium">
                                     {String(newValue)}
                                   </span>
                                 </>
@@ -365,15 +372,15 @@ export const RequestInfo = ({
 
       {/* Images */}
       {request.images && request.images.length > 0 && (
-        <div className="bg-card rounded-2xl p-6 shadow-md border border-border">
-          <h2 className="text-xl font-semibold mb-4">
+        <div className="rounded-v2-2xl border border-v2-border bg-v2-surface p-6">
+          <h2 className="mb-4 text-xl font-[550]">
             {t('request.detail.photos', { count: request.images.length })}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {request.images.map((image, index) => (
               <div
                 key={index}
-                className="aspect-video rounded-lg overflow-hidden border border-border hover:border-primary transition-colors cursor-pointer group"
+                className="aspect-video rounded-v2-lg overflow-hidden border border-v2-border hover:border-v2-primary transition-colors cursor-pointer group"
                 onClick={() => onImageClick(request.images, index)}
               >
                 <Image

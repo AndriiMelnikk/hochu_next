@@ -3,12 +3,11 @@
 import { useParams } from 'next/navigation';
 import { useUser, type IProfile } from '@/entities/user';
 import { useAuthStore } from '@/entities/auth';
-import { Button } from '@shared/ui/button';
+import { Button, Container, Heading, LoadingState } from '@/ui-v2';
 import Link from '@/shared/ui/link';
 import { routes } from '@/app/router/routes';
 import ProfileHeader from '@/widgets/app/ProfileHeader';
 import ProfileTabs from '@/widgets/app/ProfileTabs';
-import { Loading } from '@/shared/ui/loading';
 import { useLingui } from '@lingui/react';
 
 export default function ProfileContent({ initialData }: { initialData?: IProfile }) {
@@ -23,13 +22,15 @@ export default function ProfileContent({ initialData }: { initialData?: IProfile
   const isOwner = currentUser?.profile?._id === id;
 
   if (isLoading) {
-    return <Loading variant="full-page" />;
+    return <LoadingState className="min-h-[50vh]" />;
   }
 
   if (error || !user) {
     return (
-      <div className="flex flex-col items-center justify-center p-4 min-h-[50vh]">
-        <h1 className="text-2xl font-bold mb-4">{t('profile.userNotFound')}</h1>
+      <div className="ui-v2 flex min-h-[50vh] flex-col items-center justify-center gap-4 p-4">
+        <Heading level="h3" as="h1">
+          {t('profile.userNotFound')}
+        </Heading>
         <Button asChild>
           <Link href={routes.HOME}>{t('profile.backToHome')}</Link>
         </Button>
@@ -53,9 +54,9 @@ export default function ProfileContent({ initialData }: { initialData?: IProfile
   };
 
   return (
-    <div className="container mx-auto px-4 pb-16">
+    <Container className="ui-v2 pb-16">
       <ProfileHeader user={displayUser} isOwner={isOwner} />
       <ProfileTabs user={displayUser} isOwner={isOwner} />
-    </div>
+    </Container>
   );
 }

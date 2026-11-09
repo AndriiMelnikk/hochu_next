@@ -4,9 +4,7 @@ import { useState } from 'react';
 import { CheckCircle, XCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
-import { Button } from '@shared/ui/button';
-import { Label } from '@shared/ui/label';
-import { Textarea } from '@shared/ui/textarea';
+import { Button, Label, Textarea } from '@/ui-v2';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,7 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@shared/ui/alert-dialog';
+} from '@/ui-v2';
 
 interface ApproveRejectActionsProps {
   entityLabel: string;
@@ -46,8 +44,8 @@ export function ApproveRejectActions({ entityLabel, onResolved }: ApproveRejectA
     <div className="flex gap-2">
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label={t('admin.actions.approve')}>
-            <CheckCircle className="h-4 w-4 text-green-700" />
+          <Button variant="ghost" shape="circle" aria-label={t('admin.actions.approve')}>
+            <CheckCircle className="h-4 w-4 text-v2-primary" />
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
@@ -70,9 +68,9 @@ export function ApproveRejectActions({ entityLabel, onResolved }: ApproveRejectA
         <AlertDialogTrigger asChild>
           <Button
             variant="ghost"
-            size="icon"
+            shape="circle"
             aria-label={t('admin.actions.reject')}
-            className="text-destructive"
+            className="text-v2-danger"
           >
             <XCircle className="h-4 w-4" />
           </Button>
@@ -81,7 +79,7 @@ export function ApproveRejectActions({ entityLabel, onResolved }: ApproveRejectA
           <AlertDialogHeader>
             <AlertDialogTitle>{t('admin.requests.reject.title')}</AlertDialogTitle>
             <AlertDialogDescription asChild>
-              <div className="space-y-4 mt-2 text-sm text-muted-foreground">
+              <div className="space-y-4 mt-2 text-sm text-v2-muted">
                 <div className="space-y-2">
                   <Label htmlFor="reject-reason">{t('admin.requests.reject.reasonLabel')}</Label>
                   <Textarea
@@ -97,7 +95,7 @@ export function ApproveRejectActions({ entityLabel, onResolved }: ApproveRejectA
           <AlertDialogFooter>
             <AlertDialogCancel>{t('admin.requests.reject.cancel')}</AlertDialogCancel>
             <AlertDialogAction
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              className="bg-v2-danger text-white hover:opacity-90"
               onClick={handleReject}
             >
               {t('admin.requests.reject.confirm')}

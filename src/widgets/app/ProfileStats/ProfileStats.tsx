@@ -1,4 +1,3 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
 import { TrendingUp, ShoppingBag, MessageSquare, Star, Wallet, Eye } from 'lucide-react';
 import {
   LineChart,
@@ -14,6 +13,7 @@ import {
   Pie,
   Cell,
 } from 'recharts';
+import { Card, CardBody, CardDescription, CardHead, CardTitle } from '@/ui-v2';
 
 const ProfileStats = () => {
   const stats = {
@@ -48,64 +48,62 @@ const ProfileStats = () => {
     <div className="space-y-6">
       {/* Загальна статистика */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-primary/20 shadow-md hover:shadow-lg transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="border-v2-primary  hover: transition-shadow">
+          <CardHead className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Всього запитів</CardTitle>
-            <ShoppingBag className="h-4 w-4 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totalRequests}</div>
-            <p className="text-xs text-muted-foreground">{stats.activeRequests} активних зараз</p>
-          </CardContent>
+            <ShoppingBag className="h-4 w-4 text-v2-primary" />
+          </CardHead>
+          <CardBody>
+            <div className="text-2xl font-[550]">{stats.totalRequests}</div>
+            <p className="text-xs text-v2-muted">{stats.activeRequests} активних зараз</p>
+          </CardBody>
         </Card>
 
-        <Card className="border-primary/20 shadow-md hover:shadow-lg transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="border-v2-primary  hover: transition-shadow">
+          <CardHead className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Завершено угод</CardTitle>
-            <TrendingUp className="h-4 w-4 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.completedDeals}</div>
-            <p className="text-xs text-muted-foreground">75% від всіх запитів</p>
-          </CardContent>
+            <TrendingUp className="h-4 w-4 text-v2-primary" />
+          </CardHead>
+          <CardBody>
+            <div className="text-2xl font-[550]">{stats.completedDeals}</div>
+            <p className="text-xs text-v2-muted">75% від всіх запитів</p>
+          </CardBody>
         </Card>
 
-        <Card className="border-primary/20 shadow-md hover:shadow-lg transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="border-v2-primary  hover: transition-shadow">
+          <CardHead className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Витрачено</CardTitle>
-            <Wallet className="h-4 w-4 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totalSpent.toLocaleString()} грн.</div>
-            <p className="text-xs text-muted-foreground">
+            <Wallet className="h-4 w-4 text-v2-primary" />
+          </CardHead>
+          <CardBody>
+            <div className="text-2xl font-[550]">{stats.totalSpent.toLocaleString()} грн.</div>
+            <p className="text-xs text-v2-muted">
               Середній чек: {Math.round(stats.totalSpent / stats.completedDeals).toLocaleString()}{' '}
               грн.
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
 
-        <Card className="border-primary/20 shadow-md hover:shadow-lg transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <Card className="border-v2-primary  hover: transition-shadow">
+          <CardHead className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Рейтинг</CardTitle>
-            <Star className="h-4 w-4 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.averageRating}/5.0</div>
-            <p className="text-xs text-muted-foreground">
-              На основі {stats.completedDeals} відгуків
-            </p>
-          </CardContent>
+            <Star className="h-4 w-4 text-v2-primary" />
+          </CardHead>
+          <CardBody>
+            <div className="text-2xl font-[550]">{stats.averageRating}/5.0</div>
+            <p className="text-xs text-v2-muted">На основі {stats.completedDeals} відгуків</p>
+          </CardBody>
         </Card>
       </div>
 
       {/* Графіки активності */}
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
-          <CardHeader>
+          <CardHead>
             <CardTitle>Активність за останні місяці</CardTitle>
             <CardDescription>Запити та завершені угоди</CardDescription>
-          </CardHeader>
-          <CardContent>
+          </CardHead>
+          <CardBody>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={monthlyActivity}>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
@@ -134,15 +132,15 @@ const ProfileStats = () => {
                 />
               </LineChart>
             </ResponsiveContainer>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHead>
             <CardTitle>Популярні категорії</CardTitle>
             <CardDescription>Розподіл запитів по категоріях</CardDescription>
-          </CardHeader>
-          <CardContent>
+          </CardHead>
+          <CardBody>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -168,49 +166,49 @@ const ProfileStats = () => {
                 />
               </PieChart>
             </ResponsiveContainer>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
 
       {/* Показники цього місяця */}
       <Card>
-        <CardHeader>
+        <CardHead>
           <CardTitle>Показники цього місяця</CardTitle>
           <CardDescription>Ключові метрики поточного періоду</CardDescription>
-        </CardHeader>
-        <CardContent>
+        </CardHead>
+        <CardBody>
           <div className="grid gap-6 md:grid-cols-3">
-            <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
-              <div className="p-3 bg-primary/10 rounded-full">
-                <Eye className="h-6 w-6 text-primary" />
+            <div className="flex items-center gap-4 p-4 bg-v2-surface-subtle rounded-v2-lg">
+              <div className="p-3 bg-v2-primary rounded-full">
+                <Eye className="h-6 w-6 text-v2-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{stats.viewsThisMonth}</p>
-                <p className="text-sm text-muted-foreground">Переглядів профілю</p>
+                <p className="text-2xl font-[550]">{stats.viewsThisMonth}</p>
+                <p className="text-sm text-v2-muted">Переглядів профілю</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
-              <div className="p-3 bg-primary/10 rounded-full">
-                <MessageSquare className="h-6 w-6 text-primary" />
+            <div className="flex items-center gap-4 p-4 bg-v2-surface-subtle rounded-v2-lg">
+              <div className="p-3 bg-v2-primary rounded-full">
+                <MessageSquare className="h-6 w-6 text-v2-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{stats.messagesThisMonth}</p>
-                <p className="text-sm text-muted-foreground">Повідомлень</p>
+                <p className="text-2xl font-[550]">{stats.messagesThisMonth}</p>
+                <p className="text-sm text-v2-muted">Повідомлень</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4 p-4 bg-muted rounded-lg">
-              <div className="p-3 bg-primary/10 rounded-full">
-                <TrendingUp className="h-6 w-6 text-primary" />
+            <div className="flex items-center gap-4 p-4 bg-v2-surface-subtle rounded-v2-lg">
+              <div className="p-3 bg-v2-primary rounded-full">
+                <TrendingUp className="h-6 w-6 text-v2-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{stats.responseRate}%</p>
-                <p className="text-sm text-muted-foreground">Відповідей на запити</p>
+                <p className="text-2xl font-[550]">{stats.responseRate}%</p>
+                <p className="text-sm text-v2-muted">Відповідей на запити</p>
               </div>
             </div>
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
     </div>
   );

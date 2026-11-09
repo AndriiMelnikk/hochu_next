@@ -12,13 +12,13 @@ export default function RegisterContent({ returnUrl }: { returnUrl?: string | nu
   const loginHref = buildAuthHref(routes.LOGIN, returnUrl);
 
   return (
-    <div className="container mx-auto px-4 pb-16">
-      <div className="grid lg:grid-cols-2 gap-0 max-w-6xl mx-auto bg-card rounded-3xl shadow-2xl overflow-hidden">
+    <div className="mx-auto w-full max-w-[1240px] px-4 md:px-6 pb-16">
+      <div className="grid lg:grid-cols-2 gap-0 max-w-6xl mx-auto bg-v2-surface rounded-3xl shadow-2xl overflow-hidden">
         {/* Left Section - Form */}
         <div className="p-8 lg:p-12">
           <div className="space-y-2 mb-8">
-            <h1 className="text-3xl font-bold text-card-foreground">{t('auth.register.title')}</h1>
-            <p className="text-muted-foreground">{t('auth.register.subtitle')}</p>
+            <h1 className="text-3xl font-[550] text-v2-ink">{t('auth.register.title')}</h1>
+            <p className="text-v2-muted">{t('auth.register.subtitle')}</p>
           </div>
 
           <Suspense fallback={null}>
@@ -26,18 +26,18 @@ export default function RegisterContent({ returnUrl }: { returnUrl?: string | nu
           </Suspense>
 
           <div className="mt-6 text-center text-sm">
-            <span className="text-muted-foreground">{t('auth.register.alreadyHaveAccount')}</span>
-            <Link href={loginHref} className="text-primary hover:underline font-medium">
+            <span className="text-v2-muted">{t('auth.register.alreadyHaveAccount')}</span>
+            <Link href={loginHref} className="text-v2-primary hover:underline font-medium">
               {t('auth.register.loginLink')}
             </Link>
           </div>
         </div>
 
         {/* Right Section - Info */}
-        <div className="bg-gradient-primary p-8 lg:p-12 text-white flex flex-col justify-center">
+        <div className="bg-v2-primary p-8 lg:p-12 text-white flex flex-col justify-center">
           <div className="space-y-6">
             <div className="space-y-3">
-              <h2 className="text-3xl font-bold">{t('auth.register.welcomeTitle')}</h2>
+              <h2 className="text-3xl font-[550]">{t('auth.register.welcomeTitle')}</h2>
               <p className="text-white/90 text-lg">{t('auth.register.welcomeSubtitle')}</p>
             </div>
 

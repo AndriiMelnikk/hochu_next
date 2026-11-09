@@ -1,17 +1,17 @@
 'use client';
 
 import { useLingui } from '@lingui/react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@shared/ui/dialog';
-import { Button } from '@shared/ui/button';
 import { useCancelProposal } from '@/entities/proposal/hooks/useCancelProposal';
 import { toast } from 'sonner';
+import {
+  Button,
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from '@/ui-v2';
 
 interface CancelProposalModalProps {
   requestId: string;
@@ -45,18 +45,18 @@ export const CancelProposalModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t('proposal.cancel.confirmTitle')}</DialogTitle>
-          <DialogDescription>{t('proposal.cancel.confirmDescription')}</DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>{t('proposal.cancel.confirmTitle')}</ModalTitle>
+          <ModalDescription>{t('proposal.cancel.confirmDescription')}</ModalDescription>
+        </ModalHeader>
+        <ModalFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             {t('proposal.edit.cancel')}
           </Button>
           <Button
-            variant="destructive"
+            variant="danger"
             onClick={(e) => {
               e.preventDefault();
               handleCancelProposal();
@@ -65,8 +65,8 @@ export const CancelProposalModal = ({
           >
             {isCancelling ? t('proposal.edit.submitting') : t('proposal.item.cancelButton')}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };

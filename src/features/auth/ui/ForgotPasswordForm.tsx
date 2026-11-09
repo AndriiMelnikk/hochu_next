@@ -5,12 +5,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { authService, type IForgotPasswordRequest } from '@entities/auth';
 import { z } from 'zod';
 import { useMemo } from 'react';
-import { Button } from '@shared/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
-import { Input } from '@shared/ui/input';
 import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
 import type { FieldError } from 'react-hook-form';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+} from '@/ui-v2';
 
 const getForgotPasswordSchema = (t: (id: string) => string) =>
   z.object({
@@ -75,7 +82,7 @@ export const ForgotPasswordForm = () => {
           )}
         />
 
-        <Button type="submit" variant="gradient" className="w-full" disabled={isSubmitting}>
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
           {isSubmitting
             ? t('auth.forgotPassword.form.submit.loading')
             : t('auth.forgotPassword.form.submit.default')}

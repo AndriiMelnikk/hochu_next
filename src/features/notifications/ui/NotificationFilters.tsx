@@ -3,9 +3,15 @@
 import { useLingui } from '@lingui/react';
 import { NotificationCategory } from '@/entities/notification';
 import type { NotificationScope } from '@/entities/notification';
-import { Label } from '@/shared/ui/label';
-import { Switch } from '@/shared/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import {
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Switch,
+} from '@/ui-v2';
 
 interface NotificationFiltersProps {
   unread: string;
@@ -34,7 +40,7 @@ export const NotificationFilters = ({
   const t = (id: string) => i18n._(id);
 
   return (
-    <div className="bg-card rounded-2xl shadow-md p-6 mb-8 border border-border">
+    <div className="bg-v2-surface rounded-v2-2xl  p-6 mb-8 border border-v2-border">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="mb-4 grid gap-4">
           <div className="flex h-10 items-center gap-2">

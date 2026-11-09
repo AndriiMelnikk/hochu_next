@@ -1,15 +1,10 @@
 'use client';
 
 import Link from '@/shared/ui/link';
-import { Badge } from '@shared/ui/badge';
-import { Clock, Wallet, MapPin } from 'lucide-react';
+import { Badge } from '@/ui-v2';
+import { Clock, MapPin } from 'lucide-react';
 import { routes } from '@/app/router/routes';
-import {
-  IRequest,
-  REQUEST_STATUS_BADGE_VARIANT,
-  REQUEST_STATUS_LABELS,
-  RequestStatus,
-} from '@entities/request';
+import { IRequest, REQUEST_STATUS_LABELS, RequestStatus } from '@entities/request';
 import { useLingui } from '@lingui/react';
 
 interface RequestCardProps {
@@ -34,53 +29,59 @@ export const RequestCard = ({ request, categoryName, status }: RequestCardProps)
     budget = t('request.budget.to', { amount: max });
   }
 
+  const statusTone = {
+    pending: 'warning',
+    active: 'success',
+    closed: 'neutral',
+    completed: 'success',
+    cancelled: 'danger',
+    rejected: 'danger',
+  } as const;
+
   return (
-    <Link href={`${routes.REQUEST_ID(request._id.toString())}`} className="group" prefetch={false}>
-      <div className="bg-card rounded-2xl p-6 shadow-md border border-border hover:shadow-lg hover:shadow-blue/20 transition-all h-full flex flex-col">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <Badge variant="default">{categoryName || request.category.name}</Badge>
+    <Link
+      href={routes.REQUEST_ID(request._id.toString())}
+      className="group block h-full"
+      prefetch={false}
+    >
+      <article className="ui-v2 flex h-full flex-col rounded-v2-2xl border border-v2-border bg-v2-surface p-6 transition-colors group-hover:bg-v2-hover group-focus-visible:ring-2 group-focus-visible:ring-v2-primary">
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge tone="info">{categoryName || request.category.name}</Badge>
             {status && (
-              <Badge
-                variant={
-                  REQUEST_STATUS_BADGE_VARIANT[
-                    request.status as keyof typeof REQUEST_STATUS_BADGE_VARIANT
-                  ] ?? 'secondary'
-                }
-              >
+              <Badge tone={statusTone[request.status as keyof typeof statusTone] ?? 'neutral'}>
                 {t(REQUEST_STATUS_LABELS[request.status as keyof typeof REQUEST_STATUS_LABELS])}
               </Badge>
             )}
           </div>
-
-          <span className="text-xs text-muted-foreground flex items-center">
-            <Clock className="h-3 w-3 mr-1" />
-            {new Date(request.createdAt).toLocaleDateString()}
+          <span className="flex shrink-0 items-center text-xs text-v2-subtle">
+            <Clock className="mr-1 size-3" />
+            {new Date(request.createdAt).toLocaleDateString(
+              i18n.locale === 'uk' ? 'uk-UA' : 'en-US',
+              { timeZone: 'UTC' },
+            )}
           </span>
         </div>
 
-        <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+        <h3 className="mb-2 text-lg font-[550] leading-6 text-v2-ink group-hover:text-v2-primary group-hover:underline underline-offset-4">
           {request.title}
         </h3>
 
-        <p className="text-muted-foreground mb-4 line-clamp-2 flex-1">{request.description}</p>
+        <p className="mb-4 line-clamp-2 flex-1 text-sm leading-5 text-v2-muted">
+          {request.description}
+        </p>
 
-        <div className="space-y-2 text-sm">
-          <div className="flex items-center text-muted-foreground">
-            <Wallet className="h-4 w-4 mr-2 text-primary" />
-            <span className="font-medium text-foreground">{budget}</span>
-          </div>
-
-          <div className="flex items-center text-muted-foreground">
-            <MapPin className="h-4 w-4 mr-2 text-primary" />
+        <div className="space-y-1 text-sm">
+          <div className="font-semibold text-v2-ink">{budget}</div>
+          <div className="flex items-center text-v2-muted">
+            <MapPin className="mr-1.5 size-4 shrink-0" />
             {request.location}
           </div>
-
-          <div className="pt-3 border-t border-border">
-            <span className="text-primary font-medium">{request.proposalsCount} пропозицій</span>
+          <div className="mt-3 border-t border-v2-border pt-3 font-semibold text-v2-primary">
+            {request.proposalsCount} пропозицій
           </div>
         </div>
-      </div>
+      </article>
     </Link>
   );
 };

@@ -2,10 +2,7 @@ import type { AxiosRequestConfig } from 'axios';
 import { api } from '@shared/api/api';
 import { ENDPOINTS } from '@shared/api/endpoints';
 import type { ITelegramLinkStatus, ITelegramLinkToken } from '../types/TelegramLink';
-import {
-  telegramLinkStatusSchema,
-  telegramLinkTokenSchema,
-} from '../schemas/notificationSchema';
+import { telegramLinkStatusSchema, telegramLinkTokenSchema } from '../schemas/notificationSchema';
 
 class TelegramLinkService {
   async getStatus(config?: AxiosRequestConfig): Promise<ITelegramLinkStatus> {

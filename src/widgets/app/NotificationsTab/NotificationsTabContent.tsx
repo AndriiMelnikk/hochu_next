@@ -12,9 +12,7 @@ import {
 } from '@/entities/notification';
 import { NotificationFilters, NotificationItem } from '@/features/notifications';
 import { useQueryPagination } from '@/shared/hooks';
-import { UniversalPagination } from '@/shared/ui/universal-pagination';
-import { Button } from '@/shared/ui/button';
-import { Loading } from '@/shared/ui/loading';
+import { Button, LoadingState, Pagination } from '@/ui-v2';
 
 export default function NotificationsTabContent() {
   const { i18n } = useLingui();
@@ -92,18 +90,14 @@ export default function NotificationsTabContent() {
         </Button>
       </div>
 
-      {isLoading && <Loading variant="inline" />}
+      {isLoading && <LoadingState variant="inline" />}
 
       {error && (
-        <p className="text-center text-destructive py-8">
-          {t('profile.notifications.inbox.error')}
-        </p>
+        <p className="text-center text-v2-danger py-8">{t('profile.notifications.inbox.error')}</p>
       )}
 
       {!isLoading && !error && items.length === 0 && (
-        <p className="text-center text-muted-foreground py-12">
-          {t('profile.notifications.inbox.empty')}
-        </p>
+        <p className="text-center text-v2-muted py-12">{t('profile.notifications.inbox.empty')}</p>
       )}
 
       {!isLoading && !error && items.length > 0 && (
@@ -115,7 +109,7 @@ export default function NotificationsTabContent() {
       )}
 
       {totalPages > 1 && (
-        <UniversalPagination
+        <Pagination
           currentPage={page}
           totalPages={totalPages}
           onPageChange={handlePageChange}

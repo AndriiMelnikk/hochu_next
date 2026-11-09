@@ -2,8 +2,8 @@
 
 import { useLingui } from '@lingui/react';
 import type { IRequest } from '@/entities/request';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
 import { EditRequestForm } from './EditRequestForm';
+import { Modal, ModalContent, ModalHeader, ModalTitle } from '@/ui-v2';
 
 interface EditRequestModalProps {
   request: IRequest;
@@ -35,11 +35,11 @@ export const EditRequestModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
-        <DialogHeader>
-          <DialogTitle>{t('request.edit.title')}</DialogTitle>
-        </DialogHeader>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+        <ModalHeader>
+          <ModalTitle>{t('request.edit.title')}</ModalTitle>
+        </ModalHeader>
         <div className="flex-1 overflow-hidden">
           <EditRequestForm
             key={request._id}
@@ -48,7 +48,7 @@ export const EditRequestModal = ({
             onCancel={handleCancel}
           />
         </div>
-      </DialogContent>
-    </Dialog>
+      </ModalContent>
+    </Modal>
   );
 };

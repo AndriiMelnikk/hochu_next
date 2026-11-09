@@ -4,8 +4,18 @@ import { useMemo, useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { productAnalytics, type AnalyticsRange } from '@/entities/admin';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
+import {
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/ui-v2';
 
 const PIE_COLORS = ['#E10600', '#1A1A1A', '#6B6B6B', '#C20500'];
 
@@ -23,7 +33,7 @@ export function AnalyticsOverview() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold">{t('admin.analytics.productTitle')}</h2>
-          <p className="text-sm text-muted-foreground">{t('admin.analytics.productDescription')}</p>
+          <p className="text-sm text-v2-muted">{t('admin.analytics.productDescription')}</p>
         </div>
         <Select value={range} onValueChange={(v) => setRange(v as AnalyticsRange)}>
           <SelectTrigger className="w-[140px]">
@@ -39,76 +49,74 @@ export function AnalyticsOverview() {
 
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardHead className="pb-2">
+            <CardTitle className="text-sm font-medium text-v2-muted">
               {t('admin.analytics.totalUsers')}
             </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{kpi.totalUsers}</div>
-            <p className="mt-1 text-sm text-green-700">
+          </CardHead>
+          <CardBody>
+            <div className="text-3xl font-[550]">{kpi.totalUsers}</div>
+            <p className="mt-1 text-sm text-v2-primary">
               {t('admin.analytics.growthMonth', { growth: kpi.growth })}
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardHead className="pb-2">
+            <CardTitle className="text-sm font-medium text-v2-muted">
               {t('admin.analytics.activeRequests')}
             </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{kpi.activeRequests}</div>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {t('admin.analytics.needResponse')}
-            </p>
-          </CardContent>
+          </CardHead>
+          <CardBody>
+            <div className="text-3xl font-[550]">{kpi.activeRequests}</div>
+            <p className="mt-1 text-sm text-v2-muted">{t('admin.analytics.needResponse')}</p>
+          </CardBody>
         </Card>
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardHead className="pb-2">
+            <CardTitle className="text-sm font-medium text-v2-muted">
               {t('admin.analytics.totalProposals')}
             </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{kpi.totalProposals}</div>
-            <p className="mt-1 text-sm text-muted-foreground">{t('admin.analytics.allTime')}</p>
-          </CardContent>
+          </CardHead>
+          <CardBody>
+            <div className="text-3xl font-[550]">{kpi.totalProposals}</div>
+            <p className="mt-1 text-sm text-v2-muted">{t('admin.analytics.allTime')}</p>
+          </CardBody>
         </Card>
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardHead className="pb-2">
+            <CardTitle className="text-sm font-medium text-v2-muted">
               {t('admin.analytics.revenue')}
             </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">
+          </CardHead>
+          <CardBody>
+            <div className="text-3xl font-[550]">
               {kpi.revenue} {t('admin.analytics.revenueCurrency')}
             </div>
-            <p className="mt-1 text-sm text-green-700">
+            <p className="mt-1 text-sm text-v2-primary">
               {t('admin.analytics.growthMonth', { growth: kpi.growth })}
             </p>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
-          <CardHeader>
+          <CardHead>
             <CardTitle>{t('admin.analytics.userActivity')}</CardTitle>
             <CardDescription>{t('admin.analytics.registrations30d')}</CardDescription>
-          </CardHeader>
-          <CardContent>
+          </CardHead>
+          <CardBody>
             <ul className="space-y-3">
               {registrations.map((point) => (
                 <li key={point.date} className="space-y-1.5">
                   <div className="flex items-center justify-between gap-3 text-sm">
                     <span className="font-medium">{point.date}</span>
-                    <span className="text-muted-foreground tabular-nums">{point.count}</span>
+                    <span className="text-v2-muted tabular-nums">{point.count}</span>
                   </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-muted">
+                  <div className="h-2 overflow-hidden rounded-full bg-v2-surface-subtle">
                     <div
-                      className="h-full rounded-full bg-primary"
+                      className="h-full rounded-full bg-v2-primary"
                       style={{
                         width: `${Math.round((point.count / maxRegistrations) * 100)}%`,
                       }}
@@ -117,15 +125,15 @@ export function AnalyticsOverview() {
                 </li>
               ))}
             </ul>
-          </CardContent>
+          </CardBody>
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHead>
             <CardTitle>{t('admin.analytics.categoryDistribution')}</CardTitle>
             <CardDescription>{t('admin.analytics.popularCategories')}</CardDescription>
-          </CardHeader>
-          <CardContent className="h-64">
+          </CardHead>
+          <CardBody className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={categories} dataKey="value" nameKey="name" outerRadius={90}>
@@ -136,7 +144,7 @@ export function AnalyticsOverview() {
                 <Tooltip />
               </PieChart>
             </ResponsiveContainer>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
     </div>

@@ -8,9 +8,7 @@ import {
   useTelegramLinkStatus,
   useUnlinkTelegram,
 } from '@/entities/notification';
-import { Button } from '@/shared/ui/button';
-import { Badge } from '@/shared/ui/badge';
-import { Loading } from '@/shared/ui/loading';
+import { Badge, Button, LoadingState } from '@/ui-v2';
 
 export const TelegramConnectSection = () => {
   const { i18n } = useLingui();
@@ -45,7 +43,7 @@ export const TelegramConnectSection = () => {
   };
 
   if (isLoading) {
-    return <Loading variant="inline" />;
+    return <LoadingState variant="inline" />;
   }
 
   return (
@@ -53,14 +51,14 @@ export const TelegramConnectSection = () => {
       <div className="min-w-0 space-y-0.5">
         <div className="flex flex-wrap items-center gap-2">
           <p className="text-sm font-medium">{t('profile.notifications.telegram.title')}</p>
-          <Badge variant={linked ? 'success' : 'secondary'}>
+          <Badge tone={linked ? 'success' : 'neutral'}>
             {linked
               ? t('profile.notifications.telegram.linked')
               : t('profile.notifications.telegram.notLinked')}
           </Badge>
-          {isFetching && !isLoading && <Loading variant="inline" />}
+          {isFetching && !isLoading && <LoadingState variant="inline" />}
         </div>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-v2-muted">
           {linked && status?.telegramUsername
             ? `@${status.telegramUsername}`
             : t('profile.notifications.telegram.description')}
@@ -85,7 +83,7 @@ export const TelegramConnectSection = () => {
               size="sm"
               onClick={handleUnlink}
               disabled={isUnlinking}
-              className="text-destructive hover:text-destructive"
+              className="text-v2-danger hover:text-v2-danger"
             >
               <Unlink className="mr-1.5 h-3.5 w-3.5" />
               {t('profile.notifications.telegram.unlink')}

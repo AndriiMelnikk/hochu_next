@@ -9,6 +9,7 @@ export const messages: Messages = {
   'request.list.loadingError': 'Loading error',
   'request.list.foundPrefix': 'Found',
   'request.list.foundSuffix': 'active requests',
+  'request.list.empty': 'No requests match your filters',
   'request.list.requestsError': 'Failed to load requests',
   'request.list.loadMore': 'Load more',
   'pagination.previous': 'Previous',

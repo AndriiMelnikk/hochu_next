@@ -4,9 +4,6 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { authService } from '@entities/auth';
-import { Button } from '@shared/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
-import { Input } from '@shared/ui/input';
 import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
 import type { FieldError } from 'react-hook-form';
@@ -14,6 +11,16 @@ import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { routes } from '@/app/router/routes';
 import { AxiosError } from 'axios';
 import { useMemo } from 'react';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+} from '@/ui-v2';
 
 const getResetPasswordFormSchema = (t: (id: string) => string) =>
   z
@@ -123,7 +130,7 @@ export const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
           )}
         />
 
-        <Button type="submit" variant="gradient" className="w-full" disabled={isSubmitting}>
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
           {isSubmitting
             ? t('auth.resetPassword.form.submit.loading')
             : t('auth.resetPassword.form.submit.default')}

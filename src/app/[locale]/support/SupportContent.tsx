@@ -1,12 +1,17 @@
 'use client';
 
 import { Search, BookOpen, MessageCircle, HelpCircle, FileText, Video, Mail } from 'lucide-react';
-import { Input } from '@shared/ui/input';
-import { Button } from '@shared/ui/button';
 import Link from '@/shared/ui/link';
 import { routes } from '@/app/router/routes';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@shared/ui/accordion';
 import { useLingui } from '@lingui/react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Button,
+  Input,
+} from '@/ui-v2';
 
 export default function SupportContent() {
   const { i18n } = useLingui();
@@ -73,15 +78,15 @@ export default function SupportContent() {
   ];
 
   return (
-    <div className="bg-background">
+    <div className="bg-v2-surface">
       {/* Hero Section */}
       {/* <section className="py-16 px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-[550] mb-6 text-v2-primary">
               Як ми можемо допомогти?
             </h1>
             <div className="relative max-w-2xl mx-auto">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-v2-muted" />
               <Input
                 type="text"
                 placeholder="Пошук статей допомоги..."
@@ -94,7 +99,7 @@ export default function SupportContent() {
       {/* Categories */}
       {/* <section className="py-12 px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl font-bold mb-8 text-center">Категорії допомоги</h2>
+            <h2 className="text-2xl font-[550] mb-8 text-center">Категорії допомоги</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {categories.map((category, index) => {
                 const Icon = category.icon;
@@ -102,14 +107,14 @@ export default function SupportContent() {
                   <Link
                     key={index}
                     href={routes.BLOG}
-                    className="bg-card rounded-2xl p-6 shadow-lg border border-border hover:border-primary transition-all hover:shadow-xl cursor-pointer group block"
+                    className="bg-v2-surface rounded-v2-2xl p-6  border border-v2-border hover:border-v2-primary transition-all hover:shadow-xl cursor-pointer group block"
                   >
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                      <Icon className="w-6 h-6 text-primary" />
+                    <div className="w-12 h-12 rounded-full bg-v2-primary flex items-center justify-center mb-4 group-hover:bg-v2-primary transition-colors">
+                      <Icon className="w-6 h-6 text-v2-primary" />
                     </div>
                     <h3 className="text-xl font-semibold mb-2">{category.title}</h3>
-                    <p className="text-muted-foreground mb-4">{category.description}</p>
-                    <p className="text-sm text-primary font-medium">
+                    <p className="text-v2-muted mb-4">{category.description}</p>
+                    <p className="text-sm text-v2-primary font-medium">
                       {category.articles} статей
                     </p>
                   </Link>
@@ -120,22 +125,20 @@ export default function SupportContent() {
         </section> */}
 
       {/* FAQ Section */}
-      <section className="py-16 px-4 bg-muted/30">
+      <section className="py-16 px-4 bg-v2-surface-subtle">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">{t('support.faq.title')}</h2>
+          <h2 className="text-3xl font-[550] text-center mb-12">{t('support.faq.title')}</h2>
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
               <AccordionItem
                 key={index}
                 value={`item-${index}`}
-                className="bg-card rounded-2xl border border-border px-6 shadow-sm"
+                className="bg-v2-surface rounded-v2-2xl border border-v2-border px-6 shadow-sm"
               >
                 <AccordionTrigger className="text-left hover:no-underline py-6">
                   <span className="font-semibold text-lg">{faq.question}</span>
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-6">
-                  {faq.answer}
-                </AccordionContent>
+                <AccordionContent className="text-v2-muted pb-6">{faq.answer}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
@@ -145,16 +148,16 @@ export default function SupportContent() {
       {/* Contact Support */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">{t('support.contact.title')}</h2>
-          <p className="text-xl text-muted-foreground mb-8">{t('support.contact.subtitle')}</p>
+          <h2 className="text-3xl font-[550] mb-4">{t('support.contact.title')}</h2>
+          <p className="text-xl text-v2-muted mb-8">{t('support.contact.subtitle')}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" asChild>
+            <Button asChild>
               <Link href={routes.CONTACT}>
                 <MessageCircle className="w-5 h-5 mr-2" />
                 {t('support.contact.button.chat')}
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild>
+            <Button variant="outline" asChild>
               <Link href={routes.CONTACT}>
                 <Mail className="w-5 h-5 mr-2" />
                 {t('support.contact.button.email')}

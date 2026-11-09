@@ -4,9 +4,9 @@ import { useLingui } from '@lingui/react';
 
 import { routes } from '@app/router/routes';
 import { ProfilesSwitcher } from '@features/user';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
 
 import { PROFILE_TAB } from './const';
+import { Card, CardBody, CardDescription, CardHead, CardTitle } from '@/ui-v2';
 
 export default function ProfilesTabContent() {
   const { i18n } = useLingui();
@@ -15,13 +15,13 @@ export default function ProfilesTabContent() {
   return (
     <div className="space-y-6">
       <Card>
-        <CardHeader>
+        <CardHead>
           <CardTitle>{t('profile.profiles.title')}</CardTitle>
           <CardDescription>{t('profile.profiles.description')}</CardDescription>
-        </CardHeader>
-        <CardContent>
+        </CardHead>
+        <CardBody>
           <ProfilesSwitcher redirectTo={(id) => routes.PROFILE_TAB(id, PROFILE_TAB.PROFILES)} />
-        </CardContent>
+        </CardBody>
       </Card>
     </div>
   );

@@ -77,9 +77,10 @@ class AdminNotificationService {
         ...config,
         params,
       });
-      const parsed = adminRequestSubscriptionsResultSchema.parse(
-        response.data,
-      ) as Omit<IAdminRequestSubscriptionsResult, 'fromMock'>;
+      const parsed = adminRequestSubscriptionsResultSchema.parse(response.data) as Omit<
+        IAdminRequestSubscriptionsResult,
+        'fromMock'
+      >;
       return { ...parsed, fromMock: false };
     } catch {
       return filterMock(params);
@@ -90,10 +91,7 @@ class AdminNotificationService {
    * Force-unlinks Telegram for an account (moderation).
    * No-op locally when the admin API is not available yet.
    */
-  async unlinkTelegram(
-    accountId: string,
-    config?: AxiosRequestConfig,
-  ): Promise<{ linked: false }> {
+  async unlinkTelegram(accountId: string, config?: AxiosRequestConfig): Promise<{ linked: false }> {
     try {
       await api.delete(ENDPOINTS.ADMIN.TELEGRAM_UNLINK(accountId), config);
       return { linked: false };

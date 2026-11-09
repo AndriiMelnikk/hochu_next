@@ -3,9 +3,7 @@
 import { useState } from 'react';
 import { Send } from 'lucide-react';
 import { useLingui } from '@lingui/react';
-import { Button } from '@shared/ui/button';
-import { Textarea } from '@shared/ui/textarea';
-import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
+import { Button, Textarea, Avatar } from '@/ui-v2';
 
 interface DiscussionFormProps {
   replyTo?: number | null;
@@ -29,19 +27,20 @@ export const DiscussionForm = ({ replyTo, onCancelReply, onSubmit }: DiscussionF
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       {replyTo && (
-        <div className="bg-primary/10 border border-primary/20 rounded-lg p-3 flex items-center justify-between">
+        <div className="bg-v2-primary border border-v2-primary rounded-v2-lg p-3 flex items-center justify-between">
           <span className="text-sm">{t('discussion.form.replyTo', { id: replyTo })}</span>
           <Button type="button" variant="ghost" size="sm" onClick={onCancelReply} className="h-6">
             {t('discussion.form.cancel')}
           </Button>
         </div>
       )}
-      <div className="bg-muted/30 rounded-lg p-4 border border-border">
+      <div className="bg-v2-surface-subtle rounded-v2-lg p-4 border border-v2-border">
         <div className="flex items-start gap-3">
-          <Avatar className="h-10 w-10">
-            <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=Current" />
-            <AvatarFallback>{t('discussion.form.you')}</AvatarFallback>
-          </Avatar>
+          <Avatar
+            size="md"
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Current"
+            fallback={t('discussion.form.you').charAt(0)}
+          />
           <div className="flex-1">
             <Textarea
               placeholder={
@@ -55,8 +54,8 @@ export const DiscussionForm = ({ replyTo, onCancelReply, onSubmit }: DiscussionF
               className="resize-none mb-2"
             />
             <div className="flex items-center justify-between">
-              <p className="text-xs text-muted-foreground">{t('discussion.form.publicWarning')}</p>
-              <Button type="submit" size="sm" disabled={!text.trim()} variant="gradient">
+              <p className="text-xs text-v2-muted">{t('discussion.form.publicWarning')}</p>
+              <Button type="submit" size="sm" disabled={!text.trim()}>
                 <Send className="h-4 w-4 mr-2" />
                 {t('discussion.form.submit')}
               </Button>

@@ -6,9 +6,8 @@ import {
   NotificationChannel,
   toggleNotificationChannel,
 } from '@/entities/notification';
-import { Checkbox } from '@/shared/ui/checkbox';
-import { Label } from '@/shared/ui/label';
 import { cn } from '@/lib/utils';
+import { Checkbox, Label } from '@/ui-v2';
 
 interface NotificationChannelsSelectProps {
   value: NotificationChannel[];
@@ -30,7 +29,7 @@ export const NotificationChannelsSelect = ({
 
   return (
     <div className={cn('flex flex-wrap items-center gap-x-4 gap-y-2', className)}>
-      <span className="text-xs text-muted-foreground">{t('profile.notifications.channels.label')}:</span>
+      <span className="text-xs text-v2-muted">{t('profile.notifications.channels.label')}:</span>
       {ALL_NOTIFICATION_CHANNELS.map((channel) => {
         const isTelegram = channel === NotificationChannel.TELEGRAM;
         const channelDisabled = disabled || (isTelegram && !telegramLinked);
@@ -53,10 +52,7 @@ export const NotificationChannelsSelect = ({
             />
             <Label
               htmlFor={id}
-              className={cn(
-                'text-sm font-normal',
-                channelDisabled && 'text-muted-foreground',
-              )}
+              className={cn('text-sm font-normal', channelDisabled && 'text-v2-muted')}
               title={
                 isTelegram && !telegramLinked
                   ? t('profile.notifications.telegram.connectRequired')

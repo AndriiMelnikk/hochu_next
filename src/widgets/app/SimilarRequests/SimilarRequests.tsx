@@ -1,6 +1,7 @@
 import { requestService, RequestStatus, type IRequest } from '@/entities/request';
 import { RequestCard } from '@/features/requests';
 import type { Locale } from '@/locales/config';
+import { Alert, Container, Heading } from '@/ui-v2';
 
 const LIMIT = 4;
 
@@ -42,15 +43,17 @@ export async function SimilarRequests({ request, locale }: SimilarRequestsProps)
   if (similar.length === 0 && !isCompleted) return null;
 
   return (
-    <section className="container mx-auto px-4 max-w-7xl mt-12">
+    <Container className="ui-v2 mt-12">
       {isCompleted && (
-        <p className="mb-4 rounded-xl border border-border bg-muted/40 p-4 text-sm text-foreground">
+        <Alert tone="info" className="mb-4">
           {copy.completed}
-        </p>
+        </Alert>
       )}
       {similar.length > 0 && (
         <>
-          <h2 className="text-2xl font-bold mb-6">{copy.title}</h2>
+          <Heading level="h3" as="h2" className="mb-6">
+            {copy.title}
+          </Heading>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {similar.map((item) => (
               <RequestCard key={item._id} request={item} categoryName={item.category.name} />
@@ -58,6 +61,6 @@ export async function SimilarRequests({ request, locale }: SimilarRequestsProps)
           </div>
         </>
       )}
-    </section>
+    </Container>
   );
 }

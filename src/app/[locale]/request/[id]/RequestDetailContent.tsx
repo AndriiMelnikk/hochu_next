@@ -16,12 +16,20 @@ import { RequestInfo, RequestSidebar, StatusGuide } from '@/features/requests';
 import { CreateProposalForm, ProposalList } from '@/features/proposals';
 import { DiscussionForm, DiscussionList } from '@/features/discussions';
 import { EditContactChannelsModal, SwitchProfileModal } from '@/features/user';
-import { Loading } from '@shared/ui/loading';
-import { Error } from '@shared/ui/error';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 import { Breadcrumbs } from '@shared/ui/breadcrumbs';
-import { Alert, AlertDescription, AlertTitle } from '@shared/ui/alert';
-import { Button } from '@shared/ui/button';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Button,
+  Container,
+  ErrorState,
+  LoadingState,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/ui-v2';
 import { Ban, LogIn, Phone, UserPlus, Users } from 'lucide-react';
 import Link from '@/shared/ui/link';
 import { usePathname } from 'next/navigation';
@@ -101,11 +109,11 @@ export default function RequestDetailContent({
   };
 
   if (isLoading) {
-    return <Loading variant="full-page" />;
+    return <LoadingState className="min-h-[50vh]" />;
   }
 
   if (!request) {
-    return <Error variant="full-page" message={t('request.detail.loadingError')} />;
+    return <ErrorState className="min-h-[50vh]" message={t('request.detail.loadingError')} />;
   }
 
   const buyer = request.buyerId;
@@ -140,7 +148,7 @@ export default function RequestDetailContent({
     (canProposeData?.canPropose === true ||
       (canProposeData?.reason === ProposalRejectionReason.NO_CONTACTS && contactsFilled));
   return (
-    <div className="container mx-auto px-4 max-w-7xl">
+    <Container className="ui-v2">
       <Breadcrumbs
         categoryId={request.category.id}
         categoryTrail={categoryTrail}
@@ -170,7 +178,7 @@ export default function RequestDetailContent({
 
           {(canProposeData?.canPropose ||
             canProposeData?.reason === ProposalRejectionReason.NO_CONTACTS) &&
-            isContactsLoading && <Loading variant="block" />}
+            isContactsLoading && <LoadingState />}
 
           {showProposalForm && (
             <CreateProposalForm
@@ -181,31 +189,23 @@ export default function RequestDetailContent({
           )}
 
           {cannotProposeReason && (
-            <Alert variant="amber">
-              <Ban className="h-4 w-4" />
+            <Alert tone="warning">
+              <Ban />
               <AlertTitle>{t('request.detail.cannotPropose')}</AlertTitle>
               <AlertDescription className="flex flex-col gap-3">
                 <span>{t(`proposal.rejection.${cannotProposeReason}`)}</span>
                 {cannotProposeReason === ProposalRejectionReason.NOT_SELLER && user && (
                   <div className="pt-1">
-                    <Button
-                      size="sm"
-                      className="gap-1.5"
-                      onClick={() => setSwitchProfileModalOpen(true)}
-                    >
-                      <Users className="h-3.5 w-3.5" />
+                    <Button size="sm" onClick={() => setSwitchProfileModalOpen(true)}>
+                      <Users />
                       {t('request.detail.switchToSeller')}
                     </Button>
                   </div>
                 )}
                 {cannotProposeReason === ProposalRejectionReason.NO_CONTACTS && user && (
                   <div className="pt-1">
-                    <Button
-                      size="sm"
-                      className="gap-1.5"
-                      onClick={() => setContactsModalOpen(true)}
-                    >
-                      <Phone className="h-3.5 w-3.5" />
+                    <Button size="sm" onClick={() => setContactsModalOpen(true)}>
+                      <Phone />
                       {t('request.detail.addContacts')}
                     </Button>
                   </div>
@@ -246,21 +246,21 @@ export default function RequestDetailContent({
           )}
 
           {!user && (
-            <Alert variant="amber">
-              <UserPlus className="h-4 w-4 text-amber-600" />
+            <Alert tone="warning">
+              <UserPlus />
               <AlertTitle>{t('request.detail.proposalAuthRequired.title')}</AlertTitle>
               <AlertDescription className="flex flex-col gap-3">
                 <span>{t('request.detail.proposalAuthRequired.description')}</span>
                 <div className="flex flex-wrap gap-2 pt-1">
                   <Link href={buildAuthHref(routes.REGISTER, returnUrl)}>
-                    <Button size="sm" className="gap-1.5">
-                      <UserPlus className="h-3.5 w-3.5" />
+                    <Button size="sm">
+                      <UserPlus />
                       {t('request.detail.proposalAuthRequired.register')}
                     </Button>
                   </Link>
                   <Link href={buildAuthHref(routes.LOGIN, returnUrl)}>
-                    <Button size="sm" variant="outline" className="gap-1.5">
-                      <LogIn className="h-3.5 w-3.5" />
+                    <Button size="sm" variant="outline">
+                      <LogIn />
                       {t('request.detail.proposalAuthRequired.login')}
                     </Button>
                   </Link>
@@ -270,25 +270,22 @@ export default function RequestDetailContent({
           )}
 
           {/* Tabs for Proposals and Discussion */}
-          <Tabs
-            defaultValue="proposals"
-            className="bg-card rounded-2xl shadow-md border border-border"
-          >
-            <div className="overflow-x-auto scrollbar-none">
-              <TabsList className="w-full min-w-max justify-start rounded-t-2xl rounded-b-none h-14 p-1 bg-muted/50 flex-nowrap">
-                <TabsTrigger value="proposals" className="flex-1 min-w-[140px] text-base">
+          <Tabs defaultValue="proposals">
+            <div className="overflow-x-auto">
+              <TabsList className="min-w-max">
+                <TabsTrigger value="proposals">
                   {t('request.detail.tabs.proposals', { count: request.pendingProposalsCount })}
                 </TabsTrigger>
 
-                <TabsTrigger value="rejected" className="flex-1 min-w-[140px] text-base">
+                <TabsTrigger value="rejected">
                   {t('request.detail.tabs.rejected', { count: request.rejectedProposalsCount })}
                 </TabsTrigger>
               </TabsList>
             </div>
 
             {/* Received Proposals Tab */}
-            <TabsContent value="proposals" className="p-6 mt-0">
-              <Suspense fallback={<Loading variant="block" />}>
+            <TabsContent value="proposals" className="pt-6">
+              <Suspense fallback={<LoadingState />}>
                 <ProposalList
                   requestId={request._id}
                   onImageClick={handleImageClick}
@@ -303,8 +300,8 @@ export default function RequestDetailContent({
             </TabsContent>
 
             {/* Rejected Proposals Tab */}
-            <TabsContent value="rejected" className="p-6 mt-0">
-              <Suspense fallback={<Loading variant="block" />}>
+            <TabsContent value="rejected" className="pt-6">
+              <Suspense fallback={<LoadingState />}>
                 <ProposalList
                   requestId={request._id}
                   onImageClick={handleImageClick}
@@ -319,10 +316,8 @@ export default function RequestDetailContent({
             </TabsContent>
 
             {/* Public Discussion Tab */}
-            <TabsContent value="discussion" className="p-6 mt-0">
-              <p className="text-sm text-muted-foreground mb-6">
-                {t('request.detail.discussion.empty')}
-              </p>
+            <TabsContent value="discussion" className="pt-6">
+              <p className="text-sm text-v2-muted mb-6">{t('request.detail.discussion.empty')}</p>
 
               <DiscussionList />
 
@@ -348,6 +343,6 @@ export default function RequestDetailContent({
         open={lightboxOpen}
         onOpenChange={setLightboxOpen}
       />
-    </div>
+    </Container>
   );
 }

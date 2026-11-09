@@ -12,7 +12,7 @@ import { localizeHref } from '@/locales/config';
 import { useCurrentLocale } from '@/shared/ui/link';
 import { JsonLd } from '@/shared/seo/JsonLd';
 import { getBreadcrumbListJsonLd } from '@/shared/seo/schemas';
-import { Button } from '@shared/ui/button';
+import { Button } from '@/ui-v2';
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -86,7 +86,7 @@ export function Breadcrumbs({
   return (
     <div
       className={cn(
-        'mb-6 flex flex-wrap flex-col items-start md:items-center md:flex-row  gap-2',
+        'ui-v2 mb-6 flex flex-col flex-wrap items-start gap-2 md:flex-row md:items-center',
         className,
       )}
     >
@@ -99,9 +99,9 @@ export function Breadcrumbs({
         )}
       />
       {backHref ? (
-        <Button variant="link" size="sm" className="h-8 shrink-0 px-2" asChild>
+        <Button variant="link" size="sm" className="shrink-0 px-2" asChild>
           <Link href={backHref}>
-            <ArrowLeft className="h-4 w-4 mr-1" />
+            <ArrowLeft />
             {i18n._('common.breadcrumbs.back')}
           </Link>
         </Button>
@@ -110,10 +110,10 @@ export function Breadcrumbs({
           type="button"
           variant="link"
           size="sm"
-          className="h-8 shrink-0 px-2"
+          className="shrink-0 px-2"
           onClick={handleBack}
         >
-          <ArrowLeft className="h-4 w-4 mr-1" />
+          <ArrowLeft />
           {i18n._('common.breadcrumbs.back')}
         </Button>
       )}
@@ -128,7 +128,7 @@ export function Breadcrumbs({
                 <BreadcrumbItem>
                   {item.href && !isLast ? (
                     <BreadcrumbLink asChild>
-                      <Link href={item.href} className="hover:text-primary">
+                      <Link href={item.href} className="hover:text-v2-primary">
                         {item.label}
                       </Link>
                     </BreadcrumbLink>

@@ -25,9 +25,7 @@ export function channelsForEnabled(
       ? previous.filter((channel) => ALL_NOTIFICATION_CHANNELS.includes(channel))
       : DEFAULT_NOTIFICATION_CHANNELS;
 
-  return base.filter(
-    (channel) => channel !== NotificationChannel.TELEGRAM || telegramLinked,
-  );
+  return base.filter((channel) => channel !== NotificationChannel.TELEGRAM || telegramLinked);
 }
 
 export function toggleNotificationChannel(

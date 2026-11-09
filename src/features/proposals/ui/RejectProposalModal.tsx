@@ -1,17 +1,17 @@
 'use client';
 
 import { useLingui } from '@lingui/react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@shared/ui/dialog';
-import { Button } from '@shared/ui/button';
 import { useRejectProposal } from '@/entities/proposal/hooks/useRejectProposal';
 import { toast } from 'sonner';
+import {
+  Button,
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from '@/ui-v2';
 
 interface RejectProposalModalProps {
   requestId: string;
@@ -45,18 +45,18 @@ export const RejectProposalModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t('proposal.reject.confirmTitle')}</DialogTitle>
-          <DialogDescription>{t('proposal.reject.confirmDescription')}</DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>{t('proposal.reject.confirmTitle')}</ModalTitle>
+          <ModalDescription>{t('proposal.reject.confirmDescription')}</ModalDescription>
+        </ModalHeader>
+        <ModalFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             {t('proposal.reject.cancel')}
           </Button>
           <Button
-            variant="destructive"
+            variant="danger"
             onClick={(e) => {
               e.preventDefault();
               handleRejectProposal();
@@ -65,8 +65,8 @@ export const RejectProposalModal = ({
           >
             {isRejecting ? t('proposal.edit.submitting') : t('proposal.reject.submit')}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };

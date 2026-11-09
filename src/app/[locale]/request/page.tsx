@@ -3,10 +3,10 @@ import { getLocaleFromParams, type LocaleRouteProps } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import RequestContent from './RequestContent';
 import { routes } from '@/app/router/routes';
-import { Loading } from '@/shared/ui/loading';
 import { requestService } from '@/entities/request';
 import { JsonLd } from '@/shared/seo/JsonLd';
 import { getItemListJsonLd } from '@/shared/seo/schemas';
+import { LoadingState } from '@/ui-v2';
 
 const PAGE_SIZE = 20;
 
@@ -65,7 +65,7 @@ export default async function RequestPage({ params, searchParams }: LocaleRouteP
   }
 
   return (
-    <Suspense fallback={<Loading variant="block" />}>
+    <Suspense fallback={<LoadingState variant="block" />}>
       {initialData && initialData.results.length > 0 && (
         <JsonLd
           data={getItemListJsonLd(

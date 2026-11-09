@@ -1,15 +1,9 @@
 'use client';
 
 import { useLingui } from '@lingui/react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@shared/ui/dialog';
 import type { IUser } from '@/entities/user';
 import { EditContactChannelsForm } from './EditContactChannelsForm';
+import { Modal, ModalContent, ModalDescription, ModalHeader, ModalTitle } from '@/ui-v2';
 
 interface EditContactChannelsModalProps {
   user: IUser;
@@ -35,14 +29,14 @@ export const EditContactChannelsModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{t('profile.contacts.title')}</DialogTitle>
-          <DialogDescription>{t('profile.contacts.description')}</DialogDescription>
-        </DialogHeader>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <ModalHeader>
+          <ModalTitle>{t('profile.contacts.title')}</ModalTitle>
+          <ModalDescription>{t('profile.contacts.description')}</ModalDescription>
+        </ModalHeader>
         <EditContactChannelsForm user={user} onSuccess={handleSuccess} />
-      </DialogContent>
-    </Dialog>
+      </ModalContent>
+    </Modal>
   );
 };

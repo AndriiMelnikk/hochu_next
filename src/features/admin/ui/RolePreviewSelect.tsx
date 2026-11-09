@@ -1,9 +1,8 @@
 'use client';
 
 import { STAFF_ROLES, useAdminPreviewStore, type StaffRole } from '@/entities/admin';
-import { Label } from '@shared/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
 import { useLingui } from '@lingui/react';
+import { Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui-v2';
 
 export function RolePreviewSelect() {
   const { i18n } = useLingui();
@@ -26,7 +25,7 @@ export function RolePreviewSelect() {
           ))}
         </SelectContent>
       </Select>
-      <p className="text-xs text-muted-foreground">{t('admin.rolePreview.hint')}</p>
+      <p className="text-xs text-v2-muted">{t('admin.rolePreview.hint')}</p>
     </div>
   );
 }

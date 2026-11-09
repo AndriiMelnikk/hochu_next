@@ -3,9 +3,9 @@
 import { useLingui } from '@lingui/react';
 import type { ICategoryPreference } from '@/entities/notification';
 import { channelsForEnabled } from '@/entities/notification';
-import { Switch } from '@/shared/ui/switch';
 import { NotificationChannelsSelect } from './NotificationChannelsSelect';
 import { cn } from '@/lib/utils';
+import { Switch } from '@/ui-v2';
 
 interface NotificationPreferencesSectionProps {
   categoryKey: string;
@@ -34,7 +34,7 @@ export const NotificationPreferencesSection = ({
           <p className="text-sm font-medium leading-snug">
             {t(`profile.notifications.categories.${categoryKey}`)}
           </p>
-          <p className="mt-0.5 text-xs text-muted-foreground leading-snug">
+          <p className="mt-0.5 text-xs text-v2-muted leading-snug">
             {t(`profile.notifications.categories.${categoryKey}.description`)}
           </p>
         </div>

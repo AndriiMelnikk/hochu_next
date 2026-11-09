@@ -4,10 +4,16 @@ import { useState } from 'react';
 import { Ban, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
-import { Button } from '@shared/ui/button';
-import { Label } from '@shared/ui/label';
-import { Textarea } from '@shared/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
+import {
+  Button,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Textarea,
+} from '@/ui-v2';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,7 +24,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@shared/ui/alert-dialog';
+} from '@/ui-v2';
 
 interface BlockUserActionsProps {
   userName: string;
@@ -36,8 +42,8 @@ export function BlockUserActions({ userName, status, onChanged }: BlockUserActio
     return (
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label={t('admin.users.unban')}>
-            <CheckCircle className="h-4 w-4 text-green-700" />
+          <Button variant="ghost" shape="circle" aria-label={t('admin.users.unban')}>
+            <CheckCircle className="h-4 w-4 text-v2-primary" />
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
@@ -68,9 +74,9 @@ export function BlockUserActions({ userName, status, onChanged }: BlockUserActio
       <AlertDialogTrigger asChild>
         <Button
           variant="ghost"
-          size="icon"
+          shape="circle"
           aria-label={t('admin.users.ban.confirm')}
-          className="text-destructive"
+          className="text-v2-danger"
         >
           <Ban className="h-4 w-4" />
         </Button>
@@ -79,10 +85,10 @@ export function BlockUserActions({ userName, status, onChanged }: BlockUserActio
         <AlertDialogHeader>
           <AlertDialogTitle>{t('admin.users.ban.title')}</AlertDialogTitle>
           <AlertDialogDescription asChild>
-            <div className="space-y-4 mt-2 text-sm text-muted-foreground">
+            <div className="space-y-4 mt-2 text-sm text-v2-muted">
               <p>
                 {t('admin.users.ban.userLabel')}{' '}
-                <span className="font-medium text-foreground">{userName}</span>
+                <span className="font-medium text-v2-ink">{userName}</span>
               </p>
               <div className="space-y-2">
                 <Label htmlFor="ban-reason">{t('admin.users.ban.reasonLabel')}</Label>
@@ -115,7 +121,7 @@ export function BlockUserActions({ userName, status, onChanged }: BlockUserActio
         <AlertDialogFooter>
           <AlertDialogCancel>{t('admin.users.ban.cancel')}</AlertDialogCancel>
           <AlertDialogAction
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className="bg-v2-danger text-white hover:opacity-90"
             onClick={() => {
               toast.success(t('admin.actions.banSuccess'), {
                 description: reason.trim() || userName,

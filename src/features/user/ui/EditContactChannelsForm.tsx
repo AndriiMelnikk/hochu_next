@@ -20,9 +20,16 @@ import {
 import { userService, updateContactsSchema, type IUser, type ContactChannel } from '@entities/user';
 import { useAuthStore } from '@entities/auth';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button } from '@shared/ui/button';
-import { Input } from '@shared/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@shared/ui/form';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+} from '@/ui-v2';
 
 interface ContactFormData {
   contacts: Partial<Record<ContactChannel, string>>;
@@ -127,7 +134,7 @@ export const EditContactChannelsForm = ({ user, onSuccess }: EditContactChannels
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center gap-2">
-                      <Icon className="h-4 w-4 text-primary" />
+                      <Icon className="h-4 w-4 text-v2-primary" />
                       {t(`contact.channel.${channel}`) || channel}
                     </FormLabel>
                     <FormControl>

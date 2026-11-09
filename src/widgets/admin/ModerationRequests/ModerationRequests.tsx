@@ -5,11 +5,22 @@ import { Eye, Search } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { moderationRequests, type IModerationRequest } from '@/entities/admin';
 import { ApproveRejectActions, PermissionGate } from '@/features/admin';
-import { Badge } from '@shared/ui/badge';
-import { Button } from '@shared/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Input } from '@shared/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shared/ui/table';
+import {
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  Input,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/ui-v2';
 
 export function ModerationRequests() {
   const { i18n } = useLingui();
@@ -35,13 +46,13 @@ export function ModerationRequests() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHead>
         <CardTitle>{t('admin.requests.title')}</CardTitle>
         <CardDescription>{t('admin.requests.description')}</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
+      </CardHead>
+      <CardBody className="space-y-4">
         <div className="relative">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-3 h-4 w-4 text-v2-muted" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -53,9 +64,7 @@ export function ModerationRequests() {
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center py-12 text-center">
             <p className="text-base font-semibold">{t('admin.empty.title')}</p>
-            <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-              {t('admin.empty.requests')}
-            </p>
+            <p className="mt-2 max-w-sm text-sm text-v2-muted">{t('admin.empty.requests')}</p>
           </div>
         ) : (
           <Table>
@@ -77,11 +86,11 @@ export function ModerationRequests() {
                   <TableCell>{request.author}</TableCell>
                   <TableCell>{request.date}</TableCell>
                   <TableCell>
-                    <Badge variant="secondary">{t('admin.requests.status.pending')}</Badge>
+                    <Badge tone="neutral">{t('admin.requests.status.pending')}</Badge>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1">
-                      <Button variant="ghost" size="icon" aria-label={t('admin.actions.view')}>
+                      <Button variant="ghost" shape="circle" aria-label={t('admin.actions.view')}>
                         <Eye className="h-4 w-4" />
                       </Button>
                       <PermissionGate permission="moderation.requests">
@@ -97,7 +106,7 @@ export function ModerationRequests() {
             </TableBody>
           </Table>
         )}
-      </CardContent>
+      </CardBody>
     </Card>
   );
 }

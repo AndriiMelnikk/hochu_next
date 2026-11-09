@@ -5,9 +5,24 @@ import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
 import { STAFF_ROLES, adminStaff, type IAdminStaffMember, type StaffRole } from '@/entities/admin';
 import { PermissionGate } from '@/features/admin';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shared/ui/table';
+import {
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/ui-v2';
 
 export function StaffTable() {
   const { i18n } = useLingui();
@@ -16,11 +31,11 @@ export function StaffTable() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHead>
         <CardTitle>{t('admin.staff.title')}</CardTitle>
         <CardDescription>{t('admin.staff.description')}</CardDescription>
-      </CardHeader>
-      <CardContent>
+      </CardHead>
+      <CardBody>
         <Table>
           <TableHeader>
             <TableRow>
@@ -63,7 +78,7 @@ export function StaffTable() {
             ))}
           </TableBody>
         </Table>
-      </CardContent>
+      </CardBody>
     </Card>
   );
 }

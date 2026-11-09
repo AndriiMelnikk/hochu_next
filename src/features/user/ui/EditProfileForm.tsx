@@ -10,7 +10,6 @@ import { toast } from 'sonner';
 import { User, MapPin, Upload, X } from 'lucide-react';
 
 import { ACCEPTED_IMAGE_ACCEPT_ATTR, isAcceptedImageFile } from '@/shared/utils';
-import { CityCombobox } from '@/shared/ui/city-combobox';
 import {
   userService,
   updateProfileSchema,
@@ -18,9 +17,8 @@ import {
   type IUpdateProfileRequest,
 } from '@/entities/user';
 import { useAuthStore } from '@/entities/auth';
-import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
 import {
+  Button,
   Form,
   FormControl,
   FormDescription,
@@ -28,7 +26,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/shared/ui/form';
+  Input,
+  CityCombobox,
+} from '@/ui-v2';
 
 interface EditProfileFormProps {
   user: IUser;
@@ -135,11 +135,11 @@ export const EditProfileForm = ({ user, onSuccess }: EditProfileFormProps) => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="flex flex-col items-center gap-4 mb-6">
           <div className="relative group">
-            <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-border bg-muted relative">
+            <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-v2-border bg-v2-surface-subtle relative">
               {avatarPreview ? (
                 <Image src={avatarPreview} alt="Avatar" fill className="object-cover" unoptimized />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                <div className="w-full h-full flex items-center justify-center text-v2-muted">
                   <User size={40} />
                 </div>
               )}
@@ -147,7 +147,7 @@ export const EditProfileForm = ({ user, onSuccess }: EditProfileFormProps) => {
 
             <button
               type="button"
-              className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground p-1.5 rounded-full shadow-lg hover:scale-110 transition-transform"
+              className="absolute -bottom-1 -right-1 bg-v2-primary text-v2-on-primary p-1.5 rounded-full  hover:scale-110 transition-transform"
               onClick={() => fileInputRef.current?.click()}
               disabled={isSubmitting}
             >
@@ -157,7 +157,7 @@ export const EditProfileForm = ({ user, onSuccess }: EditProfileFormProps) => {
             {avatarPreview && (
               <button
                 type="button"
-                className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground p-1 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute -top-1 -right-1 bg-v2-danger text-white p-1 rounded-full  opacity-0 group-hover:opacity-100 transition-opacity"
                 onClick={removeAvatar}
                 disabled={isSubmitting}
               >
@@ -172,7 +172,7 @@ export const EditProfileForm = ({ user, onSuccess }: EditProfileFormProps) => {
             className="hidden"
             onChange={handleAvatarChange}
           />
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-v2-muted">
             {t('profile.edit.avatarHint') || 'Натисніть на іконку, щоб завантажити фото'}
           </p>
         </div>
@@ -213,7 +213,7 @@ export const EditProfileForm = ({ user, onSuccess }: EditProfileFormProps) => {
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="flex items-center gap-2">
-                <MapPin size={16} className="text-primary" />
+                <MapPin size={16} className="text-v2-primary" />
                 {t('profile.edit.locationLabel') || 'Місто'}
               </FormLabel>
               <FormControl>

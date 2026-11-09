@@ -7,13 +7,28 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { adminNotificationService } from '@/entities/admin/services/adminNotificationService';
 import { PermissionGate } from '@/features/admin';
-import { Badge } from '@shared/ui/badge';
-import { Button } from '@shared/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Input } from '@shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shared/ui/table';
-import { Loading } from '@shared/ui/loading';
+import {
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  Input,
+  LoadingState,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/ui-v2';
 
 type EnabledFilter = 'all' | 'enabled' | 'disabled';
 type TelegramFilter = 'all' | 'linked' | 'unlinked';
@@ -30,8 +45,7 @@ export function ModerationSubscriptions() {
   const listParams = useMemo(
     () => ({
       q: query.trim() || undefined,
-      enabled:
-        enabledFilter === 'all' ? undefined : enabledFilter === 'enabled' ? true : false,
+      enabled: enabledFilter === 'all' ? undefined : enabledFilter === 'enabled' ? true : false,
       telegramLinked:
         telegramFilter === 'all' ? undefined : telegramFilter === 'linked' ? true : false,
     }),
@@ -59,19 +73,19 @@ export function ModerationSubscriptions() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHead>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <CardTitle>{t('admin.subscriptions.title')}</CardTitle>
             <CardDescription>{t('admin.subscriptions.description')}</CardDescription>
           </div>
-          {fromMock && <Badge variant="secondary">{t('admin.subscriptions.mockBadge')}</Badge>}
+          {fromMock && <Badge tone="neutral">{t('admin.subscriptions.mockBadge')}</Badge>}
         </div>
-      </CardHeader>
-      <CardContent className="space-y-4">
+      </CardHead>
+      <CardBody className="space-y-4">
         <div className="flex flex-col gap-3 lg:flex-row">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-3 h-4 w-4 text-v2-muted" />
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -79,10 +93,7 @@ export function ModerationSubscriptions() {
               className="pl-10"
             />
           </div>
-          <Select
-            value={enabledFilter}
-            onValueChange={(v) => setEnabledFilter(v as EnabledFilter)}
-          >
+          <Select value={enabledFilter} onValueChange={(v) => setEnabledFilter(v as EnabledFilter)}>
             <SelectTrigger className="w-full lg:w-[180px]">
               <SelectValue />
             </SelectTrigger>
@@ -101,7 +112,9 @@ export function ModerationSubscriptions() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t('admin.subscriptions.filter.telegramAll')}</SelectItem>
-              <SelectItem value="linked">{t('admin.subscriptions.filter.telegramLinked')}</SelectItem>
+              <SelectItem value="linked">
+                {t('admin.subscriptions.filter.telegramLinked')}
+              </SelectItem>
               <SelectItem value="unlinked">
                 {t('admin.subscriptions.filter.telegramUnlinked')}
               </SelectItem>
@@ -110,13 +123,11 @@ export function ModerationSubscriptions() {
         </div>
 
         {isLoading ? (
-          <Loading variant="inline" />
+          <LoadingState variant="inline" />
         ) : items.length === 0 ? (
           <div className="flex flex-col items-center py-12 text-center">
             <p className="text-base font-semibold">{t('admin.empty.title')}</p>
-            <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-              {t('admin.empty.subscriptions')}
-            </p>
+            <p className="mt-2 max-w-sm text-sm text-v2-muted">{t('admin.empty.subscriptions')}</p>
           </div>
         ) : (
           <Table>
@@ -136,7 +147,7 @@ export function ModerationSubscriptions() {
                 <TableRow key={item.id}>
                   <TableCell className="font-medium">{item.sellerName}</TableCell>
                   <TableCell>{item.accountEmail}</TableCell>
-                  <TableCell className="max-w-[220px] text-sm text-muted-foreground">
+                  <TableCell className="max-w-[220px] text-sm text-v2-muted">
                     <div className="space-y-1">
                       {item.categories.length > 0 && <p>{item.categories.join(', ')}</p>}
                       {item.location && <p>{item.location}</p>}
@@ -150,21 +161,21 @@ export function ModerationSubscriptions() {
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
                       {item.channels.map((channel) => (
-                        <Badge key={channel} variant="outline">
+                        <Badge key={channel} tone="neutral">
                           {t(`admin.subscriptions.channels.${channel}`)}
                         </Badge>
                       ))}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={item.telegramLinked ? 'success' : 'secondary'}>
+                    <Badge tone={item.telegramLinked ? 'success' : 'neutral'}>
                       {item.telegramLinked
                         ? t('admin.subscriptions.telegram.linked')
                         : t('admin.subscriptions.telegram.unlinked')}
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={item.enabled ? 'success' : 'secondary'}>
+                    <Badge tone={item.enabled ? 'success' : 'neutral'}>
                       {item.enabled
                         ? t('admin.subscriptions.status.enabled')
                         : t('admin.subscriptions.status.disabled')}
@@ -195,7 +206,7 @@ export function ModerationSubscriptions() {
             </TableBody>
           </Table>
         )}
-      </CardContent>
+      </CardBody>
     </Card>
   );
 }

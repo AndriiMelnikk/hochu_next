@@ -26,10 +26,15 @@ import {
   RequestSubscriptionModal,
   TelegramConnectSection,
 } from '@/features/notifications';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/shared/ui/accordion';
-import { Button } from '@/shared/ui/button';
-import { Loading } from '@/shared/ui/loading';
-import { UniversalPagination } from '@/shared/ui/universal-pagination';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Button,
+  LoadingState,
+  Pagination,
+} from '@/ui-v2';
 
 const BUYER_CATEGORIES = [
   NotificationCategory.REQUEST_UPDATES,
@@ -76,16 +81,16 @@ export default function NotificationSettingsContent() {
   );
 
   if (isProfilesLoading) {
-    return <Loading variant="inline" />;
+    return <LoadingState variant="inline" />;
   }
 
   return (
     <div className="space-y-3">
-      <div className="rounded-lg border px-4 py-3">
+      <div className="rounded-v2-lg border px-4 py-3">
         <TelegramConnectSection />
       </div>
 
-      <Accordion type="multiple" defaultValue={['account']} className="rounded-lg border px-4">
+      <Accordion type="multiple" defaultValue={['account']} className="rounded-v2-lg border px-4">
         <AccordionItem value="account">
           <AccordionTrigger className="py-3 text-sm hover:no-underline">
             {t('profile.notifications.sections.account')}
@@ -131,7 +136,7 @@ export default function NotificationSettingsContent() {
               <span className="flex flex-1 items-center justify-between gap-3 pr-2 text-left">
                 {t('profile.notifications.subscriptions.title')}
                 {subscriptionsData?.count != null && subscriptionsData.count > 0 && (
-                  <span className="text-xs font-normal text-muted-foreground">
+                  <span className="text-xs font-normal text-v2-muted">
                     {subscriptionsData.count}
                   </span>
                 )}
@@ -140,7 +145,7 @@ export default function NotificationSettingsContent() {
             <AccordionContent className="pb-3 pt-0">
               <div className="space-y-2">
                 <div className="flex items-start justify-between gap-3">
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-v2-muted">
                     {t('profile.notifications.subscriptions.description')}
                   </p>
                   <Button
@@ -158,10 +163,10 @@ export default function NotificationSettingsContent() {
                   </Button>
                 </div>
 
-                {isSubscriptionsLoading && <Loading variant="inline" />}
+                {isSubscriptionsLoading && <LoadingState variant="inline" />}
 
                 {!isSubscriptionsLoading && subscriptions.length === 0 && (
-                  <p className="py-1 text-sm text-muted-foreground">
+                  <p className="py-1 text-sm text-v2-muted">
                     {t('profile.notifications.subscriptions.empty')}
                   </p>
                 )}
@@ -189,7 +194,7 @@ export default function NotificationSettingsContent() {
                 </div>
 
                 {subscriptionsTotalPages > 1 && (
-                  <UniversalPagination
+                  <Pagination
                     currentPage={subscriptionPage}
                     totalPages={subscriptionsTotalPages}
                     onPageChange={setSubscriptionPage}
@@ -260,7 +265,7 @@ function AccountMessagesSection({
   };
 
   if (!firstProfileId) return null;
-  if (isLoading) return <Loading variant="inline" />;
+  if (isLoading) return <LoadingState variant="inline" />;
   if (!messagesValue) return null;
 
   return (
@@ -289,9 +294,9 @@ function ProfilePreferencesSection({
   const t = (id: string) => i18n._(id);
   const { data: prefs, isLoading } = useNotificationPreferences(profileId);
   const { mutateAsync: updatePrefs, isPending } = useUpdateNotificationPreferences(profileId);
-  const [localPrefs, setLocalPrefs] = useState<Partial<Record<NotificationCategory, ICategoryPreference>>>(
-    {},
-  );
+  const [localPrefs, setLocalPrefs] = useState<
+    Partial<Record<NotificationCategory, ICategoryPreference>>
+  >({});
 
   const saveCategory = async (key: NotificationCategory, value: ICategoryPreference) => {
     setLocalPrefs((prev) => ({ ...prev, [key]: value }));
@@ -312,7 +317,7 @@ function ProfilePreferencesSection({
     }
   };
 
-  if (isLoading) return <Loading variant="inline" />;
+  if (isLoading) return <LoadingState variant="inline" />;
 
   return (
     <PreferenceList>
@@ -349,9 +354,9 @@ function SellerPreferencesSection({
   const { data: prefs, isLoading } = useNotificationPreferences(profileId);
   const { mutateAsync: updatePrefs, isPending } = useUpdateNotificationPreferences(profileId);
   const [localNewRequests, setLocalNewRequests] = useState<INewRequestsPreference | null>(null);
-  const [localPrefs, setLocalPrefs] = useState<Partial<Record<NotificationCategory, ICategoryPreference>>>(
-    {},
-  );
+  const [localPrefs, setLocalPrefs] = useState<
+    Partial<Record<NotificationCategory, ICategoryPreference>>
+  >({});
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const serverNewRequests = prefs?.[NotificationCategory.NEW_REQUESTS];
@@ -400,7 +405,7 @@ function SellerPreferencesSection({
     }
   };
 
-  if (isLoading) return <Loading variant="inline" />;
+  if (isLoading) return <LoadingState variant="inline" />;
 
   return (
     <PreferenceList>

@@ -5,15 +5,26 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
 import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { registerSchema, useAuthStore, type IRegisterRequest } from '@/entities/auth';
-import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { toast } from 'sonner';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { useLingui } from '@lingui/react';
 import { GoogleSignInButton } from './GoogleSignInButton';
-import { Separator } from '@shared/ui/separator';
 import { RETURN_URL_PARAM, resolvePostAuthRedirect } from '../lib/returnUrl';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Separator,
+} from '@/ui-v2';
 
 export const RegisterForm = () => {
   const { i18n } = useLingui();
@@ -96,7 +107,7 @@ export const RegisterForm = () => {
           <Separator />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-2 text-muted-foreground">{t('auth.google.divider')}</span>
+          <span className="bg-v2-surface px-2 text-v2-muted">{t('auth.google.divider')}</span>
         </div>
       </div>
 
@@ -198,7 +209,7 @@ export const RegisterForm = () => {
             )}
           />
 
-          <Button type="submit" variant="gradient" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? t('auth.register.form.submitting') : t('auth.register.form.submit')}
           </Button>
         </form>

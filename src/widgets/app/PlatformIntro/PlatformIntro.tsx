@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from '@/shared/ui/link';
 import { routes } from '@/app/router/routes';
 import { useLingui } from '@lingui/react';
+import { Container, Heading, Section, TextLink } from '@/ui-v2';
 
 const BULLET_KEYS = ['bullet1', 'bullet2', 'bullet3', 'bullet4'] as const;
 
@@ -22,50 +23,45 @@ const PlatformIntro = () => {
       : 'https://en.wikipedia.org/wiki/Reverse_auction';
 
   return (
-    <section className="py-16 bg-muted/30">
-      <div className="container mx-auto px-4">
-        <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
+    <Section tone="subtle">
+      <Container>
+        <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('common.home.intro.title')}</h2>
-            <p className="text-muted-foreground leading-relaxed mb-4">
-              {t('common.home.intro.p1')}
-            </p>
-            <p className="text-muted-foreground leading-relaxed mb-4">
-              {t('common.home.intro.p2')}
-            </p>
-            <p className="text-muted-foreground leading-relaxed mb-6">
-              {t('common.home.intro.p3')}
-            </p>
+            <Heading level="h2" as="h2" className="mb-4">
+              {t('common.home.intro.title')}
+            </Heading>
+            <p className="text-v2-muted leading-6 mb-4">{t('common.home.intro.p1')}</p>
+            <p className="text-v2-muted leading-6 mb-4">{t('common.home.intro.p2')}</p>
+            <p className="text-v2-muted leading-6 mb-6">{t('common.home.intro.p3')}</p>
 
-            <h3 className="text-xl font-semibold mb-3">{t('common.home.intro.listTitle')}</h3>
-            <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
+            <Heading level="h4" as="h3" className="mb-3">
+              {t('common.home.intro.listTitle')}
+            </Heading>
+            <ul className="list-disc pl-5 space-y-2 text-v2-muted mb-6">
               {BULLET_KEYS.map((key) => (
                 <li key={key}>{t(`common.home.intro.${key}`)}</li>
               ))}
             </ul>
 
-            <p className="text-muted-foreground leading-relaxed mb-4">
+            <p className="text-v2-muted leading-6 mb-4">
               {t('common.home.intro.p4')}{' '}
               <a
                 href={externalHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary underline underline-offset-2 hover:opacity-90"
+                className="font-semibold text-v2-primary underline underline-offset-4"
               >
                 {t('common.home.intro.externalLink')}
               </a>
               .
             </p>
 
-            <Link
-              href={routes.HOW_IT_WORKS}
-              className="inline-flex text-primary font-medium hover:underline underline-offset-2"
-            >
-              {t('common.home.intro.cta')}
-            </Link>
+            <TextLink asChild>
+              <Link href={routes.HOW_IT_WORKS}>{t('common.home.intro.cta')}</Link>
+            </TextLink>
           </div>
 
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border-2 border-border bg-card">
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-v2-2xl border border-v2-border bg-v2-surface">
             <Image
               src="/images/platform-overview.jpg"
               alt={t('common.home.intro.imageAlt')}
@@ -75,8 +71,8 @@ const PlatformIntro = () => {
             />
           </div>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 };
 

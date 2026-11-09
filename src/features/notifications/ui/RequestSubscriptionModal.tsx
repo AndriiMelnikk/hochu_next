@@ -12,14 +12,20 @@ import {
   type IRequestSubscription,
   type NotificationChannel,
 } from '@/entities/notification';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
-import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
-import { Label } from '@/shared/ui/label';
-import { Switch } from '@/shared/ui/switch';
-import { CityCombobox } from '@/shared/ui/city-combobox';
 import { CategoryChipsSelect } from './CategoryChipsSelect';
 import { NotificationChannelsSelect } from './NotificationChannelsSelect';
+import {
+  Button,
+  Input,
+  Label,
+  Modal,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  Switch,
+  CityCombobox,
+} from '@/ui-v2';
 
 interface RequestSubscriptionModalProps {
   sellerProfileId: string;
@@ -103,15 +109,15 @@ export const RequestSubscriptionModal = ({
   const isPending = isCreating || isUpdating;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+        <ModalHeader>
+          <ModalTitle>
             {isEdit
               ? t('profile.notifications.subscriptions.editTitle')
               : t('profile.notifications.subscriptions.createTitle')}
-          </DialogTitle>
-        </DialogHeader>
+          </ModalTitle>
+        </ModalHeader>
 
         <div className="space-y-4 py-2">
           <div className="flex items-center justify-between">
@@ -173,15 +179,15 @@ export const RequestSubscriptionModal = ({
           </div>
         </div>
 
-        <DialogFooter>
+        <ModalFooter>
           <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
             {t('common.cancel')}
           </Button>
           <Button type="button" onClick={handleSubmit} disabled={isPending}>
             {isPending ? t('profile.edit.submitting') : t('profile.edit.submit')}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };

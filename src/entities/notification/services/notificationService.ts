@@ -20,9 +20,7 @@ class NotificationService {
 
     return {
       count: data.count,
-      results: data.results.map((item) =>
-        normalizeNotification(item as Record<string, unknown>),
-      ),
+      results: data.results.map((item) => normalizeNotification(item as Record<string, unknown>)),
       page: data.page ?? page,
       pageSize: data.pageSize ?? pageSize,
       next: data.next ?? null,

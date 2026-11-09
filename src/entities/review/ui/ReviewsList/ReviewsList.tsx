@@ -1,11 +1,9 @@
 import { FC, useMemo } from 'react';
 import { useReviews, IGetReviewsRequest } from '@entities/review';
-import { Alert, AlertDescription, AlertTitle } from '@shared/ui/alert';
 import { Terminal } from 'lucide-react';
 import { ReviewCard } from '../ReviewCard/ReviewCard';
-import { UniversalPagination } from '@shared/ui/universal-pagination';
 import { useQueryPagination } from '@shared/hooks';
-import { Loading } from '@/shared/ui/loading';
+import { Alert, AlertDescription, AlertTitle, LoadingState, Pagination } from '@/ui-v2';
 
 interface ReviewsListProps {
   params: Omit<IGetReviewsRequest, 'page' | 'pageSize'>;
@@ -20,12 +18,12 @@ export const ReviewsList: FC<ReviewsListProps> = ({ params }) => {
   const { data: reviewsResponse, isLoading, isError, isSuccess } = useReviews(queryParams);
 
   if (isLoading) {
-    return <Loading variant="full-page" />;
+    return <LoadingState className="min-h-[30vh]" />;
   }
 
   if (isError) {
     return (
-      <Alert variant="destructive">
+      <Alert tone="danger">
         <Terminal className="h-4 w-4" />
         <AlertTitle>Помилка</AlertTitle>
         <AlertDescription>Не вдалося завантажити відгуки. Спробуйте ще раз.</AlertDescription>
@@ -60,7 +58,7 @@ export const ReviewsList: FC<ReviewsListProps> = ({ params }) => {
         <ReviewCard key={review._id} review={review} />
       ))}
       {totalPages > 1 && (
-        <UniversalPagination
+        <Pagination
           currentPage={page}
           totalPages={totalPages}
           onPageChange={handlePageChange}

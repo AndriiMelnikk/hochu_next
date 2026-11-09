@@ -4,9 +4,8 @@ import { useLingui } from '@lingui/react';
 import { Pencil, Trash2 } from 'lucide-react';
 import type { IRequestSubscription } from '@/entities/notification';
 import { useCategories } from '@/entities/category';
-import { Button } from '@/shared/ui/button';
-import { Badge } from '@/shared/ui/badge';
 import { cn } from '@/lib/utils';
+import { Badge, Button } from '@/ui-v2';
 
 interface RequestSubscriptionCardProps {
   subscription: IRequestSubscription;
@@ -49,7 +48,7 @@ export const RequestSubscriptionCard = ({
               : t('profile.notifications.subscriptions.inactive')}
           </p>
           {subscription.channels.map((channel) => (
-            <Badge key={channel} variant="outline" className="font-normal">
+            <Badge key={channel} tone="neutral" className="font-normal">
               {t(`profile.notifications.channels.${channel}`)}
             </Badge>
           ))}
@@ -57,25 +56,24 @@ export const RequestSubscriptionCard = ({
         {categoryLabels.length > 0 && (
           <div className="flex flex-wrap gap-1">
             {categoryLabels.map((label) => (
-              <Badge key={label} variant="secondary" className="font-normal">
+              <Badge key={label} tone="neutral" className="font-normal">
                 {label}
               </Badge>
             ))}
           </div>
         )}
-        {metaParts.length > 0 && (
-          <p className="text-xs text-muted-foreground">{metaParts.join(' · ')}</p>
-        )}
+        {metaParts.length > 0 && <p className="text-xs text-v2-muted">{metaParts.join(' · ')}</p>}
       </div>
       <div className="flex shrink-0 gap-0.5">
-        <Button type="button" variant="ghost" size="icon" className="h-8 w-8" onClick={onEdit}>
+        <Button type="button" variant="ghost" shape="circle" size="sm" onClick={onEdit}>
           <Pencil className="h-4 w-4" />
         </Button>
         <Button
           type="button"
           variant="ghost"
-          size="icon"
-          className="h-8 w-8 text-destructive hover:text-destructive"
+          shape="circle"
+          size="sm"
+          className="text-v2-danger hover:text-v2-danger"
           onClick={onDelete}
           disabled={isDeleting}
         >

@@ -1,10 +1,6 @@
 'use client';
 
-import { Input } from '@shared/ui/input';
-import { Loading } from '@shared/ui/loading';
-import { Error } from '@shared/ui/error';
 import { RequestCard } from '@/features/requests';
-import { Search } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { usePathname } from 'next/navigation';
@@ -13,9 +9,18 @@ import {
   type IGetRequestsRequest,
   type IGetRequestsResponse,
 } from '@/entities/request';
-import { CascadingSelect, type CascadingSelectItem } from '@shared/ui/cascading-select';
 import { useCategories } from '@/entities/category';
-import { UniversalPagination } from '@shared/ui/universal-pagination';
+import {
+  CascadingSelect,
+  type CascadingSelectItem,
+  Container,
+  EmptyState,
+  ErrorState,
+  Heading,
+  Input,
+  LoadingState,
+  Pagination,
+} from '@/ui-v2';
 import { useDebounce, useQueryPagination } from '@shared/hooks';
 
 type RequestContentProps = {
@@ -111,99 +116,76 @@ export default function RequestContent({ initialData, initialParams }: RequestCo
   };
 
   return (
-    <div className="container mx-auto px-4">
-      {/* Header */}
+    <Container className="ui-v2">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">
+        <Heading level="h1" as="h1" className="mb-2">
           {t('request.list.titlePrefix')}{' '}
-          <span className="bg-gradient-primary bg-clip-text text-transparent">
-            {t('request.list.titleEmphasis')}
-          </span>
-        </h1>
-        <p className="text-xl text-muted-foreground">{t('request.list.subtitle')}</p>
+          <span className="text-v2-primary">{t('request.list.titleEmphasis')}</span>
+        </Heading>
+        <p className="text-lg text-v2-muted">{t('request.list.subtitle')}</p>
       </div>
 
-      {/* Search and Filters */}
-      <div className="bg-card rounded-2xl shadow-md p-6 mb-8 border border-border">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* Search Bar */}
-          <div className="mb-4 grid gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-              <Input
-                placeholder={t('request.list.searchPlaceholder')}
-                className="pl-10"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Category Tags */}
-          <div className="mb-4 grid gap-4">
-            <CascadingSelect
-              items={cascadingCategories}
-              value={filters.category || ''}
-              onValueChange={(id) => {
-                setFilter('category', id || '');
-              }}
-              placeholder={
-                isCategoriesLoading
-                  ? t('request.create.categoriesLoading')
-                  : t('request.create.categoryPlaceholder')
-              }
-              disabled={isCategoriesLoading || isCategoriesError}
-              emptyLabel={
-                isCategoriesError
-                  ? t('request.create.categoriesError')
-                  : t('request.create.categoriesEmpty')
-              }
-              backLabel={t('request.create.categoryBackLabel')}
-              moreLabel={t('request.create.categoryMoreLabel')}
-              clearable
-            />
-          </div>
-        </div>
-      </div>
-      <div className="mb-6 flex items-center justify-between">
-        <p className="text-muted-foreground">
-          {loading ? (
-            <Loading variant="inline" />
-          ) : error ? (
-            <Error variant="inline" message={t('request.list.loadingError')} />
-          ) : (
-            <>
-              {t('request.list.foundPrefix')}{' '}
-              <span className="font-semibold text-foreground">{requests?.count || 0}</span>{' '}
-              {t('request.list.foundSuffix')}
-            </>
-          )}
-        </p>
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Input
+          search
+          aria-label={t('request.list.searchPlaceholder')}
+          placeholder={t('request.list.searchPlaceholder')}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <CascadingSelect
+          items={cascadingCategories}
+          value={filters.category || ''}
+          onValueChange={(id) => setFilter('category', id || '')}
+          placeholder={
+            isCategoriesLoading
+              ? t('request.create.categoriesLoading')
+              : t('request.create.categoryPlaceholder')
+          }
+          disabled={isCategoriesLoading || isCategoriesError}
+          emptyLabel={
+            isCategoriesError
+              ? t('request.create.categoriesError')
+              : t('request.create.categoriesEmpty')
+          }
+          clearable
+        />
       </div>
 
-      {/* Requests Grid */}
+      <p className="mb-6 text-v2-muted">
+        {loading ? (
+          <LoadingState variant="inline" />
+        ) : error ? (
+          <ErrorState variant="inline" message={t('request.list.loadingError')} />
+        ) : (
+          <>
+            {t('request.list.foundPrefix')}{' '}
+            <span className="font-semibold text-v2-ink">{requests?.count || 0}</span>{' '}
+            {t('request.list.foundSuffix')}
+          </>
+        )}
+      </p>
+
       {loading ? (
-        <Loading variant="block" />
+        <LoadingState />
       ) : error ? (
-        <Error variant="block" message={t('request.list.requestsError')} />
+        <ErrorState message={t('request.list.requestsError')} />
+      ) : requestResults.length === 0 ? (
+        <EmptyState>{t('request.list.empty')}</EmptyState>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-          {requestResults.map((request) => {
-            return (
-              <RequestCard
-                key={request._id.toString()}
-                request={request}
-                categoryName={request.category.name}
-              />
-            );
-          })}
+        <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {requestResults.map((request) => (
+            <RequestCard
+              key={request._id.toString()}
+              request={request}
+              categoryName={request.category.name}
+            />
+          ))}
         </div>
       )}
 
       {!loading && !error && totalPages > 1 && (
-        <UniversalPagination
+        <Pagination
           currentPage={page}
           totalPages={totalPages}
           onPageChange={handlePageChange}
@@ -211,6 +193,6 @@ export default function RequestContent({ initialData, initialParams }: RequestCo
           className="mt-8"
         />
       )}
-    </div>
+    </Container>
   );
 }

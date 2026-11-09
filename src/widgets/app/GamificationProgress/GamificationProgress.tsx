@@ -1,7 +1,3 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Progress } from '@shared/ui/progress';
-import { Badge } from '@shared/ui/badge';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@shared/ui/tooltip';
 import {
   calculateLevel,
   getProgressToNextLevel,
@@ -9,6 +5,19 @@ import {
   buyerAchievements,
   type UserRole,
 } from '@/types/gamification';
+import {
+  ProgressBar,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  Badge,
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+} from '@/ui-v2';
 
 interface GamificationProgressProps {
   xp: number;
@@ -37,7 +46,7 @@ export default function GamificationProgress({
       <div className="space-y-6">
         {/* Прогрес рівня */}
         <Card className="border-2" style={{ borderColor: level.color }}>
-          <CardHeader>
+          <CardHead>
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2">
@@ -46,31 +55,31 @@ export default function GamificationProgress({
                 </CardTitle>
                 <CardDescription>Рівень {level.level}</CardDescription>
               </div>
-              <Badge variant="secondary" className="text-lg px-3 py-1">
+              <Badge tone="neutral" className="text-lg px-3 py-1">
                 {xp} XP
               </Badge>
             </div>
-          </CardHeader>
-          <CardContent>
+          </CardHead>
+          <CardBody>
             <div className="space-y-2">
-              <div className="flex justify-between text-sm text-muted-foreground">
+              <div className="flex justify-between text-sm text-v2-muted">
                 <span>Прогрес до наступного рівня</span>
                 <span>{Math.round(progress)}%</span>
               </div>
-              <Progress value={progress} className="h-3" />
+              <ProgressBar value={progress} className="h-3 overflow-hidden rounded-v2-pill" />
             </div>
-          </CardContent>
+          </CardBody>
         </Card>
 
         {/* Досягнення */}
         <Card>
-          <CardHeader>
+          <CardHead>
             <CardTitle>Досягнення</CardTitle>
             <CardDescription>
               Відкрито {unlockedAchievements.length} з {achievements.length}
             </CardDescription>
-          </CardHeader>
-          <CardContent>
+          </CardHead>
+          <CardBody>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {achievements.map((achievement) => {
                 const isUnlocked = unlockedAchievements.includes(achievement.id);
@@ -78,28 +87,28 @@ export default function GamificationProgress({
                   <Tooltip key={achievement.id}>
                     <TooltipTrigger asChild>
                       <div
-                        className={`p-4 rounded-lg border-2 text-center transition-all ${
+                        className={`p-4 rounded-v2-lg border-2 text-center transition-all ${
                           isUnlocked
-                            ? 'border-primary bg-primary/5 hover:bg-primary/10'
-                            : 'border-muted bg-muted/20 opacity-50 grayscale'
+                            ? 'border-v2-primary bg-v2-primary hover:bg-v2-primary'
+                            : 'border-v2-border bg-v2-surface-subtle opacity-50 grayscale'
                         }`}
                       >
                         <div className="text-4xl mb-2">{achievement.icon}</div>
                         <div className="text-sm font-semibold mb-1">{achievement.name}</div>
-                        <Badge variant="outline" className={rarityColors[achievement.rarity]}>
+                        <Badge tone="neutral" className={rarityColors[achievement.rarity]}>
                           {achievement.rarity}
                         </Badge>
                       </div>
                     </TooltipTrigger>
                     <TooltipContent className="max-w-xs">
-                      <p className="font-bold">{achievement.name}</p>
+                      <p className="font-[550]">{achievement.name}</p>
                       <p className="text-sm">{achievement.description}</p>
                     </TooltipContent>
                   </Tooltip>
                 );
               })}
             </div>
-          </CardContent>
+          </CardBody>
         </Card>
       </div>
     </TooltipProvider>

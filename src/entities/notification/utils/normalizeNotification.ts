@@ -38,18 +38,12 @@ export function normalizeNotification(raw: Record<string, unknown>): INotificati
   return {
     _id: String(raw._id ?? raw.id ?? ''),
     accountId: String(raw.accountId ?? ''),
-    profileId:
-      raw.profileId === null || raw.profileId === undefined
-        ? null
-        : String(raw.profileId),
+    profileId: raw.profileId === null || raw.profileId === undefined ? null : String(raw.profileId),
     type,
     category,
     title: String(raw.title ?? ''),
     message: String(raw.message ?? ''),
-    link:
-      raw.link === null || raw.link === undefined || raw.link === ''
-        ? null
-        : String(raw.link),
+    link: raw.link === null || raw.link === undefined || raw.link === '' ? null : String(raw.link),
     metadata:
       raw.metadata && typeof raw.metadata === 'object' && !Array.isArray(raw.metadata)
         ? (raw.metadata as Record<string, unknown>)

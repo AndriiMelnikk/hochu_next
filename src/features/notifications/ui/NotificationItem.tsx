@@ -34,21 +34,21 @@ export const NotificationItem = ({ notification }: NotificationItemProps) => {
       type="button"
       onClick={handleClick}
       className={cn(
-        'w-full rounded-lg border p-4 text-left transition-colors hover:bg-accent/50',
-        !notification.read && 'border-primary/30 bg-primary/5',
+        'w-full rounded-v2-lg border p-4 text-left transition-colors hover:bg-v2-hover',
+        !notification.read && 'border-v2-primary bg-v2-primary',
       )}
     >
       <div className="flex items-start gap-3">
         {!notification.read && (
-          <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary" aria-hidden />
+          <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-v2-primary" aria-hidden />
         )}
         <div className={cn('min-w-0 flex-1', notification.read && 'ml-5')}>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="font-medium">{notification.title}</p>
-            <span className="text-xs text-muted-foreground">{dateLabel}</span>
+            <span className="text-xs text-v2-muted">{dateLabel}</span>
           </div>
-          <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{notification.message}</p>
-          <p className="mt-2 text-xs text-muted-foreground">
+          <p className="mt-1 text-sm text-v2-muted line-clamp-2">{notification.message}</p>
+          <p className="mt-2 text-xs text-v2-muted">
             {i18n._(`profile.notifications.categories.${notification.category}`) ||
               notification.category}
           </p>

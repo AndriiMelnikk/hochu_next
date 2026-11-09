@@ -5,11 +5,22 @@ import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
 import { adminPricingPlans, type IAdminPricingPlan } from '@/entities/admin';
 import { PermissionGate } from '@/features/admin';
-import { Badge } from '@shared/ui/badge';
-import { Button } from '@shared/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@shared/ui/card';
-import { Switch } from '@shared/ui/switch';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shared/ui/table';
+import {
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardDescription,
+  CardHead,
+  CardTitle,
+  Switch,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/ui-v2';
 
 export function ContentPricing() {
   const { i18n } = useLingui();
@@ -18,11 +29,11 @@ export function ContentPricing() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHead>
         <CardTitle>{t('admin.content.pricing.title')}</CardTitle>
         <CardDescription>{t('admin.content.pricing.description')}</CardDescription>
-      </CardHeader>
-      <CardContent>
+      </CardHead>
+      <CardBody>
         <Table>
           <TableHeader>
             <TableRow>
@@ -57,7 +68,7 @@ export function ContentPricing() {
                         aria-label={t('admin.content.pricing.table.active')}
                       />
                     </PermissionGate>
-                    <Badge variant={plan.isActive ? 'success' : 'secondary'}>
+                    <Badge tone={plan.isActive ? 'success' : 'neutral'}>
                       {plan.isActive
                         ? t('admin.content.pricing.active')
                         : t('admin.content.pricing.inactive')}
@@ -79,7 +90,7 @@ export function ContentPricing() {
             ))}
           </TableBody>
         </Table>
-      </CardContent>
+      </CardBody>
     </Card>
   );
 }

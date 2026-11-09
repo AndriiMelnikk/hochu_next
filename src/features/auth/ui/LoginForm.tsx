@@ -4,18 +4,25 @@ import { FieldError, FieldErrors, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
 import { loginSchema } from '@entities/auth/schemas/authSchema';
-import { Button } from '@shared/ui/button';
-import { Input } from '@shared/ui/input';
 import { useAuthStore } from '@entities/auth/store/authStore';
 import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { toast } from 'sonner';
 import { ILoginRequest } from '@/entities/auth';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { AxiosError } from 'axios';
 import { useLingui } from '@lingui/react';
 import { GoogleSignInButton } from './GoogleSignInButton';
-import { Separator } from '@shared/ui/separator';
 import { RETURN_URL_PARAM, resolvePostAuthRedirect } from '../lib/returnUrl';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Separator,
+} from '@/ui-v2';
 
 export const LoginForm = () => {
   const router = useLocalizedRouter();
@@ -107,7 +114,7 @@ export const LoginForm = () => {
           <Separator />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-2 text-muted-foreground">{t('auth.google.divider')}</span>
+          <span className="bg-v2-surface px-2 text-v2-muted">{t('auth.google.divider')}</span>
         </div>
       </div>
 
@@ -151,7 +158,7 @@ export const LoginForm = () => {
             )}
           />
 
-          <Button type="submit" variant="gradient" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? t('auth.login.form.submit.loading') : t('auth.login.form.submit.default')}
           </Button>
         </form>

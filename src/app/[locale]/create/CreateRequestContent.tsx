@@ -6,7 +6,7 @@ import { useMe } from '@entities/user';
 import { AuthRequired } from '@features/auth';
 import { CreateRequestForm } from '@features/requests';
 import { BuyerProfileRequired } from '@features/user';
-import { Loading } from '@shared/ui/loading';
+import { LoadingState } from '@/ui-v2';
 
 export default function CreateRequestContent() {
   const { i18n } = useLingui();
@@ -15,7 +15,7 @@ export default function CreateRequestContent() {
 
   const renderContent = () => {
     if (isLoading) {
-      return <Loading variant="full-page" />;
+      return <LoadingState className="min-h-[30vh]" />;
     }
 
     if (isError || !user) {
@@ -32,11 +32,11 @@ export default function CreateRequestContent() {
     }
 
     return (
-      <div className="bg-card rounded-2xl shadow-lg p-8 border border-border">
+      <div className="bg-v2-surface rounded-v2-2xl  p-8 border border-v2-border">
         <CreateRequestForm />
 
-        <div className="bg-accent/30 rounded-lg p-4 border border-accent mt-6">
-          <p className="text-sm text-accent-foreground">
+        <div className="bg-v2-hover rounded-v2-lg p-4 border border-v2-border mt-6">
+          <p className="text-sm text-v2-ink">
             <strong>{t('request.create.tipLabel')}</strong> {t('request.create.tipText')}
           </p>
         </div>
@@ -45,15 +45,13 @@ export default function CreateRequestContent() {
   };
 
   return (
-    <div className="container mx-auto px-4 max-w-4xl">
+    <div className="mx-auto w-full max-w-[1240px] px-4 md:px-6 max-w-4xl">
       <div className="mb-8 text-center">
-        <h1 className="text-4xl font-bold mb-4">
+        <h1 className="text-4xl font-[550] mb-4">
           {t('request.create.titlePrefix')}{' '}
-          <span className="bg-gradient-primary bg-clip-text text-transparent">
-            {t('request.create.titleEmphasis')}
-          </span>
+          <span className="text-v2-primary">{t('request.create.titleEmphasis')}</span>
         </h1>
-        <p className="text-xl text-muted-foreground">{t('request.create.subtitle')}</p>
+        <p className="text-xl text-v2-muted">{t('request.create.subtitle')}</p>
       </div>
 
       {renderContent()}

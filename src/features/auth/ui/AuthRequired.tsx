@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/shared/ui/button';
 import Link from '@/shared/ui/link';
 import { LogIn, UserPlus, UserCircle } from 'lucide-react';
 import { routes } from '@/app/router/routes';
@@ -9,6 +8,7 @@ import { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/shared/utils/cn';
 import { buildAuthHref, getReturnUrlFromLocation } from '../lib/returnUrl';
+import { Button } from '@/ui-v2';
 
 interface AuthRequiredProps {
   title: string;
@@ -25,20 +25,20 @@ export function AuthRequired({ title, description, icon, className }: AuthRequir
 
   return (
     <div className={cn('flex flex-col items-center justify-center py-16 text-center', className)}>
-      <div className="bg-primary/10 p-6 rounded-full mb-6">
-        {icon || <UserCircle className="h-16 w-16 text-primary" />}
+      <div className="bg-v2-primary p-6 rounded-full mb-6">
+        {icon || <UserCircle className="h-16 w-16 text-v2-primary" />}
       </div>
-      <h2 className="text-2xl font-bold mb-4">{title}</h2>
-      <p className="text-muted-foreground mb-8 max-w-md">{description}</p>
+      <h2 className="text-2xl font-[550] mb-4">{title}</h2>
+      <p className="text-v2-muted mb-8 max-w-md">{description}</p>
       <div className="flex flex-col sm:flex-row gap-4">
         <Link href={buildAuthHref(routes.REGISTER, returnUrl)}>
-          <Button size="lg" className="w-full sm:w-auto gap-2">
+          <Button className="w-full sm:w-auto gap-2">
             <UserPlus className="h-5 w-5" />
             {t('request.create.authRequired.register')}
           </Button>
         </Link>
         <Link href={buildAuthHref(routes.LOGIN, returnUrl)}>
-          <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2">
+          <Button variant="outline" className="w-full sm:w-auto gap-2">
             <LogIn className="h-5 w-5" />
             {t('request.create.authRequired.login')}
           </Button>

@@ -4,13 +4,14 @@ import { getMetadataForRoute } from '@/locales/route-metadata';
 import { getBlogPost } from '@/entities/blog/services/blogPosts';
 import { LOCAL_POSTS } from '@/entities/blog/content/localPosts';
 import { routes } from '@/app/router/routes';
-import { Error as ErrorComponent } from '@shared/ui/error';
+import { ErrorState as ErrorComponent } from '@/ui-v2';
 import { parseContentToSections } from '@/entities/blog/utils/contentParser';
 import { JsonLd } from '@/shared/seo/JsonLd';
 import { getBlogPostingJsonLd } from '@/shared/seo/schemas';
 import { isNotFoundError, toMetaDescription } from '@/shared/seo/indexability';
 import { siteUrl } from '@/shared/config/envVars';
 import BlogArticleContent from './BlogArticleContent';
+import { LoadingState, ErrorState } from '@/ui-v2';
 
 /** Статті кешуються на годину */
 export const revalidate = 3600;
@@ -84,7 +85,7 @@ export default async function BlogArticlePage({ params }: Props) {
   if (error || !article) {
     return (
       <ErrorComponent
-        variant="full-page"
+        className="min-h-[50vh]"
         message={locale === 'en' ? 'Failed to load article' : 'Не вдалося завантажити статтю'}
       />
     );

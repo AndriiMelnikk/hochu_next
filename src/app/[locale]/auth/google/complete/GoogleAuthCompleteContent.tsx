@@ -47,7 +47,7 @@ export default function GoogleAuthCompleteContent() {
   }, [status, session, loginWithGoogleFromSession, router, t, returnUrl]);
 
   return (
-    <div className="container mx-auto px-4 py-16 text-center text-muted-foreground">
+    <div className="mx-auto w-full max-w-[1240px] px-4 md:px-6 py-16 text-center text-v2-muted">
       {t('auth.google.messages.loading')}
     </div>
   );

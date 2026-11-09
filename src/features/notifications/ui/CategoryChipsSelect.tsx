@@ -4,8 +4,7 @@ import { useMemo } from 'react';
 import { X } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { useCategories } from '@/entities/category';
-import { CascadingSelect, type CascadingSelectItem } from '@/shared/ui/cascading-select';
-import { Badge } from '@/shared/ui/badge';
+import { Badge, CascadingSelect, type CascadingSelectItem } from '@/ui-v2';
 
 interface CategoryChipsSelectProps {
   value: string[];
@@ -61,19 +60,17 @@ export const CategoryChipsSelect = ({ value, onChange, disabled }: CategoryChips
             ? t('request.create.categoriesError')
             : t('request.create.categoriesEmpty')
         }
-        backLabel={t('request.create.categoryBackLabel')}
-        moreLabel={t('request.create.categoryMoreLabel')}
       />
 
       {value.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {value.map((id) => (
-            <Badge key={id} variant="secondary" className="gap-1 pr-1">
+            <Badge key={id} tone="neutral" className="gap-1 pr-1">
               {categoriesById.get(id) ?? id}
               <button
                 type="button"
                 onClick={() => handleRemove(id)}
-                className="rounded-full p-0.5 hover:bg-muted"
+                className="rounded-full p-0.5 hover:bg-v2-surface-subtle"
                 aria-label={t('profile.notifications.subscriptions.removeCategory')}
               >
                 <X className="h-3 w-3" />

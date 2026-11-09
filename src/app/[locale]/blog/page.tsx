@@ -4,9 +4,9 @@ import { getMetadataForRoute } from '@/locales/route-metadata';
 import { getBlogPosts } from '@/entities/blog/services/blogPosts';
 import { routes } from '@/app/router/routes';
 import Link from '@/shared/ui/link';
-import { Card, CardContent } from '@shared/ui/card';
 import { JsonLd } from '@/shared/seo/JsonLd';
 import { getItemListJsonLd } from '@/shared/seo/schemas';
+import { Card, CardBody } from '@/ui-v2';
 
 /** Список статей кешується на годину */
 export const revalidate = 3600;
@@ -42,12 +42,12 @@ export default async function BlogListPage({ params }: LocaleRouteProps) {
   const copy = COPY[locale];
 
   return (
-    <div className="container mx-auto px-4 max-w-5xl">
-      <h1 className="text-4xl font-bold mb-4">{copy.title}</h1>
-      <p className="text-lg text-muted-foreground mb-10 max-w-3xl">{copy.intro}</p>
+    <div className="mx-auto w-full max-w-[1240px] px-4 md:px-6 max-w-5xl">
+      <h1 className="text-4xl font-[550] mb-4">{copy.title}</h1>
+      <p className="text-lg text-v2-muted mb-10 max-w-3xl">{copy.intro}</p>
 
       {posts.length === 0 ? (
-        <p className="text-muted-foreground">{copy.empty}</p>
+        <p className="text-v2-muted">{copy.empty}</p>
       ) : (
         <>
           <JsonLd
@@ -72,21 +72,21 @@ export default async function BlogListPage({ params }: LocaleRouteProps) {
                     />
                   </div>
                 )}
-                <CardContent className="p-6">
-                  <p className="text-sm text-muted-foreground mb-2">{post.category}</p>
+                <CardBody className="p-6">
+                  <p className="text-sm text-v2-muted mb-2">{post.category}</p>
                   <h2 className="text-2xl font-semibold mb-2">
-                    <Link href={routes.BLOG_ID(String(post.id))} className="hover:text-primary">
+                    <Link href={routes.BLOG_ID(String(post.id))} className="hover:text-v2-primary">
                       {post.title}
                     </Link>
                   </h2>
-                  <p className="text-muted-foreground mb-4">{post.description}</p>
+                  <p className="text-v2-muted mb-4">{post.description}</p>
                   <Link
                     href={routes.BLOG_ID(String(post.id))}
-                    className="inline-flex min-h-11 items-center text-primary font-medium underline underline-offset-2"
+                    className="inline-flex min-h-11 items-center text-v2-primary font-medium underline underline-offset-2"
                   >
                     {copy.readMore}
                   </Link>
-                </CardContent>
+                </CardBody>
               </Card>
             ))}
           </div>

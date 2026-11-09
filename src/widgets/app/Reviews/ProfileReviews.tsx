@@ -1,10 +1,8 @@
 import { FC, useMemo, useState } from 'react';
-import { Card, CardContent } from '@shared/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shared/ui/tabs';
 import { Star } from 'lucide-react';
 import { useReviewStats } from '@entities/review';
 import { ReviewsList } from '@entities/review/ui/ReviewsList/ReviewsList';
-import { Loading } from '@/shared/ui/loading';
+import { Card, CardBody, LoadingState, Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui-v2';
 
 interface ProfileReviewsProps {
   profileId: string;
@@ -16,9 +14,7 @@ const renderStars = (rating: number) => {
       {[1, 2, 3, 4, 5].map((star) => (
         <Star
           key={star}
-          className={`h-4 w-4 ${
-            star <= rating ? 'fill-primary text-primary' : 'text-muted-foreground'
-          }`}
+          className={`h-4 w-4 ${star <= rating ? 'fill-primary text-v2-primary' : 'text-v2-muted'}`}
         />
       ))}
     </div>
@@ -47,15 +43,15 @@ export const ProfileReviews: FC<ProfileReviewsProps> = ({ profileId }) => {
   }, [activeTab, profileId]);
 
   if (isLoading) {
-    return <Loading variant="full-page" />;
+    return <LoadingState className="min-h-[30vh]" />;
   }
 
   if (!reviewStats) {
     return (
       <Card>
-        <CardContent className="pt-6 text-center text-muted-foreground">
+        <CardBody className="pt-6 text-center text-v2-muted">
           Не вдалося завантажити статистику відгуків.
-        </CardContent>
+        </CardBody>
       </Card>
     );
   }
@@ -63,14 +59,12 @@ export const ProfileReviews: FC<ProfileReviewsProps> = ({ profileId }) => {
   return (
     <div className="space-y-6">
       <Card>
-        <CardContent className="pt-6">
+        <CardBody className="pt-6">
           <div className="flex items-center gap-8">
             <div className="text-center">
-              <div className="text-5xl font-bold mb-2">{avgRating.toFixed(1)}</div>
+              <div className="text-5xl font-[550] mb-2">{avgRating.toFixed(1)}</div>
               <div className="flex justify-center mb-2">{renderStars(Math.round(avgRating))}</div>
-              <p className="text-sm text-muted-foreground">
-                На основі {reviewStats.total} відгуків
-              </p>
+              <p className="text-sm text-v2-muted">На основі {reviewStats.total} відгуків</p>
             </div>
 
             <div className="flex-1 space-y-2">
@@ -82,18 +76,18 @@ export const ProfileReviews: FC<ProfileReviewsProps> = ({ profileId }) => {
                     <div key={stars} className="flex items-center gap-3">
                       <div className="flex items-center gap-1 w-20">
                         <span className="text-sm">{stars}</span>
-                        <Star className="h-3 w-3 fill-primary text-primary" />
+                        <Star className="h-3 w-3 fill-primary text-v2-primary" />
                       </div>
-                      <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                        <div className="h-full bg-primary" style={{ width: `${percentage}%` }} />
+                      <div className="flex-1 h-2 bg-v2-surface-subtle rounded-full overflow-hidden">
+                        <div className="h-full bg-v2-primary" style={{ width: `${percentage}%` }} />
                       </div>
-                      <span className="text-sm text-muted-foreground w-12 text-right">{count}</span>
+                      <span className="text-sm text-v2-muted w-12 text-right">{count}</span>
                     </div>
                   );
                 })}
             </div>
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">

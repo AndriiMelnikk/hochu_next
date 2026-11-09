@@ -2,13 +2,11 @@
 
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import { Input } from '@shared/ui/input';
-import { Textarea } from '@shared/ui/textarea';
 import { contactService, type IContactRequest } from '@entities/contact';
 import { toast } from 'sonner';
 
 import { useLingui } from '@lingui/react';
-import { Button } from '@/shared/ui/button';
+import { Button, Input, Textarea } from '@/ui-v2';
 
 export default function ContactContent() {
   const { i18n } = useLingui();
@@ -62,14 +60,14 @@ export default function ContactContent() {
   ];
 
   return (
-    <div className="bg-background">
+    <div className="bg-v2-surface">
       {/* Hero Section */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-[550] mb-6 text-v2-primary">
             {t('contact.title')}
           </h1>
-          <p className="text-xl text-muted-foreground">{t('contact.subtitle')}</p>
+          <p className="text-xl text-v2-muted">{t('contact.subtitle')}</p>
         </div>
       </section>
 
@@ -80,11 +78,11 @@ export default function ContactContent() {
               const Icon = info.icon;
               const content = (
                 <>
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                    <Icon className="w-6 h-6 text-primary" />
+                  <div className="w-12 h-12 rounded-full bg-v2-primary flex items-center justify-center mb-4">
+                    <Icon className="w-6 h-6 text-v2-primary" />
                   </div>
                   <h3 className="font-semibold text-lg mb-2">{info.title}</h3>
-                  <p className="text-muted-foreground">{info.value}</p>
+                  <p className="text-v2-muted">{info.value}</p>
                 </>
               );
 
@@ -92,14 +90,14 @@ export default function ContactContent() {
                 <a
                   key={index}
                   href={info.link}
-                  className="bg-card rounded-2xl p-6 shadow-lg border border-border hover:border-primary transition-all hover:shadow-xl text-center"
+                  className="bg-v2-surface rounded-v2-2xl p-6  border border-v2-border hover:border-v2-primary transition-all hover:shadow-xl text-center"
                 >
                   {content}
                 </a>
               ) : (
                 <div
                   key={index}
-                  className="bg-card rounded-2xl p-6 shadow-lg border border-border text-center"
+                  className="bg-v2-surface rounded-v2-2xl p-6  border border-v2-border text-center"
                 >
                   {content}
                 </div>
@@ -111,8 +109,8 @@ export default function ContactContent() {
       {/* Contact Form */}
       <section className="py-16 px-4">
         <div className="max-w-2xl mx-auto">
-          <div className="bg-card rounded-3xl p-8 md:p-12 shadow-lg border border-border">
-            <h2 className="text-2xl font-bold mb-6 text-center">{t('contact.form.title')}</h2>
+          <div className="bg-v2-surface rounded-3xl p-8 md:p-12  border border-v2-border">
+            <h2 className="text-2xl font-[550] mb-6 text-center">{t('contact.form.title')}</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2">
@@ -180,7 +178,7 @@ export default function ContactContent() {
                 />
               </div>
 
-              <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
                 <Send className="w-4 h-4 mr-2" />
                 {isSubmitting ? t('contact.form.submitting') : t('contact.form.submit')}
               </Button>
@@ -192,9 +190,9 @@ export default function ContactContent() {
       {/* Map Section */}
       {/* <section className="py-8 px-4 pb-16">
           <div className="max-w-6xl mx-auto">
-            <div className="bg-card rounded-3xl overflow-hidden shadow-lg border border-border h-96">
-              <div className="w-full h-full bg-muted flex items-center justify-center">
-                <p className="text-muted-foreground">Карта розташування</p>
+            <div className="bg-v2-surface rounded-3xl overflow-hidden  border border-v2-border h-96">
+              <div className="w-full h-full bg-v2-surface-subtle flex items-center justify-center">
+                <p className="text-v2-muted">Карта розташування</p>
               </div>
             </div>
           </div>
