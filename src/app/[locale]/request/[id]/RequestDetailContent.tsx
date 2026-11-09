@@ -13,6 +13,7 @@ import {
   useProposals,
 } from '@/entities/proposal';
 import { RequestInfo, RequestSidebar, StatusGuide } from '@/features/requests';
+import { formatBudget } from '@/features/requests/utils/formatBudget';
 import { CreateProposalForm, ProposalList } from '@/features/proposals';
 import { DiscussionForm, DiscussionList } from '@/features/discussions';
 import { EditContactChannelsModal, SwitchProfileModal } from '@/features/user';
@@ -123,10 +124,7 @@ export default function RequestDetailContent({
   const canCurrentUserReviewBuyer =
     !!executorCompletedProposalForCurrentUser && request.status === RequestStatus.COMPLETED;
 
-  const budget =
-    request.budgetMin && request.budgetMax
-      ? `${request.budgetMin}-${request.budgetMax} грн`
-      : t('request.detail.budgetNotSpecified');
+  const budget = formatBudget(request, t, i18n.locale);
 
   const lightboxImages =
     activeLightboxImages.length > 0 ? activeLightboxImages : request.images || [];
@@ -338,6 +336,7 @@ export default function RequestDetailContent({
         <div className="space-y-6">
           <RequestSidebar
             buyer={buyer}
+            request={request}
             proposalsCount={request.proposalsCount}
             onApply={
               isOwner || request.status !== RequestStatus.ACTIVE

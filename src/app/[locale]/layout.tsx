@@ -1,4 +1,4 @@
-import { Inter } from 'next/font/google';
+import { Onest } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import '../globals.css';
 import { Providers } from '@/app/providers';
@@ -13,7 +13,7 @@ import { JsonLd } from '@/shared/seo/JsonLd';
 import { getOrganizationJsonLd, getWebSiteJsonLd } from '@/shared/seo/schemas';
 import { gtmId } from '@/shared/config/envVars';
 
-const inter = Inter({ subsets: ['latin', 'cyrillic'] });
+const onest = Onest({ subsets: ['latin', 'cyrillic'] });
 
 const messagesByLocale = {
   en: enMessages,
@@ -50,7 +50,7 @@ export default async function RootLayout({ children, params }: Props) {
   return (
     <html lang={locale}>
       <GoogleTagManager gtmId={gtmId} />
-      <body className={inter.className}>
+      <body className={onest.className}>
         <JsonLd data={getOrganizationJsonLd()} />
         <JsonLd data={getWebSiteJsonLd(locale)} />
         <Providers locale={locale} messages={messages}>

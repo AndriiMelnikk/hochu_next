@@ -1,43 +1,58 @@
 'use client';
 
+import { useState } from 'react';
 import { useLingui } from '@lingui/react';
 
-import { Container, Heading, Section } from '@/ui-v2';
+import { routes } from '@/app/router/routes';
+import Link from '@/shared/ui/link';
+import { Button, Container, ImagePlaceholder, SegmentedControl } from '@/ui-v2';
 
-const STEPS = ['step1', 'step2', 'step3', 'step4'] as const;
+type Tab = 'buy' | 'sell';
 
+const LINKS: Record<Tab, string[]> = {
+  buy: [routes.CREATE, routes.REQUEST, routes.CATEGORIES],
+  sell: [routes.REQUEST, routes.CATEGORIES, routes.REQUEST],
+};
+
+/** «Як це працює»: перемикач аудиторії + 3 картки з медіа (заглушки). */
 const HowItWorks = () => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
+  const [tab, setTab] = useState<Tab>('buy');
 
   return (
-    <Section>
+    <section className="ui-v2 py-12 md:py-20">
       <Container>
-        <div className="mb-10 max-w-2xl">
-          <Heading level="h2" as="h2" className="mb-3">
-            {t('common.home.howItWorks.title.prefix')}{' '}
-            <span className="text-v2-primary">{t('common.home.howItWorks.title.emphasis')}</span>?
-          </Heading>
-          <p className="text-lg text-v2-muted">{t('common.home.howItWorks.subtitle')}</p>
+        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-4xl font-[450] tracking-tight md:text-5xl">
+            {t('common.home.hiw.title')}
+          </h2>
+          <SegmentedControl<Tab>
+            value={tab}
+            onValueChange={setTab}
+            options={[
+              { value: 'buy', label: t('common.home.hiw.tab.buy') },
+              { value: 'sell', label: t('common.home.hiw.tab.sell') },
+            ]}
+          />
         </div>
 
-        <ol className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {STEPS.map((step, i) => (
-            <li key={step} className="rounded-v2-2xl border border-v2-border p-6">
-              <span className="mb-4 flex size-10 items-center justify-center rounded-full bg-v2-primary text-base font-semibold text-v2-on-primary">
-                {i + 1}
-              </span>
-              <Heading level="h4" as="h3" className="mb-2">
-                {t(`common.home.howItWorks.${step}.title`)}
-              </Heading>
-              <p className="leading-6 text-v2-muted">
-                {t(`common.home.howItWorks.${step}.description`)}
-              </p>
-            </li>
+        <div className="grid gap-6 md:grid-cols-3">
+          {[1, 2, 3].map((n) => (
+            <div key={`${tab}-${n}`} className="flex flex-col">
+              <ImagePlaceholder className="mb-6 aspect-[3/2] bg-gradient-to-br from-[#eaf8c9] to-[#cdf3cd]" />
+              <h3 className="mb-2 text-2xl font-[450] leading-8">
+                {t(`common.home.hiw.${tab}.${n}.title`)}
+              </h3>
+              <p className="mb-6 flex-1 text-v2-muted">{t(`common.home.hiw.${tab}.${n}.desc`)}</p>
+              <Button asChild className="h-12 w-full text-base">
+                <Link href={LINKS[tab][n - 1]}>{t(`common.home.hiw.${tab}.${n}.cta`)}</Link>
+              </Button>
+            </div>
           ))}
-        </ol>
+        </div>
       </Container>
-    </Section>
+    </section>
   );
 };
 

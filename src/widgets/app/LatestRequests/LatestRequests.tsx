@@ -8,7 +8,7 @@ import { routes } from '@/app/router/routes';
 import { useLatestRequests, type IRequest, type IGetRequestsResponse } from '@/entities/request';
 import { RequestCard } from '@/features/requests';
 import Link from '@/shared/ui/link';
-import { Button, Container, Heading, Section, LoadingState, ErrorState } from '@/ui-v2';
+import { Button, Container, Section, SectionHeader, LoadingState, ErrorState } from '@/ui-v2';
 
 const LatestRequests = ({ initialData }: { initialData?: IGetRequestsResponse }) => {
   const { i18n } = useLingui();
@@ -20,23 +20,25 @@ const LatestRequests = ({ initialData }: { initialData?: IGetRequestsResponse })
   return (
     <Section>
       <Container>
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-2xl">
-            <Heading level="h2" as="h2" className="mb-3">
+        <SectionHeader
+          title={
+            <>
               {t('common.home.latestRequests.title.prefix')}{' '}
               <span className="text-v2-primary">
                 {t('common.home.latestRequests.title.emphasis')}
               </span>
-            </Heading>
-            <p className="text-lg text-v2-muted">{t('common.home.latestRequests.subtitle')}</p>
-          </div>
-          <Button asChild variant="outline" className="shrink-0 self-start">
-            <Link href={routes.REQUEST}>
-              {t('common.home.latestRequests.viewAll')}
-              <ArrowRight />
-            </Link>
-          </Button>
-        </div>
+            </>
+          }
+          subtitle={t('common.home.latestRequests.subtitle')}
+          action={
+            <Button asChild variant="outline">
+              <Link href={routes.REQUEST}>
+                {t('common.home.latestRequests.viewAll')}
+                <ArrowRight />
+              </Link>
+            </Button>
+          }
+        />
 
         {isLoading ? (
           <LoadingState />

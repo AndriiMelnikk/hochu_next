@@ -3,9 +3,10 @@
 import Image from 'next/image';
 import Link from '@/shared/ui/link';
 import { Badge } from '@/ui-v2';
-import { Clock, MapPin } from 'lucide-react';
+import { Clock, ImageIcon, MapPin, ShieldCheck } from 'lucide-react';
 import { routes } from '@/app/router/routes';
-import { IRequest, REQUEST_STATUS_LABELS, RequestStatus } from '@entities/request';
+import { IRequest, REQUEST_STATUS_LABELS, REQUEST_URGENCY, RequestStatus } from '@entities/request';
+import { formatBudget } from '../utils/formatBudget';
 import { useLingui } from '@lingui/react';
 
 interface RequestCardProps {
@@ -25,17 +26,9 @@ export const RequestCard = ({
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
-  const min = request.budgetMin || 0;
-  const max = request.budgetMax || 0;
-
-  let budget = t('request.detail.budgetNotSpecified');
-  if (min > 0 && max > 0) {
-    budget = `${min}-${max} грн`;
-  } else if (min > 0) {
-    budget = t('request.budget.from', { amount: min });
-  } else if (max > 0) {
-    budget = t('request.budget.to', { amount: max });
-  }
+  const budget = formatBudget(request, t, i18n.locale);
+  const isUrgent = request.urgency === REQUEST_URGENCY.URGENT;
+  const isVerified = !!request.buyerId?.isVerified;
 
   const statusTone = {
     pending: 'warning',
@@ -87,10 +80,30 @@ export const RequestCard = ({
             <p className="mb-4 line-clamp-3 text-sm leading-[21px] text-v2-ink">
               {request.description}
             </p>
-            <Badge tone="neutral">{categoryName || request.category.name}</Badge>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge tone="neutral">{categoryName || request.category.name}</Badge>
+              {isUrgent && <Badge tone="warning">{t('request.card.urgent')}</Badge>}
+              {request.proposalsCount === 0 && (
+                <Badge tone="success">{t('request.card.noProposals')}</Badge>
+              )}
+              {isVerified && (
+                <span className="inline-flex items-center gap-1 text-xs text-v2-muted">
+                  <ShieldCheck className="size-4 text-v2-primary" />
+                  {t('request.card.verified')}
+                </span>
+              )}
+            </div>
           </div>
+          {photos.length === 0 && (
+            <div
+              aria-hidden
+              className="hidden size-28 shrink-0 items-center justify-center rounded-v2-lg border border-dashed border-v2-border bg-v2-surface-subtle text-v2-subtle sm:flex"
+            >
+              <ImageIcon className="size-7" />
+            </div>
+          )}
           {photos.length > 0 && (
-            <div className="relative size-20 shrink-0 overflow-hidden rounded-v2-lg border border-v2-border sm:size-28">
+            <div className="relative size-16 shrink-0 overflow-hidden rounded-v2-lg border border-v2-border sm:size-28">
               <Image
                 src={photos[0]}
                 alt=""
@@ -120,6 +133,7 @@ export const RequestCard = ({
         <div className="mb-3 flex items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="info">{categoryName || request.category.name}</Badge>
+            {isUrgent && <Badge tone="warning">{t('request.card.urgent')}</Badge>}
             {status && (
               <Badge tone={statusTone[request.status as keyof typeof statusTone] ?? 'neutral'}>
                 {t(REQUEST_STATUS_LABELS[request.status as keyof typeof REQUEST_STATUS_LABELS])}
@@ -150,7 +164,7 @@ export const RequestCard = ({
             {request.location}
           </div>
           <div className="mt-3 border-t border-v2-border pt-3 font-semibold text-v2-primary">
-            {request.proposalsCount} пропозицій
+            {t('request.card.proposalsBadge', { count: request.proposalsCount })}
           </div>
         </div>
       </article>

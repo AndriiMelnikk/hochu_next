@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { contactService, type IContactRequest } from '@entities/contact';
 import { toast } from 'sonner';
 
 import { useLingui } from '@lingui/react';
-import { Button, Input, Textarea } from '@/ui-v2';
+import { Button, Container, Input, PageHero, Textarea } from '@/ui-v2';
 
 export default function ContactContent() {
   const { i18n } = useLingui();
@@ -38,165 +38,92 @@ export default function ContactContent() {
     }
   };
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      title: t('contact.info.email'),
-      value: 'support@shukayu.com',
-      link: 'mailto:support@shukayu.com',
-    },
-    {
-      icon: Phone,
-      title: t('contact.info.phone'),
-      value: '+380 (44) 123-45-67',
-      link: 'tel:+380441234567',
-    },
-    {
-      icon: MapPin,
-      title: t('contact.info.address'),
-      value: t('contact.info.addressValue'),
-      link: null,
-    },
-  ];
-
   return (
-    <div className="bg-v2-surface">
-      {/* Hero Section */}
-      <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-[550] mb-6 text-v2-primary">
-            {t('contact.title')}
-          </h1>
-          <p className="text-xl text-v2-muted">{t('contact.subtitle')}</p>
-        </div>
-      </section>
+    <div className="ui-v2">
+      <Container className="py-6 md:py-8">
+        <PageHero title={t('contact.title')} subtitle={t('contact.subtitle')} />
 
-      {/* Contact Info Cards */}
-      {/* <section className="py-8 px-4">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
-            {contactInfo.map((info, index) => {
-              const Icon = info.icon;
-              const content = (
-                <>
-                  <div className="w-12 h-12 rounded-full bg-v2-primary flex items-center justify-center mb-4">
-                    <Icon className="w-6 h-6 text-v2-primary" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">{info.title}</h3>
-                  <p className="text-v2-muted">{info.value}</p>
-                </>
-              );
-
-              return info.link ? (
-                <a
-                  key={index}
-                  href={info.link}
-                  className="bg-v2-surface rounded-v2-2xl p-6  border border-v2-border hover:border-v2-primary transition-all hover:shadow-xl text-center"
-                >
-                  {content}
-                </a>
-              ) : (
-                <div
-                  key={index}
-                  className="bg-v2-surface rounded-v2-2xl p-6  border border-v2-border text-center"
-                >
-                  {content}
+        {/* Contact Form */}
+        <section className="mx-auto mb-8 mt-16">
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-v2-surface rounded-v2-2xl p-8 md:p-12 border border-v2-border shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+              <h2 className="text-2xl font-[550] mb-6 text-center">{t('contact.form.title')}</h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium mb-2">
+                    {t('contact.form.nameLabel')}
+                  </label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder={t('contact.form.namePlaceholder')}
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    minLength={2}
+                    maxLength={255}
+                    disabled={isSubmitting}
+                    required
+                  />
                 </div>
-              );
-            })}
-          </div>
-        </section> */}
 
-      {/* Contact Form */}
-      <section className="py-16 px-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-v2-surface rounded-3xl p-8 md:p-12  border border-v2-border">
-            <h2 className="text-2xl font-[550] mb-6 text-center">{t('contact.form.title')}</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                  {t('contact.form.nameLabel')}
-                </label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder={t('contact.form.namePlaceholder')}
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  minLength={2}
-                  maxLength={255}
-                  disabled={isSubmitting}
-                  required
-                />
-              </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium mb-2">
+                    {t('contact.form.emailLabel')}
+                  </label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder={t('contact.form.emailPlaceholder')}
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    disabled={isSubmitting}
+                    required
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                  {t('contact.form.emailLabel')}
-                </label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder={t('contact.form.emailPlaceholder')}
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  disabled={isSubmitting}
-                  required
-                />
-              </div>
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium mb-2">
+                    {t('contact.form.subjectLabel')}
+                  </label>
+                  <Input
+                    id="subject"
+                    type="text"
+                    placeholder={t('contact.form.subjectPlaceholder')}
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    minLength={3}
+                    maxLength={255}
+                    disabled={isSubmitting}
+                    required
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                  {t('contact.form.subjectLabel')}
-                </label>
-                <Input
-                  id="subject"
-                  type="text"
-                  placeholder={t('contact.form.subjectPlaceholder')}
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  minLength={3}
-                  maxLength={255}
-                  disabled={isSubmitting}
-                  required
-                />
-              </div>
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium mb-2">
+                    {t('contact.form.messageLabel')}
+                  </label>
+                  <Textarea
+                    id="message"
+                    placeholder={t('contact.form.messagePlaceholder')}
+                    rows={6}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    minLength={10}
+                    maxLength={5000}
+                    disabled={isSubmitting}
+                    required
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  {t('contact.form.messageLabel')}
-                </label>
-                <Textarea
-                  id="message"
-                  placeholder={t('contact.form.messagePlaceholder')}
-                  rows={6}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  minLength={10}
-                  maxLength={5000}
-                  disabled={isSubmitting}
-                  required
-                />
-              </div>
-
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                <Send className="w-4 h-4 mr-2" />
-                {isSubmitting ? t('contact.form.submitting') : t('contact.form.submit')}
-              </Button>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      {/* <section className="py-8 px-4 pb-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="bg-v2-surface rounded-3xl overflow-hidden  border border-v2-border h-96">
-              <div className="w-full h-full bg-v2-surface-subtle flex items-center justify-center">
-                <p className="text-v2-muted">Карта розташування</p>
-              </div>
+                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                  <Send className="w-4 h-4 mr-2" />
+                  {isSubmitting ? t('contact.form.submitting') : t('contact.form.submit')}
+                </Button>
+              </form>
             </div>
           </div>
-        </section> */}
+        </section>
+      </Container>
     </div>
   );
 }

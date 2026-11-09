@@ -1,21 +1,29 @@
-import { Shield } from 'lucide-react';
+import { Eye, Shield, ShieldCheck, Wallet, Zap } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 import { format } from 'date-fns';
 import { uk, enUS } from 'date-fns/locale';
 
-import { IRequestBuyer } from '@/entities/request/types/Request';
+import { IRequest, IRequestBuyer } from '@/entities/request/types/Request';
+import { REQUEST_URGENCY_LABELS } from '@/entities/request/const';
+import { formatBudget } from '../utils/formatBudget';
 import { routes } from '@/app/router/routes';
 import Link from '@/shared/ui/link';
 import { Avatar, Button, Card, Rating } from '@/ui-v2';
 
 interface RequestSidebarProps {
   buyer?: IRequestBuyer;
+  request?: IRequest;
   proposalsCount: number;
   /** Кнопка «Подати пропозицію» над блоком покупця (як Apply now в Upwork). */
   onApply?: () => void;
 }
 
-export const RequestSidebar = ({ buyer, proposalsCount, onApply }: RequestSidebarProps) => {
+export const RequestSidebar = ({
+  buyer,
+  request,
+  proposalsCount,
+  onApply,
+}: RequestSidebarProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
@@ -34,6 +42,43 @@ export const RequestSidebar = ({ buyer, proposalsCount, onApply }: RequestSideba
           {t('request.sidebar.apply')}
         </Button>
       )}
+      {request && (
+        <Card className="p-6">
+          <h2 className="mb-4 text-xl font-[550]">{t('request.sidebar.termsTitle')}</h2>
+          <dl className="space-y-3 text-sm">
+            <div className="flex items-center justify-between gap-3">
+              <dt className="flex items-center gap-2 text-v2-muted">
+                <Wallet className="size-4" />
+                {t('request.sidebar.budget')}
+              </dt>
+              <dd className="text-right font-semibold">{formatBudget(request, t, i18n.locale)}</dd>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <dt className="flex items-center gap-2 text-v2-muted">
+                <Zap className="size-4" />
+                {t('request.sidebar.urgency')}
+              </dt>
+              <dd className="text-right font-semibold">
+                {REQUEST_URGENCY_LABELS[request.urgency as keyof typeof REQUEST_URGENCY_LABELS]
+                  ? t(
+                      REQUEST_URGENCY_LABELS[
+                        request.urgency as keyof typeof REQUEST_URGENCY_LABELS
+                      ],
+                    )
+                  : '—'}
+              </dd>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <dt className="flex items-center gap-2 text-v2-muted">
+                <Eye className="size-4" />
+                {t('request.sidebar.views')}
+              </dt>
+              <dd className="font-semibold">{request.views ?? 0}</dd>
+            </div>
+          </dl>
+        </Card>
+      )}
+
       <Card className="p-6">
         <h2 className="mb-4 text-xl font-[550]">{t('request.sidebar.buyer')}</h2>
 
@@ -49,7 +94,15 @@ export const RequestSidebar = ({ buyer, proposalsCount, onApply }: RequestSideba
               >
                 {fullName}
               </Link>
-              {buyer.isVerified && <Shield className="size-4 shrink-0 text-v2-primary" />}
+              {buyer.isVerified && (
+                <span
+                  className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-v2-primary"
+                  title={t('request.sidebar.verified')}
+                >
+                  <Shield className="size-4" />
+                  {t('request.sidebar.verified')}
+                </span>
+              )}
             </div>
             <p className="text-sm text-v2-muted">
               {t('request.sidebar.memberSince', { date: memberSince })}
@@ -84,6 +137,21 @@ export const RequestSidebar = ({ buyer, proposalsCount, onApply }: RequestSideba
           <p className="text-sm text-v2-muted">{t('request.sidebar.otherProposals')}</p>
         </div>
         <p className="text-center text-sm text-v2-muted">{t('request.sidebar.competitionHint')}</p>
+      </Card>
+
+      <Card className="p-6">
+        <h3 className="mb-3 flex items-center gap-2 text-lg font-[550]">
+          <ShieldCheck className="size-5 text-v2-primary" />
+          {t('request.sidebar.secureTitle')}
+        </h3>
+        <ul className="space-y-2 text-sm text-v2-muted">
+          {[1, 2, 3].map((n) => (
+            <li key={n} className="flex gap-2">
+              <span aria-hidden className="mt-2 size-1 shrink-0 rounded-full bg-v2-primary" />
+              {t(`request.sidebar.secure${n}`)}
+            </li>
+          ))}
+        </ul>
       </Card>
     </div>
   );

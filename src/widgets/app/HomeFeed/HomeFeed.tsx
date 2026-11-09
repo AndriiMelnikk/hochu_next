@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useSyncExternalStore } from 'react';
 import { useLingui } from '@lingui/react';
-import { CirclePlus } from 'lucide-react';
+import { CheckCircle2, CirclePlus, SearchX } from 'lucide-react';
 
 import { routes } from '@/app/router/routes';
 import { useAuthStore } from '@/entities/auth/store/authStore';
@@ -19,6 +19,7 @@ import {
   Heading,
   LoadingState,
   Pagination,
+  RowSkeleton,
   Tabs,
   TabsContent,
   TabsList,
@@ -32,10 +33,15 @@ function RequestRows({ category, pageSize }: { category?: string; pageSize: numb
   const params = useMemo(() => ({ page, pageSize, category }), [page, pageSize, category]);
   const { data, isLoading, isError } = useRequests(params);
 
-  if (isLoading) return <LoadingState />;
+  if (isLoading) return <RowSkeleton />;
   if (isError) return <ErrorState message={i18n._('request.list.requestsError')} />;
   const results = data?.results ?? [];
-  if (results.length === 0) return <EmptyState>{i18n._('request.list.empty')}</EmptyState>;
+  if (results.length === 0)
+    return (
+      <EmptyState icon={<SearchX />} title={i18n._('request.list.emptyTitle')}>
+        {i18n._('request.list.emptyHint')}
+      </EmptyState>
+    );
 
   const totalPages = Math.max(1, Math.ceil((data?.count ?? 0) / pageSize));
 
@@ -108,6 +114,62 @@ function ByCategory() {
   );
 }
 
+const ONBOARDING_KEY = 'shukayu:onboarding-dismissed';
+const ONBOARDING_EVENT = 'shukayu:onboarding-change';
+
+function subscribeOnboarding(cb: () => void) {
+  window.addEventListener(ONBOARDING_EVENT, cb);
+  return () => window.removeEventListener(ONBOARDING_EVENT, cb);
+}
+function getOnboardingHidden() {
+  try {
+    return localStorage.getItem(ONBOARDING_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+function dismissOnboarding() {
+  try {
+    localStorage.setItem(ONBOARDING_KEY, '1');
+  } catch {
+    // сховище недоступне: просто сховаємо до перезавантаження
+  }
+  window.dispatchEvent(new Event(ONBOARDING_EVENT));
+}
+
+/** Чек-лист перших кроків для нових користувачів (приховується назавжди кнопкою). */
+function Onboarding({ isBuyer }: { isBuyer: boolean; name: string }) {
+  const { i18n } = useLingui();
+  const hidden = useSyncExternalStore(subscribeOnboarding, getOnboardingHidden, () => true);
+  if (hidden) return null;
+  const prefix = isBuyer ? 'home.feed.onboardingStep' : 'home.feed.onboardingStepSeller';
+  return (
+    <section className="mb-8 rounded-v2-2xl border border-v2-border bg-v2-surface-subtle p-6">
+      <div className="mb-4 flex items-start justify-between gap-4">
+        <Heading level="h4" as="h2">
+          {i18n._('home.feed.onboardingTitle')}
+        </Heading>
+        <button
+          type="button"
+          aria-label={i18n._('common.close')}
+          className="text-sm text-v2-muted hover:underline"
+          onClick={dismissOnboarding}
+        >
+          ✕
+        </button>
+      </div>
+      <ol className="grid gap-3 sm:grid-cols-3">
+        {[1, 2, 3].map((n) => (
+          <li key={n} className="flex gap-3 text-sm text-v2-ink">
+            <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-v2-primary" />
+            {i18n._(`${prefix}${n}`)}
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 /** Головна для залогінених: стрічка запитів з вкладками (як Home в Upwork). */
 export default function HomeFeed() {
   const { i18n } = useLingui();
@@ -138,6 +200,8 @@ export default function HomeFeed() {
           </Button>
         )}
       </div>
+
+      <Onboarding isBuyer={isBuyer} name={user.profile.name} />
 
       <Tabs defaultValue={tabs[0]}>
         <TabsList>

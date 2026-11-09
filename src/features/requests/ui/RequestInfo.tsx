@@ -35,6 +35,7 @@ import {
 } from '@/entities/request';
 import { EditRequestModal } from './EditRequestModal';
 import { formatChange } from '../utils/formatChanges';
+import { formatBudget } from '../utils/formatBudget';
 import Image from 'next/image';
 import { CreateReviewModal } from '@/features/proposals/ui/CreateReviewModal';
 import {
@@ -123,18 +124,7 @@ export const RequestInfo = ({
   };
   const isCancelled = request.status === RequestStatus.CANCELLED;
 
-  const min = request.budgetMin || 0;
-  const max = request.budgetMax || 0;
-
-  let budget = t('request.detail.budgetNotSpecified');
-
-  if (min > 0 && max > 0) {
-    budget = `${min}-${max} грн`;
-  } else if (min > 0) {
-    budget = t('request.budget.from', { amount: min });
-  } else if (max > 0) {
-    budget = t('request.budget.to', { amount: max });
-  }
+  const budget = formatBudget(request, t, i18n.locale);
   const timeAgo = request.createdAt ? formatTimeAgo(request.createdAt) : '';
 
   const urgencyLabel =

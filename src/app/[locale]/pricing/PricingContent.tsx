@@ -1,12 +1,20 @@
 'use client';
 
-import { Check } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from '@/shared/ui/link';
 import { routes } from '@/app/router/routes';
 import { buildAuthHref, getReturnUrlFromLocation } from '@/features/auth';
 import { useLingui } from '@lingui/react';
-import { Button } from '@/ui-v2';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Button,
+  Container,
+  PageHero,
+  PlanCard,
+} from '@/ui-v2';
 
 export default function PricingContent() {
   const { i18n } = useLingui();
@@ -62,94 +70,62 @@ export default function PricingContent() {
   ];
 
   return (
-    <div className="bg-v2-surface">
-      {/* Hero Section */}
-      <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-[550] mb-4 text-v2-primary">
-            {t('pricing.hero.title')}
-          </h1>
-          <p className="text-xl text-v2-muted max-w-2xl mx-auto">{t('pricing.hero.subtitle')}</p>
-        </div>
-      </section>
+    <div className="ui-v2">
+      <Container className="py-6 md:py-8">
+        <PageHero title={t('pricing.hero.title')} subtitle={t('pricing.hero.subtitle')} />
 
-      {/* Pricing Cards */}
-      <section className="py-8 px-4 pb-20">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="mx-auto mt-16 grid max-w-4xl gap-6 md:grid-cols-2">
           {plans.map((plan) => (
-            <div
+            <PlanCard
               key={plan.name}
-              className={`relative bg-v2-surface rounded-3xl p-8  border-2 transition-all hover:shadow-xl ${
-                plan.popular
-                  ? 'border-v2-primary scale-105'
-                  : 'border-v2-border hover:border-v2-primary'
-              }`}
-            >
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-v2-primary text-v2-on-primary px-4 py-1 rounded-full text-sm font-semibold">
-                  {plan.popularBadge}
-                </div>
-              )}
-
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-[550] mb-2">{plan.name}</h3>
-                <p className="text-v2-muted mb-4">{plan.description}</p>
-                <div className="flex items-baseline justify-center gap-2">
-                  <span className="text-5xl font-[550]">{plan.price}</span>
-                  {plan.price !== '0' && <span className="text-v2-muted">{plan.currency}</span>}
-                </div>
-                <p className="text-v2-muted mt-1">{plan.period}</p>
-              </div>
-
-              <div className="space-y-4 mb-8">
-                {plan.features.map((feature, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-v2-primary flex-shrink-0 mt-0.5" />
-                    <span className="text-v2-ink">{feature}</span>
-                  </div>
-                ))}
-                {plan.limitations.map((limitation, index) => (
-                  <div key={index} className="flex items-start gap-3 opacity-50">
-                    <div className="w-5 h-5 flex-shrink-0 mt-0.5 flex items-center justify-center">
-                      <div className="w-3 h-0.5 bg-v2-muted"></div>
-                    </div>
-                    <span className="text-v2-muted">{limitation}</span>
-                  </div>
-                ))}
-              </div>
-
-              <Button
-                variant={plan.buttonVariant === 'default' ? 'primary' : plan.buttonVariant}
-                className="h-12 w-full text-base"
-                asChild
-              >
-                <Link href={registerHref}>{plan.buttonText}</Link>
-              </Button>
-            </div>
+              highlighted={plan.popular}
+              badge={plan.popular ? plan.popularBadge : undefined}
+              name={plan.name}
+              goal={plan.description}
+              description={
+                <span className="flex items-baseline gap-2">
+                  <span className="text-5xl font-[450] text-v2-ink">{plan.price}</span>
+                  {plan.price !== '0' && <span>{plan.currency}</span>}
+                  <span>{plan.period}</span>
+                </span>
+              }
+              features={[
+                ...plan.features,
+                ...plan.limitations.map((l) => (
+                  <span key={l} className="opacity-60">
+                    {l}
+                  </span>
+                )),
+              ]}
+              action={
+                <Button
+                  variant={plan.popular ? 'primary' : 'secondary'}
+                  className="h-12 w-full text-base"
+                  asChild
+                >
+                  <Link href={registerHref}>{plan.buttonText}</Link>
+                </Button>
+              }
+            />
           ))}
         </div>
-      </section>
 
-      {/* FAQ Section */}
-      <section className="py-16 px-4 bg-v2-surface-subtle">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-[550] text-center mb-12">{t('pricing.faq.title')}</h2>
-          <div className="space-y-6">
-            <div className="bg-v2-surface rounded-v2-2xl p-6 shadow-sm">
-              <h3 className="font-semibold text-lg mb-2">{t('pricing.faq.q1.question')}</h3>
-              <p className="text-v2-muted">{t('pricing.faq.q1.answer')}</p>
-            </div>
-            <div className="bg-v2-surface rounded-v2-2xl p-6 shadow-sm">
-              <h3 className="font-semibold text-lg mb-2">{t('pricing.faq.q2.question')}</h3>
-              <p className="text-v2-muted">{t('pricing.faq.q2.answer')}</p>
-            </div>
-            <div className="bg-v2-surface rounded-v2-2xl p-6 shadow-sm">
-              <h3 className="font-semibold text-lg mb-2">{t('pricing.faq.q3.question')}</h3>
-              <p className="text-v2-muted">{t('pricing.faq.q3.answer')}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        <section className="mx-auto my-16 max-w-3xl">
+          <h2 className="mb-8 text-4xl font-[450] tracking-tight">{t('pricing.faq.title')}</h2>
+          <Accordion type="single" collapsible>
+            {(['q1', 'q2', 'q3'] as const).map((q) => (
+              <AccordionItem key={q} value={q}>
+                <AccordionTrigger className="text-left text-lg">
+                  {t(`pricing.faq.${q}.question`)}
+                </AccordionTrigger>
+                <AccordionContent className="text-v2-muted">
+                  {t(`pricing.faq.${q}.answer`)}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </section>
+      </Container>
     </div>
   );
 }

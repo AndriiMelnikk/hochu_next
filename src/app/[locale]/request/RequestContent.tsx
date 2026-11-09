@@ -3,6 +3,7 @@
 import { RequestCard } from '@/features/requests';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLingui } from '@lingui/react';
+import { SearchX } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import {
   useRequestStore,
@@ -19,6 +20,7 @@ import {
   Heading,
   Input,
   LoadingState,
+  RowSkeleton,
   Pagination,
 } from '@/ui-v2';
 import { useDebounce, useQueryPagination } from '@shared/hooks';
@@ -169,11 +171,13 @@ export default function RequestContent({ initialData, initialParams }: RequestCo
           </p>
 
           {loading ? (
-            <LoadingState />
+            <RowSkeleton />
           ) : error ? (
             <ErrorState message={t('request.list.requestsError')} />
           ) : requestResults.length === 0 ? (
-            <EmptyState>{t('request.list.empty')}</EmptyState>
+            <EmptyState icon={<SearchX />} title={t('request.list.emptyTitle')}>
+              {t('request.list.emptyHint')}
+            </EmptyState>
           ) : (
             <div>
               {requestResults.map((request) => (

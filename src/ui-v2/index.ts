@@ -37,3 +37,4 @@ export * from './components/separator';
 export * from './components/table';
 export * from './components/sheet';
 export * from './components/alert-dialog';
+export * from './components/marketing';
