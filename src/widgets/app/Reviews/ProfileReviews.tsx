@@ -1,27 +1,17 @@
 import { FC, useMemo, useState } from 'react';
 import { Star } from 'lucide-react';
+import { useLingui } from '@lingui/react';
 import { useReviewStats } from '@entities/review';
 import { ReviewsList } from '@entities/review/ui/ReviewsList/ReviewsList';
-import { Card, CardBody, LoadingState, Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui-v2';
+import { LoadingState, Rating, Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui-v2';
 
 interface ProfileReviewsProps {
   profileId: string;
 }
 
-const renderStars = (rating: number) => {
-  return (
-    <div className="flex gap-0.5">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <Star
-          key={star}
-          className={`h-4 w-4 ${star <= rating ? 'fill-primary text-v2-primary' : 'text-v2-muted'}`}
-        />
-      ))}
-    </div>
-  );
-};
-
 export const ProfileReviews: FC<ProfileReviewsProps> = ({ profileId }) => {
+  const { i18n } = useLingui();
+  const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
   const { data: reviewStats, isLoading } = useReviewStats(profileId);
   const [activeTab, setActiveTab] = useState('about-me');
 
@@ -47,53 +37,45 @@ export const ProfileReviews: FC<ProfileReviewsProps> = ({ profileId }) => {
   }
 
   if (!reviewStats) {
-    return (
-      <Card>
-        <CardBody className="pt-6 text-center text-v2-muted">
-          Не вдалося завантажити статистику відгуків.
-        </CardBody>
-      </Card>
-    );
+    return <p className="py-8 text-center text-v2-muted">{t('review.statsError')}</p>;
   }
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardBody className="pt-6">
-          <div className="flex items-center gap-8">
-            <div className="text-center">
-              <div className="text-5xl font-[550] mb-2">{avgRating.toFixed(1)}</div>
-              <div className="flex justify-center mb-2">{renderStars(Math.round(avgRating))}</div>
-              <p className="text-sm text-v2-muted">На основі {reviewStats.total} відгуків</p>
-            </div>
+    <div className="ui-v2 space-y-8">
+      <section className="flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-10">
+        <div>
+          <div className="text-[40px] font-[550] leading-[48px]">{avgRating.toFixed(1)}</div>
+          <Rating value={avgRating} className="my-1" />
+          <p className="text-sm text-v2-muted">
+            {t('review.summary.basedOn', { count: reviewStats.total })}
+          </p>
+        </div>
 
-            <div className="flex-1 space-y-2">
-              {Object.entries(reviewStats.stars)
-                .sort(([a], [b]) => Number(b) - Number(a))
-                .map(([stars, count]) => {
-                  const percentage = reviewStats.total > 0 ? (count / reviewStats.total) * 100 : 0;
-                  return (
-                    <div key={stars} className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 w-20">
-                        <span className="text-sm">{stars}</span>
-                        <Star className="h-3 w-3 fill-primary text-v2-primary" />
-                      </div>
-                      <div className="flex-1 h-2 bg-v2-surface-subtle rounded-full overflow-hidden">
-                        <div className="h-full bg-v2-primary" style={{ width: `${percentage}%` }} />
-                      </div>
-                      <span className="text-sm text-v2-muted w-12 text-right">{count}</span>
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
-        </CardBody>
-      </Card>
+        <div className="max-w-md flex-1 space-y-2">
+          {Object.entries(reviewStats.stars)
+            .sort(([a], [b]) => Number(b) - Number(a))
+            .map(([stars, count]) => {
+              const percentage = reviewStats.total > 0 ? (count / reviewStats.total) * 100 : 0;
+              return (
+                <div key={stars} className="flex items-center gap-3 text-sm">
+                  <span className="flex w-8 items-center gap-1">
+                    {stars}
+                    <Star className="size-3 fill-v2-rating text-v2-rating" />
+                  </span>
+                  <div className="h-2 flex-1 overflow-hidden rounded-full bg-v2-surface-muted">
+                    <div className="h-full bg-v2-rating" style={{ width: `${percentage}%` }} />
+                  </div>
+                  <span className="w-8 text-right text-v2-muted">{count}</span>
+                </div>
+              );
+            })}
+        </div>
+      </section>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="about-me">Відгуки про мене</TabsTrigger>
-          <TabsTrigger value="my-reviews">Мої відгуки</TabsTrigger>
+        <TabsList>
+          <TabsTrigger value="about-me">{t('review.tabs.aboutMe')}</TabsTrigger>
+          <TabsTrigger value="my-reviews">{t('review.tabs.mine')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="about-me" className="mt-6">

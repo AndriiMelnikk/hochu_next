@@ -152,47 +152,51 @@ export default function RequestContent({ initialData, initialParams }: RequestCo
         />
       </div>
 
-      <p className="mb-6 text-v2-muted">
-        {loading ? (
-          <LoadingState variant="inline" />
-        ) : error ? (
-          <ErrorState variant="inline" message={t('request.list.loadingError')} />
-        ) : (
-          <>
-            {t('request.list.foundPrefix')}{' '}
-            <span className="font-semibold text-v2-ink">{requests?.count || 0}</span>{' '}
-            {t('request.list.foundSuffix')}
-          </>
-        )}
-      </p>
+      <div>
+        <section aria-live="polite">
+          <p className="mb-4 text-sm text-v2-muted">
+            {loading ? (
+              <LoadingState variant="inline" />
+            ) : error ? (
+              <ErrorState variant="inline" message={t('request.list.loadingError')} />
+            ) : (
+              <>
+                {t('request.list.foundPrefix')}{' '}
+                <span className="font-semibold text-v2-ink">{requests?.count || 0}</span>{' '}
+                {t('request.list.foundSuffix')}
+              </>
+            )}
+          </p>
 
-      {loading ? (
-        <LoadingState />
-      ) : error ? (
-        <ErrorState message={t('request.list.requestsError')} />
-      ) : requestResults.length === 0 ? (
-        <EmptyState>{t('request.list.empty')}</EmptyState>
-      ) : (
-        <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {requestResults.map((request) => (
-            <RequestCard
-              key={request._id.toString()}
-              request={request}
-              categoryName={request.category.name}
+          {loading ? (
+            <LoadingState />
+          ) : error ? (
+            <ErrorState message={t('request.list.requestsError')} />
+          ) : requestResults.length === 0 ? (
+            <EmptyState>{t('request.list.empty')}</EmptyState>
+          ) : (
+            <div>
+              {requestResults.map((request) => (
+                <RequestCard
+                  key={request._id.toString()}
+                  request={request}
+                  categoryName={request.category.name}
+                  variant="row"
+                />
+              ))}
+            </div>
+          )}
+          {!loading && !error && totalPages > 1 && (
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              getPageHref={getPageHref}
+              className="mt-8"
             />
-          ))}
-        </div>
-      )}
-
-      {!loading && !error && totalPages > 1 && (
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          getPageHref={getPageHref}
-          className="mt-8"
-        />
-      )}
+          )}
+        </section>
+      </div>
     </Container>
   );
 }

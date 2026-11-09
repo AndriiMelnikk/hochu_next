@@ -12,6 +12,8 @@ import UserRequestsList from '@/widgets/app/UserRequestsList';
 import { NotificationsTabContent } from '@/widgets/app/NotificationsTab';
 import type { UserRole } from '@/types/gamification';
 import { useLingui } from '@lingui/react';
+import { routes, dashboardSettingsPath } from '@/app/router/routes';
+import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import {
   GUEST_PROFILE_TABS,
   OWNER_PROFILE_TABS,
@@ -21,6 +23,13 @@ import {
   type ProfileTabId,
 } from './const';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/ui-v2';
+
+const LEGACY_OWNER_HASH: Record<string, string> = {
+  notifications: routes.DASHBOARD_NOTIFICATIONS,
+  profiles: routes.DASHBOARD_PROFILES,
+  settings: routes.DASHBOARD_SETTINGS,
+  contacts: dashboardSettingsPath('contacts'),
+};
 
 interface ProfileTabsProps {
   user: {
@@ -36,12 +45,21 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
 
-  const defaultTab = (isOwner ? OWNER_PROFILE_TABS : GUEST_PROFILE_TABS)[0];
+  const router = useLocalizedRouter();
+  const defaultTab = GUEST_PROFILE_TABS[0];
   const [activeTab, setActiveTab] = useState<ProfileTabId>(defaultTab);
 
   useEffect(() => {
     const applyHash = () => {
-      const next = resolveProfileTab(window.location.hash, isOwner);
+      // Старі посилання /profile/<id>#settings → сторінки кабінету
+      const legacy = isOwner
+        ? LEGACY_OWNER_HASH[window.location.hash.replace(/^#/, '')]
+        : undefined;
+      if (legacy) {
+        router.replace(legacy);
+        return;
+      }
+      const next = resolveProfileTab(window.location.hash, false);
       setActiveTab(next);
       syncProfileTabHash(next);
     };
@@ -49,115 +67,35 @@ export default function ProfileTabs({ user, isOwner }: ProfileTabsProps) {
     applyHash();
     window.addEventListener('hashchange', applyHash);
     return () => window.removeEventListener('hashchange', applyHash);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOwner]);
 
-  const lockedTabsForGuest = [
-    'gamification',
-    'analytics',
-    'settings',
-    'messages',
-    'profiles',
-    'notifications',
-  ];
-  const originallyLockedTabs = [
-    'gamification',
-    'analytics',
-    'reviews',
-    'messages',
-    'notifications',
-  ];
-
   const handleTabChange = (value: string) => {
-    if (!isOwner && lockedTabsForGuest.includes(value)) {
-      return;
-    }
-    if (isOwner && originallyLockedTabs.includes(value) && value !== 'settings') {
-      // return; // Logic from original component, can be enabled if needed
-    }
-    if (value === 'settings' && !isOwner) return;
-
-    const next = resolveProfileTab(value, isOwner);
+    const next = resolveProfileTab(value, false);
     setActiveTab(next);
     syncProfileTabHash(next);
   };
 
   return (
     <Tabs value={activeTab} onValueChange={handleTabChange}>
-      {isOwner ? (
-        <TabsList className="grid w-full grid-cols-5 mb-3">
-          <TabsTrigger value={PROFILE_TAB.OVERVIEW} className="flex items-center gap-2">
-            <User className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('profile.tabs.overview')}</span>
-          </TabsTrigger>
+      <TabsList className="mb-6">
+        <TabsTrigger value={PROFILE_TAB.OVERVIEW} className="flex items-center gap-2">
+          <User className="h-4 w-4" />
+          <span className="hidden sm:inline">{t('profile.tabs.overview')}</span>
+        </TabsTrigger>
 
-          <TabsTrigger value={PROFILE_TAB.NOTIFICATIONS} className="flex items-center gap-2">
-            <Bell className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('profile.tabs.notifications')}</span>
-          </TabsTrigger>
-
-          <TabsTrigger value={PROFILE_TAB.PROFILES} className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('profile.tabs.profiles')}</span>
-          </TabsTrigger>
-
-          <TabsTrigger value={PROFILE_TAB.REVIEWS} className="flex items-center gap-2">
-            <Star className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('profile.tabs.reviews')}</span>
-          </TabsTrigger>
-
-          <TabsTrigger value={PROFILE_TAB.SETTINGS} className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('profile.tabs.settings')}</span>
-          </TabsTrigger>
-        </TabsList>
-      ) : (
-        <TabsList className="grid w-full grid-cols-2 mb-2">
-          <TabsTrigger value={PROFILE_TAB.OVERVIEW} className="flex items-center gap-2">
-            <User className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('profile.tabs.overview')}</span>
-          </TabsTrigger>
-
-          <TabsTrigger value={PROFILE_TAB.REVIEWS} className="flex items-center gap-2">
-            <Star className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('profile.tabs.reviews')}</span>
-          </TabsTrigger>
-        </TabsList>
-      )}
-
-      <TabsContent value="gamification">
-        <GamificationProgress
-          xp={user.xp}
-          role={user.role}
-          unlockedAchievements={user.unlockedAchievements}
-        />
-      </TabsContent>
+        <TabsTrigger value={PROFILE_TAB.REVIEWS} className="flex items-center gap-2">
+          <Star className="h-4 w-4" />
+          <span className="hidden sm:inline">{t('profile.tabs.reviews')}</span>
+        </TabsTrigger>
+      </TabsList>
 
       <TabsContent value={PROFILE_TAB.OVERVIEW}>
         <UserRequestsList userId={user.id} userType={user.role as 'buyer' | 'seller'} />
       </TabsContent>
 
-      <TabsContent value={PROFILE_TAB.NOTIFICATIONS}>
-        <NotificationsTabContent />
-      </TabsContent>
-
-      <TabsContent value={PROFILE_TAB.PROFILES}>
-        <ProfilesTabContent />
-      </TabsContent>
-
       <TabsContent value={PROFILE_TAB.REVIEWS}>
         <ProfileReviews profileId={user.id} />
-      </TabsContent>
-
-      <TabsContent value="analytics">
-        <ProfileStats />
-      </TabsContent>
-
-      <TabsContent value="messages">
-        <Chat />
-      </TabsContent>
-
-      <TabsContent value={PROFILE_TAB.SETTINGS}>
-        <ProfileSettings />
       </TabsContent>
     </Tabs>
   );

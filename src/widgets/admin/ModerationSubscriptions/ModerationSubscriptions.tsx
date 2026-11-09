@@ -1,20 +1,18 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Search, Unlink } from 'lucide-react';
+import { Unlink } from 'lucide-react';
 import { useLingui } from '@lingui/react';
+import { useClientPagination } from '@/shared/hooks/useClientPagination';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { adminNotificationService } from '@/entities/admin/services/adminNotificationService';
 import { PermissionGate } from '@/features/admin';
 import {
+  Pagination,
   Badge,
   Button,
-  Card,
-  CardBody,
-  CardDescription,
-  CardHead,
-  CardTitle,
+  Heading,
   Input,
   LoadingState,
   Select,
@@ -69,28 +67,30 @@ export function ModerationSubscriptions() {
   });
 
   const items = data?.results ?? [];
+  const { page, setPage, totalPages, pageItems } = useClientPagination(items);
   const fromMock = data?.fromMock ?? false;
 
   return (
-    <Card>
-      <CardHead>
+    <section className="space-y-6">
+      <header>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <CardTitle>{t('admin.subscriptions.title')}</CardTitle>
-            <CardDescription>{t('admin.subscriptions.description')}</CardDescription>
+            <Heading level="title" as="h1">
+              {t('admin.subscriptions.title')}
+            </Heading>
+            <p className="mt-1 text-v2-muted">{t('admin.subscriptions.description')}</p>
           </div>
           {fromMock && <Badge tone="neutral">{t('admin.subscriptions.mockBadge')}</Badge>}
         </div>
-      </CardHead>
-      <CardBody className="space-y-4">
+      </header>
+      <div className="space-y-4">
         <div className="flex flex-col gap-3 lg:flex-row">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-v2-muted" />
+          <div className="flex-1">
             <Input
+              search
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t('admin.subscriptions.searchPlaceholder')}
-              className="pl-10"
             />
           </div>
           <Select value={enabledFilter} onValueChange={(v) => setEnabledFilter(v as EnabledFilter)}>
@@ -130,83 +130,93 @@ export function ModerationSubscriptions() {
             <p className="mt-2 max-w-sm text-sm text-v2-muted">{t('admin.empty.subscriptions')}</p>
           </div>
         ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>{t('admin.subscriptions.table.seller')}</TableHead>
-                <TableHead>{t('admin.subscriptions.table.email')}</TableHead>
-                <TableHead>{t('admin.subscriptions.table.filters')}</TableHead>
-                <TableHead>{t('admin.subscriptions.table.channels')}</TableHead>
-                <TableHead>{t('admin.subscriptions.table.telegram')}</TableHead>
-                <TableHead>{t('admin.subscriptions.table.status')}</TableHead>
-                <TableHead>{t('admin.subscriptions.table.actions')}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {items.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.sellerName}</TableCell>
-                  <TableCell>{item.accountEmail}</TableCell>
-                  <TableCell className="max-w-[220px] text-sm text-v2-muted">
-                    <div className="space-y-1">
-                      {item.categories.length > 0 && <p>{item.categories.join(', ')}</p>}
-                      {item.location && <p>{item.location}</p>}
-                      {(item.budgetMin != null || item.budgetMax != null) && (
-                        <p>
-                          {item.budgetMin ?? '—'} – {item.budgetMax ?? '—'}
-                        </p>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-wrap gap-1">
-                      {item.channels.map((channel) => (
-                        <Badge key={channel} tone="neutral">
-                          {t(`admin.subscriptions.channels.${channel}`)}
-                        </Badge>
-                      ))}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge tone={item.telegramLinked ? 'success' : 'neutral'}>
-                      {item.telegramLinked
-                        ? t('admin.subscriptions.telegram.linked')
-                        : t('admin.subscriptions.telegram.unlinked')}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge tone={item.enabled ? 'success' : 'neutral'}>
-                      {item.enabled
-                        ? t('admin.subscriptions.status.enabled')
-                        : t('admin.subscriptions.status.disabled')}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <PermissionGate permission="notifications.subscriptions">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        disabled={!item.telegramLinked || isUnlinking}
-                        onClick={async () => {
-                          try {
-                            await unlinkTelegram(item.accountId);
-                          } catch {
-                            // toast handled in onError
-                          }
-                        }}
-                      >
-                        <Unlink className="mr-2 h-4 w-4" />
-                        {t('admin.subscriptions.unlink')}
-                      </Button>
-                    </PermissionGate>
-                  </TableCell>
+          <>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{t('admin.subscriptions.table.seller')}</TableHead>
+                  <TableHead>{t('admin.subscriptions.table.email')}</TableHead>
+                  <TableHead>{t('admin.subscriptions.table.filters')}</TableHead>
+                  <TableHead>{t('admin.subscriptions.table.channels')}</TableHead>
+                  <TableHead>{t('admin.subscriptions.table.telegram')}</TableHead>
+                  <TableHead>{t('admin.subscriptions.table.status')}</TableHead>
+                  <TableHead>{t('admin.subscriptions.table.actions')}</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {pageItems.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell className="font-medium">{item.sellerName}</TableCell>
+                    <TableCell>{item.accountEmail}</TableCell>
+                    <TableCell className="max-w-[220px] text-sm text-v2-muted">
+                      <div className="space-y-1">
+                        {item.categories.length > 0 && <p>{item.categories.join(', ')}</p>}
+                        {item.location && <p>{item.location}</p>}
+                        {(item.budgetMin != null || item.budgetMax != null) && (
+                          <p>
+                            {item.budgetMin ?? '—'} – {item.budgetMax ?? '—'}
+                          </p>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {item.channels.map((channel) => (
+                          <Badge key={channel} tone="neutral">
+                            {t(`admin.subscriptions.channels.${channel}`)}
+                          </Badge>
+                        ))}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge tone={item.telegramLinked ? 'success' : 'neutral'}>
+                        {item.telegramLinked
+                          ? t('admin.subscriptions.telegram.linked')
+                          : t('admin.subscriptions.telegram.unlinked')}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge tone={item.enabled ? 'success' : 'neutral'}>
+                        {item.enabled
+                          ? t('admin.subscriptions.status.enabled')
+                          : t('admin.subscriptions.status.disabled')}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <PermissionGate permission="notifications.subscriptions">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          disabled={!item.telegramLinked || isUnlinking}
+                          onClick={async () => {
+                            try {
+                              await unlinkTelegram(item.accountId);
+                            } catch {
+                              // toast handled in onError
+                            }
+                          }}
+                        >
+                          <Unlink className="mr-2 h-4 w-4" />
+                          {t('admin.subscriptions.unlink')}
+                        </Button>
+                      </PermissionGate>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            {totalPages > 1 && (
+              <Pagination
+                className="mt-4"
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+              />
+            )}
+          </>
         )}
-      </CardBody>
-    </Card>
+      </div>
+    </section>
   );
 }

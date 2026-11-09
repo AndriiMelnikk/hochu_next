@@ -134,6 +134,26 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
     description:
       'Особистий кабінет користувача Shukayu: активні запити, пропозиції, відгуки, досягнення, повідомлення та налаштування профілю.',
   },
+  DASHBOARD: {
+    title: 'Кабінет — мої запити | Shukayu',
+    description: 'Особистий кабінет Shukayu.',
+  },
+  DASHBOARD_NOTIFICATIONS: {
+    title: 'Кабінет — сповіщення | Shukayu',
+    description: 'Особистий кабінет Shukayu.',
+  },
+  DASHBOARD_PROFILES: {
+    title: 'Кабінет — профілі | Shukayu',
+    description: 'Особистий кабінет Shukayu.',
+  },
+  DASHBOARD_REVIEWS: {
+    title: 'Кабінет — відгуки | Shukayu',
+    description: 'Особистий кабінет Shukayu.',
+  },
+  DASHBOARD_SETTINGS: {
+    title: 'Кабінет — налаштування | Shukayu',
+    description: 'Особистий кабінет Shukayu.',
+  },
   PROFILE_BY_ID: {
     title: 'Профіль користувача — рейтинг і відгуки | Shukayu',
     description:

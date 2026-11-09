@@ -181,15 +181,17 @@ export default function RequestDetailContent({
             isContactsLoading && <LoadingState />}
 
           {showProposalForm && (
-            <CreateProposalForm
-              budget={budget}
-              requestId={request._id}
-              onSuccess={handleProposalSuccess}
-            />
+            <div id="proposal-form" className="scroll-mt-24">
+              <CreateProposalForm
+                budget={budget}
+                requestId={request._id}
+                onSuccess={handleProposalSuccess}
+              />
+            </div>
           )}
 
           {cannotProposeReason && (
-            <Alert tone="warning">
+            <Alert tone="warning" id="proposal-form" className="scroll-mt-24">
               <Ban />
               <AlertTitle>{t('request.detail.cannotPropose')}</AlertTitle>
               <AlertDescription className="flex flex-col gap-3">
@@ -246,7 +248,7 @@ export default function RequestDetailContent({
           )}
 
           {!user && (
-            <Alert tone="warning">
+            <Alert tone="warning" id="proposal-form" className="scroll-mt-24">
               <UserPlus />
               <AlertTitle>{t('request.detail.proposalAuthRequired.title')}</AlertTitle>
               <AlertDescription className="flex flex-col gap-3">
@@ -334,7 +336,18 @@ export default function RequestDetailContent({
 
         {/* Sidebar */}
         <div className="space-y-6">
-          <RequestSidebar buyer={buyer} proposalsCount={request.proposalsCount} />
+          <RequestSidebar
+            buyer={buyer}
+            proposalsCount={request.proposalsCount}
+            onApply={
+              isOwner || request.status !== RequestStatus.ACTIVE
+                ? undefined
+                : () =>
+                    document
+                      .getElementById('proposal-form')
+                      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          />
         </div>
       </div>
       <ImageLightbox

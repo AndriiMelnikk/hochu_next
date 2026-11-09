@@ -3,14 +3,11 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
+import { useClientPagination } from '@/shared/hooks/useClientPagination';
 import { STAFF_ROLES, adminStaff, type IAdminStaffMember, type StaffRole } from '@/entities/admin';
 import { PermissionGate } from '@/features/admin';
 import {
-  Card,
-  CardBody,
-  CardDescription,
-  CardHead,
-  CardTitle,
+  Pagination,
   Select,
   SelectContent,
   SelectItem,
@@ -22,20 +19,24 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  Heading,
 } from '@/ui-v2';
 
 export function StaffTable() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const [items, setItems] = useState<IAdminStaffMember[]>(adminStaff);
+  const { page, setPage, totalPages, pageItems } = useClientPagination(items);
 
   return (
-    <Card>
-      <CardHead>
-        <CardTitle>{t('admin.staff.title')}</CardTitle>
-        <CardDescription>{t('admin.staff.description')}</CardDescription>
-      </CardHead>
-      <CardBody>
+    <section className="space-y-6">
+      <header>
+        <Heading level="title" as="h1">
+          {t('admin.staff.title')}
+        </Heading>
+        <p className="mt-1 text-v2-muted">{t('admin.staff.description')}</p>
+      </header>
+      <div className="space-y-4">
         <Table>
           <TableHeader>
             <TableRow>
@@ -45,7 +46,7 @@ export function StaffTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {items.map((member) => (
+            {pageItems.map((member) => (
               <TableRow key={member.id}>
                 <TableCell className="font-medium">{member.name}</TableCell>
                 <TableCell>{member.email}</TableCell>
@@ -78,7 +79,10 @@ export function StaffTable() {
             ))}
           </TableBody>
         </Table>
-      </CardBody>
-    </Card>
+        {totalPages > 1 && (
+          <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+        )}
+      </div>
+    </section>
   );
 }

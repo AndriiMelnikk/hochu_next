@@ -6,17 +6,13 @@ import { adminInfoPages } from '@/entities/admin';
 import { PermissionGate } from '@/features/admin';
 import {
   Button,
-  Card,
-  CardBody,
-  CardDescription,
-  CardHead,
-  CardTitle,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  Heading,
 } from '@/ui-v2';
 
 export function ContentPages() {
@@ -24,12 +20,14 @@ export function ContentPages() {
   const t = (id: string) => i18n._(id);
 
   return (
-    <Card>
-      <CardHead>
-        <CardTitle>{t('admin.content.pages.title')}</CardTitle>
-        <CardDescription>{t('admin.content.pages.description')}</CardDescription>
-      </CardHead>
-      <CardBody>
+    <section className="space-y-6">
+      <header>
+        <Heading level="title" as="h1">
+          {t('admin.content.pages.title')}
+        </Heading>
+        <p className="mt-1 text-v2-muted">{t('admin.content.pages.description')}</p>
+      </header>
+      <div className="space-y-4">
         <Table>
           <TableHeader>
             <TableRow>
@@ -60,7 +58,7 @@ export function ContentPages() {
             ))}
           </TableBody>
         </Table>
-      </CardBody>
-    </Card>
+      </div>
+    </section>
   );
 }

@@ -19,6 +19,8 @@ export * from './components/rating';
 export * from './components/copy-field';
 export * from './layout/site-header';
 export * from './layout/site-footer';
+export * from './layout/side-rail';
+export * from './layout/app-frame';
 export * from './components/accordion';
 export * from './layout/container';
 export * from './components/popover';

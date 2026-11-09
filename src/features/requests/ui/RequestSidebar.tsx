@@ -6,14 +6,16 @@ import { uk, enUS } from 'date-fns/locale';
 import { IRequestBuyer } from '@/entities/request/types/Request';
 import { routes } from '@/app/router/routes';
 import Link from '@/shared/ui/link';
-import { Avatar, Card, Rating } from '@/ui-v2';
+import { Avatar, Button, Card, Rating } from '@/ui-v2';
 
 interface RequestSidebarProps {
   buyer?: IRequestBuyer;
   proposalsCount: number;
+  /** Кнопка «Подати пропозицію» над блоком покупця (як Apply now в Upwork). */
+  onApply?: () => void;
 }
 
-export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) => {
+export const RequestSidebar = ({ buyer, proposalsCount, onApply }: RequestSidebarProps) => {
   const { i18n } = useLingui();
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
 
@@ -27,6 +29,11 @@ export const RequestSidebar = ({ buyer, proposalsCount }: RequestSidebarProps) =
 
   return (
     <div className="ui-v2 space-y-6 lg:sticky lg:top-24">
+      {onApply && (
+        <Button className="w-full" onClick={onApply}>
+          {t('request.sidebar.apply')}
+        </Button>
+      )}
       <Card className="p-6">
         <h2 className="mb-4 text-xl font-[550]">{t('request.sidebar.buyer')}</h2>
 

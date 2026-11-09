@@ -7,12 +7,8 @@ import { adminPricingPlans, type IAdminPricingPlan } from '@/entities/admin';
 import { PermissionGate } from '@/features/admin';
 import {
   Badge,
+  Heading,
   Button,
-  Card,
-  CardBody,
-  CardDescription,
-  CardHead,
-  CardTitle,
   Switch,
   Table,
   TableBody,
@@ -28,12 +24,14 @@ export function ContentPricing() {
   const [items, setItems] = useState<IAdminPricingPlan[]>(adminPricingPlans);
 
   return (
-    <Card>
-      <CardHead>
-        <CardTitle>{t('admin.content.pricing.title')}</CardTitle>
-        <CardDescription>{t('admin.content.pricing.description')}</CardDescription>
-      </CardHead>
-      <CardBody>
+    <section className="space-y-6">
+      <header>
+        <Heading level="title" as="h1">
+          {t('admin.content.pricing.title')}
+        </Heading>
+        <p className="mt-1 text-v2-muted">{t('admin.content.pricing.description')}</p>
+      </header>
+      <div className="space-y-4">
         <Table>
           <TableHeader>
             <TableRow>
@@ -90,7 +88,7 @@ export function ContentPricing() {
             ))}
           </TableBody>
         </Table>
-      </CardBody>
-    </Card>
+      </div>
+    </section>
   );
 }

@@ -7,6 +7,11 @@ export const routes = {
   REQUEST_ID: (id: string) => `/request/${id}`,
   PROPOSAL_ID: (id: string) => `/proposal/${id}`,
   PROFILE: '/profile',
+  DASHBOARD: '/dashboard',
+  DASHBOARD_NOTIFICATIONS: '/dashboard/notifications',
+  DASHBOARD_PROFILES: '/dashboard/profiles',
+  DASHBOARD_REVIEWS: '/dashboard/reviews',
+  DASHBOARD_SETTINGS: '/dashboard/settings',
   PROFILE_BY_ID: (id: string) => `/profile/${id}`,
   PROFILE_TAB: (id: string, tab: string) => `/profile/${id}#${tab}`,
   LOGIN: '/login',
@@ -37,3 +42,9 @@ export const routes = {
   ADMIN_CONTENT_PAGES: '/admin/content/pages',
   ADMIN_STAFF: '/admin/staff',
 } as const;
+
+/** Сторінка розділу налаштувань кабінету. */
+export const dashboardSettingsPath = (section: string) => `/dashboard/settings/${section}`;
+
+/** Налаштування сповіщень (у розділі «Сповіщення»). */
+export const DASHBOARD_NOTIFICATION_SETTINGS = '/dashboard/notifications/settings';

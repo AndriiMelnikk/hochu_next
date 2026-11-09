@@ -6,7 +6,6 @@ import { useDebounce, useQueryPagination } from '@shared/hooks';
 import { RequestStatus } from '@/entities/request/types/Request';
 import { RequestCard } from '@/features/requests';
 import { useAuth, useAuthStore } from '@/entities/auth';
-import { es } from 'date-fns/locale';
 import {
   ErrorState,
   Input,
@@ -190,13 +189,14 @@ export default function UserRequestsList({ userId, userType }: UserRequestsListP
       ) : requestsError ? (
         <ErrorState variant="block" message={t('request.list.requestsError')} />
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+        <div className="mb-8">
           {requestResults.map((request) => (
             <RequestCard
               key={request._id.toString()}
               request={request}
               categoryName={request.category.name}
               status={request.status as RequestStatus}
+              variant="row"
             />
           ))}
         </div>

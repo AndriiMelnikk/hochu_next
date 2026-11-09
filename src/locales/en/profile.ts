@@ -2,6 +2,15 @@ import type { Messages } from '@lingui/core';
 
 export const messages: Messages = {
   // Profiles
+  'review.tabs.aboutMe': 'Reviews about me',
+  'review.tabs.mine': 'My reviews',
+  'review.summary.basedOn': 'Based on {count} reviews',
+  'review.statsError': 'Failed to load review statistics.',
+  'review.list.errorTitle': 'Error',
+  'review.list.errorDescription': 'Failed to load reviews. Please try again.',
+  'review.list.emptyTitle': 'No reviews',
+  'review.list.emptyDescription': 'This profile has no reviews yet.',
+  'review.card.noRequest': 'Review not linked to a request',
   'profile.profiles.title': 'My Profiles',
   'profile.profiles.description':
     'Switch between buyer and seller profiles. The current profile determines your rights on the platform.',
@@ -29,11 +38,19 @@ export const messages: Messages = {
   'profile.create.error': 'Failed to create profile',
 
   // Profile Header & Tabs
+  'profile.header.openDashboard': 'Open dashboard',
   'profile.header.verified': 'Verified',
   'profile.header.joined': 'Joined on {date}',
   'profile.tabs.overview': 'Overview',
   'profile.tabs.profiles': 'Profiles',
   'profile.tabs.reviews': 'Reviews',
+  'profile.settings.nav.profile': "Personal info",
+  'profile.settings.nav.contacts': "Contact channels",
+  'profile.settings.nav.verification': "Account verification",
+  'profile.settings.nav.notifications': "Notifications",
+  'profile.settings.nav.privacy': "Privacy & security",
+  'profile.settings.back': "Dashboard",
+  'profile.settings.title': "Settings",
   'profile.tabs.settings': 'Settings',
   'profile.userNotFound': 'User not found',
   'profile.backToHome': 'Back to Home',

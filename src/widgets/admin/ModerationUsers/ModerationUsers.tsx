@@ -1,17 +1,14 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Search } from 'lucide-react';
 import { useLingui } from '@lingui/react';
+import { useClientPagination } from '@/shared/hooks/useClientPagination';
 import { moderationUsers, type IModerationUser } from '@/entities/admin';
 import { BlockUserActions, PermissionGate } from '@/features/admin';
 import {
+  Pagination,
   Badge,
-  Card,
-  CardBody,
-  CardDescription,
-  CardHead,
-  CardTitle,
+  Heading,
   Input,
   Select,
   SelectContent,
@@ -45,22 +42,24 @@ export function ModerationUsers() {
       (u) => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q),
     );
   }, [filter, items, query]);
+  const { page, setPage, totalPages, pageItems } = useClientPagination(filtered);
 
   return (
-    <Card>
-      <CardHead>
-        <CardTitle>{t('admin.users.title')}</CardTitle>
-        <CardDescription>{t('admin.users.description')}</CardDescription>
-      </CardHead>
-      <CardBody className="space-y-4">
+    <section className="space-y-6">
+      <header>
+        <Heading level="title" as="h1">
+          {t('admin.users.title')}
+        </Heading>
+        <p className="mt-1 text-v2-muted">{t('admin.users.description')}</p>
+      </header>
+      <div className="space-y-4">
         <div className="flex flex-col gap-3 sm:flex-row">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-v2-muted" />
+          <div className="flex-1">
             <Input
+              search
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t('admin.users.searchPlaceholder')}
-              className="pl-10"
             />
           </div>
           <Select value={filter} onValueChange={(v) => setFilter(v as Filter)}>
@@ -81,52 +80,62 @@ export function ModerationUsers() {
             <p className="mt-2 max-w-sm text-sm text-v2-muted">{t('admin.empty.users')}</p>
           </div>
         ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>{t('admin.users.table.id')}</TableHead>
-                <TableHead>{t('admin.users.table.name')}</TableHead>
-                <TableHead>{t('admin.users.table.email')}</TableHead>
-                <TableHead>{t('admin.users.table.reports')}</TableHead>
-                <TableHead>{t('admin.users.table.reason')}</TableHead>
-                <TableHead>{t('admin.users.table.status')}</TableHead>
-                <TableHead>{t('admin.users.table.actions')}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filtered.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>#{user.id}</TableCell>
-                  <TableCell className="font-medium">{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.reports}</TableCell>
-                  <TableCell>{user.reason}</TableCell>
-                  <TableCell>
-                    <Badge tone={user.status === 'blocked' ? 'danger' : 'success'}>
-                      {t(`admin.users.status.${user.status}`)}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <PermissionGate permission="users.block">
-                      <BlockUserActions
-                        userName={user.name}
-                        status={user.status}
-                        onChanged={(next) =>
-                          setItems((prev) =>
-                            prev.map((item) =>
-                              item.id === user.id ? { ...item, status: next } : item,
-                            ),
-                          )
-                        }
-                      />
-                    </PermissionGate>
-                  </TableCell>
+          <>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{t('admin.users.table.id')}</TableHead>
+                  <TableHead>{t('admin.users.table.name')}</TableHead>
+                  <TableHead>{t('admin.users.table.email')}</TableHead>
+                  <TableHead>{t('admin.users.table.reports')}</TableHead>
+                  <TableHead>{t('admin.users.table.reason')}</TableHead>
+                  <TableHead>{t('admin.users.table.status')}</TableHead>
+                  <TableHead>{t('admin.users.table.actions')}</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {pageItems.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>#{user.id}</TableCell>
+                    <TableCell className="font-medium">{user.name}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.reports}</TableCell>
+                    <TableCell>{user.reason}</TableCell>
+                    <TableCell>
+                      <Badge tone={user.status === 'blocked' ? 'danger' : 'success'}>
+                        {t(`admin.users.status.${user.status}`)}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <PermissionGate permission="users.block">
+                        <BlockUserActions
+                          userName={user.name}
+                          status={user.status}
+                          onChanged={(next) =>
+                            setItems((prev) =>
+                              prev.map((item) =>
+                                item.id === user.id ? { ...item, status: next } : item,
+                              ),
+                            )
+                          }
+                        />
+                      </PermissionGate>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            {totalPages > 1 && (
+              <Pagination
+                className="mt-4"
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+              />
+            )}
+          </>
         )}
-      </CardBody>
-    </Card>
+      </div>
+    </section>
   );
 }

@@ -48,9 +48,7 @@ export function AdminNav({ onNavigate, className }: AdminNavProps) {
     <nav className={cn('space-y-6', className)} aria-label={t('admin.nav.aria')}>
       {groups.map(([group, items]) => (
         <div key={group} className="space-y-2">
-          <p className="px-3 text-xs font-semibold uppercase tracking-wide text-v2-muted">
-            {t(ADMIN_NAV_GROUP_KEYS[group])}
-          </p>
+          <p className="px-3 text-sm font-[450] text-v2-muted">{t(ADMIN_NAV_GROUP_KEYS[group])}</p>
           <ul className="space-y-1">
             {items.map((item) => {
               const isActive =
@@ -63,10 +61,10 @@ export function AdminNav({ onNavigate, className }: AdminNavProps) {
                     href={item.href}
                     onClick={onNavigate}
                     className={cn(
-                      'block rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                      'flex h-10 items-center rounded-v2-lg px-3 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-v2-primary',
                       isActive
-                        ? 'bg-v2-hover text-v2-ink'
-                        : 'text-v2-ink hover:bg-v2-surface-subtle',
+                        ? 'bg-v2-hover font-semibold text-v2-ink'
+                        : 'font-[450] text-v2-secondary hover:bg-v2-hover hover:text-v2-ink',
                     )}
                   >
                     {t(item.labelKey)}

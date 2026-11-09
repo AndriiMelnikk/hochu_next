@@ -2,6 +2,15 @@ import type { Messages } from '@lingui/core';
 
 export const messages: Messages = {
   // Profiles
+  'review.tabs.aboutMe': 'Відгуки про мене',
+  'review.tabs.mine': 'Мої відгуки',
+  'review.summary.basedOn': 'На основі відгуків: {count}',
+  'review.statsError': 'Не вдалося завантажити статистику відгуків.',
+  'review.list.errorTitle': 'Помилка',
+  'review.list.errorDescription': 'Не вдалося завантажити відгуки. Спробуйте ще раз.',
+  'review.list.emptyTitle': 'Немає відгуків',
+  'review.list.emptyDescription': 'Для цього профілю ще немає відгуків.',
+  'review.card.noRequest': 'Відгук без прив’язки до запиту',
   'profile.profiles.title': 'Мої профілі',
   'profile.profiles.description':
     'Перемикайтеся між профілями покупця та продавця. Поточний профіль визначає ваші права на платформі.',
@@ -29,11 +38,19 @@ export const messages: Messages = {
   'profile.create.error': 'Не вдалося створити профіль',
 
   // Profile Header & Tabs
+  'profile.header.openDashboard': 'Відкрити кабінет',
   'profile.header.verified': 'Верифікований',
   'profile.header.joined': 'На платформі з {date}',
   'profile.tabs.overview': 'Огляд',
   'profile.tabs.profiles': 'Профілі',
   'profile.tabs.reviews': 'Відгуки',
+  'profile.settings.nav.profile': "Особиста інформація",
+  'profile.settings.nav.contacts': "Канали зв’язку",
+  'profile.settings.nav.verification': "Верифікація акаунта",
+  'profile.settings.nav.notifications': "Сповіщення",
+  'profile.settings.nav.privacy': "Конфіденційність і безпека",
+  'profile.settings.back': "Кабінет",
+  'profile.settings.title': "Налаштування",
   'profile.tabs.settings': 'Налаштування',
   'profile.userNotFound': 'Користувача не знайдено',
   'profile.backToHome': 'На головну',

@@ -9,7 +9,16 @@ import { RolePreviewSelect } from '@/features/admin';
 import { AdminNav } from '@/widgets/admin/AdminNav';
 import { useCurrentLocale } from '@shared/ui/link';
 import { localizeHref } from '@/locales/config';
-import { Badge, Button, Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/ui-v2';
+import {
+  Badge,
+  Button,
+  Container,
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/ui-v2';
 
 interface AdminShellProps {
   children: ReactNode;
@@ -55,51 +64,50 @@ export function AdminShell({ children }: AdminShellProps) {
     }
   }, [allowedItems, locale, pathname, previewRole, router]);
 
-  return (
-    <div className="mx-auto w-full max-w-[1120px] px-4 pb-16 lg:px-6">
-      <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-[550] mb-2">{t('admin.title')}</h1>
-          <p className="text-v2-muted">{t('admin.description')}</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Badge tone="danger" className="text-sm px-3 py-1.5">
-            <Shield className="h-4 w-4 mr-2" />
-            {t(`admin.roles.${previewRole}`)}
-          </Badge>
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                shape="circle"
-                className="lg:hidden"
-                aria-label={t('admin.nav.openMenu')}
-              >
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[280px] sm:max-w-[280px]">
-              <SheetHeader>
-                <SheetTitle>{t('admin.nav.aria')}</SheetTitle>
-              </SheetHeader>
-              <div className="mt-6 space-y-6">
-                <RolePreviewSelect />
-                <AdminNav onNavigate={() => setMobileOpen(false)} />
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
-      </div>
+  const roleBadge = (
+    <Badge tone="danger">
+      <Shield className="mr-1.5 size-4" />
+      {t(`admin.roles.${previewRole}`)}
+    </Badge>
+  );
 
-      <div className="flex gap-6">
-        <aside className="hidden w-[260px] shrink-0 lg:block">
-          <div className="sticky top-28 space-y-6 rounded-v2-xl border border-v2-border bg-v2-surface p-4">
+  return (
+    <Container className="ui-v2">
+      <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
+        <aside className="hidden lg:block">
+          <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto">
+            <div className="space-y-2 px-3">
+              <p className="text-base font-semibold">{t('admin.title')}</p>
+              {roleBadge}
+            </div>
             <RolePreviewSelect />
             <AdminNav />
           </div>
         </aside>
-        <div className="min-w-0 flex-1">{children}</div>
+
+        <div className="min-w-0">
+          <div className="mb-6 flex items-center justify-between gap-3 lg:hidden">
+            {roleBadge}
+            <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" shape="circle" aria-label={t('admin.nav.openMenu')}>
+                  <Menu className="size-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[280px] sm:max-w-[280px]">
+                <SheetHeader>
+                  <SheetTitle>{t('admin.nav.aria')}</SheetTitle>
+                </SheetHeader>
+                <div className="mt-6 space-y-6">
+                  <RolePreviewSelect />
+                  <AdminNav onNavigate={() => setMobileOpen(false)} />
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+          {children}
+        </div>
       </div>
-    </div>
+    </Container>
   );
 }

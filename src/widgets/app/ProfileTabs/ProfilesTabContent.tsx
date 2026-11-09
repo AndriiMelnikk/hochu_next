@@ -5,7 +5,6 @@ import { useLingui } from '@lingui/react';
 import { routes } from '@app/router/routes';
 import { ProfilesSwitcher } from '@features/user';
 
-import { PROFILE_TAB } from './const';
 import { Card, CardBody, CardDescription, CardHead, CardTitle } from '@/ui-v2';
 
 export default function ProfilesTabContent() {
@@ -20,7 +19,7 @@ export default function ProfilesTabContent() {
           <CardDescription>{t('profile.profiles.description')}</CardDescription>
         </CardHead>
         <CardBody>
-          <ProfilesSwitcher redirectTo={(id) => routes.PROFILE_TAB(id, PROFILE_TAB.PROFILES)} />
+          <ProfilesSwitcher redirectTo={(id) => routes.DASHBOARD_PROFILES} />
         </CardBody>
       </Card>
     </div>

@@ -1,6 +1,7 @@
 import { FC, useMemo } from 'react';
 import { useReviews, IGetReviewsRequest } from '@entities/review';
 import { Terminal } from 'lucide-react';
+import { useLingui } from '@lingui/react';
 import { ReviewCard } from '../ReviewCard/ReviewCard';
 import { useQueryPagination } from '@shared/hooks';
 import { Alert, AlertDescription, AlertTitle, LoadingState, Pagination } from '@/ui-v2';
@@ -10,6 +11,8 @@ interface ReviewsListProps {
 }
 
 export const ReviewsList: FC<ReviewsListProps> = ({ params }) => {
+  const { i18n } = useLingui();
+  const t = (id: string) => i18n._(id);
   const paginationOptions = useMemo(() => ({ pageSize: 10 }), []);
   const { page, pageSize, setPage } = useQueryPagination<Record<string, never>>(paginationOptions);
 
@@ -25,8 +28,8 @@ export const ReviewsList: FC<ReviewsListProps> = ({ params }) => {
     return (
       <Alert tone="danger">
         <Terminal className="h-4 w-4" />
-        <AlertTitle>Помилка</AlertTitle>
-        <AlertDescription>Не вдалося завантажити відгуки. Спробуйте ще раз.</AlertDescription>
+        <AlertTitle>{t('review.list.errorTitle')}</AlertTitle>
+        <AlertDescription>{t('review.list.errorDescription')}</AlertDescription>
       </Alert>
     );
   }
@@ -35,8 +38,8 @@ export const ReviewsList: FC<ReviewsListProps> = ({ params }) => {
     return (
       <Alert>
         <Terminal className="h-4 w-4" />
-        <AlertTitle>Немає відгуків</AlertTitle>
-        <AlertDescription>Для цього профілю ще немає відгуків.</AlertDescription>
+        <AlertTitle>{t('review.list.emptyTitle')}</AlertTitle>
+        <AlertDescription>{t('review.list.emptyDescription')}</AlertDescription>
       </Alert>
     );
   }
@@ -53,7 +56,7 @@ export const ReviewsList: FC<ReviewsListProps> = ({ params }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div>
       {reviewsResponse.results.map((review) => (
         <ReviewCard key={review._id} review={review} />
       ))}

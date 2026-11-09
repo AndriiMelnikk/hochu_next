@@ -4,6 +4,7 @@ import Features from '@/widgets/app/Features';
 import HowItWorks from '@/widgets/app/HowItWorks';
 import PlatformIntro from '@/widgets/app/PlatformIntro';
 import Faq from '@/widgets/app/Faq';
+import HomeSwitch from '@/widgets/app/HomeFeed/HomeSwitch';
 import { getLocaleFromParams, type LocaleRouteProps } from '@/locales/locale';
 import { getMetadataForRoute } from '@/locales/route-metadata';
 import { HOME_LATEST_REQUESTS_LIMIT, requestService } from '@/entities/request';
@@ -29,13 +30,13 @@ export default async function HomePage() {
   const latestRequests = await getLatestRequests();
 
   return (
-    <>
+    <HomeSwitch>
       <Hero />
       <LatestRequests initialData={latestRequests} />
       <Features />
       <HowItWorks />
       <PlatformIntro />
       <Faq />
-    </>
+    </HomeSwitch>
   );
 }

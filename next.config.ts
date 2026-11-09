@@ -13,6 +13,22 @@ const SECURITY_HEADERS = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  async redirects() {
+    // Кабінет переїхав з /profile (+ хеш-вкладки) у /dashboard
+    return [
+      { source: '/:locale(uk|en)/profile', destination: '/:locale/dashboard', permanent: true },
+      {
+        source: '/:locale(uk|en)/dashboard/settings/notifications',
+        destination: '/:locale/dashboard/notifications/settings',
+        permanent: true,
+      },
+      {
+        source: '/:locale(uk|en)/dashboard/settings',
+        destination: '/:locale/dashboard/settings/profile',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [{ source: '/:path*', headers: SECURITY_HEADERS }];
   },

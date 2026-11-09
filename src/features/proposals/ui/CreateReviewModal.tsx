@@ -103,7 +103,9 @@ export const CreateReviewModal = ({
                 <button
                   key={star}
                   type="button"
-                  className="focus:outline-none transition-transform hover:scale-110"
+                  aria-label={`${star}/5`}
+                  aria-pressed={star === rating}
+                  className="rounded-v2-sm transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-v2-primary"
                   onMouseEnter={() => setHoverRating(star)}
                   onMouseLeave={() => setHoverRating(0)}
                   onClick={() => setValue('rating', star, { shouldValidate: true })}
@@ -113,7 +115,7 @@ export const CreateReviewModal = ({
                       'h-8 w-8 transition-colors',
                       (hoverRating ? star <= hoverRating : star <= rating)
                         ? 'fill-v2-rating text-v2-rating'
-                        : 'text-v2-muted',
+                        : 'fill-v2-surface-muted text-v2-surface-muted',
                     )}
                   />
                 </button>

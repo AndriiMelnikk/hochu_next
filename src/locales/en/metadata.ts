@@ -134,6 +134,26 @@ export const routeMetadata: Record<keyof typeof routes, Partial<Metadata>> = {
     description:
       'Your Shukayu account dashboard: active requests, offers, reviews, achievements, messages, and profile settings.',
   },
+  DASHBOARD: {
+    title: 'Dashboard — my requests | Shukayu',
+    description: 'Your private Shukayu dashboard.',
+  },
+  DASHBOARD_NOTIFICATIONS: {
+    title: 'Dashboard — notifications | Shukayu',
+    description: 'Your private Shukayu dashboard.',
+  },
+  DASHBOARD_PROFILES: {
+    title: 'Dashboard — profiles | Shukayu',
+    description: 'Your private Shukayu dashboard.',
+  },
+  DASHBOARD_REVIEWS: {
+    title: 'Dashboard — reviews | Shukayu',
+    description: 'Your private Shukayu dashboard.',
+  },
+  DASHBOARD_SETTINGS: {
+    title: 'Dashboard — settings | Shukayu',
+    description: 'Your private Shukayu dashboard.',
+  },
   PROFILE_BY_ID: {
     title: 'User Profile — Rating and Reviews | Shukayu',
     description:

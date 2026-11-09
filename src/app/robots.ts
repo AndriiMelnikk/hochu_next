@@ -5,6 +5,8 @@ const DISALLOW = [
   '/api/',
   '/admin',
   '/*/admin',
+  '/dashboard',
+  '/*/dashboard',
   '/profile$',
   '/*/profile$',
   '/auth/',

@@ -3,16 +3,14 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useLingui } from '@lingui/react';
+import { useClientPagination } from '@/shared/hooks/useClientPagination';
 import { adminBlogPosts, type IAdminBlogPost } from '@/entities/admin';
 import { PermissionGate } from '@/features/admin';
 import {
+  Pagination,
   Badge,
   Button,
-  Card,
-  CardBody,
-  CardDescription,
-  CardHead,
-  CardTitle,
+  Heading,
   Input,
   Label,
   Modal,
@@ -33,15 +31,18 @@ export function ContentBlog() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const [items, setItems] = useState<IAdminBlogPost[]>(adminBlogPosts);
+  const { page, setPage, totalPages, pageItems } = useClientPagination(items);
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
 
   return (
-    <Card>
-      <CardHead className="flex flex-row items-start justify-between gap-4 space-y-0">
+    <section className="space-y-6">
+      <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <CardTitle>{t('admin.content.blog.title')}</CardTitle>
-          <CardDescription>{t('admin.content.blog.description')}</CardDescription>
+          <Heading level="title" as="h1">
+            {t('admin.content.blog.title')}
+          </Heading>
+          <p className="mt-1 text-v2-muted">{t('admin.content.blog.description')}</p>
         </div>
         <PermissionGate permission="content.blog">
           <Modal open={open} onOpenChange={setOpen}>
@@ -88,8 +89,8 @@ export function ContentBlog() {
             </ModalContent>
           </Modal>
         </PermissionGate>
-      </CardHead>
-      <CardBody>
+      </header>
+      <div>
         <Table>
           <TableHeader>
             <TableRow>
@@ -100,7 +101,7 @@ export function ContentBlog() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {items.map((post) => (
+            {pageItems.map((post) => (
               <TableRow key={post.id}>
                 <TableCell className="font-medium">{post.title}</TableCell>
                 <TableCell>
@@ -124,7 +125,10 @@ export function ContentBlog() {
             ))}
           </TableBody>
         </Table>
-      </CardBody>
-    </Card>
+        {totalPages > 1 && (
+          <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+        )}
+      </div>
+    </section>
   );
 }

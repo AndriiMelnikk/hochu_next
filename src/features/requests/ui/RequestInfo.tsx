@@ -141,9 +141,9 @@ export const RequestInfo = ({
     REQUEST_URGENCY_LABELS[request.urgency as keyof typeof REQUEST_URGENCY_LABELS];
 
   return (
-    <div className="ui-v2 space-y-6">
+    <div className="ui-v2 divide-y divide-v2-border overflow-hidden rounded-v2-2xl border border-v2-border bg-v2-surface">
       {/* Request Header */}
-      <div className="rounded-v2-2xl border border-v2-border bg-v2-surface p-6">
+      <div className="p-6 md:px-8">
         <div className="flex items-start justify-between mb-4 gap-4">
           <div className="flex-1 min-w-0 gap-2">
             <div>
@@ -266,9 +266,7 @@ export const RequestInfo = ({
           </span>
         </div>
 
-        <hr className="my-4 border-v2-border" />
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+        <div className="-mx-6 mb-0 mt-6 grid grid-cols-1 gap-4 border-t border-v2-border px-6 pt-6 md:-mx-8 md:grid-cols-4 md:px-8">
           <div className="flex items-start">
             <Wallet className="h-5 w-5 text-v2-primary mr-2 mt-0.5" />
             <div>
@@ -306,7 +304,7 @@ export const RequestInfo = ({
         </div>
       </div>
       {/* Description */}
-      <div className="rounded-v2-2xl border border-v2-border bg-v2-surface p-6">
+      <div className="p-6 md:px-8">
         <h2 className="mb-4 text-xl font-[550]">{t('request.detail.description')}</h2>
         <div className="prose max-w-none text-v2-muted whitespace-pre-line">
           {request.description}
@@ -372,7 +370,7 @@ export const RequestInfo = ({
 
       {/* Images */}
       {request.images && request.images.length > 0 && (
-        <div className="rounded-v2-2xl border border-v2-border bg-v2-surface p-6">
+        <div className="p-6 md:px-8">
           <h2 className="mb-4 text-xl font-[550]">
             {t('request.detail.photos', { count: request.images.length })}
           </h2>

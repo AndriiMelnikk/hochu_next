@@ -4,7 +4,9 @@ import GamifiedAvatar from '@/widgets/app/GamifiedAvatar';
 import { User } from 'lucide-react';
 import type { UserRole } from '@/types/gamification';
 import { useLingui } from '@lingui/react';
-import { Badge, Card, CardBody, Heading } from '@/ui-v2';
+import { Badge, Button, Card, CardBody, Heading } from '@/ui-v2';
+import Link from '@/shared/ui/link';
+import { routes } from '@/app/router/routes';
 
 interface ProfileHeaderProps {
   user: {
@@ -59,6 +61,11 @@ export default function ProfileHeader({ user, isOwner }: ProfileHeaderProps) {
               <span>📅 {t('profile.header.joined').replace('{date}', user.joinDate)}</span>
             </div>
           </div>
+          {isOwner && (
+            <Button asChild variant="outline">
+              <Link href={routes.DASHBOARD}>{t('profile.header.openDashboard')}</Link>
+            </Button>
+          )}
         </div>
       </CardBody>
     </Card>
