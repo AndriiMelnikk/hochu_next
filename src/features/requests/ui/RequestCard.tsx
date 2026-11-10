@@ -49,7 +49,7 @@ export const RequestCard = ({
     return (
       <Link
         href={routes.REQUEST_ID(request._id.toString())}
-        className="group block border-b border-v2-border px-4 py-8 outline-none first:border-t hover:bg-v2-hover focus-visible:bg-v2-hover"
+        className="group block border-b border-v2-border px-4 py-6 outline-none first:border-t md:py-8 hover:bg-v2-hover focus-visible:bg-v2-hover"
         prefetch={false}
       >
         <article className="ui-v2 flex items-start gap-4">

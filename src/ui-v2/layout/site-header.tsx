@@ -3,7 +3,7 @@
 import * as React from 'react';
 import NextLink from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ChevronDown, LogOut, Menu, X } from 'lucide-react';
+import { ChevronDown, LogOut } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 
 import { cn } from '@/lib/utils';
@@ -15,6 +15,7 @@ import { LS_KEYS } from '@shared/config/envVars';
 import Link, { useCurrentLocale } from '@/shared/ui/link';
 
 import { Avatar } from '../components/avatar';
+import { MobileMenu } from './mobile-nav';
 import { Button } from '../components/button';
 import {
   DropdownMenu,
@@ -161,7 +162,6 @@ export function SiteHeader() {
   const pathname = usePathname();
   const isAuth = useAuthStore((s) => s.isAuth);
   const [mounted, setMounted] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     setMounted(true);
@@ -174,8 +174,6 @@ export function SiteHeader() {
   const loginHref = buildAuthHref(routes.LOGIN, returnUrl);
   const registerHref = buildAuthHref(routes.REGISTER, returnUrl);
 
-  const logout = useAuthStore((s) => s.logout);
-  const router = useRouter();
   const links = [
     { href: routes.REQUEST, label: t('common.nav.viewRequests') },
     { href: routes.CREATE, label: t('common.nav.createRequest') },
@@ -183,8 +181,6 @@ export function SiteHeader() {
     { href: routes.HOW_IT_WORKS, label: t('common.nav.howItWorks') },
   ];
   const accountItems = useAccountItems();
-
-  const close = () => setOpen(false);
 
   return (
     <header
@@ -198,10 +194,19 @@ export function SiteHeader() {
         <div className="flex items-center gap-6">
           <Link
             href={routes.HOME}
+            aria-label="Shukayu"
             className="text-2xl font-semibold tracking-tight text-v2-primary"
-            onClick={close}
           >
-            Shukayu
+            {/* Залогінений на мобільному: компактна кругла позначка, як «up» в Upwork */}
+            {showAuth && (
+              <span
+                aria-hidden
+                className="flex size-10 items-center justify-center rounded-full bg-v2-primary text-xl text-v2-on-primary md:hidden"
+              >
+                S
+              </span>
+            )}
+            <span className={cn(showAuth && 'hidden md:inline')}>Shukayu</span>
           </Link>
           <nav aria-label="Main" className="hidden items-center md:flex">
             {showAuth ? (
@@ -237,64 +242,14 @@ export function SiteHeader() {
           )}
         </div>
 
-        <button
-          type="button"
-          className="inline-flex size-11 items-center justify-center rounded-v2-pill hover:bg-v2-hover md:hidden"
-          aria-label={open ? t('common.nav.closeMenu') : t('common.nav.openMenu')}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="size-6" /> : <Menu className="size-6" />}
-        </button>
+        <MobileMenu
+          authenticated={showAuth}
+          links={links}
+          accountItems={accountItems}
+          loginHref={loginHref}
+          registerHref={registerHref}
+        />
       </div>
-
-      {open && (
-        <div className="border-t border-v2-border bg-v2-surface px-4 pb-4 pt-2 md:hidden">
-          <nav aria-label="Mobile" className="flex flex-col">
-            {links.map((l) => (
-              <Link key={l.href} href={l.href} className={navLinkClass} onClick={close}>
-                {l.label}
-              </Link>
-            ))}
-            {showAuth &&
-              accountItems.map((item) => (
-                <Link key={item.href} href={item.href} className={navLinkClass} onClick={close}>
-                  {item.label}
-                </Link>
-              ))}
-          </nav>
-          {showAuth && (
-            <Button
-              variant="outline"
-              className="mt-3 w-full"
-              onClick={async () => {
-                close();
-                await logout();
-                router.push(routes.HOME);
-              }}
-            >
-              {t('auth.logout')}
-            </Button>
-          )}
-          {!showAuth && (
-            <div className="mt-3 flex flex-col gap-2">
-              <Button asChild variant="outline" className="w-full">
-                <Link href={loginHref} onClick={close}>
-                  {t('common.nav.login')}
-                </Link>
-              </Button>
-              <Button asChild className="w-full">
-                <Link href={registerHref} onClick={close}>
-                  {t('common.nav.register')}
-                </Link>
-              </Button>
-            </div>
-          )}
-          <div className="mt-2">
-            <LocaleSwitcher />
-          </div>
-        </div>
-      )}
     </header>
   );
 }

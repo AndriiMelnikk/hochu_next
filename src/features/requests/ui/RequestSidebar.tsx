@@ -38,7 +38,7 @@ export const RequestSidebar = ({
   return (
     <div className="ui-v2 space-y-6 lg:sticky lg:top-24">
       {onApply && (
-        <Button className="w-full" onClick={onApply}>
+        <Button className="w-full max-lg:hidden" onClick={onApply}>
           {t('request.sidebar.apply')}
         </Button>
       )}

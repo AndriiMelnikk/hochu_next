@@ -2,13 +2,13 @@
 
 import { useMemo, useState, useSyncExternalStore } from 'react';
 import { useLingui } from '@lingui/react';
-import { CheckCircle2, CirclePlus, SearchX } from 'lucide-react';
+import { Bell, CheckCircle2, CirclePlus, SearchX, UserRound } from 'lucide-react';
 
 import { routes } from '@/app/router/routes';
 import { useAuthStore } from '@/entities/auth/store/authStore';
 import { useCategories } from '@/entities/category';
 import { useRequests, type IRequest } from '@/entities/request';
-import { RequestCard } from '@/features/requests';
+import { RequestCard, RequestFiltersSheet } from '@/features/requests';
 import Link from '@/shared/ui/link';
 import UserRequestsList from '@/widgets/app/UserRequestsList';
 import {
@@ -17,6 +17,8 @@ import {
   EmptyState,
   ErrorState,
   Heading,
+  ListRow,
+  ListRowGroup,
   LoadingState,
   Pagination,
   RowSkeleton,
@@ -173,6 +175,8 @@ function Onboarding({ isBuyer }: { isBuyer: boolean; name: string }) {
 /** Головна для залогінених: стрічка запитів з вкладками (як Home в Upwork). */
 export default function HomeFeed() {
   const { i18n } = useLingui();
+  const [tab, setTab] = useState<string | null>(null);
+  const [category, setCategory] = useState('');
   const t = (id: string, values?: Record<string, string | number>) => i18n._(id, values);
   const user = useAuthStore((s) => s.user);
   if (!user) return null;
@@ -192,7 +196,7 @@ export default function HomeFeed() {
           </p>
         </div>
         {isBuyer && (
-          <Button asChild>
+          <Button asChild className="max-md:hidden">
             <Link href={routes.CREATE}>
               <CirclePlus />
               {t('common.nav.createRequest')}
@@ -201,10 +205,25 @@ export default function HomeFeed() {
         )}
       </div>
 
+      {/* Швидкі посилання на мобільному (Upwork: My Proposals / My Profile / Dashboard) */}
+      <ListRowGroup className="-mx-4 mb-6 md:hidden">
+        {isBuyer && (
+          <ListRow icon={<CirclePlus />} asChild>
+            <Link href={routes.CREATE}>{t('home.feed.quick.create')}</Link>
+          </ListRow>
+        )}
+        <ListRow icon={<Bell />} asChild>
+          <Link href={routes.DASHBOARD_NOTIFICATIONS}>{t('home.feed.quick.notifications')}</Link>
+        </ListRow>
+        <ListRow icon={<UserRound />} asChild>
+          <Link href={routes.DASHBOARD}>{t('home.feed.quick.dashboard')}</Link>
+        </ListRow>
+      </ListRowGroup>
+
       <Onboarding isBuyer={isBuyer} name={user.profile.name} />
 
-      <Tabs defaultValue={tabs[0]}>
-        <TabsList>
+      <Tabs value={tab ?? tabs[0]} onValueChange={setTab}>
+        <TabsList className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {tabs.map((tab) => (
             <TabsTrigger key={tab} value={tab}>
               {t(`home.feed.tab.${tab}`)}
@@ -218,7 +237,7 @@ export default function HomeFeed() {
           </TabsContent>
         )}
         <TabsContent value="latest" className="pt-6">
-          <RequestRows pageSize={10} />
+          <RequestRows pageSize={10} category={category || undefined} />
           <div className="mt-6">
             <TextLink asChild>
               <Link href={routes.REQUEST}>{t('home.feed.viewAll')}</Link>
@@ -229,6 +248,10 @@ export default function HomeFeed() {
           <ByCategory />
         </TabsContent>
       </Tabs>
+
+      {(tab ?? tabs[0]) === 'latest' && (
+        <RequestFiltersSheet category={category} onApply={setCategory} />
+      )}
     </Container>
   );
 }

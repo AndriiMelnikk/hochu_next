@@ -304,6 +304,14 @@ export const messages: Messages = {
   'discussion.form.submit': 'Надіслати',
 
   // Auth pages
+  'auth.register.choice.title': 'Як ви хочете користуватись Shukayu?',
+  'auth.register.choice.buyerTitle': 'Я шукаю товар',
+  'auth.register.choice.buyerHint': 'Створюйте запити й отримуйте пропозиції від продавців',
+  'auth.register.choice.buyerCta': 'Створити запит',
+  'auth.register.choice.sellerTitle': 'Я продавець',
+  'auth.register.choice.sellerHint': 'Знаходьте запити покупців і пропонуйте свою ціну',
+  'auth.register.choice.sellerCta': 'Знайти запити',
+  'auth.register.choice.back': 'Змінити вибір',
   'auth.register.title': 'Реєстрація',
   'auth.register.subtitle': 'Створіть акаунт, щоб почати користуватися платформою',
   'auth.register.alreadyHaveAccount': 'Вже є акаунт? ',
@@ -635,6 +643,14 @@ export const messages: Messages = {
 
   // Common navigation & header
   'common.hero.betaBadge': 'Бета-версія',
+  'common.nav.home': 'Головна',
+  'common.nav.account': 'Кабінет',
+  'request.list.clearFilters': 'Очистити фільтри',
+  'request.list.applyFilters': 'Застосувати',
+  'home.feed.quick.create': 'Створити запит',
+  'home.feed.quick.dashboard': 'Мій кабінет',
+  'home.feed.quick.notifications': 'Сповіщення',
+  'home.feed.quick.requests': 'Усі запити',
   'common.nav.openMenu': 'Відкрити меню',
   'common.nav.closeMenu': 'Закрити меню',
   'common.nav.categories': 'Категорії',

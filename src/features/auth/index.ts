@@ -13,3 +13,4 @@ export {
   resolvePostAuthRedirect,
   buildGoogleAuthCallbackUrl,
 } from './lib/returnUrl';
+export { RoleChoice, type RegisterRole } from './ui/RoleChoice';

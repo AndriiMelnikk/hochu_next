@@ -7,3 +7,4 @@ export { RequestCard } from './ui/RequestCard';
 export { RequestInfo } from './ui/RequestInfo';
 export { RequestSidebar } from './ui/RequestSidebar';
 export { StatusGuide } from './ui/StatusGuide';
+export { RequestFiltersSheet } from './ui/RequestFiltersSheet';

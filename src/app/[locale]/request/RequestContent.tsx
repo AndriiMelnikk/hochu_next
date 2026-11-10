@@ -1,6 +1,6 @@
 'use client';
 
-import { RequestCard } from '@/features/requests';
+import { RequestCard, RequestFiltersSheet } from '@/features/requests';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { SearchX } from 'lucide-react';
@@ -127,7 +127,7 @@ export default function RequestContent({ initialData, initialParams }: RequestCo
         <p className="text-lg text-v2-muted">{t('request.list.subtitle')}</p>
       </div>
 
-      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
         <Input
           search
           aria-label={t('request.list.searchPlaceholder')}
@@ -136,6 +136,7 @@ export default function RequestContent({ initialData, initialParams }: RequestCo
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <CascadingSelect
+          className="max-md:hidden"
           items={cascadingCategories}
           value={filters.category || ''}
           onValueChange={(id) => setFilter('category', id || '')}
@@ -201,6 +202,10 @@ export default function RequestContent({ initialData, initialParams }: RequestCo
           )}
         </section>
       </div>
+      <RequestFiltersSheet
+        category={filters.category || ''}
+        onApply={(id) => setFilter('category', id)}
+      />
     </Container>
   );
 }

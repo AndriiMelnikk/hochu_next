@@ -25,7 +25,7 @@ import {
   DropdownMenuTrigger,
   Heading,
 } from '@/ui-v2';
-import { Alert, AlertDescription, AlertTitle } from '@/ui-v2';
+import { Alert, AlertDescription, AlertTitle, DetailRow } from '@/ui-v2';
 import {
   IRequest,
   REQUEST_STATUS_LABELS,
@@ -133,9 +133,9 @@ export const RequestInfo = ({
     REQUEST_URGENCY_LABELS[request.urgency as keyof typeof REQUEST_URGENCY_LABELS];
 
   return (
-    <div className="ui-v2 divide-y divide-v2-border overflow-hidden rounded-v2-2xl border border-v2-border bg-v2-surface">
+    <div className="ui-v2 -mx-4 divide-y divide-v2-border overflow-hidden border-y border-v2-border bg-v2-surface md:mx-0 md:rounded-v2-2xl md:border-x">
       {/* Request Header */}
-      <div className="p-6 md:px-8">
+      <div className="p-4 md:p-6 md:px-8">
         <div className="flex items-start justify-between mb-4 gap-4">
           <div className="flex-1 min-w-0 gap-2">
             <div>
@@ -272,45 +272,43 @@ export const RequestInfo = ({
           </span>
         </div>
 
-        <div className="-mx-6 mb-0 mt-6 grid grid-cols-1 gap-4 border-t border-v2-border px-6 pt-6 md:-mx-8 md:grid-cols-4 md:px-8">
-          <div className="flex items-start">
-            <Wallet className="h-5 w-5 text-v2-primary mr-2 mt-0.5" />
-            <div>
-              <p className="text-sm text-v2-muted">{t('request.detail.budget')}</p>
-              <p className="font-semibold">{budget}</p>
-            </div>
-          </div>
-          <div className="flex items-start">
-            <MapPin className="h-5 w-5 text-v2-primary mr-2 mt-0.5" />
-            <div>
-              <p className="text-sm text-v2-muted">{t('request.detail.location')}</p>
-              <p className="font-semibold">{request.location || '-'}</p>
-            </div>
-          </div>
-          <div className="flex items-start">
-            <Calendar className="h-5 w-5 text-v2-primary mr-2 mt-0.5" />
-            <div>
-              <p className="text-sm text-v2-muted">{t('request.detail.urgency')}</p>
-              <p className="font-semibold">{urgencyLabel ? t(urgencyLabel) : request.urgency}</p>
-            </div>
-          </div>
-          <div className="flex items-start">
-            <Package className="h-5 w-5 mr-2 text-v2-primary" />
-            <div>
-              <p className="text-sm text-v2-muted">{t('request.detail.condition')}</p>
-              <p className="font-semibold">
+        <div className="-mx-6 mb-0 mt-6 grid grid-cols-1 gap-x-4 border-t border-v2-border px-6 pt-3 md:-mx-8 md:grid-cols-4 md:px-8 md:pt-6">
+          <DetailRow
+            icon={<Wallet className="text-v2-primary" />}
+            label={t('request.detail.budget')}
+            value={<span className="font-semibold">{budget}</span>}
+          />
+          <DetailRow
+            icon={<MapPin className="text-v2-primary" />}
+            label={t('request.detail.location')}
+            value={<span className="font-semibold">{request.location || '-'}</span>}
+          />
+          <DetailRow
+            icon={<Calendar className="text-v2-primary" />}
+            label={t('request.detail.urgency')}
+            value={
+              <span className="font-semibold">
+                {urgencyLabel ? t(urgencyLabel) : request.urgency}
+              </span>
+            }
+          />
+          <DetailRow
+            icon={<Package className="text-v2-primary" />}
+            label={t('request.detail.condition')}
+            value={
+              <span className="font-semibold">
                 {request.itemCondition === 'new'
                   ? t('request.create.itemConditionNew')
                   : request.itemCondition === 'used'
                     ? t('request.create.itemConditionUsed')
                     : '-'}
-              </p>
-            </div>
-          </div>
+              </span>
+            }
+          />
         </div>
       </div>
       {/* Description */}
-      <div className="p-6 md:px-8">
+      <div className="p-4 md:p-6 md:px-8">
         <h2 className="mb-4 text-xl font-[550]">{t('request.detail.description')}</h2>
         <div className="prose max-w-none text-v2-muted whitespace-pre-line">
           {request.description}
@@ -376,7 +374,7 @@ export const RequestInfo = ({
 
       {/* Images */}
       {request.images && request.images.length > 0 && (
-        <div className="p-6 md:px-8">
+        <div className="p-4 md:p-6 md:px-8">
           <h2 className="mb-4 text-xl font-[550]">
             {t('request.detail.photos', { count: request.images.length })}
           </h2>

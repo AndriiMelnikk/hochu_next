@@ -26,6 +26,8 @@ import {
   Container,
   ErrorState,
   LoadingState,
+  StickyActionBar,
+  StickyActionBarSpacer,
   Tabs,
   TabsContent,
   TabsList,
@@ -349,6 +351,40 @@ export default function RequestDetailContent({
           />
         </div>
       </div>
+      {/* Мобільна нижня панель дій (Apply now / Save job в Upwork); на lg+ дія — у сайдбарі */}
+      {!isOwner && request.status === RequestStatus.ACTIVE && (
+        <>
+          <StickyActionBarSpacer />
+          <StickyActionBar>
+            {user ? (
+              <Button
+                size="md"
+                className="h-12 w-full text-base"
+                onClick={() =>
+                  document
+                    .getElementById('proposal-form')
+                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              >
+                {t('request.sidebar.apply')}
+              </Button>
+            ) : (
+              <div className="flex gap-3">
+                <Button asChild variant="outline" className="h-12 flex-1 text-base">
+                  <Link href={buildAuthHref(routes.LOGIN, returnUrl)}>
+                    {t('request.detail.proposalAuthRequired.login')}
+                  </Link>
+                </Button>
+                <Button asChild className="h-12 flex-1 text-base">
+                  <Link href={buildAuthHref(routes.REGISTER, returnUrl)}>
+                    {t('request.detail.proposalAuthRequired.register')}
+                  </Link>
+                </Button>
+              </div>
+            )}
+          </StickyActionBar>
+        </>
+      )}
       <ImageLightbox
         images={lightboxImages}
         initialIndex={lightboxIndex}

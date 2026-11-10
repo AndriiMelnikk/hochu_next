@@ -1,28 +1,55 @@
 'use client';
 
 import Link from '@/shared/ui/link';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import { routes } from '@/app/router/routes';
-import { RegisterForm, buildAuthHref } from '@/features/auth';
+import { RegisterForm, RoleChoice, buildAuthHref, type RegisterRole } from '@/features/auth';
 import { useLingui } from '@lingui/react';
 
 export default function RegisterContent({ returnUrl }: { returnUrl?: string | null }) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const loginHref = buildAuthHref(routes.LOGIN, returnUrl);
+  const [role, setRole] = useState<RegisterRole | null>(null);
+
+  if (!role) {
+    return (
+      <div className="mx-auto w-full max-w-[1240px] px-4 pb-16 md:px-6">
+        <h1 className="mb-6 text-center text-3xl font-[550] text-v2-ink">
+          {t('auth.register.choice.title')}
+        </h1>
+        <RoleChoice onChoose={setRole} />
+        <p className="mt-6 text-center text-sm">
+          <span className="text-v2-muted">{t('auth.register.alreadyHaveAccount')}</span>
+          <Link href={loginHref} className="font-medium text-v2-primary hover:underline">
+            {t('auth.register.loginLink')}
+          </Link>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto w-full max-w-[1240px] px-4 md:px-6 pb-16">
       <div className="grid lg:grid-cols-2 gap-0 max-w-6xl mx-auto bg-v2-surface rounded-3xl shadow-2xl overflow-hidden">
         {/* Left Section - Form */}
         <div className="p-8 lg:p-12">
+          <button
+            type="button"
+            onClick={() => setRole(null)}
+            className="mb-4 inline-flex items-center gap-1 text-sm text-v2-muted hover:text-v2-ink"
+          >
+            <ArrowLeft className="size-4" />
+            {t('auth.register.choice.back')}
+          </button>
           <div className="space-y-2 mb-8">
             <h1 className="text-3xl font-[550] text-v2-ink">{t('auth.register.title')}</h1>
             <p className="text-v2-muted">{t('auth.register.subtitle')}</p>
           </div>
 
           <Suspense fallback={null}>
-            <RegisterForm />
+            <RegisterForm defaultType={role} />
           </Suspense>
 
           <div className="mt-6 text-center text-sm">

@@ -26,7 +26,7 @@ import {
   Separator,
 } from '@/ui-v2';
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ defaultType = 'buyer' }: { defaultType?: 'buyer' | 'seller' }) => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const router = useLocalizedRouter();
@@ -41,7 +41,7 @@ export const RegisterForm = () => {
       lastName: '',
       email: '',
       password: '',
-      type: 'buyer',
+      type: defaultType,
     },
   });
 

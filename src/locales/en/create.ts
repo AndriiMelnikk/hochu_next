@@ -304,6 +304,14 @@ export const messages: Messages = {
   'discussion.form.submit': 'Send',
 
   // Auth pages
+  'auth.register.choice.title': 'How do you want to use Shukayu?',
+  'auth.register.choice.buyerTitle': "I'm looking to buy",
+  'auth.register.choice.buyerHint': 'Post requests and get offers from sellers',
+  'auth.register.choice.buyerCta': 'Post a request',
+  'auth.register.choice.sellerTitle': "I'm a seller",
+  'auth.register.choice.sellerHint': 'Find buyer requests and offer your price',
+  'auth.register.choice.sellerCta': 'Find requests',
+  'auth.register.choice.back': 'Change choice',
   'auth.register.title': 'Registration',
   'auth.register.subtitle': 'Create an account to start using the platform',
   'auth.register.alreadyHaveAccount': 'Already have an account? ',
@@ -632,6 +640,14 @@ export const messages: Messages = {
 
   // Common navigation & header
   'common.hero.betaBadge': 'Beta',
+  'common.nav.home': 'Home',
+  'common.nav.account': 'Account',
+  'request.list.clearFilters': 'Clear filters',
+  'request.list.applyFilters': 'Apply filters',
+  'home.feed.quick.create': 'Create request',
+  'home.feed.quick.dashboard': 'My account',
+  'home.feed.quick.notifications': 'Notifications',
+  'home.feed.quick.requests': 'All requests',
   'common.nav.openMenu': 'Open menu',
   'common.nav.closeMenu': 'Close menu',
   'common.nav.categories': 'Categories',
