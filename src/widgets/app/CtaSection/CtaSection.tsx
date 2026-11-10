@@ -15,13 +15,22 @@ const CtaSection = () => {
       <Container>
         <CtaBanner
           title={t('common.home.cta.title')}
+          description={t('common.home.cta.description')}
           actions={
-            <Link
-              href={routes.REQUEST}
-              className="inline-flex h-12 items-center rounded-v2-pill bg-white px-6 font-semibold text-black hover:bg-white/90"
-            >
-              {t('common.home.cta.button')}
-            </Link>
+            <>
+              <Link
+                href={routes.CREATE}
+                className="inline-flex h-12 items-center rounded-v2-pill bg-white px-6 font-semibold text-black hover:bg-white/90"
+              >
+                {t('common.home.cta.create')}
+              </Link>
+              <Link
+                href={routes.REQUEST}
+                className="inline-flex h-12 items-center rounded-v2-pill border border-white/70 px-6 font-semibold text-white hover:bg-white/10"
+              >
+                {t('common.home.cta.button')}
+              </Link>
+            </>
           }
         />
       </Container>

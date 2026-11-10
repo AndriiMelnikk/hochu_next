@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, Search } from 'lucide-react';
+import { ArrowRight, MapPin, Search, Sparkles, Star } from 'lucide-react';
 import { useLingui } from '@lingui/react';
 
 import { routes } from '@/app/router/routes';
@@ -10,6 +10,60 @@ import Link from '@/shared/ui/link';
 import { Container, PromoBanner, SegmentedControl } from '@/ui-v2';
 
 type Mode = 'hire' | 'work';
+
+const OFFERS = [1, 2, 3] as const;
+
+/** Ілюстративна картка «запит + пропозиції» справа від тексту (лише ≥xl). */
+const HeroVisual = ({ t }: { t: (id: string) => string }) => (
+  <div
+    aria-hidden
+    className="pointer-events-none absolute right-12 top-1/2 hidden w-[400px] -translate-y-1/2 xl:block"
+  >
+    <div className="rounded-v2-2xl bg-white p-5 text-v2-ink shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
+      <div className="mb-1 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-v2-subtle">
+        <Sparkles className="size-3.5 text-v2-primary" />
+        {t('common.home.hero.visual.example')}
+      </div>
+      <div className="text-lg font-[550] leading-6">{t('common.home.hero.visual.title')}</div>
+      <div className="mt-1 flex items-center gap-1 text-sm text-v2-subtle">
+        <MapPin className="size-3.5" />
+        {t('common.home.hero.visual.meta')}
+        <span className="ml-auto rounded-v2-pill bg-v2-primary/10 px-2.5 py-0.5 font-medium text-v2-primary">
+          {t('common.home.hero.visual.offers')}
+        </span>
+      </div>
+    </div>
+    <div className="ml-8 mt-3 space-y-3">
+      {OFFERS.map((n) => (
+        <div
+          key={n}
+          className="relative flex items-center gap-3 rounded-v2-xl bg-white/95 p-3.5 text-v2-ink shadow-[0_12px_30px_rgba(0,0,0,0.25)]"
+        >
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-v2-primary/15 font-semibold text-v2-primary">
+            {t(`common.home.hero.visual.offer${n}.name`).slice(0, 1)}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1 text-sm font-semibold">
+              {t(`common.home.hero.visual.offer${n}.name`)}
+              <Star className="size-3.5 fill-amber-400 text-amber-400" />
+            </div>
+            <div className="truncate text-sm text-v2-subtle">
+              {t(`common.home.hero.visual.offer${n}.text`)}
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="font-semibold">{t(`common.home.hero.visual.offer${n}.price`)}</div>
+            {n === 3 ? (
+              <div className="text-xs font-medium text-v2-primary">
+                {t('common.home.hero.visual.badge')}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 /** Hero у стилі Upwork: промо-смуга + велика темна картка з перемикачем «Шукаю / Пропоную». */
 const Hero = () => {
@@ -45,7 +99,8 @@ const Hero = () => {
             aria-hidden
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_30%,rgba(111,227,0,0.25),transparent_55%)]"
           />
-          <div className="relative flex max-w-3xl flex-col items-start">
+          <HeroVisual t={t} />
+          <div className="relative flex max-w-3xl flex-col items-start xl:max-w-[52%]">
             <SegmentedControl<Mode>
               tone="dark"
               value={mode}
@@ -56,10 +111,10 @@ const Hero = () => {
               ]}
               className="mb-8 md:mb-12"
             />
-            <h1 className="mb-6 text-4xl font-[450] leading-[1.05] tracking-tight md:text-[72px]">
+            <h1 className="mb-6 text-4xl font-[450] leading-[1.05] tracking-tight md:text-6xl xl:text-[64px]">
               {t(`common.home.hero.${mode}.title`)}
             </h1>
-            <p className="mb-10 max-w-2xl text-lg leading-7 text-white/90 md:text-2xl md:leading-9">
+            <p className="mb-10 max-w-2xl text-lg leading-7 text-white/90 md:text-xl md:leading-8">
               {t(`common.home.hero.${mode}.subtitle`)}
             </p>
 
