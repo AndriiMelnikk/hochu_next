@@ -7,8 +7,9 @@ import {
   ADMIN_NAV_GROUP_KEYS,
   ADMIN_NAV_ITEMS,
   hasPermission,
-  useAdminPreviewStore,
+  useAdminRole,
 } from '@/entities/admin';
+import { MockTag } from '@/features/admin';
 import Link from '@shared/ui/link';
 import { cn } from '@shared/utils/cn';
 
@@ -19,7 +20,7 @@ export function AdminSubNav() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const currentPath = stripLocale(usePathname());
-  const previewRole = useAdminPreviewStore((s) => s.previewRole);
+  const previewRole = useAdminRole();
 
   const { group, items } = useMemo(() => {
     const allowed = ADMIN_NAV_ITEMS.filter((i) => hasPermission(previewRole, i.permission));
@@ -56,6 +57,7 @@ export function AdminSubNav() {
                 )}
               >
                 {t(item.labelKey)}
+                {item.mock && <MockTag />}
               </Link>
             </li>
           );

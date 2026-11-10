@@ -6,6 +6,12 @@ export interface IAdminNavItem {
   labelKey: string;
   permission: StaffPermission;
   group: 'analytics' | 'moderation' | 'content' | 'staff';
+  /**
+   * Джерело даних розділу: `true` — повністю заглушка (сторінка неактивна, сіра),
+   * `'auto'` — розділ сам визначає, чи прийшли дані з бекенду (fallback на mock).
+   * Коли розділ підключено до API — видаліть прапорець.
+   */
+  mock?: true | 'auto';
 }
 
 export const ADMIN_NAV_ITEMS: IAdminNavItem[] = [
@@ -15,6 +21,7 @@ export const ADMIN_NAV_ITEMS: IAdminNavItem[] = [
     labelKey: 'admin.nav.analytics',
     permission: 'analytics.view',
     group: 'analytics',
+    mock: true,
   },
   {
     id: 'traffic',
@@ -22,6 +29,7 @@ export const ADMIN_NAV_ITEMS: IAdminNavItem[] = [
     labelKey: 'admin.nav.traffic',
     permission: 'analytics.traffic',
     group: 'analytics',
+    mock: true,
   },
   {
     id: 'requests',
@@ -36,6 +44,7 @@ export const ADMIN_NAV_ITEMS: IAdminNavItem[] = [
     labelKey: 'admin.nav.proposals',
     permission: 'moderation.proposals',
     group: 'moderation',
+    mock: true,
   },
   {
     id: 'reports',
@@ -43,6 +52,7 @@ export const ADMIN_NAV_ITEMS: IAdminNavItem[] = [
     labelKey: 'admin.nav.reports',
     permission: 'moderation.reports',
     group: 'moderation',
+    mock: true,
   },
   {
     id: 'users',
@@ -50,6 +60,7 @@ export const ADMIN_NAV_ITEMS: IAdminNavItem[] = [
     labelKey: 'admin.nav.users',
     permission: 'users.block',
     group: 'moderation',
+    mock: true,
   },
   {
     id: 'subscriptions',
@@ -57,6 +68,7 @@ export const ADMIN_NAV_ITEMS: IAdminNavItem[] = [
     labelKey: 'admin.nav.subscriptions',
     permission: 'notifications.subscriptions',
     group: 'moderation',
+    mock: 'auto',
   },
   {
     id: 'blog',
@@ -64,6 +76,7 @@ export const ADMIN_NAV_ITEMS: IAdminNavItem[] = [
     labelKey: 'admin.nav.blog',
     permission: 'content.blog',
     group: 'content',
+    mock: true,
   },
   {
     id: 'pricing',
@@ -71,6 +84,7 @@ export const ADMIN_NAV_ITEMS: IAdminNavItem[] = [
     labelKey: 'admin.nav.pricing',
     permission: 'content.pricing',
     group: 'content',
+    mock: true,
   },
   {
     id: 'pages',
@@ -78,6 +92,7 @@ export const ADMIN_NAV_ITEMS: IAdminNavItem[] = [
     labelKey: 'admin.nav.pages',
     permission: 'content.pages',
     group: 'content',
+    mock: true,
   },
   {
     id: 'staff',

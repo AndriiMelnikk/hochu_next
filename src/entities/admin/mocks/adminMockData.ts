@@ -3,10 +3,8 @@ import type {
   IAdminInfoPage,
   IAdminPricingPlan,
   IAdminRequestSubscription,
-  IAdminStaffMember,
   IModerationProposal,
   IModerationReport,
-  IModerationRequest,
   IModerationUser,
   IProductAnalytics,
   ITrafficAnalytics,
@@ -103,30 +101,6 @@ export const trafficAnalytics: ITrafficAnalytics = {
     { path: '/how-it-works', visits: 1600 },
   ],
 };
-
-export const moderationRequests: IModerationRequest[] = [
-  {
-    id: '1',
-    title: 'Створення веб-сайту для ресторану',
-    author: 'Іван Петренко',
-    date: '2024-03-15 14:30',
-    status: 'pending',
-  },
-  {
-    id: '2',
-    title: 'Дизайн логотипу для стартапу',
-    author: 'Марія Коваль',
-    date: '2024-03-15 13:15',
-    status: 'pending',
-  },
-  {
-    id: '3',
-    title: 'Налаштування реклами в Meta Ads',
-    author: 'Олена Мельник',
-    date: '2024-03-14 18:02',
-    status: 'pending',
-  },
-];
 
 export const moderationProposals: IModerationProposal[] = [
   {
@@ -277,33 +251,6 @@ export const adminInfoPages: IAdminInfoPage[] = [
   },
 ];
 
-export const adminStaff: IAdminStaffMember[] = [
-  {
-    id: '1',
-    name: 'Andrii Melnyk',
-    email: 'admin@shukayu.com',
-    role: 'admin',
-  },
-  {
-    id: '2',
-    name: 'Oksana Hrytsenko',
-    email: 'moderator@shukayu.com',
-    role: 'moderator',
-  },
-  {
-    id: '3',
-    name: 'Taras Bondar',
-    email: 'editor@shukayu.com',
-    role: 'editor',
-  },
-  {
-    id: '4',
-    name: 'Ira Sydorenko',
-    email: 'analyst@shukayu.com',
-    role: 'analyst',
-  },
-];
-
 export const adminRequestSubscriptions: IAdminRequestSubscription[] = [
   {
     id: 'sub-1',
@@ -355,13 +302,11 @@ export const adminRequestSubscriptions: IAdminRequestSubscription[] = [
 export const adminMockData = {
   productAnalytics,
   trafficAnalytics,
-  moderationRequests,
   moderationProposals,
   moderationReports,
   moderationUsers,
   adminBlogPosts,
   adminPricingPlans,
   adminInfoPages,
-  adminStaff,
   adminRequestSubscriptions,
 } as const;

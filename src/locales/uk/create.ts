@@ -79,7 +79,7 @@ export const messages: Messages = {
   'request.create.submitPublish': 'Опублікувати запит',
   'request.create.subtitle': 'Опишіть що вам потрібно, і отримайте пропозиції від професіоналів',
   'request.create.submitting': 'Публікуємо...',
-  'request.create.success': 'Запит успішно створено!',
+  'request.create.success': "Запит надіслано на модерацію. Після схвалення він з'явиться на сайті",
   'request.create.error': 'Не вдалося створити запит',
   'request.create.tipLabel': 'Підказка:',
   'request.create.tipText':
@@ -138,10 +138,15 @@ export const messages: Messages = {
 
   // Request status
   'request.status.active': 'Активний',
-  'request.status.pending': 'Очікує',
+  'request.status.pending': 'На модерації',
   'request.status.closed': 'Закрито',
   'request.status.completed': 'Виконано',
   'request.status.cancelled': 'Скасовано',
+  'request.moderation.pendingTitle': 'Запит на модерації',
+  'request.moderation.pendingHint':
+    "Модератор перевіряє запит. Після схвалення він з'явиться в загальному списку, і ви отримаєте сповіщення.",
+  'request.moderation.rejectedTitle': 'Запит відхилено модератором',
+  'request.moderation.noReason': 'Причину не вказано.',
   'request.status.rejected': 'Відхилено',
 
   // Request actions

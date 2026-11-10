@@ -76,12 +76,48 @@ export interface ITrafficAnalytics {
   topPaths: ITopPath[];
 }
 
+export type ModerationStatus = 'pending' | 'active' | 'rejected';
+export type ModerationFilter = ModerationStatus | 'all';
+
+export interface IModerationLogEntry {
+  action: 'approved' | 'rejected';
+  reason?: string;
+  by: string;
+  at: string;
+}
+
+/** Запит покупця в черзі модерації (відповідь `GET /admin/requests`). */
 export interface IModerationRequest {
   id: string;
   title: string;
-  author: string;
-  date: string;
-  status: 'pending' | 'approved' | 'rejected';
+  description: string;
+  budgetMin?: number;
+  budgetMax: number;
+  urgency: number;
+  location?: string;
+  images: string[];
+  status: ModerationStatus;
+  createdAt: string;
+  moderatedAt: string | null;
+  moderatedBy: string | null;
+  rejectionReason: string | null;
+  buyer: { id: string; name: string; email: string | null } | null;
+  category: { id: string; title: string } | null;
+  /** Є лише у відповіді `GET /admin/requests/:id`. */
+  moderationLog?: IModerationLogEntry[];
+}
+
+export interface IModerationList {
+  count: number;
+  page: number;
+  pageSize: number;
+  counts: Record<ModerationStatus, number>;
+  results: IModerationRequest[];
+}
+
+export interface IBulkModerationResult {
+  succeeded: string[];
+  failed: { id: string; error: string }[];
 }
 
 export interface IModerationProposal {
@@ -152,10 +188,31 @@ export type AdminInfoPageInput = Pick<
   'slug' | 'title' | 'status' | 'content' | 'metaDescription'
 >;
 
+/** Співробітник адмінки (відповідь `GET /admin/staff`). */
 export interface IAdminStaffMember {
   id: string;
+  login: string;
   name: string;
-  email: string;
+  role: StaffRole;
+  isActive: boolean;
+  lastLoginAt: string | null;
+  createdAt: string;
+  createdBy: string | null;
+}
+
+/** Поточний співробітник (відповідь `GET /admin/auth/me`). */
+export interface IAdminMe {
+  id: string;
+  login: string;
+  name: string;
+  role: StaffRole;
+  permissions: StaffPermission[];
+}
+
+export interface AdminStaffInput {
+  login: string;
+  name?: string;
+  password: string;
   role: StaffRole;
 }
 

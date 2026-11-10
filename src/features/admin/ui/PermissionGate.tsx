@@ -1,6 +1,6 @@
 'use client';
 
-import { hasPermission, useAdminPreviewStore, type StaffPermission } from '@/entities/admin';
+import { hasPermission, useAdminRole, type StaffPermission } from '@/entities/admin';
 import type { ReactNode } from 'react';
 
 interface PermissionGateProps {
@@ -9,7 +9,7 @@ interface PermissionGateProps {
 }
 
 export function PermissionGate({ permission, children }: PermissionGateProps) {
-  const previewRole = useAdminPreviewStore((s) => s.previewRole);
+  const previewRole = useAdminRole();
   if (!hasPermission(previewRole, permission)) return null;
   return <>{children}</>;
 }

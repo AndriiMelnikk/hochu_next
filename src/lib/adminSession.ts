@@ -1,9 +1,19 @@
 /**
  * Сесія адмінки: підписаний HMAC-токен у httpOnly-cookie.
  * Працює і в Node-роутах, і в proxy (лише Web Crypto, без Node-модулів).
- * Підпис — AUTH_SECRET; облікові дані — ADMIN_LOGIN / ADMIN_PASSWORD (лише сервер).
+ * Підпис — AUTH_SECRET. Логін/пароль перевіряє бекенд (shukayu_nest), а виданий ним
+ * JWT лежить в окремій httpOnly-cookie і ніколи не доступний браузерному JS.
  */
 export const ADMIN_COOKIE = 'admin_session';
+export const ADMIN_API_TOKEN_COOKIE = 'admin_api_token';
+
+/** Адреса бекенду для адмінки (лише сервер). Можна відокремити від публічного API через ADMIN_API_URL. */
+export const adminApiBaseUrl = () =>
+  (
+    process.env.ADMIN_API_URL ||
+    process.env.NEXT_PUBLIC_API_BASE_URL ||
+    'https://shukayu-nest.vercel.app'
+  ).replace(/\/+$/, '');
 export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 8; // 8 годин
 
 const enc = new TextEncoder();

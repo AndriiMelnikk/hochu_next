@@ -1,5 +1,6 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { useLingui } from '@lingui/react';
@@ -18,9 +19,10 @@ import {
   ADMIN_NAV_ITEMS,
   hasPermission,
   useAdminPreviewStore,
+  useAdminRole,
   type IAdminNavItem,
 } from '@/entities/admin';
-import { RolePreviewSelect } from '@/features/admin';
+import { MockTag, RolePreviewSelect } from '@/features/admin';
 import { routes } from '@/app/router/routes';
 import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import Link from '@shared/ui/link';
@@ -50,11 +52,15 @@ export function AdminRail() {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
   const currentPath = stripLocale(usePathname());
-  const previewRole = useAdminPreviewStore((s) => s.previewRole);
+  const previewRole = useAdminRole();
   const router = useLocalizedRouter();
+  const queryClient = useQueryClient();
 
   const logout = async () => {
     await fetch('/api/admin-session', { method: 'DELETE' });
+    // Кеш профілю й черг не повинен дістатись наступному співробітнику
+    queryClient.removeQueries({ queryKey: ['admin'] });
+    useAdminPreviewStore.getState().setPreviewRole(null);
     router.replace('/admin/login');
     router.refresh();
   };
@@ -138,6 +144,7 @@ export function AdminRail() {
                     )}
                   >
                     {t(item.labelKey)}
+                    {item.mock && <MockTag />}
                   </Link>
                 ))
               }

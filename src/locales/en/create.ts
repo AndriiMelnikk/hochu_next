@@ -79,7 +79,7 @@ export const messages: Messages = {
   'request.create.submitPublish': 'Publish request',
   'request.create.subtitle': 'Describe what you need and get proposals from professionals',
   'request.create.submitting': 'Publishing...',
-  'request.create.success': 'Request created successfully!',
+  'request.create.success': 'Request sent for moderation. It will appear on the site once approved',
   'request.create.error': 'Failed to create request',
   'request.create.tipLabel': 'Tip:',
   'request.create.tipText':
@@ -140,8 +140,13 @@ export const messages: Messages = {
   'request.status.completed': 'Completed',
   'request.status.cancelled': 'Cancelled',
   'request.status.active': 'Active',
-  'request.status.pending': 'Pending',
+  'request.status.pending': 'Under review',
   'request.status.closed': 'Closed',
+  'request.moderation.pendingTitle': 'Request under review',
+  'request.moderation.pendingHint':
+    'A moderator is checking your request. Once approved it will appear in the public list and you will be notified.',
+  'request.moderation.rejectedTitle': 'Request rejected by a moderator',
+  'request.moderation.noReason': 'No reason given.',
   'request.status.rejected': 'Rejected',
 
   // Request actions

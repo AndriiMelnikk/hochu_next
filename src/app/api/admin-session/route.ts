@@ -1,41 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
+  ADMIN_API_TOKEN_COOKIE,
   ADMIN_COOKIE,
   ADMIN_SESSION_MAX_AGE,
+  adminApiBaseUrl,
   adminCookieOptions,
   createAdminToken,
-  safeEqual,
 } from '@/lib/adminSession';
 
-// Проста пам'ять-захист від підбору пароля: 5 спроб / 10 хв на IP (достатньо для одного інстансу).
-const attempts = new Map<string, { count: number; resetAt: number }>();
-const MAX_ATTEMPTS = 5;
-const WINDOW_MS = 10 * 60 * 1000;
-
-function tooMany(ip: string): boolean {
-  const now = Date.now();
-  const entry = attempts.get(ip);
-  if (!entry || entry.resetAt < now) return false;
-  return entry.count >= MAX_ATTEMPTS;
-}
-
-function registerFailure(ip: string) {
-  const now = Date.now();
-  const entry = attempts.get(ip);
-  if (!entry || entry.resetAt < now) attempts.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-  else entry.count += 1;
-}
-
-/** Вхід в адмінку: перевіряє логін/пароль із серверного env і ставить httpOnly-cookie. */
+/**
+ * Вхід в адмінку. Облікові дані перевіряє бекенд (`POST /api/admin/auth/login`), він же видає JWT.
+ * Тут ми лише кладемо результат у httpOnly-cookie: підписану сесію (для guard сторінок у proxy.ts)
+ * та сам токен бекенду (для admin-proxy).
+ */
 export async function POST(request: NextRequest) {
-  const expectedLogin = process.env.ADMIN_LOGIN;
-  const expectedPassword = process.env.ADMIN_PASSWORD;
-  if (!expectedLogin || !expectedPassword || !process.env.AUTH_SECRET) {
+  if (!process.env.AUTH_SECRET) {
     return NextResponse.json({ error: 'not_configured' }, { status: 500 });
   }
-
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
-  if (tooMany(ip)) return NextResponse.json({ error: 'too_many_attempts' }, { status: 429 });
 
   const body = (await request.json().catch(() => null)) as {
     login?: unknown;
@@ -44,28 +25,56 @@ export async function POST(request: NextRequest) {
   const login = typeof body?.login === 'string' ? body.login : '';
   const password = typeof body?.password === 'string' ? body.password : '';
 
-  // Обидва порівняння виконуються завжди, щоб не видавати, що саме невірне
-  const [okLogin, okPassword] = await Promise.all([
-    safeEqual(login, expectedLogin),
-    safeEqual(password, expectedPassword),
-  ]);
-  if (!okLogin || !okPassword) {
-    registerFailure(ip);
-    return NextResponse.json({ error: 'invalid_credentials' }, { status: 401 });
+  let upstream: Response;
+  try {
+    upstream = await fetch(`${adminApiBaseUrl()}/api/admin/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Бекенд рахує спроби за IP: передаємо адресу справжнього клієнта
+        'X-Forwarded-For': request.headers.get('x-forwarded-for') ?? '',
+      },
+      body: JSON.stringify({ login, password }),
+      cache: 'no-store',
+    });
+  } catch {
+    return NextResponse.json({ error: 'backend_unavailable' }, { status: 502 });
   }
 
-  attempts.delete(ip);
+  if (upstream.status === 429) {
+    return NextResponse.json({ error: 'too_many_attempts' }, { status: 429 });
+  }
+  if (upstream.status === 503) {
+    return NextResponse.json({ error: 'not_configured' }, { status: 500 });
+  }
+  if (upstream.status === 400 || upstream.status === 401) {
+    return NextResponse.json({ error: 'invalid_credentials' }, { status: 401 });
+  }
+  if (!upstream.ok) {
+    return NextResponse.json({ error: 'backend_unavailable' }, { status: 502 });
+  }
+
+  const { accessToken, expiresIn } = (await upstream.json()) as {
+    accessToken?: string;
+    expiresIn?: number;
+  };
+  if (!accessToken) return NextResponse.json({ error: 'backend_unavailable' }, { status: 502 });
+
+  const maxAge = Math.min(expiresIn ?? ADMIN_SESSION_MAX_AGE, ADMIN_SESSION_MAX_AGE);
   const response = NextResponse.json({ ok: true });
   response.cookies.set(ADMIN_COOKIE, await createAdminToken(login), {
     ...adminCookieOptions,
-    maxAge: ADMIN_SESSION_MAX_AGE,
+    maxAge,
   });
+  response.cookies.set(ADMIN_API_TOKEN_COOKIE, accessToken, { ...adminCookieOptions, maxAge });
   return response;
 }
 
-/** Вихід: очищає cookie сесії. */
+/** Вихід: очищає обидві cookie. */
 export async function DELETE() {
   const response = NextResponse.json({ ok: true });
-  response.cookies.set(ADMIN_COOKIE, '', { ...adminCookieOptions, maxAge: 0 });
+  for (const name of [ADMIN_COOKIE, ADMIN_API_TOKEN_COOKIE]) {
+    response.cookies.set(name, '', { ...adminCookieOptions, maxAge: 0 });
+  }
   return response;
 }

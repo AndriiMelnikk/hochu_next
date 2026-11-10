@@ -4,8 +4,8 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu, Shield } from 'lucide-react';
 import { useLingui } from '@lingui/react';
-import { ADMIN_NAV_ITEMS, hasPermission, useAdminPreviewStore } from '@/entities/admin';
-import { RolePreviewSelect } from '@/features/admin';
+import { ADMIN_NAV_ITEMS, hasPermission, useAdminMe, useAdminRole } from '@/entities/admin';
+import { ChangePasswordModal, MockZone, RolePreviewSelect } from '@/features/admin';
 import { AdminNav } from '@/widgets/admin/AdminNav';
 import { AdminRail } from '@/widgets/admin/AdminRail';
 import { AdminSubNav } from '@/widgets/admin/AdminSubNav';
@@ -36,7 +36,9 @@ export function AdminShell({ children }: AdminShellProps) {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useCurrentLocale();
-  const previewRole = useAdminPreviewStore((s) => s.previewRole);
+  const previewRole = useAdminRole();
+  const isLoginPage = stripLocale(pathname) === '/admin/login';
+  const { data: me, isLoading: meLoading } = useAdminMe({ enabled: !isLoginPage });
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const allowedItems = useMemo(
@@ -45,6 +47,8 @@ export function AdminShell({ children }: AdminShellProps) {
   );
 
   useEffect(() => {
+    // Роль невідома, доки не прийшов профіль: не редіректимо за «запасною» роллю
+    if (!me) return;
     const currentPath = stripLocale(pathname);
     if (currentPath === '/admin' || currentPath === '/admin/') {
       const first = allowedItems[0];
@@ -64,7 +68,7 @@ export function AdminShell({ children }: AdminShellProps) {
         router.replace(localizeHref(locale, first.href));
       }
     }
-  }, [allowedItems, locale, pathname, previewRole, router]);
+  }, [allowedItems, locale, me, pathname, previewRole, router]);
 
   const roleBadge = (
     <Badge tone="danger">
@@ -74,6 +78,21 @@ export function AdminShell({ children }: AdminShellProps) {
   );
 
   if (stripLocale(pathname) === '/admin/login') return <>{children}</>;
+  // Меню й дозволи будуються з ролі з бекенду — до її отримання нічого не показуємо
+  if (meLoading || !me) {
+    return (
+      <Container className="ui-v2">
+        <p className="py-24 text-center text-v2-muted">{t('admin.requests.loading')}</p>
+      </Container>
+    );
+  }
+
+  const currentItem = [...ADMIN_NAV_ITEMS]
+    .sort((a, b) => b.href.length - a.href.length)
+    .find(
+      (item) =>
+        stripLocale(pathname) === item.href || stripLocale(pathname).startsWith(`${item.href}/`),
+    );
 
   return (
     <Container className="ui-v2">
@@ -83,6 +102,8 @@ export function AdminShell({ children }: AdminShellProps) {
           <div className="flex items-center gap-3">
             <p className="hidden text-base font-semibold md:block">{t('admin.title')}</p>
             {roleBadge}
+            <span className="hidden text-sm text-v2-muted sm:inline">{me.name || me.login}</span>
+            <ChangePasswordModal />
           </div>
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
@@ -107,7 +128,7 @@ export function AdminShell({ children }: AdminShellProps) {
           </Sheet>
         </div>
         <AdminSubNav />
-        {children}
+        <MockZone active={currentItem?.mock === true}>{children}</MockZone>
       </div>
     </Container>
   );

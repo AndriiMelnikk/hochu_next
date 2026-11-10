@@ -13,6 +13,11 @@ export type {
   ITrafficPoint,
   ITrafficAnalytics,
   IModerationRequest,
+  IModerationList,
+  IModerationLogEntry,
+  IBulkModerationResult,
+  ModerationStatus,
+  ModerationFilter,
   IModerationProposal,
   IModerationReport,
   IModerationUser,
@@ -25,6 +30,8 @@ export type {
   AdminPricingPlanInput,
   AdminPageStatus,
   IAdminStaffMember,
+  IAdminMe,
+  AdminStaffInput,
   IAdminRequestSubscription,
 } from './types/admin';
 
@@ -37,6 +44,23 @@ export { useAdminBlogStore } from './store/adminBlogStore';
 export { useAdminPricingStore } from './store/adminPricingStore';
 export type { AdminContentState } from './store/contentStore';
 export { slugify, isValidSlug } from './lib/slugify';
+export { adminModerationService } from './services/adminModerationService';
+export { AdminApiError } from './services/adminHttp';
+export { adminAuthService, adminStaffService } from './services/adminStaffService';
+export {
+  ADMIN_ME_KEY,
+  useAdminMe,
+  useAdminRole,
+  useCanDo,
+  useAdminStaff,
+  useStaffMutations,
+} from './hooks/useAdminStaff';
+export {
+  useModerationRequests,
+  useModerationRequest,
+  useModerateRequest,
+  useBulkModerate,
+} from './hooks/useModeration';
 export {
   adminNotificationService,
   type IGetAdminRequestSubscriptionsParams,
@@ -46,13 +70,11 @@ export {
   adminMockData,
   productAnalytics,
   trafficAnalytics,
-  moderationRequests,
   moderationProposals,
   moderationReports,
   moderationUsers,
   adminBlogPosts,
   adminPricingPlans,
   adminInfoPages,
-  adminStaff,
   adminRequestSubscriptions,
 } from './mocks/adminMockData';

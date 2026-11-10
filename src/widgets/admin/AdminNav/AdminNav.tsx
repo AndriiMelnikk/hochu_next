@@ -7,9 +7,10 @@ import {
   ADMIN_NAV_GROUP_KEYS,
   ADMIN_NAV_ITEMS,
   hasPermission,
-  useAdminPreviewStore,
+  useAdminRole,
   type IAdminNavItem,
 } from '@/entities/admin';
+import { MockTag } from '@/features/admin';
 import Link from '@shared/ui/link';
 import { cn } from '@shared/utils/cn';
 
@@ -27,7 +28,7 @@ export function AdminNav({ onNavigate, className }: AdminNavProps) {
   const t = (id: string) => i18n._(id);
   const pathname = usePathname();
   const currentPath = stripLocale(pathname);
-  const previewRole = useAdminPreviewStore((s) => s.previewRole);
+  const previewRole = useAdminRole();
 
   const groups = useMemo(() => {
     const allowed = ADMIN_NAV_ITEMS.filter((item) => hasPermission(previewRole, item.permission));
@@ -68,6 +69,7 @@ export function AdminNav({ onNavigate, className }: AdminNavProps) {
                     )}
                   >
                     {t(item.labelKey)}
+                    {item.mock && <MockTag />}
                   </Link>
                 </li>
               );

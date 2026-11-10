@@ -25,6 +25,7 @@ import {
   DropdownMenuTrigger,
   Heading,
 } from '@/ui-v2';
+import { Alert, AlertDescription, AlertTitle } from '@/ui-v2';
 import {
   IRequest,
   REQUEST_STATUS_LABELS,
@@ -76,6 +77,7 @@ interface RequestInfoProps {
     | 'edits'
     | 'images'
     | 'status'
+    | 'rejectionReason'
   > & { buyerId?: IRequest['buyerId']; images?: string[] };
   onImageClick: (images: string[], index: number) => void;
   formatTimeAgo: (date: string) => string;
@@ -147,6 +149,20 @@ export const RequestInfo = ({
                 {request.category.name}
               </Badge>
             </div>
+            {isOwner && request.status === RequestStatus.PENDING && (
+              <Alert tone="warning" className="mb-3">
+                <AlertTitle>{t('request.moderation.pendingTitle')}</AlertTitle>
+                <AlertDescription>{t('request.moderation.pendingHint')}</AlertDescription>
+              </Alert>
+            )}
+            {isOwner && request.status === RequestStatus.REJECTED && (
+              <Alert tone="danger" className="mb-3">
+                <AlertTitle>{t('request.moderation.rejectedTitle')}</AlertTitle>
+                <AlertDescription>
+                  {request.rejectionReason || t('request.moderation.noReason')}
+                </AlertDescription>
+              </Alert>
+            )}
             <Heading level="title" as="h1" className="mb-3">
               {request.title}
             </Heading>

@@ -12,7 +12,7 @@ export const messages: Messages = {
   'blog.article.readTime': '{time} читання',
   'blog.article.share': 'Поділитися',
   'blog.article.related': 'Схожі статті',
-  
+
   'blog.article.category.tips': 'Поради продавцям',
   'blog.article.placeholder.title': '10 порад для успішних продавців',
   'blog.article.placeholder.description': 'Секрети створення привабливих пропозицій...',

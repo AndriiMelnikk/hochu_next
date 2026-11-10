@@ -1,5 +1,6 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useLingui } from '@lingui/react';
 import { Lock } from 'lucide-react';
@@ -18,6 +19,7 @@ export function AdminLoginForm({ returnUrl }: { returnUrl: string | null }) {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(`admin.login.${id}`);
   const router = useLocalizedRouter();
+  const queryClient = useQueryClient();
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -40,6 +42,8 @@ export function AdminLoginForm({ returnUrl }: { returnUrl: string | null }) {
         body: JSON.stringify({ login: login.trim(), password }),
       });
       if (res.ok) {
+        // Прибираємо кеш попередньої сесії (профіль, ролі), щоб підтягнувся профіль нового входу
+        queryClient.removeQueries({ queryKey: ['admin'] });
         router.replace(safeReturnUrl(returnUrl));
         router.refresh();
         return;

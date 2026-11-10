@@ -46,6 +46,8 @@ export interface IRequest {
   rejectedProposalsCount: number;
   pendingProposalsCount: number;
   status: RequestStatus;
+  /** Причина відхилення модератором (бачить лише автор). */
+  rejectionReason?: string | null;
   edits: Array<{
     timestamp: Date;
     changes?: Array<{ field: string; oldValue: unknown; newValue: unknown }>;
