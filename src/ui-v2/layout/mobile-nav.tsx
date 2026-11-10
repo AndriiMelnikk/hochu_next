@@ -11,7 +11,6 @@ import {
   LayoutList,
   LogOut,
   Menu,
-  UserRound,
   X,
 } from 'lucide-react';
 import { useLingui } from '@lingui/react';
@@ -156,32 +155,55 @@ function MemberDrawer({ links, accountItems, close }: PanelProps) {
       <SheetTitle className="sr-only">{t('common.nav.openMenu')}</SheetTitle>
       <SheetDescription className="sr-only">{t('common.nav.openMenu')}</SheetDescription>
 
-      {/* Круглий хрестик поза шторкою, на затемненні — як у Upwork */}
-      <SheetClose
-        aria-label={t('common.nav.closeMenu')}
-        className="fixed right-3 top-3 z-[60] flex size-12 items-center justify-center rounded-full bg-v2-surface text-v2-ink shadow-v2-float focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-v2-primary"
-      >
-        <X className="size-7" />
-      </SheetClose>
-
-      <div className="px-4 pb-2 pt-4">
+      {/* Хедер шторки: лого зліва, хрестик справа — всередині панелі */}
+      <div className="flex items-center justify-between px-4 pb-2 pt-[max(1rem,env(safe-area-inset-top))]">
         <Link href={routes.HOME} onClick={close} className="text-2xl font-semibold text-v2-primary">
           Shukayu
         </Link>
+        <SheetClose
+          aria-label={t('common.nav.closeMenu')}
+          className="-mr-2 inline-flex size-11 items-center justify-center rounded-full text-v2-ink transition-colors duration-150 ease-v2-out hover:bg-v2-hover active:bg-v2-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-v2-primary"
+        >
+          <X className="size-6" />
+        </SheetClose>
       </div>
 
-      <Link
-        href={routes.DASHBOARD}
-        onClick={close}
-        className="mx-4 mb-2 flex items-center gap-3 border-b border-v2-border py-4 outline-none focus-visible:bg-v2-hover"
-      >
-        <Avatar size="md" fallback={name?.[0]} />
-        <span className="min-w-0 flex-1">
-          <span className="block truncate text-lg font-semibold text-v2-ink">{name}</span>
-          <span className="block text-sm text-v2-muted">{typeLabel}</span>
-        </span>
-        <ChevronDown aria-hidden className="size-5 -rotate-90 text-v2-ink" />
-      </Link>
+      <div className="mx-4 mb-2 border-b border-v2-border">
+        <button
+          type="button"
+          className="flex w-full items-center gap-3 py-4 text-left outline-none focus-visible:bg-v2-hover"
+          aria-expanded={accountOpen}
+          onClick={() => setAccountOpen((v) => !v)}
+        >
+          <Avatar size="md" fallback={name?.[0]} />
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-lg font-semibold text-v2-ink">{name}</span>
+            <span className="block text-sm text-v2-muted">{typeLabel}</span>
+          </span>
+          <ChevronDown
+            aria-hidden
+            className={cn(
+              'size-5 shrink-0 text-v2-ink transition-transform duration-200 ease-v2-out',
+              accountOpen && 'rotate-180',
+            )}
+          />
+        </button>
+        {accountOpen && (
+          <ul className="pb-2">
+            {accountItems.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  onClick={close}
+                  className="flex min-h-11 items-center rounded-v2-lg px-3 text-base text-v2-ink hover:bg-v2-hover active:bg-v2-hover"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <nav aria-label="Mobile" className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
         <ul className="space-y-0.5">
@@ -193,36 +215,6 @@ function MemberDrawer({ links, accountItems, close }: PanelProps) {
               </Link>
             </li>
           ))}
-          <li>
-            <button
-              type="button"
-              className={cn(drawerRow, accountOpen && 'bg-v2-hover')}
-              aria-expanded={accountOpen}
-              onClick={() => setAccountOpen((v) => !v)}
-            >
-              <UserRound aria-hidden />
-              <span className="flex-1">{t('common.nav.account')}</span>
-              <ChevronDown
-                aria-hidden
-                className={cn('!size-5 transition-transform', accountOpen && 'rotate-180')}
-              />
-            </button>
-            {accountOpen && (
-              <ul className="py-1">
-                {accountItems.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      onClick={close}
-                      className="flex min-h-11 items-center rounded-v2-lg pl-[3.25rem] pr-3 text-base text-v2-ink hover:bg-v2-hover"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
         </ul>
       </nav>
 

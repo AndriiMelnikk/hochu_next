@@ -307,7 +307,7 @@ export function SegmentedControl<T extends string>({
     <div
       role="tablist"
       className={cn(
-        'inline-flex rounded-v2-pill p-1',
+        'inline-flex w-fit max-w-full self-start rounded-v2-pill p-1',
         dark ? 'bg-white/20 backdrop-blur' : 'bg-v2-hover',
         className,
       )}

@@ -15,7 +15,7 @@ const Testimonials = () => {
     <Section>
       <Container>
         <SectionHeader title={t('common.home.testimonials.title')} />
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {ITEMS.map((n) => (
             <Testimonial
               key={n}

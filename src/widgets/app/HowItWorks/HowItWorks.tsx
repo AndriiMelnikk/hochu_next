@@ -37,7 +37,7 @@ const HowItWorks = () => {
           />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {[1, 2, 3].map((n) => (
             <div key={`${tab}-${n}`} className="flex flex-col">
               <ImagePlaceholder className="mb-6 aspect-[3/2] bg-gradient-to-br from-[#e3edff] to-[#cfe0ff]" />

@@ -4,7 +4,6 @@ import Trust from '@/widgets/app/Trust';
 import Categories from '@/widgets/app/Categories';
 import Plans from '@/widgets/app/Plans';
 import Quiz from '@/widgets/app/Quiz';
-import Estimate from '@/widgets/app/Estimate';
 import Testimonials from '@/widgets/app/Testimonials';
 import CtaSection from '@/widgets/app/CtaSection';
 import Features from '@/widgets/app/Features';
@@ -45,7 +44,6 @@ export default async function HomePage() {
       <Plans />
       <Quiz />
       <HowItWorks />
-      <Estimate />
       <Features />
       <Testimonials />
       <PlatformIntro />

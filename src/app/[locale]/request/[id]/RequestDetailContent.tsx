@@ -248,27 +248,27 @@ export default function RequestDetailContent({
           )}
 
           {!user && (
-            <Alert tone="warning" id="proposal-form" className="scroll-mt-24">
-              <UserPlus />
-              <AlertTitle>{t('request.detail.proposalAuthRequired.title')}</AlertTitle>
-              <AlertDescription className="flex flex-col gap-3">
-                <span>{t('request.detail.proposalAuthRequired.description')}</span>
-                <div className="flex flex-wrap gap-2 pt-1">
-                  <Link href={buildAuthHref(routes.REGISTER, returnUrl)}>
-                    <Button size="sm">
-                      <UserPlus />
-                      {t('request.detail.proposalAuthRequired.register')}
-                    </Button>
-                  </Link>
+            <div
+              id="proposal-form"
+              className="flex scroll-mt-24 flex-col gap-3 rounded-v2-lg border border-v2-border bg-v2-hover p-4 sm:flex-row sm:items-center"
+            >
+              <p className="flex-1 text-sm text-v2-ink">
+                {t('request.detail.proposalAuthRequired.description')}
+              </p>
+              <div className="flex shrink-0 items-center gap-3">
+                <Button asChild size="sm">
                   <Link href={buildAuthHref(routes.LOGIN, returnUrl)}>
-                    <Button size="sm" variant="outline">
-                      <LogIn />
-                      {t('request.detail.proposalAuthRequired.login')}
-                    </Button>
+                    {t('request.detail.proposalAuthRequired.login')}
                   </Link>
-                </div>
-              </AlertDescription>
-            </Alert>
+                </Button>
+                <Link
+                  href={buildAuthHref(routes.REGISTER, returnUrl)}
+                  className="text-sm font-semibold text-v2-primary underline-offset-4 hover:underline"
+                >
+                  {t('request.detail.proposalAuthRequired.register')}
+                </Link>
+              </div>
+            </div>
           )}
 
           {/* Tabs for Proposals and Discussion */}

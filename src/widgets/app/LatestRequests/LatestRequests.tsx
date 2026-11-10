@@ -47,7 +47,7 @@ const LatestRequests = ({ initialData }: { initialData?: IGetRequestsResponse })
         ) : requests.length === 0 ? (
           <p className="py-8 text-center text-v2-muted">{t('common.home.latestRequests.empty')}</p>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {requests.map((request) => (
               <RequestCard
                 key={request._id}

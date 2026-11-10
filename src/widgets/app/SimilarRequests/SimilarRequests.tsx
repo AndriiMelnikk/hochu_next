@@ -54,7 +54,7 @@ export async function SimilarRequests({ request, locale }: SimilarRequestsProps)
           <Heading level="h3" as="h2" className="mb-6">
             {copy.title}
           </Heading>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {similar.map((item) => (
               <RequestCard key={item._id} request={item} categoryName={item.category.name} />
             ))}

@@ -8,7 +8,7 @@ import { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/shared/utils/cn';
 import { buildAuthHref, getReturnUrlFromLocation } from '../lib/returnUrl';
-import { Button } from '@/ui-v2';
+import { Button, StickyActionBar, StickyActionBarSpacer } from '@/ui-v2';
 
 interface AuthRequiredProps {
   title: string;
@@ -23,27 +23,45 @@ export function AuthRequired({ title, description, icon, className }: AuthRequir
   const pathname = usePathname();
   const returnUrl = getReturnUrlFromLocation(pathname);
 
+  const registerHref = buildAuthHref(routes.REGISTER, returnUrl);
+  const loginHref = buildAuthHref(routes.LOGIN, returnUrl);
+
   return (
-    <div className={cn('flex flex-col items-center justify-center py-16 text-center', className)}>
-      <div className="bg-v2-primary p-6 rounded-full mb-6">
-        {icon || <UserCircle className="h-16 w-16 text-v2-primary" />}
+    <div className={cn('flex flex-col items-center py-8 text-center md:py-16', className)}>
+      <div className="mb-5 flex size-16 items-center justify-center rounded-full bg-v2-hover text-v2-primary">
+        {icon || <UserCircle className="size-8" />}
       </div>
-      <h2 className="text-2xl font-[550] mb-4">{title}</h2>
-      <p className="text-v2-muted mb-8 max-w-md">{description}</p>
-      <div className="flex flex-col sm:flex-row gap-4">
-        <Link href={buildAuthHref(routes.REGISTER, returnUrl)}>
-          <Button className="w-full sm:w-auto gap-2">
-            <UserPlus className="h-5 w-5" />
+      <h2 className="mb-2 text-2xl font-[550]">{title}</h2>
+      <p className="max-w-md text-v2-muted">{description}</p>
+
+      {/* lg+: кнопки під текстом */}
+      <div className="mt-8 hidden gap-3 lg:flex">
+        <Button asChild className="gap-2">
+          <Link href={registerHref}>
+            <UserPlus className="size-5" />
             {t('request.create.authRequired.register')}
-          </Button>
-        </Link>
-        <Link href={buildAuthHref(routes.LOGIN, returnUrl)}>
-          <Button variant="outline" className="w-full sm:w-auto gap-2">
-            <LogIn className="h-5 w-5" />
+          </Link>
+        </Button>
+        <Button asChild variant="outline" className="gap-2">
+          <Link href={loginHref}>
+            <LogIn className="size-5" />
             {t('request.create.authRequired.login')}
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
+
+      {/* Мобільний: дії у закріпленій нижній панелі */}
+      <StickyActionBarSpacer className="h-16" />
+      <StickyActionBar>
+        <div className="flex gap-3">
+          <Button asChild variant="outline" className="h-12 flex-1 text-base">
+            <Link href={loginHref}>{t('request.create.authRequired.login')}</Link>
+          </Button>
+          <Button asChild className="h-12 flex-1 text-base">
+            <Link href={registerHref}>{t('request.create.authRequired.register')}</Link>
+          </Button>
+        </div>
+      </StickyActionBar>
     </div>
   );
 }

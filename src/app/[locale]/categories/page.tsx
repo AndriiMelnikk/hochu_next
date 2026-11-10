@@ -56,7 +56,7 @@ export default async function CategoriesPage({ params }: LocaleRouteProps) {
       </Heading>
       <p className="mb-10 max-w-3xl text-lg text-v2-muted">{copy.intro}</p>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {roots.map((root) => (
           <Card key={root._id} className="p-6">
             <h2 className="mb-2 text-xl font-[550]">
