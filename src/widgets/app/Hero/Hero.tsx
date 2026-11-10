@@ -133,7 +133,7 @@ const Hero = () => {
                 />
                 <button
                   type="submit"
-                  className="h-11 shrink-0 rounded-v2-pill bg-v2-primary px-6 text-base font-semibold text-white hover:bg-v2-primary-hover"
+                  className="h-11 shrink-0 rounded-v2-pill bg-v2-primary px-6 text-base font-semibold text-white transition-[transform,background-color] duration-150 ease-v2-out hover:bg-v2-primary-hover active:scale-[0.97]"
                 >
                   {t('common.home.hero.search.button')}
                 </button>
@@ -142,7 +142,7 @@ const Hero = () => {
 
             <Link
               href={mode === 'hire' ? routes.CREATE : routes.REQUEST}
-              className="mt-6 inline-flex h-14 items-center gap-3 rounded-v2-pill bg-v2-primary px-8 text-lg font-semibold text-white shadow-[0_0_24px_rgba(47,107,255,0.55)] transition-colors hover:bg-v2-primary-hover"
+              className="mt-6 inline-flex h-14 items-center gap-3 rounded-v2-pill bg-v2-primary px-8 text-lg font-semibold text-white shadow-[0_0_24px_rgba(47,107,255,0.55)] transition-[transform,background-color] duration-150 ease-v2-out hover:bg-v2-primary-hover active:scale-[0.97]"
             >
               {t(`common.home.hero.${mode}.cta`)}
               <ArrowRight className="size-5" />

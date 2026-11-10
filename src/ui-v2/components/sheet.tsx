@@ -5,6 +5,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { mergeRefs, useSwipeToClose } from './use-swipe-to-close';
 
 export const Sheet = DialogPrimitive.Root;
 export const SheetTrigger = DialogPrimitive.Trigger;
@@ -30,32 +31,44 @@ export const SheetContent = React.forwardRef<
     side?: SheetSide;
     hideClose?: boolean;
   }
->(({ className, children, side = 'right', hideClose, ...props }, ref) => (
-  <DialogPrimitive.Portal>
-    <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-v2-backdrop ease-v2-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:[animation-duration:200ms] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:[animation-duration:200ms]" />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        'ui-v2 fixed inset-y-0 z-50 flex flex-col gap-4 overscroll-contain bg-v2-surface shadow-v2-float',
-        'data-[state=open]:animate-in data-[state=open]:[animation-duration:320ms] data-[state=open]:ease-v2-drawer',
-        'data-[state=closed]:animate-out data-[state=closed]:[animation-duration:220ms] data-[state=closed]:ease-v2-out',
-        SIDE_CLASS[side],
-        className,
-      )}
-      {...props}
-    >
-      {children}
-      {!hideClose && (
-        <DialogPrimitive.Close
-          aria-label="Close"
-          className="absolute right-3 top-3 flex size-10 items-center justify-center rounded-v2-pill hover:bg-v2-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-v2-primary"
-        >
-          <X className="size-5" />
-        </DialogPrimitive.Close>
-      )}
-    </DialogPrimitive.Content>
-  </DialogPrimitive.Portal>
-));
+>(({ className, children, side = 'right', hideClose, ...props }, ref) => {
+  const { setContent, setOverlay, setDrag, setCloser } = useSwipeToClose({
+    axis: 'x',
+    sign: side === 'left' ? -1 : 1,
+    enabled: side !== 'full',
+  });
+  return (
+    <DialogPrimitive.Portal>
+      <DialogPrimitive.Overlay
+        ref={setOverlay}
+        className="fixed inset-0 z-50 bg-v2-backdrop ease-v2-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:[animation-duration:200ms] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:[animation-duration:200ms]"
+      />
+      <DialogPrimitive.Content
+        ref={mergeRefs(ref, setContent, setDrag)}
+        className={cn(
+          'ui-v2 fixed inset-y-0 z-50 flex flex-col gap-4 overscroll-contain bg-v2-surface shadow-v2-float',
+          'data-[state=open]:animate-in data-[state=open]:[animation-duration:320ms] data-[state=open]:ease-v2-drawer',
+          'data-[state=closed]:animate-out data-[state=closed]:[animation-duration:220ms] data-[state=closed]:ease-v2-out',
+          SIDE_CLASS[side],
+          side !== 'full' && 'touch-pan-y',
+          className,
+        )}
+        {...props}
+      >
+        {children}
+        <DialogPrimitive.Close ref={setCloser} tabIndex={-1} aria-hidden className="hidden" />
+        {!hideClose && (
+          <DialogPrimitive.Close
+            aria-label="Close"
+            className="absolute right-3 top-3 flex size-10 items-center justify-center rounded-v2-pill hover:bg-v2-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-v2-primary"
+          >
+            <X className="size-5" />
+          </DialogPrimitive.Close>
+        )}
+      </DialogPrimitive.Content>
+    </DialogPrimitive.Portal>
+  );
+});
 SheetContent.displayName = 'SheetContent';
 
 export const SheetDescription = DialogPrimitive.Description;

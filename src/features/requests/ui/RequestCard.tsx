@@ -47,7 +47,7 @@ export const RequestCard = ({
     return (
       <Link
         href={routes.REQUEST_ID(request._id.toString())}
-        className="group block border-b border-v2-border px-4 py-6 outline-none first:border-t md:py-8 hover:bg-v2-hover focus-visible:bg-v2-hover"
+        className="group block border-b border-v2-border px-4 py-6 outline-none transition-colors duration-150 ease-v2-out first:border-t md:py-8 hover:bg-v2-hover focus-visible:bg-v2-hover active:bg-v2-hover"
         prefetch={false}
       >
         <article className="ui-v2 flex items-start gap-4">
@@ -60,7 +60,7 @@ export const RequestCard = ({
               {request.title}
             </h3>
             <p className="mb-3 text-sm text-v2-muted">
-              <span className="font-semibold text-v2-ink">{budget}</span>
+              <span className="font-semibold tabular-nums text-v2-ink">{budget}</span>
               {request.location && (
                 <>
                   {' · '}
@@ -129,7 +129,7 @@ export const RequestCard = ({
       className="group block h-full"
       prefetch={false}
     >
-      <article className="ui-v2 flex h-full flex-col rounded-v2-2xl border border-v2-border bg-v2-surface p-6 transition-colors group-hover:bg-v2-hover group-focus-visible:ring-2 group-focus-visible:ring-v2-primary">
+      <article className="ui-v2 flex h-full flex-col rounded-v2-2xl border border-v2-border bg-v2-surface p-6 transition-[background-color,transform] duration-150 ease-v2-out group-hover:bg-v2-hover group-active:scale-[0.99] group-focus-visible:ring-2 group-focus-visible:ring-v2-primary">
         <div className="mb-3 flex items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="info" className="max-w-full truncate">
@@ -142,7 +142,7 @@ export const RequestCard = ({
               </Badge>
             )}
           </div>
-          <span className="flex shrink-0 items-center text-xs text-v2-subtle">
+          <span className="flex shrink-0 items-center text-xs tabular-nums text-v2-subtle">
             <Clock className="mr-1 size-3" />
             {postedAt}
           </span>
@@ -157,7 +157,7 @@ export const RequestCard = ({
         </p>
 
         <div className="space-y-1 text-sm">
-          <div className="font-semibold text-v2-ink">{budget}</div>
+          <div className="font-semibold tabular-nums text-v2-ink">{budget}</div>
           {request.location && (
             <div className="flex min-w-0 items-center text-v2-muted">
               <MapPin className="mr-1.5 size-4 shrink-0" />
@@ -166,7 +166,7 @@ export const RequestCard = ({
               </span>
             </div>
           )}
-          <div className="mt-3 border-t border-v2-border pt-3 font-semibold text-v2-primary">
+          <div className="mt-3 border-t border-v2-border pt-3 font-semibold tabular-nums text-v2-primary">
             {t('request.card.proposalsBadge', { count: request.proposalsCount })}
           </div>
         </div>

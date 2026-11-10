@@ -20,13 +20,13 @@ const CtaSection = () => {
             <>
               <Link
                 href={routes.CREATE}
-                className="inline-flex h-12 items-center rounded-v2-pill bg-white px-6 font-semibold text-black hover:bg-white/90"
+                className="inline-flex h-12 items-center rounded-v2-pill bg-white px-6 font-semibold text-black transition-[transform,background-color] duration-150 ease-v2-out hover:bg-white/90 active:scale-[0.97]"
               >
                 {t('common.home.cta.create')}
               </Link>
               <Link
                 href={routes.REQUEST}
-                className="inline-flex h-12 items-center rounded-v2-pill border border-white/70 px-6 font-semibold text-white hover:bg-white/10"
+                className="inline-flex h-12 items-center rounded-v2-pill border border-white/70 px-6 font-semibold text-white transition-[transform,background-color] duration-150 ease-v2-out hover:bg-white/10 active:scale-[0.97]"
               >
                 {t('common.home.cta.button')}
               </Link>

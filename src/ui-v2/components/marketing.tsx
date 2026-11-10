@@ -322,7 +322,7 @@ export function SegmentedControl<T extends string>({
             aria-selected={active}
             onClick={() => onValueChange(o.value)}
             className={cn(
-              'rounded-v2-pill px-5 py-2 text-sm font-semibold transition-colors md:px-8',
+              'rounded-v2-pill px-5 py-2 text-sm font-semibold transition-colors duration-150 ease-v2-out md:px-8',
               dark
                 ? active
                   ? 'bg-[#1a1a1a] text-white'

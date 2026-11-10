@@ -5,6 +5,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { mergeRefs, useSwipeToClose } from './use-swipe-to-close';
 
 export const BottomSheet = DialogPrimitive.Root;
 export const BottomSheetTrigger = DialogPrimitive.Trigger;
@@ -18,35 +19,49 @@ export const BottomSheetClose = DialogPrimitive.Close;
 export const BottomSheetContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & { hideClose?: boolean }
->(({ className, children, hideClose, ...props }, ref) => (
-  <DialogPrimitive.Portal>
-    <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-v2-backdrop ease-v2-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:[animation-duration:200ms] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:[animation-duration:200ms]" />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        'ui-v2 fixed inset-x-0 bottom-0 z-50 flex max-h-[90dvh] flex-col overscroll-contain rounded-t-v2-2xl bg-v2-surface shadow-v2-float outline-none',
-        'data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom data-[state=open]:[animation-duration:360ms] data-[state=open]:ease-v2-drawer',
-        'data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=closed]:[animation-duration:240ms] data-[state=closed]:ease-v2-out',
-        className,
-      )}
-      {...props}
-    >
-      <span
-        aria-hidden
-        className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-v2-border-strong"
+>(({ className, children, hideClose, ...props }, ref) => {
+  const { setContent, setOverlay, setDrag, setCloser } = useSwipeToClose({
+    axis: 'y',
+    sign: 1,
+  });
+  return (
+    <DialogPrimitive.Portal>
+      <DialogPrimitive.Overlay
+        ref={setOverlay}
+        className="fixed inset-0 z-50 bg-v2-backdrop ease-v2-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:[animation-duration:200ms] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:[animation-duration:200ms]"
       />
-      {children}
-      {!hideClose && (
-        <DialogPrimitive.Close
-          aria-label="Close"
-          className="absolute right-3 top-3 flex size-10 items-center justify-center rounded-v2-pill hover:bg-v2-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-v2-primary"
+      <DialogPrimitive.Content
+        ref={mergeRefs(ref, setContent)}
+        className={cn(
+          'ui-v2 fixed inset-x-0 bottom-0 z-50 flex max-h-[90dvh] flex-col overscroll-contain rounded-t-v2-2xl bg-v2-surface shadow-v2-float outline-none',
+          'data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom data-[state=open]:[animation-duration:360ms] data-[state=open]:ease-v2-drawer',
+          'data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=closed]:[animation-duration:240ms] data-[state=closed]:ease-v2-out',
+          className,
+        )}
+        {...props}
+      >
+        {/* Зона перетягування: ручка + запас під палець (≥ 44px по ширині), скрол тіла не чіпає */}
+        <div
+          aria-hidden
+          ref={setDrag}
+          className="flex h-7 shrink-0 touch-none items-start justify-center pt-2"
         >
-          <X className="size-6" />
-        </DialogPrimitive.Close>
-      )}
-    </DialogPrimitive.Content>
-  </DialogPrimitive.Portal>
-));
+          <span className="h-1 w-10 rounded-full bg-v2-border-strong" />
+        </div>
+        <DialogPrimitive.Close ref={setCloser} tabIndex={-1} aria-hidden className="hidden" />
+        {children}
+        {!hideClose && (
+          <DialogPrimitive.Close
+            aria-label="Close"
+            className="absolute right-3 top-3 flex size-10 items-center justify-center rounded-v2-pill hover:bg-v2-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-v2-primary"
+          >
+            <X className="size-6" />
+          </DialogPrimitive.Close>
+        )}
+      </DialogPrimitive.Content>
+    </DialogPrimitive.Portal>
+  );
+});
 BottomSheetContent.displayName = 'BottomSheetContent';
 
 export const BottomSheetHeader = ({
