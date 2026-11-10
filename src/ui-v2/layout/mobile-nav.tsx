@@ -73,7 +73,7 @@ function GuestScreen({ links, loginHref, registerHref, close }: PanelProps) {
     <SheetContent side="full" hideClose className="inset-y-0 h-dvh gap-0">
       <SheetTitle className="sr-only">{t('common.nav.openMenu')}</SheetTitle>
       <SheetDescription className="sr-only">{t('common.nav.openMenu')}</SheetDescription>
-      <div className="flex h-16 shrink-0 items-center gap-3 border-b border-v2-border px-4">
+      <div className="box-content flex h-16 shrink-0 items-center gap-3 border-b border-v2-border px-4 pt-[env(safe-area-inset-top)]">
         <SheetClose
           aria-label={t('common.nav.closeMenu')}
           className="inline-flex size-11 items-center justify-center rounded-v2-pill hover:bg-v2-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-v2-primary"

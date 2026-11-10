@@ -1146,9 +1146,9 @@
     "semantic_hash": "896cb8faea6ac74b75bde11cb2fe65da"
   },
   "src/locales/en/create.ts": {
-    "mtime": 1794299774.6152472,
-    "seen": 1794300258.627535,
-    "ast_hash": "516f44c3761b4e568bb01f21b3b52290",
+    "mtime": 1794326075.4924986,
+    "seen": 1794327258.7825332,
+    "ast_hash": "a5740248b1b3565882e6844695f0b48b",
     "semantic_hash": ""
   },
   "src/locales/en/how-it-works.ts": {
@@ -1248,9 +1248,9 @@
     "semantic_hash": "47efb4ff4fec21145d49384e4c790428"
   },
   "src/locales/uk/create.ts": {
-    "mtime": 1794299772.5080848,
-    "seen": 1794300258.627558,
-    "ast_hash": "ccca45c91f602e79fe99bc017cd9d2ba",
+    "mtime": 1794326075.3928986,
+    "seen": 1794327258.782561,
+    "ast_hash": "542e0e502e1f07015404fb32886ab5e3",
     "semantic_hash": ""
   },
   "src/locales/uk/how-it-works.ts": {
@@ -1470,9 +1470,9 @@
     "semantic_hash": "4f2b1741ee7646bb4cc8a865298c99da"
   },
   "src/widgets/app/Hero/Hero.tsx": {
-    "mtime": 1794234128.5554967,
-    "seen": 1794238094.798679,
-    "ast_hash": "0ec2eb7d14f2a154744ac6e802670039",
+    "mtime": 1794326091.8037944,
+    "seen": 1794327258.7848089,
+    "ast_hash": "4ada980475640eb40fb7102135ee8140",
     "semantic_hash": ""
   },
   "src/widgets/app/Hero/index.ts": {
@@ -3078,9 +3078,9 @@
     "semantic_hash": ""
   },
   "src/widgets/app/CtaSection/CtaSection.tsx": {
-    "mtime": 1794234089.6275246,
-    "seen": 1794238094.798666,
-    "ast_hash": "3b651d9ca1201a91e4d66997c876f3ac",
+    "mtime": 1794326096.6982188,
+    "seen": 1794327258.783848,
+    "ast_hash": "d17df6ea0c78e0b2cc5980bcd41764a7",
     "semantic_hash": ""
   },
   "src/widgets/app/CtaSection/index.ts": {

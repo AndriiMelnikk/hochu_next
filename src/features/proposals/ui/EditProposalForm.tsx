@@ -208,6 +208,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
               </FormLabel>
               <FormControl>
                 <Input
+                  maxLength={255}
                   placeholder={t('proposal.create.proposalTitlePlaceholder')}
                   className="text-base"
                   disabled={isSubmitting}
@@ -228,6 +229,7 @@ export const EditProposalForm = ({ proposal, onSuccess, onCancel }: EditProposal
               </FormLabel>
               <FormControl>
                 <Textarea
+                  maxLength={5000}
                   placeholder={t('proposal.create.descriptionPlaceholder')}
                   rows={6}
                   className="text-base"

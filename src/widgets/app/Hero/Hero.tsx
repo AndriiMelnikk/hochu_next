@@ -93,11 +93,11 @@ const Hero = () => {
           {t('common.home.promo.text')}
         </PromoBanner>
 
-        <div className="relative mt-6 overflow-hidden rounded-v2-2xl bg-gradient-to-br from-[#0b2e0b] via-[#164a1c] to-[#181818] px-6 py-10 text-white md:min-h-[560px] md:px-16 md:py-16">
+        <div className="relative mt-6 overflow-hidden rounded-v2-2xl bg-gradient-to-br from-[#0a1b45] via-[#12307a] to-[#121826] px-6 py-10 text-white md:min-h-[560px] md:px-16 md:py-16">
           {/* Заглушка під фонове фото/відео */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_30%,rgba(111,227,0,0.25),transparent_55%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_30%,rgba(77,142,255,0.25),transparent_55%)]"
           />
           <HeroVisual t={t} />
           <div className="relative flex max-w-3xl flex-col items-start xl:max-w-[52%]">
@@ -121,7 +121,7 @@ const Hero = () => {
             {mode === 'hire' ? (
               <form
                 onSubmit={onSubmit}
-                className="flex w-full max-w-xl items-center gap-2 rounded-v2-pill bg-white p-1.5 pl-5 text-v2-ink"
+                className="flex w-full max-w-xl items-center gap-2 rounded-v2-pill bg-white p-1.5 pl-5 text-v2-ink focus-within:ring-2 focus-within:ring-white/70"
               >
                 <Search className="size-5 shrink-0 text-v2-subtle" aria-hidden />
                 <input
@@ -129,7 +129,7 @@ const Hero = () => {
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder={t('common.home.hero.search.placeholder')}
                   aria-label={t('common.home.hero.search.button')}
-                  className="h-11 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-v2-subtle"
+                  className="h-11 min-w-0 flex-1 bg-transparent text-base outline-none focus-visible:outline-none placeholder:text-v2-subtle"
                 />
                 <button
                   type="submit"
@@ -142,7 +142,7 @@ const Hero = () => {
 
             <Link
               href={mode === 'hire' ? routes.CREATE : routes.REQUEST}
-              className="mt-6 inline-flex h-14 items-center gap-3 rounded-v2-pill bg-v2-primary px-8 text-lg font-semibold text-white shadow-[0_0_24px_rgba(20,168,0,0.55)] transition-colors hover:bg-v2-primary-hover"
+              className="mt-6 inline-flex h-14 items-center gap-3 rounded-v2-pill bg-v2-primary px-8 text-lg font-semibold text-white shadow-[0_0_24px_rgba(47,107,255,0.55)] transition-colors hover:bg-v2-primary-hover"
             >
               {t(`common.home.hero.${mode}.cta`)}
               <ArrowRight className="size-5" />

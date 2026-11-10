@@ -87,7 +87,7 @@ export default function GamificationProgress({
                   <Tooltip key={achievement.id}>
                     <TooltipTrigger asChild>
                       <div
-                        className={`p-4 rounded-v2-lg border-2 text-center transition-all ${
+                        className={`p-4 rounded-v2-lg border-2 text-center transition-colors ${
                           isUnlocked
                             ? 'border-v2-primary bg-v2-primary hover:bg-v2-primary'
                             : 'border-v2-border bg-v2-surface-subtle opacity-50 grayscale'

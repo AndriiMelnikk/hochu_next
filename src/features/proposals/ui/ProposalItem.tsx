@@ -5,6 +5,7 @@ import { Star, Clock, Shield, MessageSquare, CheckCircle2, Pencil, XCircle } fro
 import { useLingui } from '@lingui/react';
 import Image from 'next/image';
 import Link from '@/shared/ui/link';
+import { formatDate, formatMoney, getInitials, joinName } from '@/lib/format';
 import {
   type IProposalWithSeller,
   PROPOSAL_DELIVERY_TIME_LABELS,
@@ -59,14 +60,14 @@ export const ProposalItem = ({
   const [reviewTarget, setReviewTarget] = useState<'seller' | 'buyer' | null>(null);
 
   const seller = proposal.seller;
-  const displayName = seller?.name + ' ' + (seller?.lastName || '');
+  const displayName = joinName(seller?.name, seller?.lastName) || t('proposal.item.unknownSeller');
   const displayRating = seller?.rating || 0;
   const displayXp = seller?.xp || 0;
   const displayReviewsCount = seller?.reviewsCount;
   const displayCompletedDeals = seller?.completedDeals;
   const displayAvatar = seller?.avatar;
 
-  const cardBaseClasses = 'border rounded-v2-lg p-4 sm:p-6 transition-all';
+  const cardBaseClasses = 'border rounded-v2-lg p-4 sm:p-6 transition-colors';
   const cardStateClasses = isSelected
     ? ' border-v2-primary bg-v2-primary '
     : ' border-v2-border hover:border-v2-primary hover:';
@@ -77,7 +78,7 @@ export const ProposalItem = ({
         size="md"
         className="border-2 border-v2-primary shrink-0 transition-opacity hover:opacity-80"
         src={displayAvatar ?? undefined}
-        fallback={String(displayName ?? '').charAt(0)}
+        fallback={getInitials(displayName)}
       />
     </Link>
   );
@@ -89,15 +90,18 @@ export const ProposalItem = ({
 
         <div className="flex-1 min-w-0 w-full">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-6 mb-3">
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-3 sm:gap-2">
                 <div className="sm:hidden">{avatar}</div>
                 <h3 className="font-semibold text-lg flex items-center gap-2 flex-wrap">
-                  <Link href={routes.PROFILE_BY_ID(proposal.sellerId)} className="hover:underline">
+                  <Link
+                    href={routes.PROFILE_BY_ID(proposal.sellerId)}
+                    className="break-words hover:underline [overflow-wrap:anywhere]"
+                  >
                     {displayName}
                   </Link>
                   {displayRating != null && (
-                    <Badge tone="neutral" className="text-xs">
+                    <Badge tone="neutral" className="shrink-0 whitespace-nowrap text-xs">
                       <Star className="h-3 w-3 mr-1 fill-v2-rating text-v2-rating" />
                       {displayRating} ({displayXp})
                     </Badge>
@@ -132,12 +136,10 @@ export const ProposalItem = ({
             </div>
             <div className="text-left sm:text-right shrink-0 sm:ml-auto">
               <div className="text-xl sm:text-2xl font-[550] text-v2-primary">
-                {proposal.price} грн
+                {formatMoney(proposal.price, i18n.locale)}
               </div>
               <p className="text-xs text-v2-muted mt-1 sm:mt-0">
-                {new Date(proposal.createdAt).toLocaleDateString(
-                  i18n.locale === 'uk' ? 'uk-UA' : 'en-US',
-                )}
+                {formatDate(proposal.createdAt, i18n.locale)}
               </p>
             </div>
           </div>
@@ -195,7 +197,7 @@ export const ProposalItem = ({
                     <Image
                       fill
                       src={image}
-                      alt={`Фото ${index + 1}`}
+                      alt={`${t('request.detail.photoAlt')} ${index + 1}`}
                       className="object-cover"
                       sizes="(max-width: 640px) 45vw, (max-width: 768px) 30vw, 25vw"
                     />

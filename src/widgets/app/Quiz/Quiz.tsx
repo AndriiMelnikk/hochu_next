@@ -23,7 +23,7 @@ const Quiz = () => {
         <div className="grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-[#eaf8c9] to-[#cdf3cd] text-v2-primary">
+              <span className="flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-[#e3edff] to-[#cfe0ff] text-v2-primary">
                 <Sparkles className="size-5" aria-hidden />
               </span>
               <p className="text-xl font-[550]">{t('common.home.quiz.eyebrow')}</p>

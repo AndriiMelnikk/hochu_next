@@ -5,7 +5,7 @@ export const messages: Messages = {
   'blog.list.readMore': 'Read more',
   'blog.list.empty': 'No articles yet',
   'blog.list.placeholder.title': 'Article 1',
-  'blog.list.placeholder.description': 'Article description...',
+  'blog.list.placeholder.description': 'Article description…',
 
   'blog.article.error': 'Failed to load article',
   'blog.article.backToBlog': 'Back to blog',
@@ -15,5 +15,5 @@ export const messages: Messages = {
 
   'blog.article.category.tips': 'Seller tips',
   'blog.article.placeholder.title': '10 tips for successful sellers',
-  'blog.article.placeholder.description': 'Secrets of creating attractive offers...',
+  'blog.article.placeholder.description': 'Secrets of creating attractive offers…',
 };

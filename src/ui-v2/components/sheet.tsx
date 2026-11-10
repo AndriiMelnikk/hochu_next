@@ -32,12 +32,13 @@ export const SheetContent = React.forwardRef<
   }
 >(({ className, children, side = 'right', hideClose, ...props }, ref) => (
   <DialogPrimitive.Portal>
-    <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-v2-backdrop data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
+    <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-v2-backdrop ease-v2-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:[animation-duration:200ms] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:[animation-duration:200ms]" />
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        'ui-v2 fixed inset-y-0 z-50 flex flex-col gap-4 bg-v2-surface shadow-v2-float',
-        'data-[state=open]:animate-in data-[state=closed]:animate-out',
+        'ui-v2 fixed inset-y-0 z-50 flex flex-col gap-4 overscroll-contain bg-v2-surface shadow-v2-float',
+        'data-[state=open]:animate-in data-[state=open]:[animation-duration:320ms] data-[state=open]:ease-v2-drawer',
+        'data-[state=closed]:animate-out data-[state=closed]:[animation-duration:220ms] data-[state=closed]:ease-v2-out',
         SIDE_CLASS[side],
         className,
       )}

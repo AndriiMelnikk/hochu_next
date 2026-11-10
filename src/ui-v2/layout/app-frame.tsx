@@ -32,10 +32,12 @@ export function AppFrame({
   const railed = mounted && (isAuth || isAdmin);
 
   return (
-    <div className={cn('flex min-h-screen flex-col', railed && 'md:pl-20')}>
+    <div className={cn('flex min-h-dvh flex-col', railed && 'md:pl-20')}>
       {railed && !isAdmin && <SideRail />}
       {header}
-      <main className="ui-v2 flex-1 pt-8 pb-12">{children}</main>
+      <main id="main-content" tabIndex={-1} className="ui-v2 flex-1 pt-8 pb-12 outline-none">
+        {children}
+      </main>
       {footer}
     </div>
   );

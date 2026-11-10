@@ -86,6 +86,11 @@ export default {
         'gradient-secondary': 'var(--gradient-secondary)',
         'gradient-hero': 'var(--gradient-hero)',
       },
+      transitionTimingFunction: {
+        'v2-out': 'var(--v2-ease-out)',
+        'v2-in-out': 'var(--v2-ease-in-out)',
+        'v2-drawer': 'var(--v2-ease-drawer)',
+      },
       boxShadow: {
         sm: 'var(--shadow-sm)',
         md: 'var(--shadow-md)',
@@ -135,5 +140,6 @@ export default {
       },
     },
   },
+  future: { hoverOnlyWhenSupported: true },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;

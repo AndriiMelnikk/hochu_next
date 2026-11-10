@@ -10,7 +10,7 @@ export default function NotFoundPage() {
   const t = (id: string) => i18n._(id);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-v2-surface-subtle">
+    <div className="flex min-h-dvh items-center justify-center bg-v2-surface-subtle">
       <div className="text-center">
         <h1 className="mb-4 text-4xl font-[550]">{t('common.notFound.code')}</h1>
         <p className="mb-4 text-xl text-v2-muted">{t('common.notFound.title')}</p>

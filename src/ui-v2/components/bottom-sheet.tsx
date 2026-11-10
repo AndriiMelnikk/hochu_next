@@ -20,12 +20,13 @@ export const BottomSheetContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & { hideClose?: boolean }
 >(({ className, children, hideClose, ...props }, ref) => (
   <DialogPrimitive.Portal>
-    <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-v2-backdrop data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
+    <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-v2-backdrop ease-v2-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:[animation-duration:200ms] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:[animation-duration:200ms]" />
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        'ui-v2 fixed inset-x-0 bottom-0 z-50 flex max-h-[90dvh] flex-col rounded-t-v2-2xl bg-v2-surface shadow-v2-float outline-none',
-        'data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom',
+        'ui-v2 fixed inset-x-0 bottom-0 z-50 flex max-h-[90dvh] flex-col overscroll-contain rounded-t-v2-2xl bg-v2-surface shadow-v2-float outline-none',
+        'data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom data-[state=open]:[animation-duration:360ms] data-[state=open]:ease-v2-drawer',
+        'data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=closed]:[animation-duration:240ms] data-[state=closed]:ease-v2-out',
         className,
       )}
       {...props}

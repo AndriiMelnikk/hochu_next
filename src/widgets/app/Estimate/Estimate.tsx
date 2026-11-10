@@ -33,19 +33,19 @@ const Estimate = () => {
                 e.preventDefault();
                 router.push(routes.CREATE);
               }}
-              className="relative rounded-v2-xl bg-white p-4 text-v2-ink"
+              className="relative rounded-v2-xl bg-white p-4 text-v2-ink focus-within:ring-2 focus-within:ring-v2-primary"
             >
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 rows={3}
                 placeholder={t('common.home.estimate.placeholder')}
-                className="w-full resize-none bg-transparent text-sm outline-none placeholder:text-v2-muted"
+                className="w-full resize-none bg-transparent text-base outline-none placeholder:text-v2-muted focus-visible:outline-none md:text-sm"
               />
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="inline-flex h-12 items-center gap-2 rounded-v2-pill bg-[#1a1a1a] px-6 font-semibold text-white hover:bg-black"
+                  className="inline-flex h-12 items-center gap-2 rounded-v2-pill bg-[#1a1a1a] px-6 font-semibold text-white hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-v2-primary focus-visible:ring-offset-2"
                 >
                   {t('common.home.estimate.next')}
                   <ArrowRight className="size-5" />

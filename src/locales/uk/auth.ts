@@ -24,7 +24,7 @@ export const messages: Messages = {
   'auth.login.form.password.label': 'Пароль',
   'auth.login.form.password.placeholder': '••••••••',
 
-  'auth.login.form.submit.loading': 'Вхід...',
+  'auth.login.form.submit.loading': 'Вхід…',
   'auth.login.form.submit.default': 'Увійти',
 
   'auth.login.messages.success': 'Вхід успішний!',
@@ -35,7 +35,7 @@ export const messages: Messages = {
   'auth.google.divider': 'або',
   'auth.google.messages.success': 'Вхід через Google успішний!',
   'auth.google.messages.error': 'Не вдалося увійти через Google',
-  'auth.google.messages.loading': 'Завершуємо вхід через Google...',
+  'auth.google.messages.loading': 'Завершуємо вхід через Google…',
 
   // Forgot password
   'auth.forgotPassword.title': 'Відновлення пароля',
@@ -52,7 +52,7 @@ export const messages: Messages = {
   'auth.forgotPassword.form.email.label': 'Email',
   'auth.forgotPassword.form.email.placeholder': 'your@email.com',
   'auth.forgotPassword.form.submit.default': 'Надіслати посилання',
-  'auth.forgotPassword.form.submit.loading': 'Надсилання...',
+  'auth.forgotPassword.form.submit.loading': 'Надсилання…',
   'auth.forgotPassword.messages.success':
     'Якщо акаунт з таким email існує, ви отримаєте лист з посиланням',
   'auth.forgotPassword.messages.error': 'Сталася помилка. Спробуйте пізніше',
@@ -71,7 +71,7 @@ export const messages: Messages = {
   'auth.resetPassword.form.confirmPassword.label': 'Підтвердження пароля',
   'auth.resetPassword.form.confirmPassword.placeholder': '••••••••',
   'auth.resetPassword.form.submit.default': 'Змінити пароль',
-  'auth.resetPassword.form.submit.loading': 'Зміна...',
+  'auth.resetPassword.form.submit.loading': 'Зміна…',
   'auth.resetPassword.messages.success': 'Пароль успішно змінено! Тепер ви можете увійти',
   'auth.resetPassword.messages.invalidToken':
     'Посилання невалідне або прострочене. Запросіть нове посилання',

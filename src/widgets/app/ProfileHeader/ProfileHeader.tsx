@@ -7,6 +7,7 @@ import { useLingui } from '@lingui/react';
 import { Badge, Button, Card, CardBody, Heading } from '@/ui-v2';
 import Link from '@/shared/ui/link';
 import { routes } from '@/app/router/routes';
+import { getInitials } from '@/lib/format';
 
 interface ProfileHeaderProps {
   user: {
@@ -35,10 +36,7 @@ export default function ProfileHeader({ user, isOwner }: ProfileHeaderProps) {
           <div className="flex min-w-0 flex-1 items-start gap-4 md:gap-6">
             <GamifiedAvatar
               src={user.avatar}
-              fallback={user.name
-                .split(' ')
-                .map((n) => n[0])
-                .join('')}
+              fallback={getInitials(user.name)}
               xp={user.xp}
               role={user.role}
               size="lg"
@@ -46,21 +44,27 @@ export default function ProfileHeader({ user, isOwner }: ProfileHeaderProps) {
             />
             <div className="min-w-0 flex-1">
               <div className="mb-2 flex flex-wrap items-center gap-2">
-                <Heading level="title" as="h1">
+                <Heading
+                  level="title"
+                  as="h1"
+                  className="min-w-0 break-words [overflow-wrap:anywhere]"
+                >
                   {user.name}
                 </Heading>
                 {user.verified && <Badge tone="success">{t('profile.header.verified')}</Badge>}
               </div>
-              {isOwner && <p className="text-v2-muted mb-2">{user.email}</p>}
+              {isOwner && <p className="mb-2 break-all text-v2-muted">{user.email}</p>}
               <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-v2-secondary">
                 <span className="flex items-center gap-1">
                   <User className="h-4 w-4" />
                   {user.role === 'buyer' ? t('profile.type.buyer') : t('profile.type.seller')}
                 </span>
-                <span className="flex items-center gap-1">
-                  <MapPin className="h-4 w-4" />
-                  {user.location}
-                </span>
+                {user.location && (
+                  <span className="flex min-w-0 items-center gap-1">
+                    <MapPin className="h-4 w-4 shrink-0" />
+                    <span className="min-w-0 break-words">{user.location}</span>
+                  </span>
+                )}
                 <span className="flex items-center gap-1">
                   <Star className="h-4 w-4" />
                   {user.rating}/5.0

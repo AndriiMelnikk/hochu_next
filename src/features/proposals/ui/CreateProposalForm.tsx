@@ -189,6 +189,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                   </FormLabel>
                   <FormControl>
                     <Input
+                      maxLength={255}
                       placeholder={t('proposal.create.proposalTitlePlaceholder')}
                       className="text-base"
                       {...field}
@@ -268,6 +269,7 @@ export const CreateProposalForm = ({ budget, requestId, onSuccess }: CreatePropo
                   </FormLabel>
                   <FormControl>
                     <Textarea
+                      maxLength={5000}
                       placeholder={t('proposal.create.descriptionPlaceholder')}
                       rows={8}
                       className="text-base"

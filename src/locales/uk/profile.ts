@@ -33,7 +33,7 @@ export const messages: Messages = {
   'profile.create.lastNameLabel': "Прізвище (необов'язково)",
   'profile.create.lastNamePlaceholder': 'Введіть прізвище',
   'profile.create.submit': 'Створити',
-  'profile.create.submitting': 'Створення...',
+  'profile.create.submitting': 'Створення…',
   'profile.create.success': 'Профіль типу "{type}" створено',
   'profile.create.error': 'Не вдалося створити профіль',
 

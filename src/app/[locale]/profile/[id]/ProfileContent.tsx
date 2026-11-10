@@ -6,6 +6,7 @@ import { useAuthStore } from '@/entities/auth';
 import { Button, Container, Heading, LoadingState } from '@/ui-v2';
 import Link from '@/shared/ui/link';
 import { routes } from '@/app/router/routes';
+import { formatDate } from '@/lib/format';
 import ProfileHeader from '@/widgets/app/ProfileHeader';
 import ProfileTabs from '@/widgets/app/ProfileTabs';
 import { useLingui } from '@lingui/react';
@@ -44,7 +45,9 @@ export default function ProfileContent({ initialData }: { initialData?: IProfile
     email: currentUser?.account.email || '-',
     avatar: user.avatar || '',
     role: user.type,
-    joinDate: user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A',
+    joinDate: user.createdAt
+      ? formatDate(user.createdAt, i18n.locale, { dateStyle: 'medium' })
+      : '—',
     location: user.location || '-',
     verified: user.isVerified || false,
     rating: user.rating || 0,

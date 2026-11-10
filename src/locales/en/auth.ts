@@ -24,7 +24,7 @@ export const messages: Messages = {
   'auth.login.form.password.label': 'Password',
   'auth.login.form.password.placeholder': '••••••••',
 
-  'auth.login.form.submit.loading': 'Logging in...',
+  'auth.login.form.submit.loading': 'Logging in…',
   'auth.login.form.submit.default': 'Log in',
 
   'auth.login.messages.success': 'Login successful!',
@@ -35,7 +35,7 @@ export const messages: Messages = {
   'auth.google.divider': 'or',
   'auth.google.messages.success': 'Google sign-in successful!',
   'auth.google.messages.error': 'Failed to sign in with Google',
-  'auth.google.messages.loading': 'Completing Google sign-in...',
+  'auth.google.messages.loading': 'Completing Google sign-in…',
 
   // Forgot password
   'auth.forgotPassword.title': 'Forgot password',
@@ -52,7 +52,7 @@ export const messages: Messages = {
   'auth.forgotPassword.form.email.label': 'Email',
   'auth.forgotPassword.form.email.placeholder': 'your@email.com',
   'auth.forgotPassword.form.submit.default': 'Send link',
-  'auth.forgotPassword.form.submit.loading': 'Sending...',
+  'auth.forgotPassword.form.submit.loading': 'Sending…',
   'auth.forgotPassword.messages.success':
     'If an account with this email exists, you will receive an email with a link',
   'auth.forgotPassword.messages.error': 'An error occurred. Please try again later',
@@ -71,7 +71,7 @@ export const messages: Messages = {
   'auth.resetPassword.form.confirmPassword.label': 'Confirm password',
   'auth.resetPassword.form.confirmPassword.placeholder': '••••••••',
   'auth.resetPassword.form.submit.default': 'Change password',
-  'auth.resetPassword.form.submit.loading': 'Changing...',
+  'auth.resetPassword.form.submit.loading': 'Changing…',
   'auth.resetPassword.messages.success': 'Password changed successfully! You can now log in',
   'auth.resetPassword.messages.invalidToken': 'Link is invalid or expired. Request a new link',
   'auth.resetPassword.messages.error': 'An error occurred. Please try again later',

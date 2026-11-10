@@ -14,6 +14,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { useLingui } from '@lingui/react';
+import { formatDateTime } from '@/lib/format';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import {
@@ -329,7 +330,7 @@ export const RequestInfo = ({
                   <div className="flex items-center justify-between mb-2">
                     <Badge>{t('request.detail.clarification')}</Badge>
                     <span className="text-xs text-v2-muted">
-                      {new Date(edit.timestamp).toLocaleString()}
+                      {formatDateTime(edit.timestamp, i18n.locale)}
                     </span>
                   </div>
                   {/* {edit.text && <p className="text-sm mb-2">{edit.text}</p>} */}
@@ -387,7 +388,7 @@ export const RequestInfo = ({
               >
                 <Image
                   src={image}
-                  alt={`Photo ${index + 1}`}
+                  alt={`${t('request.detail.photoAlt')} ${index + 1}`}
                   width={100}
                   height={100}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"

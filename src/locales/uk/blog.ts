@@ -5,7 +5,7 @@ export const messages: Messages = {
   'blog.list.readMore': 'Читати далі',
   'blog.list.empty': 'Статей поки немає',
   'blog.list.placeholder.title': 'Стаття 1',
-  'blog.list.placeholder.description': 'Опис статті...',
+  'blog.list.placeholder.description': 'Опис статті…',
 
   'blog.article.error': 'Не вдалося завантажити статтю',
   'blog.article.backToBlog': 'Назад до блогу',
@@ -15,5 +15,5 @@ export const messages: Messages = {
 
   'blog.article.category.tips': 'Поради продавцям',
   'blog.article.placeholder.title': '10 порад для успішних продавців',
-  'blog.article.placeholder.description': 'Секрети створення привабливих пропозицій...',
+  'blog.article.placeholder.description': 'Секрети створення привабливих пропозицій…',
 };

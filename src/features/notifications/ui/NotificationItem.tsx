@@ -1,5 +1,6 @@
 'use client';
 
+import { formatDateTime } from '@/lib/format';
 import { useLingui } from '@lingui/react';
 import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import { cn } from '@/lib/utils';
@@ -26,7 +27,7 @@ export const NotificationItem = ({ notification }: NotificationItemProps) => {
   };
 
   const dateLabel = notification.createdAt
-    ? new Date(notification.createdAt).toLocaleString(i18n.locale)
+    ? formatDateTime(notification.createdAt, i18n.locale)
     : '';
 
   return (

@@ -96,7 +96,7 @@ export function ProgressBar({ value, className }: { value: number; className?: s
       aria-valuenow={clamped}
       className={cn('h-1 w-full bg-v2-surface-muted', className)}
     >
-      <div className="h-full bg-v2-ink transition-all" style={{ width: `${clamped}%` }} />
+      <div className="h-full bg-v2-ink transition-[width]" style={{ width: `${clamped}%` }} />
     </div>
   );
 }

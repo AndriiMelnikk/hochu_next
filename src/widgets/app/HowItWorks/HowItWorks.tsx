@@ -40,7 +40,7 @@ const HowItWorks = () => {
         <div className="grid gap-6 md:grid-cols-3">
           {[1, 2, 3].map((n) => (
             <div key={`${tab}-${n}`} className="flex flex-col">
-              <ImagePlaceholder className="mb-6 aspect-[3/2] bg-gradient-to-br from-[#eaf8c9] to-[#cdf3cd]" />
+              <ImagePlaceholder className="mb-6 aspect-[3/2] bg-gradient-to-br from-[#e3edff] to-[#cfe0ff]" />
               <h3 className="mb-2 text-2xl font-[450] leading-8">
                 {t(`common.home.hiw.${tab}.${n}.title`)}
               </h3>

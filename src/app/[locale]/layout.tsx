@@ -1,3 +1,4 @@
+import type { Viewport } from 'next';
 import { Onest } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import '../globals.css';
@@ -13,7 +14,20 @@ import { JsonLd } from '@/shared/seo/JsonLd';
 import { getOrganizationJsonLd, getWebSiteJsonLd } from '@/shared/seo/schemas';
 import { gtmId } from '@/shared/config/envVars';
 
-const onest = Onest({ subsets: ['latin', 'cyrillic'] });
+const onest = Onest({ subsets: ['latin', 'cyrillic'], display: 'swap' });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  colorScheme: 'light',
+  themeColor: '#ffffff',
+};
+
+const SKIP_LABEL: Record<Locale, string> = {
+  uk: 'Перейти до змісту',
+  en: 'Skip to content',
+};
 
 const messagesByLocale = {
   en: enMessages,
@@ -51,6 +65,12 @@ export default async function RootLayout({ children, params }: Props) {
     <html lang={locale}>
       <GoogleTagManager gtmId={gtmId} />
       <body className={onest.className}>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-v2-pill focus:bg-v2-primary focus:px-5 focus:py-3 focus:font-semibold focus:text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+        >
+          {SKIP_LABEL[locale]}
+        </a>
         <JsonLd data={getOrganizationJsonLd()} />
         <JsonLd data={getWebSiteJsonLd(locale)} />
         <Providers locale={locale} messages={messages}>

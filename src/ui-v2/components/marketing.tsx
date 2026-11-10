@@ -153,7 +153,7 @@ export function CategoryTile({
   return (
     <Comp
       className={cn(
-        'group flex min-h-[132px] h-full flex-col justify-between gap-6 rounded-v2-2xl border border-v2-border bg-v2-surface p-5 shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all md:min-h-[150px]',
+        'group flex min-h-[132px] h-full flex-col justify-between gap-6 rounded-v2-2xl border border-v2-border bg-v2-surface p-5 shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[transform,border-color,box-shadow] duration-150 ease-v2-out active:scale-[0.98] md:min-h-[150px]',
         'hover:border-v2-primary hover:shadow-[0_0_0_2px_var(--v2-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-v2-primary',
         className,
       )}
@@ -252,7 +252,7 @@ export function CtaBanner({
   return (
     <div
       className={cn(
-        'flex flex-col items-center gap-6 rounded-v2-2xl bg-gradient-to-r from-[#6fe300] via-[#14c85a] to-[#0fcf6a] px-6 py-14 text-center text-white md:py-16',
+        'flex flex-col items-center gap-6 rounded-v2-2xl bg-gradient-to-r from-[#3b6dff] via-[#2557e6] to-[#1e8fe8] px-6 py-14 text-center text-white md:py-16',
         className,
       )}
     >
@@ -278,7 +278,7 @@ export function PromoBanner({
   return (
     <div
       className={cn(
-        'flex flex-col items-start justify-between gap-2 rounded-v2-2xl bg-gradient-to-r from-[#eaf8c9] via-[#cdf3cd] to-[#d6fbe0] px-5 py-4 sm:flex-row sm:items-center md:px-8 md:py-6',
+        'flex flex-col items-start justify-between gap-2 rounded-v2-2xl bg-gradient-to-r from-[#e3edff] via-[#cfe0ff] to-[#dcecff] px-5 py-4 sm:flex-row sm:items-center md:px-8 md:py-6',
         className,
       )}
     >
@@ -415,13 +415,13 @@ export function PageHero({
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-v2-2xl bg-gradient-to-br from-[#0b2e0b] via-[#164a1c] to-[#181818] px-6 py-12 text-white md:min-h-[380px] md:px-16 md:py-20',
+        'relative overflow-hidden rounded-v2-2xl bg-gradient-to-br from-[#0a1b45] via-[#12307a] to-[#121826] px-6 py-12 text-white md:min-h-[380px] md:px-16 md:py-20',
         className,
       )}
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_20%,rgba(111,227,0,0.28),transparent_55%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_20%,rgba(77,142,255,0.28),transparent_55%)]"
       />
       {media && <div className="absolute inset-0">{media}</div>}
       <div className="relative max-w-2xl">

@@ -334,6 +334,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
               </FormLabel>
               <FormControl>
                 <Input
+                  maxLength={255}
                   placeholder={t('request.create.titlePlaceholder')}
                   className="text-base"
                   disabled={isSubmitting}
@@ -382,6 +383,7 @@ export const EditRequestForm = ({ request, onSuccess, onCancel }: EditRequestFor
               </FormLabel>
               <FormControl>
                 <Textarea
+                  maxLength={5000}
                   placeholder={t('request.create.descriptionPlaceholder')}
                   rows={6}
                   className="text-base"

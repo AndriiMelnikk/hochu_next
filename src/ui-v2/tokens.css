@@ -11,16 +11,16 @@
   --v2-text-secondary: #686e73; /* measured: inactive settings-nav links */
 
   /* Colors: brand */
-  --v2-primary: #108a00;
-  --v2-primary-hover: #0d7000; /* derived */
+  --v2-primary: #2057d6;
+  --v2-primary-hover: #1745ad; /* derived */
   --v2-on-primary: #ffffff;
-  --v2-brand: #14a800;
+  --v2-brand: #2f6bff;
   --v2-link: #195de6;
 
   /* Colors: surfaces */
   --v2-surface: #ffffff;
   --v2-surface-muted: #e0e6eb;
-  --v2-hover: #f2f7f2;
+  --v2-hover: #f1f5fe;
   --v2-info-bg: #edf2fd;
   --v2-surface-subtle: #f9fafb; /* measured: muted cards (Connects) */
   --v2-switch-on: #333333; /* measured: ng-side-nav-switch.is-on */
@@ -42,6 +42,11 @@
   --v2-backdrop: rgba(26, 26, 26, 0.5); /* derived */
 
   /* Radius */
+  /* Криві руху (див. skill animate): ease-out для входу/виходу, drawer — для шторок */
+  --v2-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --v2-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --v2-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
   --v2-radius-sm: 4px;
   --v2-radius-md: 6px;
   --v2-radius-lg: 8px;
@@ -50,7 +55,7 @@
   --v2-radius-pill: 160px;
 
   /* Shadows */
-  --v2-shadow-pop: 0 0 10px 2px rgba(0, 30, 0, 0.15);
+  --v2-shadow-pop: 0 0 10px 2px rgba(0, 20, 60, 0.15);
   --v2-shadow-float: 0 8px 24px 2px #e0e6eb;
   --v2-shadow-outline: 0 0 0 1px var(--v2-border);
   --v2-shadow-popover: 0 4px 16px 0 rgba(0, 0, 0, 0.08); /* measured: account popover */

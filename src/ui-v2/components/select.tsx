@@ -18,7 +18,7 @@ export const SelectTrigger = React.forwardRef<
     ref={ref}
     className={cn(
       'flex h-10 w-full items-center justify-between gap-2 rounded-v2-xl border border-v2-border bg-v2-surface',
-      'py-0 pl-4 pr-2 text-left text-sm font-[450] text-v2-ink transition-colors',
+      'py-0 pl-4 pr-2 text-left text-base font-[450] md:text-sm text-v2-ink transition-colors',
       'hover:border-v2-border-strong',
       'focus-visible:border-v2-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-v2-primary',
       'data-[placeholder]:text-v2-muted data-[state=open]:border-v2-primary',

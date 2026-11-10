@@ -16,7 +16,7 @@ export const FloatingPill = React.forwardRef<
     className={cn(
       'ui-v2 fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-4 z-40 inline-flex h-12 items-center gap-2 rounded-v2-pill',
       'border border-v2-border bg-v2-surface px-5 text-base font-semibold text-v2-ink shadow-v2-float md:hidden',
-      'outline-none transition-colors hover:bg-v2-hover focus-visible:ring-2 focus-visible:ring-v2-primary [&_svg]:size-5',
+      'outline-none transition-[transform,background-color] duration-150 ease-v2-out active:scale-[0.97] hover:bg-v2-hover focus-visible:ring-2 focus-visible:ring-v2-primary [&_svg]:size-5',
       className,
     )}
     {...props}

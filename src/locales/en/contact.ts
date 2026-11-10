@@ -12,9 +12,9 @@ export const messages: Messages = {
   'contact.form.subjectLabel': 'Subject',
   'contact.form.subjectPlaceholder': 'Subject of inquiry',
   'contact.form.messageLabel': 'Message',
-  'contact.form.messagePlaceholder': 'Your message...',
+  'contact.form.messagePlaceholder': 'Your message…',
   'contact.form.submit': 'Send message',
-  'contact.form.submitting': 'Sending...',
+  'contact.form.submitting': 'Sending…',
 
   'contact.success.title': 'Message sent!',
   'contact.success.description': 'We will contact you shortly.',

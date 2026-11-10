@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { formatDate } from '@/lib/format';
 import Link from '@/shared/ui/link';
 import { Badge } from '@/ui-v2';
 import { Clock, ImageIcon, MapPin, ShieldCheck } from 'lucide-react';
@@ -39,10 +40,7 @@ export const RequestCard = ({
     rejected: 'danger',
   } as const;
 
-  const postedAt = new Date(request.createdAt).toLocaleDateString(
-    i18n.locale === 'uk' ? 'uk-UA' : 'en-US',
-    { timeZone: 'UTC' },
-  );
+  const postedAt = formatDate(request.createdAt, i18n.locale);
 
   if (variant === 'row') {
     const photos = request.images ?? [];
@@ -58,7 +56,7 @@ export const RequestCard = ({
               {t('request.card.posted', { date: postedAt })} ·{' '}
               {t('request.card.proposals', { count: request.proposalsCount })}
             </p>
-            <h3 className="mb-2 text-xl font-[500] leading-7 text-v2-ink group-hover:text-v2-primary group-hover:underline underline-offset-4">
+            <h3 className="mb-2 break-words text-xl font-[500] leading-7 text-v2-ink [overflow-wrap:anywhere] group-hover:text-v2-primary group-hover:underline underline-offset-4">
               {request.title}
             </h3>
             <p className="mb-3 text-sm text-v2-muted">
@@ -81,7 +79,9 @@ export const RequestCard = ({
               {request.description}
             </p>
             <div className="flex flex-wrap items-center gap-2">
-              <Badge tone="neutral">{categoryName || request.category.name}</Badge>
+              <Badge tone="neutral" className="max-w-full truncate">
+                {categoryName || request.category.name}
+              </Badge>
               {isUrgent && <Badge tone="warning">{t('request.card.urgent')}</Badge>}
               {request.proposalsCount === 0 && (
                 <Badge tone="success">{t('request.card.noProposals')}</Badge>
@@ -132,7 +132,9 @@ export const RequestCard = ({
       <article className="ui-v2 flex h-full flex-col rounded-v2-2xl border border-v2-border bg-v2-surface p-6 transition-colors group-hover:bg-v2-hover group-focus-visible:ring-2 group-focus-visible:ring-v2-primary">
         <div className="mb-3 flex items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge tone="info">{categoryName || request.category.name}</Badge>
+            <Badge tone="info" className="max-w-full truncate">
+              {categoryName || request.category.name}
+            </Badge>
             {isUrgent && <Badge tone="warning">{t('request.card.urgent')}</Badge>}
             {status && (
               <Badge tone={statusTone[request.status as keyof typeof statusTone] ?? 'neutral'}>
@@ -142,14 +144,11 @@ export const RequestCard = ({
           </div>
           <span className="flex shrink-0 items-center text-xs text-v2-subtle">
             <Clock className="mr-1 size-3" />
-            {new Date(request.createdAt).toLocaleDateString(
-              i18n.locale === 'uk' ? 'uk-UA' : 'en-US',
-              { timeZone: 'UTC' },
-            )}
+            {postedAt}
           </span>
         </div>
 
-        <h3 className="mb-2 text-lg font-[550] leading-6 text-v2-ink group-hover:text-v2-primary group-hover:underline underline-offset-4">
+        <h3 className="mb-2 break-words text-lg font-[550] leading-6 text-v2-ink [overflow-wrap:anywhere] group-hover:text-v2-primary group-hover:underline underline-offset-4">
           {request.title}
         </h3>
 
@@ -159,10 +158,14 @@ export const RequestCard = ({
 
         <div className="space-y-1 text-sm">
           <div className="font-semibold text-v2-ink">{budget}</div>
-          <div className="flex items-center text-v2-muted">
-            <MapPin className="mr-1.5 size-4 shrink-0" />
-            {request.location}
-          </div>
+          {request.location && (
+            <div className="flex min-w-0 items-center text-v2-muted">
+              <MapPin className="mr-1.5 size-4 shrink-0" />
+              <span className="min-w-0 truncate" title={request.location}>
+                {request.location}
+              </span>
+            </div>
+          )}
           <div className="mt-3 border-t border-v2-border pt-3 font-semibold text-v2-primary">
             {t('request.card.proposalsBadge', { count: request.proposalsCount })}
           </div>

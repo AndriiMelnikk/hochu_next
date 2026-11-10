@@ -111,3 +111,50 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Мобільна база: без сірого спалаху при тапі, без затримки подвійного тапу,
+   без розтягування шрифту в landscape, без «гумки» сторінки під шторками. */
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  button,
+  a,
+  [role='button'],
+  summary,
+  label[for] {
+    touch-action: manipulation;
+  }
+
+  button,
+  [role='button'] {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  [data-radix-popper-content-wrapper],
+  [role='dialog'] {
+    overscroll-behavior: contain;
+  }
+}
+
+/* Повага до налаштування «зменшити рух» */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

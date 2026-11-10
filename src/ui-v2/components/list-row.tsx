@@ -14,7 +14,7 @@ export function ListRowGroup({ className, ...props }: React.HTMLAttributes<HTMLU
 }
 
 const rowBase =
-  'flex min-h-14 w-full items-center gap-3 px-4 py-3 text-left text-base font-[450] text-v2-ink outline-none transition-colors hover:bg-v2-hover focus-visible:bg-v2-hover';
+  'flex min-h-14 w-full items-center gap-3 px-4 py-3 text-left text-base font-[450] text-v2-ink outline-none transition-colors duration-150 ease-v2-out hover:bg-v2-hover active:bg-v2-hover focus-visible:bg-v2-hover';
 
 /**
  * Рядок списку: [іконка] текст [опис] ......... [trailing | ›]. Для `asChild` обгорніть у `Link`:

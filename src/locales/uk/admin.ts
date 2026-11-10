@@ -82,7 +82,7 @@ export const messages: Messages = {
   'admin.requests.title': 'Запити на модерацію',
   'admin.requests.description':
     'Черга нових запитів покупців: перегляньте, схваліть або відхиліть із причиною',
-  'admin.requests.searchPlaceholder': 'Пошук запитів...',
+  'admin.requests.searchPlaceholder': 'Пошук запитів…',
   'admin.requests.table.id': 'ID',
   'admin.requests.table.title': 'Назва',
   'admin.requests.table.author': 'Автор',
@@ -131,7 +131,7 @@ export const messages: Messages = {
   'admin.requests.approve.confirm': 'Затвердити',
   'admin.requests.reject.title': 'Відхилити запит?',
   'admin.requests.reject.reasonLabel': 'Причина відхилення',
-  'admin.requests.reject.reasonPlaceholder': 'Вкажіть причину...',
+  'admin.requests.reject.reasonPlaceholder': 'Вкажіть причину…',
   'admin.requests.reject.cancel': 'Скасувати',
   'admin.requests.reject.confirm': 'Відхилити',
 
@@ -159,7 +159,7 @@ export const messages: Messages = {
 
   'admin.users.title': 'Користувачі',
   'admin.users.description': 'Скарги та блокування',
-  'admin.users.searchPlaceholder': 'Пошук користувачів...',
+  'admin.users.searchPlaceholder': 'Пошук користувачів…',
   'admin.users.filter.all': 'Усі',
   'admin.users.filter.reported': 'Зі скаргами',
   'admin.users.filter.blocked': 'Заблоковані',
@@ -175,7 +175,7 @@ export const messages: Messages = {
   'admin.users.ban.title': 'Заблокувати користувача?',
   'admin.users.ban.userLabel': 'Користувач:',
   'admin.users.ban.reasonLabel': 'Причина блокування',
-  'admin.users.ban.reasonPlaceholder': 'Вкажіть причину...',
+  'admin.users.ban.reasonPlaceholder': 'Вкажіть причину…',
   'admin.users.ban.durationLabel': 'Тривалість',
   'admin.users.ban.duration.24h': '24 години',
   'admin.users.ban.duration.7d': '7 днів',
@@ -412,7 +412,7 @@ export const messages: Messages = {
   'admin.mock.banner':
     'Заглушка: дані демонстраційні, бекенд ще не підключено. Елементи неактивні.',
   'admin.subscriptions.mockBadge': 'Mock',
-  'admin.subscriptions.searchPlaceholder': 'Пошук за продавцем або email...',
+  'admin.subscriptions.searchPlaceholder': 'Пошук за продавцем або email…',
   'admin.subscriptions.filter.enabledAll': 'Усі статуси',
   'admin.subscriptions.filter.enabled': 'Активні',
   'admin.subscriptions.filter.disabled': 'Вимкнені',

@@ -185,7 +185,7 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        'ui-v2 sticky top-0 z-50 border-b border-v2-border bg-v2-surface',
+        'ui-v2 sticky top-0 z-50 border-b border-v2-border bg-v2-surface pt-[env(safe-area-inset-top)]',
         // для залогінених на md+ навігація — у лівій панелі
         hideOnDesktop && 'md:hidden',
       )}

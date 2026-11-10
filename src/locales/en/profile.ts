@@ -33,7 +33,7 @@ export const messages: Messages = {
   'profile.create.lastNameLabel': 'Last name (optional)',
   'profile.create.lastNamePlaceholder': 'Enter last name',
   'profile.create.submit': 'Create',
-  'profile.create.submitting': 'Creating...',
+  'profile.create.submitting': 'Creating…',
   'profile.create.success': '"{type}" profile created',
   'profile.create.error': 'Failed to create profile',
 
