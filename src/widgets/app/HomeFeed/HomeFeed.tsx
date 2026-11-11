@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useSyncExternalStore } from 'react';
 import { useLingui } from '@lingui/react';
-import { Bell, CheckCircle2, CirclePlus, SearchX, UserRound } from 'lucide-react';
+import { Bell, CheckCircle2, ChevronDown, CirclePlus, SearchX, UserRound } from 'lucide-react';
 
 import { routes } from '@/app/router/routes';
 import { useAuthStore } from '@/entities/auth/store/authStore';
@@ -10,6 +10,8 @@ import { useCategories } from '@/entities/category';
 import { useRequests, type IRequest } from '@/entities/request';
 import { RequestCard, RequestFiltersSheet } from '@/features/requests';
 import Link from '@/shared/ui/link';
+import { cn } from '@/lib/utils';
+import { useAccountItems } from '@/ui-v2/layout/site-header';
 import UserRequestsList from '@/widgets/app/UserRequestsList';
 import {
   Button,
@@ -173,6 +175,46 @@ function Onboarding({ isBuyer }: { isBuyer: boolean; name: string }) {
 }
 
 /** Головна для залогінених: стрічка запитів з вкладками (як Home в Upwork). */
+/** «Мій кабінет»: розкривний список вкладок кабінету замість переходу на огляд. */
+function DashboardRow({ label }: { label: string }) {
+  const [open, setOpen] = useState(false);
+  const items = useAccountItems();
+  return (
+    <li>
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className="flex min-h-14 w-full items-center gap-3 px-4 py-3 text-left text-base font-[450] text-v2-ink outline-none transition-colors duration-150 ease-v2-out hover:bg-v2-hover active:bg-v2-hover focus-visible:bg-v2-hover"
+      >
+        <UserRound aria-hidden className="size-6 shrink-0" />
+        <span className="min-w-0 flex-1 truncate">{label}</span>
+        <ChevronDown
+          aria-hidden
+          className={cn(
+            'size-5 shrink-0 transition-transform duration-200 ease-v2-out',
+            open && 'rotate-180',
+          )}
+        />
+      </button>
+      {open && (
+        <ul className="border-t border-v2-border bg-v2-surface-subtle py-1">
+          {items.map((item) => (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                className="flex min-h-12 items-center pl-14 pr-4 text-base text-v2-ink hover:bg-v2-hover active:bg-v2-hover"
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
 export default function HomeFeed() {
   const { i18n } = useLingui();
   const [tab, setTab] = useState<string | null>(null);
@@ -215,9 +257,7 @@ export default function HomeFeed() {
         <ListRow icon={<Bell />} asChild>
           <Link href={routes.DASHBOARD_NOTIFICATIONS}>{t('home.feed.quick.notifications')}</Link>
         </ListRow>
-        <ListRow icon={<UserRound />} asChild>
-          <Link href={routes.DASHBOARD}>{t('home.feed.quick.dashboard')}</Link>
-        </ListRow>
+        <DashboardRow label={t('home.feed.quick.dashboard')} />
       </ListRowGroup>
 
       <Onboarding isBuyer={isBuyer} name={user.profile.name} />

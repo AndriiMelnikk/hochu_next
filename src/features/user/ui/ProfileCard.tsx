@@ -31,7 +31,7 @@ export function ProfileCard({ profile, isActive, onSelect, labels }: ProfileCard
       className={`
         flex w-full min-w-0 items-center gap-4 rounded-v2-lg border p-4 text-left transition-colors
         hover:bg-v2-hover
-        ${isActive ? 'border-v2-primary bg-v2-primary ring-2 ring-v2-primary' : 'border-v2-border'}
+        ${isActive ? 'border-v2-primary bg-v2-hover ring-1 ring-v2-primary' : 'border-v2-border'}
       `}
     >
       <div

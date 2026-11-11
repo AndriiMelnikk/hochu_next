@@ -516,6 +516,30 @@ export const messages: Messages = {
   'profile.notifications.markAllReadError': 'Не вдалося позначити сповіщення',
   'profile.notifications.saveSuccess': 'Налаштування сповіщень збережено',
   'profile.notifications.saveError': 'Не вдалося зберегти налаштування',
+  'profile.notifications.channels.title': 'Куди надсилати',
+  'profile.notifications.channels.hint': 'Один вибір для всіх сповіщень нижче',
+  'profile.notifications.channels.alwaysOn': 'Завжди увімкнено',
+  'profile.notifications.channels.emailHint': 'Листи на вашу пошту',
+  'profile.notifications.channels.telegramHint':
+    'Підключіть бота, щоб отримувати сповіщення в Telegram',
+  'profile.notifications.channels.connect': 'Підключити',
+  'profile.notifications.group.general': 'Загальні',
+  'profile.notifications.group.buyer': 'Якщо ви покупець',
+  'profile.notifications.group.seller': 'Якщо ви продавець',
+  'profile.notifications.topic.messages': 'Повідомлення',
+  'profile.notifications.topic.messages.description': 'Нові повідомлення в чаті',
+  'profile.notifications.topic.reviews': 'Відгуки та досягнення',
+  'profile.notifications.topic.reviews.description':
+    'Нові відгуки про вас і розблоковані досягнення',
+  'profile.notifications.topic.buyerRequests': 'Запити та пропозиції',
+  'profile.notifications.topic.buyerRequests.description':
+    'Статус ваших запитів і нові пропозиції від продавців',
+  'profile.notifications.topic.sellerProposals': 'Мої пропозиції',
+  'profile.notifications.topic.sellerProposals.description':
+    'Коли вашу пропозицію прийнято або відхилено',
+  'profile.notifications.topic.newRequests': 'Нові запити',
+  'profile.notifications.topic.newRequests.description':
+    'Нові запити за вашими категоріями та містом',
   'profile.notifications.filters.unreadOnly': 'Лише непрочитані',
   'profile.notifications.filters.scope': 'Область',
   'profile.notifications.filters.scopeAll': 'Усі',

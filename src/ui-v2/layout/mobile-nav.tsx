@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils';
 import { routes } from '@app/router/routes';
 import { useAuthStore } from '@/entities/auth/store/authStore';
 import Link from '@/shared/ui/link';
+import { ProfileQuickSwitch } from '@/features/user';
 
 import { Avatar } from '../components/avatar';
 import { Button } from '../components/button';
@@ -188,6 +189,9 @@ function MemberDrawer({ links, accountItems, close }: PanelProps) {
             )}
           />
         </button>
+        {accountOpen && (
+          <ProfileQuickSwitch onSwitched={close} className="mb-1 border-b border-v2-border pb-1" />
+        )}
         {accountOpen && (
           <ul className="pb-2">
             {accountItems.map((item) => (

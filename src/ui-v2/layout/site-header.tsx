@@ -197,16 +197,7 @@ export function SiteHeader() {
             aria-label="Shukayu"
             className="text-2xl font-semibold tracking-tight text-v2-primary"
           >
-            {/* Залогінений на мобільному: компактна кругла позначка, як «up» в Upwork */}
-            {showAuth && (
-              <span
-                aria-hidden
-                className="flex size-10 items-center justify-center rounded-full bg-v2-primary text-xl text-v2-on-primary md:hidden"
-              >
-                S
-              </span>
-            )}
-            <span className={cn(showAuth && 'hidden md:inline')}>Shukayu</span>
+            Shukayu
           </Link>
           <nav aria-label="Main" className="hidden items-center md:flex">
             {showAuth ? (

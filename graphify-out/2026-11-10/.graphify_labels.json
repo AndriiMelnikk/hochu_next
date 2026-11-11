@@ -1,6 +1,5 @@
 {
   "0": "requestSubscriptionService.ts",
-  "14": "entities/user/index.ts",
   "23": "compilerOptions",
   "24": "compilerOptions",
   "27": "components.json",
@@ -35,7 +34,6 @@
   "175": "Композиція сторінок Shukayu",
   "176": "UX універсальних компонентів Shukayu",
   "177": "Дизайн-система Shukayu",
-  "181": "NotificationSettingsContent.tsx",
   "183": "4. Випадаючі поверхні",
   "185": "2. Колір",
   "186": "3. Кнопки",

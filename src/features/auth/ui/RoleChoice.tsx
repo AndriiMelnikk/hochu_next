@@ -15,18 +15,21 @@ export function RoleChoice({ onChoose }: { onChoose: (role: RegisterRole) => voi
 
   return (
     <div className="mx-auto grid w-full max-w-3xl gap-4 md:grid-cols-2">
-      <section className="flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-v2-2xl bg-[#134e48] px-6 py-10 text-center text-white md:min-h-[360px]">
+      <section className="flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-v2-2xl bg-v2-primary px-6 py-10 text-center text-v2-on-primary md:min-h-[360px]">
         <h2 className="text-3xl font-[450]">{t('auth.register.choice.buyerTitle')}</h2>
         <p className="text-base text-white/90">{t('auth.register.choice.buyerHint')}</p>
-        <Button className="mt-2 h-12 px-8 text-base" onClick={() => onChoose('buyer')}>
+        <Button
+          variant="secondary"
+          className="mt-2 h-12 border-transparent bg-white px-8 text-base text-v2-primary hover:bg-white/90"
+          onClick={() => onChoose('buyer')}
+        >
           {t('auth.register.choice.buyerCta')}
         </Button>
       </section>
-      <section className="flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-v2-2xl bg-[#86dca5] px-6 py-10 text-center text-v2-ink md:min-h-[360px]">
+      <section className="flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-v2-2xl bg-v2-hover px-6 py-10 text-center text-v2-ink md:min-h-[360px]">
         <h2 className="text-3xl font-[450]">{t('auth.register.choice.sellerTitle')}</h2>
         <p className="text-base">{t('auth.register.choice.sellerHint')}</p>
         <Button
-          variant="secondary"
           className="mt-2 h-12 px-8 text-base"
           onClick={() => onChoose('seller')}
         >

@@ -2,15 +2,28 @@
 
 import { useLingui } from '@lingui/react';
 import { toast } from 'sonner';
-import { ExternalLink, Unlink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import {
   useCreateTelegramLinkToken,
   useTelegramLinkStatus,
   useUnlinkTelegram,
 } from '@/entities/notification';
-import { Badge, Button, LoadingState } from '@/ui-v2';
+import { Button, LoadingState } from '@/ui-v2';
+import { ToggleRow } from './ToggleRow';
 
-export const TelegramConnectSection = () => {
+/**
+ * Рядок каналу Telegram: якщо бот не підключений — кнопка «Підключити»,
+ * якщо підключений — звичайний перемикач і дрібні посилання «Оновити / Відвʼязати».
+ */
+export const TelegramConnectSection = ({
+  checked,
+  onCheckedChange,
+  disabled,
+}: {
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+  disabled?: boolean;
+}) => {
   const { i18n } = useLingui();
   const t = (id: string) => i18n._(id);
 
@@ -42,61 +55,55 @@ export const TelegramConnectSection = () => {
     }
   };
 
-  if (isLoading) {
-    return <LoadingState variant="inline" />;
+  if (isLoading) return <LoadingState variant="inline" />;
+
+  if (!linked) {
+    return (
+      <div className="flex min-h-14 items-center gap-4 py-3">
+        <div className="min-w-0 flex-1">
+          <p className="text-base font-[500] leading-snug text-v2-ink">
+            {t('profile.notifications.telegram.title')}
+          </p>
+          <p className="mt-0.5 text-sm leading-snug text-v2-muted">
+            {t('profile.notifications.channels.telegramHint')}
+          </p>
+        </div>
+        <Button type="button" size="sm" onClick={handleConnect} disabled={isCreatingToken}>
+          <ExternalLink className="mr-1.5 size-4" />
+          {isCreatingToken
+            ? t('profile.notifications.telegram.connecting')
+            : t('profile.notifications.channels.connect')}
+        </Button>
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <div className="min-w-0 space-y-0.5">
-        <div className="flex flex-wrap items-center gap-2">
-          <p className="text-sm font-medium">{t('profile.notifications.telegram.title')}</p>
-          <Badge tone={linked ? 'success' : 'neutral'}>
-            {linked
-              ? t('profile.notifications.telegram.linked')
-              : t('profile.notifications.telegram.notLinked')}
-          </Badge>
-          {isFetching && !isLoading && <LoadingState variant="inline" />}
-        </div>
-        <p className="text-xs text-v2-muted">
-          {linked && status?.telegramUsername
-            ? `@${status.telegramUsername}`
-            : t('profile.notifications.telegram.description')}
-        </p>
-      </div>
-
-      <div className="flex flex-wrap gap-2 shrink-0">
-        {linked ? (
-          <>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => void refetch()}
-              disabled={isFetching}
-            >
-              {t('profile.notifications.telegram.refresh')}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={handleUnlink}
-              disabled={isUnlinking}
-              className="text-v2-danger hover:text-v2-danger"
-            >
-              <Unlink className="mr-1.5 h-3.5 w-3.5" />
-              {t('profile.notifications.telegram.unlink')}
-            </Button>
-          </>
-        ) : (
-          <Button type="button" size="sm" onClick={handleConnect} disabled={isCreatingToken}>
-            <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
-            {isCreatingToken
-              ? t('profile.notifications.telegram.connecting')
-              : t('profile.notifications.telegram.connect')}
-          </Button>
-        )}
+    <div>
+      <ToggleRow
+        title={t('profile.notifications.telegram.title')}
+        description={status?.telegramUsername ? `@${status.telegramUsername}` : undefined}
+        checked={checked}
+        onCheckedChange={onCheckedChange}
+        disabled={disabled}
+      />
+      <div className="-mt-1 flex gap-4 pb-2 text-sm">
+        <button
+          type="button"
+          className="text-v2-primary hover:underline disabled:opacity-50"
+          onClick={() => void refetch()}
+          disabled={isFetching}
+        >
+          {t('profile.notifications.telegram.refresh')}
+        </button>
+        <button
+          type="button"
+          className="text-v2-danger hover:underline disabled:opacity-50"
+          onClick={handleUnlink}
+          disabled={isUnlinking}
+        >
+          {t('profile.notifications.telegram.unlink')}
+        </button>
       </div>
     </div>
   );

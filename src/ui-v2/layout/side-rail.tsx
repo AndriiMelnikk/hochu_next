@@ -14,6 +14,7 @@ import { useLocalizedRouter } from '@/shared/hooks/useLocalizedRouter';
 import Link from '@/shared/ui/link';
 
 import { Avatar } from '../components/avatar';
+import { ProfileQuickSwitch } from '@/features/user';
 import { LocaleSwitcher, useAccountItems } from './site-header';
 
 type FlyoutLink = { href: string; label: string };
@@ -87,6 +88,7 @@ function RailAccount() {
       {(close) => (
         <>
           <FlyoutHeading>{name}</FlyoutHeading>
+          <ProfileQuickSwitch onSwitched={close} className="px-1" />
           <div className="my-1 h-px bg-v2-border" />
           {items.map((item) => (
             <Link key={item.href} href={item.href} className={flyoutItemClass} onClick={close}>

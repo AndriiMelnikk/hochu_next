@@ -6,3 +6,4 @@ export { ProfilesSwitcher } from './ui/ProfilesSwitcher';
 export { SwitchProfileModal } from './ui/SwitchProfileModal';
 export { ProfileCard } from './ui/ProfileCard';
 export { BuyerProfileRequired } from './ui/BuyerProfileRequired';
+export { ProfileQuickSwitch } from './ui/ProfileQuickSwitch';
